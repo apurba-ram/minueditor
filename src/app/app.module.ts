@@ -4,6 +4,7 @@ import {FormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {MinieditorVcModule} from 'minieditor-vc';
+import { MeloMiniEditorModule } from './melo-mini-editor/melo-mini-editor.module';
 @NgModule({
   declarations: [
     AppComponent
@@ -12,7 +13,8 @@ import {MinieditorVcModule} from 'minieditor-vc';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    MinieditorVcModule
+    MinieditorVcModule,
+    MeloMiniEditorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
