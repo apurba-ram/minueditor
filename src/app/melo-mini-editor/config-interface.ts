@@ -6,7 +6,7 @@ export default interface EditorConfig {
     buttonName?: string;
     fontColor?: boolean;
     highlightColor?: boolean;
-    menuPlacement?: 'top' | 'bottom';
+    toolbarPlacement?: 'top' | 'bottom';
     placeholder?: string;
 }
 
