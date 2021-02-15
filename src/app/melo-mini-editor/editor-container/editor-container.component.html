@@ -5,6 +5,9 @@
         [id]="id"
         (input)="setValue($event.target.innerText, $event.target.innerHTML)" 
         (blur)="blur()"
+        (paste)="onPaste($event)"
+        [mentionConfig]="mentionConfig"
+        (closed)="mentionClosed()"
         [attr.placeholder]="placeholder">
         JJjasjas <br>
         asdasd <br>

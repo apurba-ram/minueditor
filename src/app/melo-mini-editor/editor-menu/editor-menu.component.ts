@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import EditorConfig from '../config-interface';
 @Component({
   selector: 'app-editor-menu',
@@ -8,6 +8,7 @@ import EditorConfig from '../config-interface';
 export class EditorMenuComponent implements OnInit {
 
   @Input() editorConfig: EditorConfig;
+  @Output() buttonClick: EventEmitter<string> = new EventEmitter();
   constructor() {
     this.editorConfig = {
       file: false,
@@ -23,6 +24,10 @@ export class EditorMenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  buttonClicked(event: string) {
+    this.buttonClick.emit(event);
   }
 
 }

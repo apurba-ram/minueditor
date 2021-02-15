@@ -30,6 +30,10 @@ export class EditorContainerComponent implements OnInit, OnChanges {
   tribute: string;
   flag: number;
   placeholder: string;
+  mentionConfig: any;
+  mentionid: number | string;
+  mentionedNames: {id: number, name: string}[];
+  mentionedDates: string[];
 
   constructor() {
     this.editorConfig = {
@@ -76,7 +80,47 @@ export class EditorContainerComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.editorConfig && this.editorConfig) {
-        this.placeholder = this.editorConfig?.placeholder ?? '';
+      this.placeholder = this.editorConfig?.placeholder ?? '';
+
+      this.mentionConfig = {};
+      if (Array.isArray(this.editorConfig?.mentionedNames) && this.editorConfig?.mentionedNames.length > 0) {
+        this.editorConfig.mentionedNames = this.editorConfig?.mentionedNames.filter((item: {id: number, name: string} )=> {
+          if (item.id !== 0 && item.name.trim() !== '') {
+            return item;
+          }
+        });
+
+        this.mentionConfig.mentions = [];
+        this.mentionConfig.mentions.push({
+          items: this.editorConfig.mentionedNames,
+          triggerChar: '@',
+          mentionSelect: (item) => {
+            this.tribute = `@${item.name}`;
+            this.mentionid = item.id;
+            return this.tribute;
+          },
+          labelKey: 'name',
+          maxItems: 20,
+          disableSearch: false,
+          dropUp: true
+        });
+      }
+      if (Array.isArray(this.editorConfig?.mentionedDates) && this.editorConfig?.mentionedDates.length > 0) {
+        this.editorConfig.mentionedDates = [...new Set(this.editorConfig?.mentionedDates)];
+        this.mentionConfig.mentions.push({
+          items: this.editorConfig.mentionedDates,
+          triggerChar: '#',
+          mentionSelect: (item) => {
+            this.tribute = `#${item.date}`;
+            this.mentionid = item.date;
+            return this.tribute;
+          },
+          labelKey: 'date',
+          maxItems: 20,
+          disableSearch: false,
+          dropUp: true
+        });
+      }
     }
   }
 
@@ -121,5 +165,34 @@ export class EditorContainerComponent implements OnInit, OnChanges {
 
     this.writeValue(document.getElementById(`${this.id}`).innerHTML);
   }
+
+  mentionClosed(): void { // insert mentions
+
+    if (this.tribute !== '') {
+      const input = document.createElement('input');
+      input.setAttribute('value', `${this.tribute}`);
+      input.setAttribute('type', 'button');
+      input.setAttribute('disabled', 'true');
+      input.setAttribute('data-id', `${this.mentionid}`);
+      input.setAttribute('mention-data', `${this.flag === 0 ? '@' : '#'}`);
+      input.style.border = 'none';
+      input.style.borderRadius = '2px';
+      input.style.padding = '3px';
+      input.style.backgroundColor = '#e7eff6';
+      input.style.color = '#4681ef';
+      input.style.fontWeight = 'inherit';
+      input.style.fontSize = 'inherit';
+      const range = this.sel.getRangeAt(0).cloneRange();
+      this.sel.removeAllRanges();
+      const sp = document.createTextNode(' ');
+      range.insertNode(input);
+      range.insertNode(sp);
+      range.setStartAfter(input);
+      this.sel.addRange(range);
+      this.tribute = '';
+    }
+   //  this.valueInput = true;
+  }
+  onPaste(e){}
 
 }
