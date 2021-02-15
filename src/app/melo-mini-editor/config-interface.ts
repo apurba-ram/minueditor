@@ -9,7 +9,7 @@ export default interface EditorConfig {
 }
 
 interface MentionedName {
-    id: string;
+    _id: string;
     name: string;
 }
 
