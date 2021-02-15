@@ -60,4 +60,8 @@ export class EditorContainerComponent implements OnInit, OnChanges {
   ngOnChanges(): void {
   }
 
+  hello(): void {
+    console.log('HELLO');
+  }
+
 }
