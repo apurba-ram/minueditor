@@ -1,11 +1,12 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import EditorConfig from '../config-interface';
 @Component({
-  selector: 'app-editor-container',
-  templateUrl: './editor-container.component.html',
-  styleUrls: ['./editor-container.component.less']
+  selector: 'app-editor-menu',
+  templateUrl: './editor-menu.component.html',
+  styleUrls: ['./editor-menu.component.less']
 })
-export class EditorContainerComponent implements OnInit, OnChanges {
+export class EditorMenuComponent implements OnInit {
+
   @Input() editorConfig: EditorConfig;
   constructor() {
     this.editorConfig = {
@@ -22,9 +23,6 @@ export class EditorContainerComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-  }
-
-  ngOnChanges(): void {
   }
 
 }
