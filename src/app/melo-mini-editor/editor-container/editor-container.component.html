@@ -1,14 +1,19 @@
 <!-- <p>editor-container works!</p> -->
-<div class="editor-container" contenteditable="true">
-    JJjasjas <br>
-    asdasd <br>
-    ads <br>
-    qwdqwdqwd <br>
-     asddqwffasd <br>
-     safqwffffffffffffqwfqwfqwqwf <br>
-     as c <br>
-     wqqwvqvaasv ascacqw asddqwffasdw <br>
-     wqd <br>
+<div class="editor-container">
+    <div class="editable-block" contenteditable="true">
+        JJjasjas <br>
+        asdasd <br>
+        ads <br>
+        qwdqwdqwd <br>
+         asddqwffasd <br>
+         safqwffffffffffffqwfqwfqwqwf <br>
+         as c <br>
+         wqqwvqvaasv ascacqw asddqwffasdw <br>
+         wqd <br>
+    </div>
+    <div class="editor-tools">
+        <app-editor-menu [editorConfig]="editorConfig"></app-editor-menu>
+    </div>
 </div>
 
 {{hello()}}
