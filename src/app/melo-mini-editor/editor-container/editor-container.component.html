@@ -1,6 +1,11 @@
 <!-- <p>editor-container works!</p> -->
 <div class="editor-container">
-    <div class="editable-block" contenteditable="true">
+    <div class="editable-block" 
+        contenteditable="true" 
+        [id]="id"
+        (input)="setValue($event.target.innerText, $event.target.innerHTML)" 
+        (blur)="blur()"
+        [attr.placeholder]="placeholder">
         JJjasjas <br>
         asdasd <br>
         ads <br>

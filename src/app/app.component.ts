@@ -15,6 +15,11 @@ export class AppComponent {
     mentionedDates: ['19-02-2020', '11-02-2020', '12-02-2020', '14-02-2020'],
     buttonName: 'Comment',
     fontColor: true,
-    highlightColor: true
+    highlightColor: true,
+    menuPlacement: 'bottom'
   };
+
+  hello(): void {
+    console.log('HELLO3');
+  }
 }

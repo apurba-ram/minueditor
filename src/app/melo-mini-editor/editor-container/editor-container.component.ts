@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, OnChanges, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, forwardRef, ChangeDetectionStrategy, SimpleChange, SimpleChanges } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import EditorConfig from '../config-interface';
+import { nanoid } from 'nanoid';
 @Component({
   selector: 'app-editor-container',
   templateUrl: './editor-container.component.html',
@@ -11,12 +12,25 @@ import EditorConfig from '../config-interface';
       useExisting: forwardRef(() => EditorContainerComponent),
       multi: true
     }
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditorContainerComponent implements OnInit, OnChanges {
   @Input() editorConfig: EditorConfig;
 
   html: string;
+  innerText: string;
+  lastChar: string;
+  sel: any;
+  startOffset: number;
+  endOffset: number;
+  id: string;
+  format: boolean;
+  node: any;
+  tribute: string;
+  flag: number;
+  placeholder: string;
+
   constructor() {
     this.editorConfig = {
       file: false,
@@ -27,8 +41,11 @@ export class EditorContainerComponent implements OnInit, OnChanges {
                      '#F0B819', '#00FFF7'],
       buttonName: '',
       fontColor: false,
-      highlightColor: false
+      highlightColor: false,
+      placeholder: ''
     };
+    this.placeholder = '';
+    this.id = nanoid();
   }
 
   onChange: any = () => {};
@@ -57,11 +74,52 @@ export class EditorContainerComponent implements OnInit, OnChanges {
   ngOnInit(): void {
   }
 
-  ngOnChanges(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.editorConfig && this.editorConfig) {
+        this.placeholder = this.editorConfig?.placeholder ?? '';
+    }
   }
 
   hello(): void {
-    console.log('HELLO');
+    console.log('HELLO2');
+  }
+
+  getPrecedingCharacter(container: any): string { // get last input character
+    const r = this.sel.getRangeAt(0).cloneRange();
+    r.setStart(container, 0);
+    return r.toString().slice(-1);
+  }
+
+  blur(): void {
+  }
+
+  setValue(innerText: string, innerHtml: string): void {
+
+    this.innerText = innerText;
+
+    if (this.innerText === '') {
+      document.execCommand('removeFormat', false, ''); // remove previous format once the editor is clear
+    }
+    this.lastChar = this.getPrecedingCharacter(window.getSelection().anchorNode); // gets the last input character
+
+    if (this.format && this.startOffset && this.tribute) {
+      this.format = false;
+      this.endOffset = this.sel.getRangeAt(0).endOffset;
+
+      const range = document.createRange();
+      range.setStart(this.node, this.startOffset - 1);
+      range.setEnd(this.node, this.endOffset);
+      range.deleteContents(); // deleting previous set contents
+    }
+
+    if (this.lastChar === '@' || this.lastChar === '#') {
+      this.node = this.sel.anchorNode;
+      this.format = true;
+      this.flag = this.lastChar === '@' ? 0 : 1;
+      this.startOffset = this.sel.getRangeAt(0).startOffset;
+    }
+
+    this.writeValue(document.getElementById(`${this.id}`).innerHTML);
   }
 
 }
