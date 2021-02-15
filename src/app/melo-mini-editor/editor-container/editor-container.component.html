@@ -1,7 +1,7 @@
 <!-- <p>editor-container works!</p> -->
 <div class="editor-container">
     <div class="editable-block" 
-        contenteditable="true" 
+        contenteditable="true" [class.bottom]="toolbarPlacement === 'bottom'" [class.top]="toolbarPlacement === 'top'"
         [id]="id"
         (input)="setValue($event.target.innerText, $event.target.innerHTML)" 
         (blur)="blur()"
@@ -16,7 +16,7 @@
          wqqwvqvaasv ascacqw asddqwffasdw <br>
          wqd <br>
     </div>
-    <div class="editor-tools">
+    <div class="editor-tools" [class.bottom]="toolbarPlacement === 'bottom'" [class.top]="toolbarPlacement === 'top'">
         <app-editor-menu [editorConfig]="editorConfig"></app-editor-menu>
     </div>
 </div>

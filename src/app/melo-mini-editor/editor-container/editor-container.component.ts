@@ -30,6 +30,7 @@ export class EditorContainerComponent implements OnInit, OnChanges {
   tribute: string;
   flag: number;
   placeholder: string;
+  toolbarPlacement: 'top' | 'bottom';
 
   constructor() {
     this.editorConfig = {
@@ -42,8 +43,10 @@ export class EditorContainerComponent implements OnInit, OnChanges {
       buttonName: '',
       fontColor: false,
       highlightColor: false,
-      placeholder: ''
+      placeholder: '',
+      toolbarPlacement: 'top'
     };
+    this.toolbarPlacement = 'bottom';
     this.placeholder = '';
     this.id = nanoid();
   }

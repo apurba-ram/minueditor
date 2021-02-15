@@ -1,36 +1,51 @@
 .editor-container {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 2px;
+  border: 1px solid #f1f1f1;
+  .editable-block {
     display: block;
-    position: relative;
-    display: block;
+    outline: none;
+    min-height: 150px;
+    padding: 20px;
+    border: 1px solid #f1f1f1;
+    border-radius: 2px 2px 0 0;
+    border-bottom: transparent;
+    width: 100%;
+    &:hover,
+    &:focus {
+      // box-shadow: 0 0 0 0;
+      outline: none;
+      border-color: #1e5dd3;
+      box-shadow: 0 0 5px rgba(30, 93, 211, 0.27);
+      & + .editor-tools {
+        box-shadow: 0 0 5px rgba(30, 93, 211, 0.27);
+      }
+    }
+    &.top {
+      order: 2;
+    }
+    &.bottom {
+      order: 1;
+    }
+  }
+  .editor-tools {
+    display: flex;
+    flex-wrap: wrap;
+    background: #ffffff;
+    border-top: 1px solid #f1f1f1;
     border-radius: 2px;
-    border: 1px solid #F1F1F1;
-    .editable-block {
-        display: block;
-        outline: none;
-        min-height: 150px;
-        padding: 20px;
-        border: 1px solid #F1F1F1;
-        border-radius: 2px 2px 0 0;
-            border-bottom: transparent;
-        &:hover, &:focus {
-            // box-shadow: 0 0 0 0;
-            outline: none;
-            border-color: #1e5dd3;
-            box-shadow  : 0 0 5px rgba(30, 93, 211, .27);
-            &+.editor-tools {
-                box-shadow  : 0 0 5px rgba(30, 93, 211, .27);
-            }
-        }
+    width: 100%;
+    padding: 5px;
+    app-editor-menu {
+      display: block;
     }
-    .editor-tools {
-        display: flex;
-        flex-wrap: wrap;
-        background: #FFFFFF;
-        border-top: 1px solid #f1f1f1;
-        border-radius: 2px;
-        padding: 5px;
-        app-editor-menu {
-            display: block;
-        }
+    &.top {
+      order: 1;
     }
+    &.bottom {
+      order: 2;
+    }
+  }
 }
