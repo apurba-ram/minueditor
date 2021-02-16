@@ -72,4 +72,19 @@ export class EditorMenuComponent implements OnInit {
     this.addLink = false;
     this.listStyle = false;
   }
+  closeAlignPopover() {
+    this.alignment = false;
+  }
+  closeListStylesPopover() {
+    this.listStyle = false;
+  }
+  closeAddLinksPopover() {
+    this.addLink = false;
+  }
+  closeAttachPopover() {
+    this.upload = false;
+  }
+  closeImagePopover() {
+    this.uploadImage = false;
+  }
 }
