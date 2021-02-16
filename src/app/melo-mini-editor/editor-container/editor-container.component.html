@@ -12,8 +12,7 @@
       jergoerg
     </div>
     <div class="editor-tools" [class.bottom]="toolbarPlacement === 'bottom'" [class.top]="toolbarPlacement === 'top'">
-        <app-editor-menu [editorConfig]="editorConfig"></app-editor-menu>
+        <app-editor-menu [editorConfig]="editorConfig" (buttonClick)="toolbarClicked($event)"></app-editor-menu>
     </div>
 </div>
 
-{{hello()}}
