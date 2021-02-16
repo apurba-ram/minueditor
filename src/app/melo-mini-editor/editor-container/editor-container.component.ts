@@ -271,7 +271,6 @@ export class EditorContainerComponent implements OnInit, OnChanges {
       // const rexa = /<a href=".*?">.+?<\/a>/g; // match all a href
       const rexa = /href=".*?"/g; // match all a href
       pastedHtml = pastedHtml.replace(rexa, (match: any) => {
-        console.log(match);
         const str = ' target="_blank" rel="noopener noreferrer"';
         // return (
         //   match.substring(0, match.indexOf('>')) +
@@ -287,141 +286,47 @@ export class EditorContainerComponent implements OnInit, OnChanges {
   toolbarClicked(event: any): void {
         if (!this.sel || !this.sel.anchorNode) {
             this.focus();
-        }
-        switch (event.id) {
-            case 'bold': this.insertBold();
-                         break;
-            case 'italic': this.insertItalic();
-                           break;
-            case 'line-through': this.insertItalic();
-                                 break;
-            case 'underline': this.insertUnderLine();
-                              break;
-            case 'unordered-list': this.insertUnorderedList();
-                                   break;
-            case 'ordered-list': this.insertOrderedList();
-                                 break;
-            case 'quote':
-            case 'link':
-            case 'left-align':  this.alignLeft();
-                                break;
-            case 'center-align': this.alignCenter();
-                                 break;
-            case 'right-align': this.alignRight();
-                                break;
-            case 'fill-color':
-            case 'text-color':
+            this.toolbarOperations(event?.id);
+        } else {
+            const { startContainer } = this.sel.getRangeAt(0);
+            if (this.checkValidOperation(startContainer)) {
+                this.toolbarOperations(event?.id);
+                this.focus();
+            } else {
+                this.focus();
+                return;
+            }
         }
   }
 
-  insertBold(): void {
-    const { startContainer } = this.sel.getRangeAt(0);
-    if (this.checkValidOperation(startContainer)) {
-      document.execCommand('bold', false, '');
-      // this.bold = !this.bold;
-      this.focus();
-    } else {
-      this.focus();
-    }
-  }
-
-  insertItalic(): void {
-    const { startContainer } = this.sel.getRangeAt(0);
-    if (this.checkValidOperation(startContainer)) {
-      document.execCommand('italic', false, '');
-       // this.italic = !this.italic;
-      this.focus();
-    } else {
-      this.focus();
-    }
-  }
-
-  insertLineThrough(): void {
-    const { startContainer } = this.sel.getRangeAt(0);
-    if (this.checkValidOperation(startContainer)) {
-      document.execCommand('strikeThrough', false, '');
-      // this.strikeThrough = !this.strikeThrough;
-      this.focus();
-    } else {
-      this.focus();
-    }
-  }
-
-  insertUnderLine(): void {
-    const { startContainer } = this.sel.getRangeAt(0);
-    if (this.checkValidOperation(startContainer)) {
-      document.execCommand('underline', false, '');
-      // this.underline = !this.underline;
-      this.focus();
-    } else {
-      this.focus();
-    }
-  }
-
-  insertOrderedList(): void {
-    const { startContainer } = this.sel.getRangeAt(0);
-    if (this.checkValidOperation(startContainer)) {
-      document.execCommand('insertOrderedList', false, '');
-      // this.orderedList = !this.orderedList;
-      this.focus();
-    } else {
-      this.focus();
-    }
-  }
-
-  insertUnorderedList(): void {
-    const { startContainer } = this.sel.getRangeAt(0);
-    if (this.checkValidOperation(startContainer)) {
-      document.execCommand('insertunorderedList', false, '');
-      // this.unorderedList = !this.unorderedList;
-      this.focus();
-    } else {
-      this.focus();
-    }
-  }
-
-  increaseIndentation(): void {
-    const { startContainer } = this.sel.getRangeAt(0);
-    if (this.checkValidOperation(startContainer)) {
-        document.execCommand('indent', false, '');
-    } else {
-        this.focus();
-    }
-  }
-
-  decreaseIndentation(): void {
-    const { startContainer } = this.sel.getRangeAt(0);
-    if (this.checkValidOperation(startContainer)) {
-        document.execCommand('outdent', false, '');
-    } else {
-        this.focus();
-    }
-  }
-
-  alignLeft(): void {
-    const { startContainer } = this.sel.getRangeAt(0);
-    if (this.checkValidOperation(startContainer)) {
-        document.execCommand('justifyleft', false, '');
-    } else {
-        this.focus();
-    }
-  }
-
-  alignCenter(): void {
-    const { startContainer } = this.sel.getRangeAt(0);
-    if (this.checkValidOperation(startContainer)) {
-        document.execCommand('justifycenter', false, '');
-    } else {
-        this.focus();
-    }
-  }
-
-  alignRight(): void {
-    const { startContainer } = this.sel.getRangeAt(0);
-    if (this.checkValidOperation(startContainer)) {
-        document.execCommand('justifyright', false, '');
-    } else {
-        this.focus();
+  toolbarOperations(id: string): void {
+    switch (id) {
+        case 'bold': document.execCommand('bold', false, '');
+                     break;
+        case 'italic': document.execCommand('italic', false, '');
+                       break;
+        case 'line-through': document.execCommand('strikeThrough', false, '');
+                             break;
+        case 'underline':   document.execCommand('underline', false, '');
+                            break;
+        case 'ordered-list': document.execCommand('insertOrderedList', false, '');
+                             break;
+        case 'unordered-list': document.execCommand('insertunorderedList', false, '');
+                               break;
+        case 'quote':
+        case 'link':
+        case 'increase-indent': document.execCommand('indent', false, '');
+                                break;
+        case 'decrease-indent': document.execCommand('outdent', false, '');
+                                break;
+        case 'left-align':  document.execCommand('justifyleft', false, '');
+                            break;
+        case 'center-align': document.execCommand('justifycenter', false, '');
+                             break;
+        case 'right-align': document.execCommand('justifyright', false, '');
+                            break;
+        case 'fill-color':
+        case 'text-color':
     }
   }
 
