@@ -157,10 +157,6 @@ export class EditorContainerComponent implements OnInit, OnChanges {
     }
   }
 
-  hello(): void {
-    // console.log('HELLO2');
-  }
-
   getPrecedingCharacter(container: any): string {
     if (this.sel) {
       const r = this.sel.getRangeAt(0).cloneRange();
@@ -190,6 +186,12 @@ export class EditorContainerComponent implements OnInit, OnChanges {
     // this.unorderedList = false;
     // this.underline = false;
     // this.strikeThrough = false;
+  }
+
+  focus(): void {
+    if (document.getElementById(`${this.id}`)) {
+        document.getElementById(`${this.id}`).focus();
+    }
   }
 
   setValue(event: any): void {
@@ -283,20 +285,95 @@ export class EditorContainerComponent implements OnInit, OnChanges {
   }
 
   toolbarClicked(event: any): void {
-    switch (event.id) {
-      case 'bold':
-      case 'italic':
-      case 'line-through':
-      case 'underline':
-      case 'unordered-list':
-      case 'ordered-list':
-      case 'quote':
-      case 'link':
-      case 'left-align':
-      case 'center-align':
-      case 'right-align':
-      case 'fill-color':
-      case 'text-color':
+        if (!this.sel || !this.sel.anchorNode) {
+            this.focus();
+        }
+        switch (event.id) {
+            case 'bold': this.insertBold();
+                         break;
+            case 'italic': this.insertItalic();
+                           break;
+            case 'line-through': this.insertItalic();
+                                 break;
+            case 'underline': this.insertUnderLine();
+                              break;
+            case 'unordered-list': this.insertUnorderedList();
+                                   break;
+            case 'ordered-list': this.insertOrderedList();
+                                 break;
+            case 'quote':
+            case 'link':
+            case 'left-align':
+            case 'center-align':
+            case 'right-align':
+            case 'fill-color':
+            case 'text-color':
+        }
+  }
+
+  insertBold(): void {
+    const { startContainer } = this.sel.getRangeAt(0);
+    if (this.checkValidOperation(startContainer)) {
+      document.execCommand('bold', false, '');
+      // this.bold = !this.bold;
+      this.focus();
+    } else {
+      this.focus();
+    }
+  }
+
+  insertItalic(): void {
+    const { startContainer } = this.sel.getRangeAt(0);
+    if (this.checkValidOperation(startContainer)) {
+      document.execCommand('italic', false, '');
+       // this.italic = !this.italic;
+      this.focus();
+    } else {
+      this.focus();
+    }
+  }
+
+  insertLineThrough(): void {
+    const { startContainer } = this.sel.getRangeAt(0);
+    if (this.checkValidOperation(startContainer)) {
+      document.execCommand('strikeThrough', false, '');
+      // this.strikeThrough = !this.strikeThrough;
+      this.focus();
+    } else {
+      this.focus();
+    }
+  }
+
+  insertUnderLine(): void {
+    const { startContainer } = this.sel.getRangeAt(0);
+    if (this.checkValidOperation(startContainer)) {
+      document.execCommand('underline', false, '');
+      // this.underline = !this.underline;
+      this.focus();
+    } else {
+      this.focus();
+    }
+  }
+
+  insertOrderedList(): void {
+    const { startContainer } = this.sel.getRangeAt(0);
+    if (this.checkValidOperation(startContainer)) {
+      document.execCommand('insertOrderedList', false, '');
+      // this.orderedList = !this.orderedList;
+      this.focus();
+    } else {
+      this.focus();
+    }
+  }
+
+  insertUnorderedList(): void {
+    const { startContainer } = this.sel.getRangeAt(0);
+    if (this.checkValidOperation(startContainer)) {
+      document.execCommand('insertunorderedList', false, '');
+      // this.unorderedList = !this.unorderedList;
+      this.focus();
+    } else {
+      this.focus();
     }
   }
 }
