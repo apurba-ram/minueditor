@@ -264,7 +264,7 @@
         </button>
         <div class="popover small" *ngIf="alignment">
             <ul class="option-list">
-                <li>
+                <li data-id="left-align">
                     <!-- Left Align -->
                     <button>
                         <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve">
@@ -283,7 +283,7 @@
                         <span>Align Left</span>
                     </button>
                 </li>
-                <li>
+                <li data-id="center-align">
                     <!-- Center Align -->
                     <button>
                         <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve">
@@ -302,7 +302,7 @@
                         <span>Align Center</span>
                     </button>
                 </li>
-                <li>
+                <li data-id="right-align">
                     <!-- Right Align -->
                     <button>
                         <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve">
@@ -337,63 +337,7 @@
             </svg>
         </button>
     </div>
-    <!-- Left Align -->
-    <div class="col" data-id="left-align">
-        <button data-id="left-align">
-            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve"
-                data-id="left-align">
-                <g>
-                    <g>
-                        <g>
-                            <rect x="0" y="341.333" width="384" height="42.667" data-id="left-align" />
-                            <rect x="0" y="256" width="256" height="42.667" data-id="left-align" />
-                            <rect x="0" y="85.333" width="256" height="42.667" data-id="left-align" />
-                            <rect x="0" y="170.667" width="384" height="42.667" data-id="left-align" />
-                            <rect x="0" y="0" width="384" height="42.667" data-id="left-align" />
-                        </g>
-                    </g>
-                </g>
-            </svg>
-        </button>
-    </div>
-    <!-- Center Align -->
-    <div class="col" data-id="center-align">
-        <button data-id="center-align">
-            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve"
-                data-id="center-align">
-                <g>
-                    <g>
-                        <g>
-                            <rect x="85.333" y="256" width="213.333" height="42.667" data-id="center-align" />
-                            <rect x="0" y="341.333" width="384" height="42.667" data-id="center-align" />
-                            <rect x="0" y="170.667" width="384" height="42.667" data-id="center-align" />
-                            <rect x="85.333" y="85.333" width="213.333" height="42.667" data-id="center-align" />
-                            <rect x="0" y="0" width="384" height="42.667" data-id="center-align" />
-                        </g>
-                    </g>
-                </g>
-            </svg>
-        </button>
-    </div>
-    <!-- Right Align -->
-    <div class="col" data-id="right-align">
-        <button data-id="right-align">
-            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve"
-                data-id="right-align">
-                <g>
-                    <g>
-                        <g>
-                            <rect x="128" y="256" width="256" height="42.667" data-id="right-align" />
-                            <rect x="0" y="341.333" width="384" height="42.667" data-id="right-align" />
-                            <rect x="0" y="0" width="384" height="42.667" data-id="right-align" />
-                            <rect x="0" y="170.667" width="384" height="42.667" data-id="right-align" />
-                            <rect x="128" y="85.333" width="256" height="42.667" data-id="right-align" />
-                        </g>
-                    </g>
-                </g>
-            </svg>
-        </button>
-    </div>
+    
     <!-- Fill Color -->
     <div class="col" data-id="fill-color">
         <button data-id="fill-color">
