@@ -1,37 +1,219 @@
 .editor-menu {
     display: flex;
+
+    .col {
+        position: relative;
+
+        .popover {
+            position     : absolute;
+            bottom       : 100%;
+            left         : 0;
+            width        : 250px;
+            background   : #FFFFFF;
+            box-shadow   : 0px 3px 6px #1C5BD140;
+            border-radius: 2px;
+            // max-height   : 220px;
+            // overflow     : auto;
+            padding      : 15px;
+            z-index      : 2;
+
+            .drag-drop {
+                position     : relative;
+                height       : 100px;
+                background   : #fbfbfb;
+                border       : 2px dashed #F1f1F1;
+                border-radius: 2px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 10px;
+                margin-bottom: 10px;
+                &.enter {
+                    border-color: #1e5dd3;
+                    label, span {
+                        pointer-events: none;
+                    }
+                    input {
+                        pointer-events: visible;
+                    }
+                }
+                input[type=file] {
+                    position: absolute;
+                    margin: 0;
+                    height: 100%;
+                    width: 100%;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    opacity: 0;
+                    cursor: pointer;
+                    outline: none;
+                    pointer-events: none;
+                }
+            
+                .container {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                }
+                span {
+                    font-size: 11px;
+                    color: #747576;
+                    text-transform: uppercase;
+                    pointer-events: none;
+                    text-align: center;
+                    width: 100%;
+                    display: block;
+                    margin-bottom: 10px;
+                }
+                label {
+                    font-size: 11px;
+                    text-transform: uppercase;
+                    border: 1px solid #1e5dd3;
+                    color: #FFFFFF;
+                    text-transform: uppercase;
+                    width: auto;
+                    padding: 0 10px;
+                    background: #1e5dd3;
+                    border-radius: 2px;
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    line-height: 24px;
+                    height: 24px;
+                    position: relative;
+                    &:hover {
+                        &:before {
+                            content: "";
+                            top: 0;
+                            right: 0;
+                            bottom: 0;
+                            left: 0;
+                            background: rgba(0, 0, 0, 0.09);
+                            z-index: 1;
+                            position: absolute;
+                        }
+                    }
+                }
+            }
+            .link {
+                display: block;
+                margin-bottom: 20px;
+                label {
+                    font-size: 11px;
+                    color: #161b2f;
+                    // text-transform: uppercase;
+                    margin-bottom: 0;
+                }
+                input {
+                    font-size: 11px;
+                    height: 22px;
+                    line-height: 20px;
+                    padding: 4px 0;
+                    border: none;
+                    border-bottom: 1px solid #F1F1F1;
+                    outline: none;
+                    position: relative;
+                    width: 100%;
+                    color: #747576;
+                    &:focus {
+                       border-color: #1e5dd3;
+                    }
+                }
+            }
+            .footer {
+                background: #F3F3F3;
+                padding: 10px;
+                display: flex;
+                justify-content: flex-end;
+                margin: 0 -15px -15px;
+                button {
+                    font-size: 11px;
+                    text-transform: uppercase;
+                    border: 1px solid;
+                    text-transform: uppercase;
+                    width: auto;
+                    padding: 0 10px;
+                    border-radius: 2px;
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    line-height: 24px;
+                    height: 28px;
+                    position: relative;
+                    &:hover {
+                        &:before {
+                            content: "";
+                            top: 0;
+                            right: 0;
+                            bottom: 0;
+                            left: 0;
+                            background: rgba(0, 0, 0, 0.09);
+                            z-index: 1;
+                            position: absolute;
+                        }
+                    }
+                    &.cancel {
+                        color: #1e5dd3;
+                        background: #FFFFFF;
+                        border-color: #FFFFFF;
+                    }
+                    &.upload {
+                        background: #1e5dd3;
+                        border-color: #1e5dd3;
+                        color: #FFFFFF;
+                    }
+                }
+            }
+        }
+    }
+
     button {
-        height: 26px;
-        width: 26px;
+        height       : 26px;
+        width        : 26px;
         border-radius: 2px;
-        display: flex;
-        cursor: pointer;
-        border: none;
-        background: #FFFFFF;
-        &.bgcolor, &.textcolor {
+        display      : flex;
+        cursor       : pointer;
+        border       : none;
+        background   : #FFFFFF;
+
+        &.bgcolor,
+        &.textcolor {
             svg {
                 transform: scale(1.2);
             }
         }
-        &:hover, &.active {
+
+        &:hover,
+        &.active {
             background: #F3F3F3;
-            svg {                
+
+            svg {
                 fill: #161b2f;
             }
         }
+
         &+button {
             margin-left: 2%;
         }
+
         svg {
             height: 22px;
-            width: 22px;
-            fill: #5a5a5a;
+            width : 22px;
+            fill  : #5a5a5a;
         }
+
         &:focus {
             outline: none;
-            svg {                
+
+            svg {
                 fill: #161b2f;
             }
         }
+
+
     }
 }

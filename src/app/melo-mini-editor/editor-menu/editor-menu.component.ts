@@ -9,6 +9,7 @@ export class EditorMenuComponent implements OnInit {
 
   @Input() editorConfig: EditorConfig;
   @Output() buttonClick: EventEmitter<string> = new EventEmitter();
+  enter = false;
   constructor() {
     this.editorConfig = {
       file: false,
@@ -30,4 +31,16 @@ export class EditorMenuComponent implements OnInit {
     this.buttonClick.emit(event);
   }
 
+  attachPopover() {
+    
+  }
+  dragenter(e) {
+    this.enter = true;
+  }
+  dragend(e) {
+    this.enter = false;
+  }
+  dragleave(e) {
+    this.enter = false;
+  }
 }
