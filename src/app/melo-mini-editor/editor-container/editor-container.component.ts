@@ -312,7 +312,8 @@ export class EditorContainerComponent implements OnInit, OnChanges {
                              break;
         case 'unordered-list': document.execCommand('insertunorderedList', false, '');
                                break;
-        case 'quote':
+        case 'quote': this.insertBlockQuote();
+                      break;
         case 'link':
         case 'increase-indent': document.execCommand('indent', false, '');
                                 break;
@@ -327,6 +328,20 @@ export class EditorContainerComponent implements OnInit, OnChanges {
         case 'fill-color':
         case 'text-color':
     }
+  }
+
+  insertBlockQuote(): void {
+    const blockquote = document.createElement('blockquote');
+    blockquote.setAttribute('style', 'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px');
+    blockquote.innerHTML = '&#8204;';
+    const div = document.createElement('div');
+    div.appendChild(document.createElement('br'));
+    const range =  this.sel.getRangeAt(0);
+    range.insertNode(div);
+    range.insertNode(blockquote);
+    range.setStart(blockquote, 0);
+    range.setEnd(blockquote, 0);
+    range.collapse();
   }
 
 
