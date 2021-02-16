@@ -51,10 +51,10 @@ export class EditorMenuComponent implements OnInit {
   dragleave(e): void {
     this.enter = false;
   }
-  alignPopover() {
+  alignPopover(): void {
     this.alignment = !this.alignment;
   }
-  imagePopover() {
+  imagePopover(): void {
     this.uploadImage = !this.uploadImage;
   }
 }
