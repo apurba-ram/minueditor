@@ -134,7 +134,7 @@
     </div>
     <!-- Link -->
     <div class="col" data-id="link">
-        <button data-id="link">
+        <button data-id="link" (click)="addLinks()" [class.active]="addLink">
             <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 426.667 426.667" xml:space="preserve">
                 <g>
                     <g>
@@ -149,21 +149,34 @@
                 </g>
             </svg>
         </button>
+        <div class="popup-mask" *ngIf="addLink">
+            <div class="popover attach">
+                <div class="head">
+                    <h3>Insert Link</h3>
+                    <button class="close" (click)="addLinks()">&times;</button>
+                </div>
+
+                <div class="link">
+                    <label>Web Address</label>
+                    <input type="text" placeholder="http://exampleimage.com/image.jpg">
+                </div>
+                <div class="link">
+                    <label>Display Text</label>
+                    <input type="text" placeholder="Enter Text">
+                </div>
+                <div class="link">
+                    <label>Title</label>
+                    <input type="text" placeholder="Enter a title">
+                </div>
+                <div class="footer">
+                    <button class="cancel" (click)="addLinks()">Cancel</button><button class="upload">Save</button>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- Attachment -->
     <div class="col">
         <button (click)="attachPopover()" [class.active]="upload">
-            <!-- <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 469.333 469.333" xml:space="preserve">
-                <g>
-                    <g>
-                        <path d="M320,106.667V352c0,47.147-38.187,85.333-85.333,85.333S149.333,399.147,149.333,352V85.333
-			c0-29.44,23.893-53.333,53.333-53.333S256,55.893,256,85.333v224c0,11.733-9.493,21.333-21.333,21.333
-			c-11.84,0-21.333-9.6-21.333-21.333V106.667h-32v202.667c0,29.44,23.893,53.333,53.333,53.333S288,338.773,288,309.333v-224
-			C288,38.187,249.813,0,202.667,0s-85.333,38.187-85.333,85.333V352c0,64.853,52.587,117.333,117.333,117.333S352,416.853,352,352
-			V106.667H320z" />
-                    </g>
-                </g>
-            </svg> -->
             <svg width="199" height="199" viewBox="0 0 199 199" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0)">
                     <path
@@ -177,26 +190,30 @@
             </svg>
 
         </button>
-        <div class="popover" *ngIf="upload">
-            <div class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragenter($event)"
-                (dragend)="dragend($event)" (dragleave)="dragleave($event)" [class.enter]="enter">
-                <input type="file" id="browse">
-                <div class="container">
-                    <span>Drop image here or browse to upload</span>
-                    <label for="browse">Browse</label>
+        <div class="popup-mask" *ngIf="upload">
+            <div class="popover attach">
+                <div class="head">
+                    <h3>Attach File</h3>
+                    <button class="close" (click)="attachPopover()">&times;</button>
                 </div>
-            </div>
-            <div class="link">
-                <label>You can also add a image link here</label>
-                <input type="text" placeholder="http://exampleimage.com/image.jpg">
-            </div>
-            <div class="footer">
-                <button class="cancel" (click)="attachPopover()">Cancel</button><button class="upload">Save</button>
+                <div class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragenter($event)"
+                    (dragend)="dragend($event)" (dragleave)="dragleave($event)" [class.enter]="enter">
+                    <input type="file" id="browse">
+                    <div class="container">
+                        <span>Drop image here or browse to upload</span>
+                        <label for="browse">Browse</label>
+                    </div>
+                </div>
+                <div class="link">
+                    <label>You can also add a image link here</label>
+                    <input type="text" placeholder="http://exampleimage.com/image.jpg">
+                </div>
+                <div class="footer">
+                    <button class="cancel" (click)="attachPopover()">Cancel</button><button class="upload">Save</button>
+                </div>
             </div>
         </div>
     </div>
-
-
     <!-- Image -->
     <div class="col">
         <button (click)="imagePopover()" [class.active]="uploadImage">
@@ -215,21 +232,27 @@
             </svg>
 
         </button>
-        <div class="popover" *ngIf="uploadImage">
-            <div class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragenter($event)"
-                (dragend)="dragend($event)" (dragleave)="dragleave($event)" [class.enter]="enter">
-                <input type="file" id="browse">
-                <div class="container">
-                    <span>Drop image here or browse to upload</span>
-                    <label for="browse">Browse</label>
+        <div class="popup-mask" *ngIf="uploadImage">
+            <div class="popover attach">
+                <div class="head">
+                    <h3>Attach Image</h3>
+                    <button class="close" (click)="imagePopover()">&times;</button>
                 </div>
-            </div>
-            <div class="link">
-                <label>You can also add a image link here</label>
-                <input type="text" placeholder="http://exampleimage.com/image.jpg">
-            </div>
-            <div class="footer">
-                <button class="cancel" (click)="imagePopover()">Cancel</button><button class="upload">Save</button>
+                <div class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragenter($event)"
+                    (dragend)="dragend($event)" (dragleave)="dragleave($event)" [class.enter]="enter">
+                    <input type="file" id="browse">
+                    <div class="container">
+                        <span>Drop image here or browse to upload</span>
+                        <label for="browse">Browse</label>
+                    </div>
+                </div>
+                <div class="link">
+                    <label>You can also add a image link here</label>
+                    <input type="text" placeholder="http://exampleimage.com/image.jpg">
+                </div>
+                <div class="footer">
+                    <button class="cancel" (click)="imagePopover()">Cancel</button><button class="upload">Save</button>
+                </div>
             </div>
         </div>
     </div>
@@ -253,13 +276,13 @@
     <!-- Text Align -->
     <div class="col">
         <button (click)="alignPopover()" [class.active]="alignment">
-            <svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M265.083 356.146H0V400H265.083V356.146Z" />
-                <path d="M191.449 267.11H0V310.963H191.449V267.11Z" />
-                <path d="M174.123 89.0365H0V132.89H174.123V89.0365Z" />
-                <path d="M265.083 178.073H0V221.927H265.083V178.073Z" />
-                <path d="M265.083 0H0V43.8538H265.083V0Z" />
-                <path d="M400 163.455L338.242 280.399L276.485 163.455H399.988H400Z" />
+            <svg width="595" height="400" viewBox="0 0 595 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M394.311 356.146H0V400H394.311V356.146Z" />
+                <path d="M284.78 267.11H0V310.963H284.78V267.11Z" />
+                <path d="M259.008 89.0365H0V132.89H259.008V89.0365Z" />
+                <path d="M394.311 178.073H0V221.927H394.311V178.073Z" />
+                <path d="M394.311 0H0V43.8538H394.311V0Z" />
+                <path d="M595 178L529.5 252L464 178H594.987H595Z" />
             </svg>
         </button>
         <div class="popover small" *ngIf="alignment">
@@ -337,7 +360,7 @@
             </svg>
         </button>
     </div>
-    
+
     <!-- Fill Color -->
     <div class="col" data-id="fill-color">
         <button data-id="fill-color">
@@ -373,6 +396,25 @@
                         <rect data-id="text-color" y="426.64" width="512" height="85.333" />
                     </g>
                 </g>
+            </svg>
+        </button>
+    </div>
+    <!-- Superscript -->
+    <div class="col">
+        <button>
+            <svg width="200" height="174" viewBox="0 0 200 174" fill="none">
+                <path
+                    d="M85.9381 113.681L139.578 173.934H106.571L69.0088 129.867L32.2984 173.934H0L53.2083 113.681L2.562 56.8192H35.145L70.4356 98.0449L106.001 56.8192H137.163L85.9381 113.681ZM159.28 72.9393L181.389 56.6618C188.928 51.4813 193.881 46.6757 196.255 42.2405C198.627 37.8077 199.812 33.044 199.812 27.9395C199.812 19.6009 197.024 12.8704 191.456 7.74929C185.882 2.62529 178.555 0.0657349 169.477 0.0657349C160.724 0.0657349 153.723 2.65782 148.482 7.83793C143.229 13.0209 140.607 20.8317 140.607 31.2789H157.49C157.49 25.0457 158.596 20.7365 160.802 18.3465C163.008 15.9561 166.031 14.7607 169.882 14.7607C173.727 14.7607 176.765 15.9769 179.019 18.4055C181.264 20.8317 182.384 23.8491 182.384 27.4552C182.384 31.0553 181.346 34.313 179.259 37.2295C177.173 40.1461 171.376 45.0656 161.864 51.9883C153.726 57.939 142.714 63.5448 139.412 68.807L139.578 88.3617H200V72.9393H159.28Z" />
+            </svg>
+        </button>
+    </div>
+    <!-- Subscript -->
+    <div class="col">
+        <button>
+
+            <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M85.9381 68.8616L139.578 129.115H106.571L69.0088 85.048L32.2984 129.115H0L53.2083 68.8616L2.562 12H35.145L70.4356 53.2257L106.001 12H137.163L85.9381 68.8616ZM159.28 173.12L181.389 156.843C188.928 151.662 193.881 146.857 196.255 142.421C198.627 137.989 199.812 133.225 199.812 128.12C199.812 119.782 197.024 113.051 191.456 107.93C185.882 102.806 178.555 100.247 169.477 100.247C160.724 100.247 153.723 102.839 148.482 108.019C143.229 113.202 140.607 121.013 140.607 131.46H157.49C157.49 125.227 158.596 120.917 160.802 118.527C163.008 116.137 166.031 114.942 169.882 114.942C173.727 114.942 176.765 116.158 179.019 118.586C181.264 121.013 182.384 124.03 182.384 127.636C182.384 131.236 181.346 134.494 179.259 137.41C177.173 140.327 171.376 145.246 161.864 152.169C153.726 158.12 142.714 173.726 139.412 178.988L139.578 188.543H200V173.12H159.28Z" />
             </svg>
         </button>
     </div>

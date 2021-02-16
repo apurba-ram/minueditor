@@ -13,6 +13,7 @@ export class EditorMenuComponent implements OnInit {
   upload= false;
   uploadImage = false;
   alignment = false;
+  addLink = false;
   constructor() {
     this.editorConfig = {
       file: false,
@@ -56,5 +57,8 @@ export class EditorMenuComponent implements OnInit {
   }
   imagePopover() {
     this.uploadImage = !this.uploadImage;
+  }
+  addLinks() {
+    this.addLink = !this.addLink;
   }
 }
