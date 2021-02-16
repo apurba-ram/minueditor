@@ -11,6 +11,7 @@ export class EditorMenuComponent implements OnInit {
   @Output() buttonClick: EventEmitter<string> = new EventEmitter();
   enter = false;
   upload= false;
+  alignment = false;
   constructor() {
     this.editorConfig = {
       file: false,
@@ -43,5 +44,8 @@ export class EditorMenuComponent implements OnInit {
   }
   dragleave(e) {
     this.enter = false;
+  }
+  alignPopover() {
+    this.alignment = !this.alignment;
   }
 }
