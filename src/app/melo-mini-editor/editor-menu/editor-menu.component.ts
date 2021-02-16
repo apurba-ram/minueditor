@@ -10,7 +10,7 @@ export class EditorMenuComponent implements OnInit {
   @Input() editorConfig: EditorConfig;
   @Output() buttonClick: EventEmitter<string> = new EventEmitter();
   enter = false;
-  upload= false;
+  upload = false;
   uploadImage = false;
   alignment = false;
   addLink = false;
@@ -52,10 +52,10 @@ export class EditorMenuComponent implements OnInit {
   dragleave(e): void {
     this.enter = false;
   }
-  alignPopover() {
+  alignPopover(): void {
     this.alignment = !this.alignment;
   }
-  imagePopover() {
+  imagePopover(): void {
     this.uploadImage = !this.uploadImage;
   }
   addLinks() {
