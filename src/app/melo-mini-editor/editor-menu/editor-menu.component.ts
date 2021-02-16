@@ -10,6 +10,7 @@ export class EditorMenuComponent implements OnInit {
   @Input() editorConfig: EditorConfig;
   @Output() buttonClick: EventEmitter<string> = new EventEmitter();
   enter = false;
+  upload= false;
   constructor() {
     this.editorConfig = {
       file: false,
@@ -33,8 +34,8 @@ export class EditorMenuComponent implements OnInit {
     this.buttonClick.emit(event?.dataset);
   }
 
-  attachPopover(): void{
-
+  attachPopover(): void {
+    this.upload = !this.upload;
   }
   dragenter(e): void {
     this.enter = true;
