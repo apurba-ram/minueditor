@@ -3,7 +3,9 @@
 
     .col {
         position: relative;
-
+        &+.col {
+            margin-left: 2%;
+        }
         .popover {
             position        : absolute;
             bottom          : 100%;
@@ -251,13 +253,9 @@
             }
         }
 
-        &+button {
-            margin-left: 2%;
-        }
-
         svg {
-            height: 22px;
-            width : 22px;
+            height: 26px;
+            width : 26px;
             fill  : #5a5a5a;
             stroke  : #5a5a5a;
         }
