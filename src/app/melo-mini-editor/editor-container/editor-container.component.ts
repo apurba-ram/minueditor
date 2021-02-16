@@ -44,6 +44,7 @@ export class EditorContainerComponent implements OnInit, OnChanges {
   mentionedNames: { id: number; name: string }[];
   mentionedDates: string[];
   toolbarPlacement: 'top' | 'bottom';
+  oldRange: any;
 
   constructor() {
     this.editorConfig = {
@@ -96,7 +97,9 @@ export class EditorContainerComponent implements OnInit, OnChanges {
     this.onTouch = fn;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.sel = window.getSelection();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.editorConfig && this.editorConfig) {
@@ -155,7 +158,7 @@ export class EditorContainerComponent implements OnInit, OnChanges {
   }
 
   hello(): void {
-    console.log('HELLO2');
+    // console.log('HELLO2');
   }
 
   getPrecedingCharacter(container: any): string {
@@ -167,10 +170,31 @@ export class EditorContainerComponent implements OnInit, OnChanges {
     return '';
   }
 
-  blur(): void {}
+  checkValidOperation(elem: any): boolean {
+    if (elem) {
+      if (elem === document.getElementById(this.id)) {
+         return true;
+      } else {
+        return this.checkValidOperation(elem?.parentNode);
+      }
+    } else {
+      return false;
+    }
+  }
 
-  setValue(innerText: string, innerHtml: string): void {
-    this.innerText = innerText;
+  blur(): void {
+    this.oldRange = this.sel.getRangeAt(0).cloneRange(); // to store the range when element is blurred
+    // this.bold = false;
+    // this.italic =  false;
+    // this.orderedList = false;
+    // this.unorderedList = false;
+    // this.underline = false;
+    // this.strikeThrough = false;
+  }
+
+  setValue(event: any): void {
+    event.stopPropagation();
+    this.innerText = event.target.innerText;
 
     if (this.innerText === '') {
       document.execCommand('removeFormat', false, ''); // remove previous format once the editor is clear
@@ -216,6 +240,7 @@ export class EditorContainerComponent implements OnInit, OnChanges {
       input.style.color = '#4681ef';
       input.style.fontWeight = 'inherit';
       input.style.fontSize = 'inherit';
+      console.log(this.oldRange);
       const range = this.sel.getRangeAt(0).cloneRange();
       this.sel.removeAllRanges();
       const sp = document.createTextNode(' ');

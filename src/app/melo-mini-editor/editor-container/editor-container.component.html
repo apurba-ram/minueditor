@@ -3,7 +3,7 @@
     <div class="editable-block" 
         contenteditable="true" [class.bottom]="toolbarPlacement === 'bottom'" [class.top]="toolbarPlacement === 'top'"
         [id]="id"
-        (input)="setValue($event.target.innerText, $event.target.innerHTML)" 
+        (input)="setValue($event)" 
         (blur)="blur()"
         (paste)="onPaste($event)"
         [mentionConfig]="mentionConfig"
