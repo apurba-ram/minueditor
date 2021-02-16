@@ -189,7 +189,7 @@ export class EditorContainerComponent implements OnInit, OnChanges {
 
   focus(): void {
     if (document.getElementById(`${this.id}`)) {
-        document.getElementById(`${this.id}`).focus();
+      document.getElementById(`${this.id}`).focus();
     }
   }
 
@@ -283,60 +283,76 @@ export class EditorContainerComponent implements OnInit, OnChanges {
   }
 
   toolbarClicked(event: any): void {
-        if (!this.sel || !this.sel.anchorNode) {
-            this.focus();
-            this.toolbarOperations(event?.id);
-        } else {
-            const { startContainer } = this.sel.getRangeAt(0);
-            if (this.checkValidOperation(startContainer)) {
-                this.toolbarOperations(event?.id);
-                this.focus();
-            } else {
-                this.focus();
-                return;
-            }
-        }
+    if (!this.sel || !this.sel.anchorNode) {
+      this.focus();
+      this.toolbarOperations(event?.id);
+    } else {
+      const { startContainer } = this.sel.getRangeAt(0);
+      if (this.checkValidOperation(startContainer)) {
+        this.toolbarOperations(event?.id);
+        this.focus();
+      } else {
+        this.focus();
+        return;
+      }
+    }
   }
 
   toolbarOperations(id: string): void {
+    console.log('IDEMPOTENT', id);
     switch (id) {
-        case 'bold': document.execCommand('bold', false, '');
-                     break;
-        case 'italic': document.execCommand('italic', false, '');
-                       break;
-        case 'line-through': document.execCommand('strikeThrough', false, '');
-                             break;
-        case 'underline':   document.execCommand('underline', false, '');
-                            break;
-        case 'ordered-list': document.execCommand('insertOrderedList', false, '');
-                             break;
-        case 'unordered-list': document.execCommand('insertunorderedList', false, '');
-                               break;
-        case 'quote': this.insertBlockQuote();
-                      break;
-        case 'link':
-        case 'increase-indent': document.execCommand('indent', false, '');
-                                break;
-        case 'decrease-indent': document.execCommand('outdent', false, '');
-                                break;
-        case 'left-align':  document.execCommand('justifyleft', false, '');
-                            break;
-        case 'center-align': document.execCommand('justifycenter', false, '');
-                             break;
-        case 'right-align': document.execCommand('justifyright', false, '');
-                            break;
-        case 'fill-color':
-        case 'text-color':
+      case 'bold':
+        document.execCommand('bold', false, '');
+        break;
+      case 'italic':
+        document.execCommand('italic', false, '');
+        break;
+      case 'line-through':
+        document.execCommand('strikeThrough', false, '');
+        break;
+      case 'underline':
+        document.execCommand('underline', false, '');
+        break;
+      case 'ordered-list':
+        document.execCommand('insertOrderedList', false, '');
+        break;
+      case 'unordered-list':
+        document.execCommand('insertunorderedList', false, '');
+        break;
+      case 'quote':
+        this.insertBlockQuote();
+        break;
+      case 'link':
+      case 'increase-indent':
+        document.execCommand('indent', false, '');
+        break;
+      case 'decrease-indent':
+        document.execCommand('outdent', false, '');
+        break;
+      case 'left-align':
+        document.execCommand('justifyleft', false, '');
+        break;
+      case 'center-align':
+        document.execCommand('justifycenter', false, '');
+        break;
+      case 'right-align':
+        document.execCommand('justifyright', false, '');
+        break;
+      case 'fill-color':
+      case 'text-color':
     }
   }
 
   insertBlockQuote(): void {
     const blockquote = document.createElement('blockquote');
-    blockquote.setAttribute('style', 'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px');
+    blockquote.setAttribute(
+      'style',
+      'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px'
+    );
     blockquote.innerHTML = '&#8204;';
     const div = document.createElement('div');
     div.appendChild(document.createElement('br'));
-    const range =  this.sel.getRangeAt(0);
+    const range = this.sel.getRangeAt(0);
     range.insertNode(div);
     range.insertNode(blockquote);
     range.setStart(blockquote, 0);
@@ -344,53 +360,71 @@ export class EditorContainerComponent implements OnInit, OnChanges {
     range.collapse();
   }
 
+  insertSupTag(): void {
+    const sup = document.createElement('sup');
+    sup.innerHTML = '&#8204;';
+    const range = this.sel.getRangeAt(0);
+    range.insertNode(sup);
+    range.setStart(sup, 1);
+    range.setEnd(sup, 1);
+    range.collapse();
+  }
 
-//   insertSupTag(): void {
-//     const { startContainer } = this.sel.getRangeAt(0);
-//     if (this.checkValidOperation(startContainer)) {
+  insertSubTag(): void {
+    const sub = document.createElement('sub');
+    sub.innerHTML = '&#8204;';
+    const range = this.sel.getRangeAt(0);
+    range.insertNode(sub);
+    range.setStart(sub, 1);
+    range.setEnd(sub, 1);
+    range.collapse();
+  }
 
-//       if (this.subTag) {
-//         this.reachTextNode('sub');
-//       }
+  //   insertSupTag(): void {
+  //     const { startContainer } = this.sel.getRangeAt(0);
+  //     if (this.checkValidOperation(startContainer)) {
 
-//       if (!this.supTag) {
-//         const sup = document.createElement('sup');
-//         sup.innerHTML = '&#8204;';
-//         const range =  this.sel.getRangeAt(0);
-//         range.insertNode(sup);
-//         range.setStart(sup, 1);
-//         range.setEnd(sup, 1);
-//         range.collapse();
-//         this.showEmoji = false;
-//       } else {
-//         this.reachTextNode('sup');
-//       }
-//     }
-//     this.focus();
-//   }
+  //       if (this.subTag) {
+  //         this.reachTextNode('sub');
+  //       }
 
-//   insertSubTag(): void {
-//     const { startContainer } = this.sel.getRangeAt(0);
-//     if (this.checkValidOperation(startContainer)) {
+  //       if (!this.supTag) {
+  //         const sup = document.createElement('sup');
+  //         sup.innerHTML = '&#8204;';
+  //         const range =  this.sel.getRangeAt(0);
+  //         range.insertNode(sup);
+  //         range.setStart(sup, 1);
+  //         range.setEnd(sup, 1);
+  //         range.collapse();
+  //         this.showEmoji = false;
+  //       } else {
+  //         this.reachTextNode('sup');
+  //       }
+  //     }
+  //     this.focus();
+  //   }
 
-//       if (this.supTag) {
-//         this.reachTextNode('sup');
-//       }
+  //   insertSubTag(): void {
+  //     const { startContainer } = this.sel.getRangeAt(0);
+  //     if (this.checkValidOperation(startContainer)) {
 
-//       if (!this.subTag) {
-//         const sub = document.createElement('sub');
-//         sub.innerHTML = '&#8204;';
-//         const range =  this.sel.getRangeAt(0);
-//         range.insertNode(sub);
-//         range.setStart(sub, 1);
-//         range.setEnd(sub, 1);
-//         range.collapse();
-//         this.showEmoji = false;
-//       } else {
-//         this.reachTextNode('sub');
-//       }
-//     }
-//     this.focus();
-//   }
+  //       if (this.supTag) {
+  //         this.reachTextNode('sup');
+  //       }
 
+  //       if (!this.subTag) {
+  //         const sub = document.createElement('sub');
+  //         sub.innerHTML = '&#8204;';
+  //         const range =  this.sel.getRangeAt(0);
+  //         range.insertNode(sub);
+  //         range.setStart(sub, 1);
+  //         range.setEnd(sub, 1);
+  //         range.collapse();
+  //         this.showEmoji = false;
+  //       } else {
+  //         this.reachTextNode('sub');
+  //       }
+  //     }
+  //     this.focus();
+  //   }
 }

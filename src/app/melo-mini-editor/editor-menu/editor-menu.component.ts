@@ -10,7 +10,7 @@ export class EditorMenuComponent implements OnInit {
   @Input() editorConfig: EditorConfig;
   @Output() buttonClick: EventEmitter<string> = new EventEmitter();
   enter = false;
-  upload= false;
+  upload = false;
   uploadImage = false;
   alignment = false;
   constructor() {
