@@ -303,9 +303,12 @@ export class EditorContainerComponent implements OnInit, OnChanges {
                                  break;
             case 'quote':
             case 'link':
-            case 'left-align':
-            case 'center-align':
-            case 'right-align':
+            case 'left-align':  this.alignLeft();
+                                break;
+            case 'center-align': this.alignCenter();
+                                 break;
+            case 'right-align': this.alignRight();
+                                break;
             case 'fill-color':
             case 'text-color':
         }
@@ -376,4 +379,99 @@ export class EditorContainerComponent implements OnInit, OnChanges {
       this.focus();
     }
   }
+
+  increaseIndentation(): void {
+    const { startContainer } = this.sel.getRangeAt(0);
+    if (this.checkValidOperation(startContainer)) {
+        document.execCommand('indent', false, '');
+    } else {
+        this.focus();
+    }
+  }
+
+  decreaseIndentation(): void {
+    const { startContainer } = this.sel.getRangeAt(0);
+    if (this.checkValidOperation(startContainer)) {
+        document.execCommand('outdent', false, '');
+    } else {
+        this.focus();
+    }
+  }
+
+  alignLeft(): void {
+    const { startContainer } = this.sel.getRangeAt(0);
+    if (this.checkValidOperation(startContainer)) {
+        document.execCommand('justifyleft', false, '');
+    } else {
+        this.focus();
+    }
+  }
+
+  alignCenter(): void {
+    const { startContainer } = this.sel.getRangeAt(0);
+    if (this.checkValidOperation(startContainer)) {
+        document.execCommand('justifycenter', false, '');
+    } else {
+        this.focus();
+    }
+  }
+
+  alignRight(): void {
+    const { startContainer } = this.sel.getRangeAt(0);
+    if (this.checkValidOperation(startContainer)) {
+        document.execCommand('justifyright', false, '');
+    } else {
+        this.focus();
+    }
+  }
+
+
+//   insertSupTag(): void {
+//     const { startContainer } = this.sel.getRangeAt(0);
+//     if (this.checkValidOperation(startContainer)) {
+
+//       if (this.subTag) {
+//         this.reachTextNode('sub');
+//       }
+
+//       if (!this.supTag) {
+//         const sup = document.createElement('sup');
+//         sup.innerHTML = '&#8204;';
+//         const range =  this.sel.getRangeAt(0);
+//         range.insertNode(sup);
+//         range.setStart(sup, 1);
+//         range.setEnd(sup, 1);
+//         range.collapse();
+//         this.showEmoji = false;
+//       } else {
+//         this.reachTextNode('sup');
+//       }
+//     }
+//     this.focus();
+//   }
+
+//   insertSubTag(): void {
+//     const { startContainer } = this.sel.getRangeAt(0);
+//     if (this.checkValidOperation(startContainer)) {
+
+//       if (this.supTag) {
+//         this.reachTextNode('sup');
+//       }
+
+//       if (!this.subTag) {
+//         const sub = document.createElement('sub');
+//         sub.innerHTML = '&#8204;';
+//         const range =  this.sel.getRangeAt(0);
+//         range.insertNode(sub);
+//         range.setStart(sub, 1);
+//         range.setEnd(sub, 1);
+//         range.collapse();
+//         this.showEmoji = false;
+//       } else {
+//         this.reachTextNode('sub');
+//       }
+//     }
+//     this.focus();
+//   }
+
 }
