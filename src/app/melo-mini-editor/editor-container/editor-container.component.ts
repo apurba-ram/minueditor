@@ -5,7 +5,6 @@ import {
   OnChanges,
   forwardRef,
   ChangeDetectionStrategy,
-  SimpleChange,
   SimpleChanges,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
