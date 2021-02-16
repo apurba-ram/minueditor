@@ -1,5 +1,5 @@
 <!-- <p>editor-menu works!</p> -->
-<div class="editor-menu" (click)="buttonClicked($event)">
+<div class="editor-menu">
     <!-- Bold -->
     <div class="col" data-id="bold">
         <button data-id="bold">
@@ -84,23 +84,66 @@
     </div>
     <!-- list -->
     <div class="col" data-id="unordered-list">
-        <button data-id="unordered-list">
-            <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg"
-                data-id="unordered-list">
-                <path data-id="unordered-list"
-                    d="M24.2432 28.2834C10.8284 28.2834 0 39.1118 0 52.5267C0 65.9415 10.8284 76.7699 24.2432 76.7699C37.6581 76.7699 48.4865 65.9415 48.4865 52.5267C48.4865 39.1118 37.6581 28.2834 24.2432 28.2834Z" />
-                <path data-id="unordered-list"
-                    d="M24.2432 125.256C10.8284 125.256 0 136.085 0 149.5C0 162.914 10.8284 173.743 24.2432 173.743C37.6581 173.743 48.4865 162.914 48.4865 149.5C48.4865 136.085 37.6581 125.256 24.2432 125.256Z" />
-                <path data-id="unordered-list"
-                    d="M24.2432 222.229C10.7481 222.229 0 233.139 0 246.472C0 259.806 10.9095 270.716 24.2432 270.716C37.577 270.716 48.4865 259.806 48.4865 246.472C48.4865 233.139 37.7384 222.229 24.2432 222.229Z" />
-                <path data-id="unordered-list" d="M299 230.311H72.7297V262.635H299V230.311Z" />
-                <path data-id="unordered-list" d="M299 36.3647H72.7297V68.6893H299V36.3647Z" />
-                <path data-id="unordered-list" d="M299 133.338H72.7297V165.662H299V133.338Z" />
+        <button data-id="unordered-list" class="lg" [class.active]="listStyle" (click)="listStyles()">
+            <svg width="595" height="400" viewBox="0 0 595 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M34.3783 20C15.3553 20 0 35.6776 0 55.1C0 74.5224 15.3553 90.2 34.3783 90.2C53.4013 90.2 68.7566 74.5224 68.7566 55.1C68.7566 35.6776 53.4013 20 34.3783 20Z" />
+                <path d="M34.3783 160.4C15.3553 160.4 0 176.077 0 195.5C0 214.922 15.3553 230.6 34.3783 230.6C53.4013 230.6 68.7566 214.922 68.7566 195.5C68.7566 176.077 53.4013 160.4 34.3783 160.4Z" />
+                <path d="M34.3783 300.8C15.2414 300.8 0 316.595 0 335.9C0 355.205 15.4702 371 34.3783 371C53.2864 371 68.7566 355.205 68.7566 335.9C68.7566 316.595 53.5152 300.8 34.3783 300.8Z" />
+                <path d="M424 312.5H103.135V359.301H424V312.5Z" />
+                <path d="M424 31.7002H103.135V78.5006H424V31.7002Z" />
+                <path d="M424 172.1H103.135V218.901H424V172.1Z" />
+                <path d="M595 162L538 228L481 162H594.989H595Z" />
             </svg>
         </button>
+        <div class="popover small" *ngIf="listStyle" clickOutside (clickOutside)="closePopover()">
+            <ul class="option-list">
+                <li data-id="left-align">
+                    <!-- List with Number -->
+                    <button data-id="left-align">
+                        <svg width="298" height="298" viewBox="0 0 298 298" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" data-id="ordered-list">
+                            <g clip-path="url(#clip0)">
+                                <path data-id="ordered-list"
+                                    d="M0 242.125H31.3687V251.438H15.684V270.063H31.3687V279.375H0V298H47.0527V223.5H0V242.125Z" />
+                                <path data-id="ordered-list" d="M15.684 74.4998H31.3687V0H0V18.6247H15.684V74.4998Z" />
+                                <path data-id="ordered-list"
+                                    d="M0 130.375H28.2316L0 169.487V186.25H47.0527V167.625H18.8211L47.0527 128.513V111.75H0V130.375Z" />
+                                <path data-id="ordered-list" d="M298.001 242.125H78.4214V279.375H298.001V242.125Z" />
+                                <path data-id="ordered-list" d="M298.001 18.6246H78.4214V55.875H298.001V18.6246Z" />
+                                <path data-id="ordered-list" d="M298.001 130.375H78.4214V167.625H298.001V130.375Z" />
+                            </g>
+                            <defs>
+                                <clipPath id="clip0">
+                                    <rect width="298" height="298" fill="white" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        <span data-id="left-align">List with number</span>
+                    </button>
+                </li>
+                <li data-id="center-align">
+                    <!-- List with bullets -->
+                    <button data-id="center-align">
+                        <svg width="299" height="299" viewBox="0 0 299 299" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" data-id="unordered-list">
+                            <path data-id="unordered-list"
+                                d="M24.2432 28.2834C10.8284 28.2834 0 39.1118 0 52.5267C0 65.9415 10.8284 76.7699 24.2432 76.7699C37.6581 76.7699 48.4865 65.9415 48.4865 52.5267C48.4865 39.1118 37.6581 28.2834 24.2432 28.2834Z" />
+                            <path data-id="unordered-list"
+                                d="M24.2432 125.256C10.8284 125.256 0 136.085 0 149.5C0 162.914 10.8284 173.743 24.2432 173.743C37.6581 173.743 48.4865 162.914 48.4865 149.5C48.4865 136.085 37.6581 125.256 24.2432 125.256Z" />
+                            <path data-id="unordered-list"
+                                d="M24.2432 222.229C10.7481 222.229 0 233.139 0 246.472C0 259.806 10.9095 270.716 24.2432 270.716C37.577 270.716 48.4865 259.806 48.4865 246.472C48.4865 233.139 37.7384 222.229 24.2432 222.229Z" />
+                            <path data-id="unordered-list" d="M299 230.311H72.7297V262.635H299V230.311Z" />
+                            <path data-id="unordered-list" d="M299 36.3647H72.7297V68.6893H299V36.3647Z" />
+                            <path data-id="unordered-list" d="M299 133.338H72.7297V165.662H299V133.338Z" />
+                        </svg>
+                        <span data-id="center-align">List with bullets</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
     </div>
     <!-- Number list -->
-    <div class="col" data-id="ordered-list">
+    <!-- <div class="col" data-id="ordered-list">
         <button data-id="ordered-list">
             <svg width="298" height="298" viewBox="0 0 298 298" fill="none" xmlns="http://www.w3.org/2000/svg"
                 data-id="ordered-list">
@@ -121,7 +164,7 @@
                 </defs>
             </svg>
         </button>
-    </div>
+    </div> -->
     <!-- Quote -->
     <div class="col" data-id="quote">
         <button data-id="quote">
@@ -149,7 +192,7 @@
                 </g>
             </svg>
         </button>
-        <div class="popup-mask" *ngIf="addLink">
+        <div class="popup-mask" *ngIf="addLink" clickOutside (clickOutside)="closePopover()">
             <div class="popover attach">
                 <div class="head">
                     <h3>Insert Link</h3>
@@ -190,7 +233,7 @@
             </svg>
 
         </button>
-        <div class="popup-mask" *ngIf="upload">
+        <div class="popup-mask" *ngIf="upload" clickOutside (clickOutside)="closePopover()">
             <div class="popover attach">
                 <div class="head">
                     <h3>Attach File</h3>
@@ -232,7 +275,7 @@
             </svg>
 
         </button>
-        <div class="popup-mask" *ngIf="uploadImage">
+        <div class="popup-mask" *ngIf="uploadImage" clickOutside (clickOutside)="closePopover()">
             <div class="popover attach">
                 <div class="head">
                     <h3>Attach Image</h3>
@@ -275,7 +318,7 @@
     </div>
     <!-- Text Align -->
     <div class="col">
-        <button (click)="alignPopover()" [class.active]="alignment">
+        <button (click)="alignPopover()" [class.active]="alignment" class="lg">
             <svg width="595" height="400" viewBox="0 0 595 400" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M394.311 356.146H0V400H394.311V356.146Z" />
                 <path d="M284.78 267.11H0V310.963H284.78V267.11Z" />
@@ -285,20 +328,21 @@
                 <path d="M595 178L529.5 252L464 178H594.987H595Z" />
             </svg>
         </button>
-        <div class="popover small" *ngIf="alignment">
+        <div class="popover small" *ngIf="alignment" clickOutside (clickOutside)="closePopover()">
             <ul class="option-list">
                 <li data-id="left-align">
                     <!-- Left Align -->
                     <button data-id="left-align">
-                        <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve" data-id="left-align">
+                        <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve"
+                            data-id="left-align">
                             <g>
                                 <g>
                                     <g>
-                                        <rect x="0" y="341.333" width="384" height="42.667" data-id="left-align"/>
-                                        <rect x="0" y="256" width="256" height="42.667" data-id="left-align"/>
-                                        <rect x="0" y="85.333" width="256" height="42.667" data-id="left-align"/>
-                                        <rect x="0" y="170.667" width="384" height="42.667" data-id="left-align"/>
-                                        <rect x="0" y="0" width="384" height="42.667" data-id="left-align"/>
+                                        <rect x="0" y="341.333" width="384" height="42.667" data-id="left-align" />
+                                        <rect x="0" y="256" width="256" height="42.667" data-id="left-align" />
+                                        <rect x="0" y="85.333" width="256" height="42.667" data-id="left-align" />
+                                        <rect x="0" y="170.667" width="384" height="42.667" data-id="left-align" />
+                                        <rect x="0" y="0" width="384" height="42.667" data-id="left-align" />
                                     </g>
                                 </g>
                             </g>
@@ -309,15 +353,18 @@
                 <li data-id="center-align">
                     <!-- Center Align -->
                     <button data-id="center-align">
-                        <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve" data-id="center-align">
+                        <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve"
+                            data-id="center-align">
                             <g>
                                 <g>
                                     <g>
-                                        <rect x="85.333" y="256" width="213.333" height="42.667" data-id="center-align"/>
-                                        <rect x="0" y="341.333" width="384" height="42.667" data-id="center-align"/>
-                                        <rect x="0" y="170.667" width="384" height="42.667" data-id="center-align"/>
-                                        <rect x="85.333" y="85.333" width="213.333" height="42.667" data-id="center-align"/>
-                                        <rect x="0" y="0" width="384" height="42.667" data-id="center-align"/>
+                                        <rect x="85.333" y="256" width="213.333" height="42.667"
+                                            data-id="center-align" />
+                                        <rect x="0" y="341.333" width="384" height="42.667" data-id="center-align" />
+                                        <rect x="0" y="170.667" width="384" height="42.667" data-id="center-align" />
+                                        <rect x="85.333" y="85.333" width="213.333" height="42.667"
+                                            data-id="center-align" />
+                                        <rect x="0" y="0" width="384" height="42.667" data-id="center-align" />
                                     </g>
                                 </g>
                             </g>
@@ -328,15 +375,16 @@
                 <li data-id="right-align">
                     <!-- Right Align -->
                     <button data-id="right-align">
-                        <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve" data-id="right-align">
+                        <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve"
+                            data-id="right-align">
                             <g>
                                 <g>
                                     <g>
-                                        <rect x="128" y="256" width="256" height="42.667" data-id="right-align"/>
-                                        <rect x="0" y="341.333" width="384" height="42.667" data-id="right-align"/>
-                                        <rect x="0" y="0" width="384" height="42.667" data-id="right-align"/>
-                                        <rect x="0" y="170.667" width="384" height="42.667" data-id="right-align"/>
-                                        <rect x="128" y="85.333" width="256" height="42.667" data-id="right-align"/>
+                                        <rect x="128" y="256" width="256" height="42.667" data-id="right-align" />
+                                        <rect x="0" y="341.333" width="384" height="42.667" data-id="right-align" />
+                                        <rect x="0" y="0" width="384" height="42.667" data-id="right-align" />
+                                        <rect x="0" y="170.667" width="384" height="42.667" data-id="right-align" />
+                                        <rect x="128" y="85.333" width="256" height="42.667" data-id="right-align" />
                                     </g>
                                 </g>
                             </g>
