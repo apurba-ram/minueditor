@@ -27,20 +27,24 @@ export class EditorMenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  buttonClicked(event: string) {
-    this.buttonClick.emit(event);
+  buttonClicked(event: any): void {
+    event.stopPropagation();
+    console.log(event?.dataset);
+    this.buttonClick.emit(event?.dataset);
   }
 
-  attachPopover() {
-    
+  attachPopover(): void{
+
   }
-  dragenter(e) {
+  dragenter(e): void {
     this.enter = true;
   }
-  dragend(e) {
+
+  dragend(e): void {
     this.enter = false;
   }
-  dragleave(e) {
+
+  dragleave(e): void {
     this.enter = false;
   }
 }

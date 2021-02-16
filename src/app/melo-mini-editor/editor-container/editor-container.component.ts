@@ -163,9 +163,9 @@ export class EditorContainerComponent implements OnInit, OnChanges {
 
   getPrecedingCharacter(container: any): string {
     if (this.sel) {
-        const r = this.sel.getRangeAt(0).cloneRange();
-        r.setStart(container, 0);
-        return r.toString().slice(-1);
+      const r = this.sel.getRangeAt(0).cloneRange();
+      r.setStart(container, 0);
+      return r.toString().slice(-1);
     }
     return '';
   }
@@ -173,7 +173,7 @@ export class EditorContainerComponent implements OnInit, OnChanges {
   checkValidOperation(elem: any): boolean {
     if (elem) {
       if (elem === document.getElementById(this.id)) {
-         return true;
+        return true;
       } else {
         return this.checkValidOperation(elem?.parentNode);
       }
@@ -279,6 +279,24 @@ export class EditorContainerComponent implements OnInit, OnChanges {
         return match + str;
       });
       document.execCommand('insertHtml', false, pastedHtml);
+    }
+  }
+
+  toolbarClicked(event: any): void {
+    switch (event.id) {
+      case 'bold':
+      case 'italic':
+      case 'line-through':
+      case 'underline':
+      case 'unordered-list':
+      case 'ordered-list':
+      case 'quote':
+      case 'link':
+      case 'left-align':
+      case 'center-align':
+      case 'right-align':
+      case 'fill-color':
+      case 'text-color':
     }
   }
 }

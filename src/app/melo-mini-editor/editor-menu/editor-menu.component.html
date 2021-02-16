@@ -1,20 +1,9 @@
 <!-- <p>editor-menu works!</p> -->
-<div class="editor-menu">
+<div class="editor-menu" (click)="buttonClicked($event)">
     <!-- Bold -->
     <div class="col">
-        <button>
-            <!-- <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 298.667 298.667" xml:space="preserve">
-            <g>
-                <g>
-                    <path
-                        d="M218.133,144.853c20.587-14.4,35.2-37.653,35.2-59.52C253.333,37.227,216.107,0,168,0H34.667v298.667h150.187
-                        c44.693,0,79.147-36.267,79.147-80.853C264,185.387,245.547,157.76,218.133,144.853z M98.667,53.333h64c17.707,0,32,14.293,32,32
-                        s-14.293,32-32,32h-64V53.333z M173.333,245.333H98.667v-64h74.667c17.707,0,32,14.293,32,32S191.04,245.333,173.333,245.333z" />
-                </g>
-            </g>
-        </svg> -->
-
-            <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <button data-id="bold">
+            <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg" data-id="bold">
                 <g clip-path="url(#clip0)">
                     <path
                         d="M213.133 144.853C240.5 134.5 248.333 102.2 248.333 80.333C248.333 32.227 211.107 0 168 0H44.667V298.667H184.854C224.547 298.667 254.001 269 254.001 217.814C254 185.387 240.547 157.76 213.133 144.853ZM93.667 48.333H162.667C180.374 48.333 194.667 62.626 194.667 80.333C194.667 98.04 180.374 117.333 162.667 117.333H93.667V48.333ZM173.333 250.333H93.667V181.333H173.334C191.041 181.333 205.334 197.626 205.334 215.333C205.334 234.5 191.04 250.333 173.333 250.333Z" />
@@ -29,19 +18,8 @@
     </div>
     <!-- Italic -->
     <div class="col">
-        <button>
-            <!-- <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 298.667 298.667"
-            style="enable-background:new 0 0 298.667 298.667;" xml:space="preserve">
-            <g>
-                <g>
-                    <polygon points="106.667,0 106.667,64 153.92,64 80.747,234.667 21.333,234.667 21.333,298.667 192,298.667 192,234.667 
-                        144.747,234.667 217.92,64 277.333,64 277.333,0 		" />
-                </g>
-            </g>
-        </svg> -->
-
-
-            <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <button data-id="italic">
+            <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg" data-id="italic">
                 <g clip-path="url(#clip0)">
                     <path
                         d="M105.881 0V54H154.873L79.104 244.667H21V298.667H190.761V244.667H139.78L214.554 54H275.641V0H105.881Z" />
@@ -57,8 +35,8 @@
     </div>
     <!-- Underline -->
     <div class="col">
-        <button>
-            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384"
+        <button data-id="underline">
+            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" data-id="underline"
                 style="enable-background:new 0 0 384 384;" xml:space="preserve">
                 <g>
                     <g>
@@ -74,8 +52,8 @@
     </div>
     <!-- Line through -->
     <div class="col">
-        <button>
-            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve">
+        <button data-id="line-through">
+            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve" data-id="line-through">
                 <g>
                     <g>
                         <g>
@@ -104,26 +82,8 @@
     </div>
     <!-- list -->
     <div class="col">
-        <button>
-            <!-- <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 394.667 394.667" xml:space="preserve">
-            <g>
-                <g>
-                    <g>
-                        <path
-                            d="M32,37.333c-17.707,0-32,14.293-32,32s14.293,32,32,32s32-14.293,32-32S49.707,37.333,32,37.333z" />
-                        <path
-                            d="M32,165.333c-17.707,0-32,14.293-32,32s14.293,32,32,32s32-14.293,32-32S49.707,165.333,32,165.333z" />
-                        <path
-                            d="M32,293.333c-17.813,0-32,14.4-32,32c0,17.6,14.4,32,32,32c17.6,0,32-14.4,32-32C64,307.733,49.813,293.333,32,293.333z" />
-                        <rect x="96" y="304" width="298.667" height="42.667" />
-                        <rect x="96" y="48" width="298.667" height="42.667" />
-                        <rect x="96" y="176" width="298.667" height="42.667" />
-                    </g>
-                </g>
-            </g>
-        </svg> -->
-
-            <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <button data-id="unordered-list">
+            <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg" data-id="unordered-list">
                 <path
                     d="M24.2432 28.2834C10.8284 28.2834 0 39.1118 0 52.5267C0 65.9415 10.8284 76.7699 24.2432 76.7699C37.6581 76.7699 48.4865 65.9415 48.4865 52.5267C48.4865 39.1118 37.6581 28.2834 24.2432 28.2834Z" />
                 <path
@@ -138,26 +98,8 @@
     </div>
     <!-- Number list -->
     <div class="col">
-        <button>
-            <!-- <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 405.333 405.333" xml:space="preserve">
-            <g>
-                <g>
-                    <g>
-                        <polygon points="0,309.333 42.667,309.333 42.667,320 21.333,320 21.333,341.333 42.667,341.333 42.667,352 0,352 0,373.333 
-				64,373.333 64,288 0,288 			" />
-                        <polygon points="21.333,117.333 42.667,117.333 42.667,32 0,32 0,53.333 21.333,53.333 			" />
-                        <polygon
-                            points="0,181.333 38.4,181.333 0,226.133 0,245.333 64,245.333 64,224 25.6,224 64,179.2 64,160 0,160 			" />
-                        <rect x="106.667" y="309.333" width="298.667" height="42.667" />
-                        <rect x="106.667" y="53.333" width="298.667" height="42.667" />
-                        <rect x="106.667" y="181.333" width="298.667" height="42.667" />
-                    </g>
-                </g>
-            </g>
-
-        </svg> -->
-
-            <svg width="298" height="298" viewBox="0 0 298 298" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <button data-id="ordered-list">
+            <svg width="298" height="298" viewBox="0 0 298 298" fill="none" xmlns="http://www.w3.org/2000/svg" data-id="ordered-list">
                 <g clip-path="url(#clip0)">
                     <path
                         d="M0 242.125H31.3687V251.438H15.684V270.063H31.3687V279.375H0V298H47.0527V223.5H0V242.125Z" />
@@ -178,20 +120,8 @@
     </div>
     <!-- Quote -->
     <div class="col">
-        <button>
-            <!-- <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 298.667 298.667" xml:space="preserve">
-            <g>
-                <g>
-                    <g>
-                        <polygon
-                            points="0,170.667 64,170.667 21.333,256 85.333,256 128,170.667 128,42.667 0,42.667 			" />
-                        <polygon
-                            points="170.667,42.667 170.667,170.667 234.667,170.667 192,256 256,256 298.667,170.667 298.667,42.667 			" />
-                    </g>
-                </g>
-            </g>
-        </svg> -->
-            <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <button data-id="quote">
+            <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg" data-id="quote">
                 <path d="M0 169.4H64.0714L21.3568 299H85.4281L128.143 169.4V0H0V169.4Z" />
                 <path d="M170.143 0V169.4H234.214L191.499 299H255.571L298.285 169.4V0H170.143Z" />
             </svg>
@@ -199,8 +129,8 @@
     </div>
     <!-- Link -->
     <div class="col">
-        <button>
-            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 426.667 426.667" xml:space="preserve">
+        <button data-id="link">
+            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 426.667 426.667" xml:space="preserve" data-id="link">
                 <g>
                     <g>
                         <g>
@@ -268,8 +198,8 @@
     </div>
     <!-- Left Align -->
     <div class="col">
-        <button>
-            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve">
+        <button data-id="left-align">
+            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve" data-id="left-align">
                 <g>
                     <g>
                         <g>
@@ -286,8 +216,8 @@
     </div>
     <!-- Center Align -->
     <div class="col">
-        <button>
-            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve">
+        <button data-id="center-align">
+            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve" data-id="center-align">
                 <g>
                     <g>
                         <g>
@@ -304,8 +234,8 @@
     </div>
     <!-- Right Align -->
     <div class="col">
-        <button>
-            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve">
+        <button data-id="right-align">
+            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve" data-id="right-align">
                 <g>
                     <g>
                         <g>
@@ -322,27 +252,8 @@
     </div>
     <!-- Fill Color -->
     <div class="col">
-        <button>
-            <!-- <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">
-            <g>
-                <g>
-                    <g>
-                        <path d="M405.333,245.333c0,0-42.667,46.187-42.667,74.667c0,23.573,19.093,42.667,42.667,42.667
-                            C428.907,362.667,448,343.573,448,320C448,291.52,405.333,245.333,405.333,245.333z" />
-                        <path d="M162.56,0l-30.187,30.187l50.773,50.773L73.387,190.72c-12.48,12.48-12.48,32.747,0,45.227L190.72,353.28
-                            c6.187,6.293,14.4,9.387,22.613,9.387s16.427-3.093,22.613-9.387L353.28,235.947c12.48-12.48,12.48-32.747,0-45.227L162.56,0z
-                            M111.04,213.333l102.293-102.187l102.293,102.187H111.04z" />
-                    </g>
-                </g>
-            </g>
-            <g>
-                <g>
-                    <rect y="426.667" width="512" height="85.333" />
-                </g>
-            </g>
-        </svg> -->
-
-            <svg width="298" height="298" viewBox="0 0 298 298" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <button data-id="fill-color">
+            <svg width="298" height="298" viewBox="0 0 298 298" fill="none" xmlns="http://www.w3.org/2000/svg" data-id="fill-color">
                 <path
                     d="M235.917 142.791C235.917 142.791 211.083 169.674 211.083 186.25C211.083 199.97 222.196 211.084 235.917 211.084C249.637 211.084 260.75 199.97 260.75 186.25C260.75 169.674 235.917 142.791 235.917 142.791Z" />
                 <path
@@ -355,8 +266,8 @@
     </div>
     <!-- Text Color -->
     <div class="col">
-        <button>
-            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">
+        <button data-id="text-color">
+            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve" data-id="text-color">
                 <g>
                     <g>
                         <g>
