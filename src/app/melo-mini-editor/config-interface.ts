@@ -1,7 +1,7 @@
 export default interface EditorConfig {
     file?: boolean;
     mentionedNames?: MentionedName[];
-    mentionedDates?: string[]; 
+    mentionedDates?: string[];
     colorPalette?: string[];
     buttonName?: string;
     fontColor?: boolean;

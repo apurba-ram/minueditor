@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-
+// ChangeDetectionStrategy
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less']
+  styleUrls: ['./app.component.less'],
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
   title = 'minieditor';
@@ -11,7 +12,7 @@ export class AppComponent {
   modelvalue = '';
   editorConfig = {
     file: true,
-    mentionedNames: [{ _id: 'asd', name: 'Alec'}, { _id: 'asg5d', name: 'Pappu'}, { _id: 'asdqq', name: 'Joyce'}],
+    mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],
     mentionedDates: ['19-02-2020', '11-02-2020', '12-02-2020', '14-02-2020'],
     buttonName: 'Comment',
     fontColor: true,
