@@ -262,7 +262,7 @@
     </div>
     <!-- Image -->
     <div class="col">
-        <button (click)="attachPopover()" [class.active]="upload">
+        <button (click)="imagePopover()" [class.active]="uploadImage">
 
             <svg width="199" height="199" viewBox="0 0 199 199" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0)">
@@ -278,7 +278,7 @@
             </svg>
 
         </button>
-        <div class="popover" *ngIf="upload">
+        <div class="popover" *ngIf="uploadImage">
             <div class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragenter($event)"
                 (dragend)="dragend($event)" (dragleave)="dragleave($event)" [class.enter]="enter">
                 <input type="file" id="browse">
@@ -292,7 +292,7 @@
                 <input type="text" placeholder="http://exampleimage.com/image.jpg">
             </div>
             <div class="footer">
-                <button class="cancel" (click)="attachPopover()">Cancel</button><button class="upload">Save</button>
+                <button class="cancel" (click)="imagePopover()">Cancel</button><button class="upload">Save</button>
             </div>
         </div>
     </div>

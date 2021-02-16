@@ -11,6 +11,7 @@ export class EditorMenuComponent implements OnInit {
   @Output() buttonClick: EventEmitter<string> = new EventEmitter();
   enter = false;
   upload= false;
+  uploadImage = false;
   alignment = false;
   constructor() {
     this.editorConfig = {
@@ -47,5 +48,8 @@ export class EditorMenuComponent implements OnInit {
   }
   alignPopover() {
     this.alignment = !this.alignment;
+  }
+  imagePopover() {
+    this.uploadImage = !this.uploadImage;
   }
 }
