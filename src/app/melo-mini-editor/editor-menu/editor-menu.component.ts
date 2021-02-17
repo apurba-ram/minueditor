@@ -3,7 +3,7 @@ import EditorConfig from '../config-interface';
 @Component({
   selector: 'app-editor-menu',
   templateUrl: './editor-menu.component.html',
-  styleUrls: ['./editor-menu.component.less']
+  styleUrls: ['./editor-menu.component.less', '../theme.less']
 })
 export class EditorMenuComponent implements OnInit {
 
