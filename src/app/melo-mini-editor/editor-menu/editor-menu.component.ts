@@ -20,6 +20,8 @@ export class EditorMenuComponent implements OnInit {
   filesArray: any[];
   ShowFiles: boolean;
   fontStyle = false;
+  fillColor = false;
+  setTextColor = false;
   constructor() {
     this.editorConfig = {
       file: false,
@@ -127,6 +129,12 @@ export class EditorMenuComponent implements OnInit {
   fontStylePopover(): void  {
     this.fontStyle = !this.fontStyle;
   }
+  highlight(): void {
+    this.fillColor = !this.fillColor;
+  }
+  textColor(): void {
+    this.setTextColor = !this.setTextColor;
+  }
   closePopover(): void  {
     this.filesArray = [];
     this.alignment = false;
@@ -136,6 +144,8 @@ export class EditorMenuComponent implements OnInit {
     this.listStyle = false;
     this.ShowFiles = false;
     this.fontStyle = false;
+    this.fillColor = false;
+    this.setTextColor = false;
   }
 
   closeAlignPopover(): void {
@@ -161,5 +171,11 @@ export class EditorMenuComponent implements OnInit {
   }
   closeFontStylePopover(): void  {
     this.fontStyle = false;
+  }
+  closeHighlitePopover(): void  {
+    this.fillColor = false;
+  }
+  closeTextColorPopover(): void {
+    this.setTextColor = false;
   }
 }

@@ -294,7 +294,7 @@
             </svg>
 
         </button>
-        <div class="popup-mask" *ngIf="uploadImage" (click)="closePopover()">
+        <div class="popup-mask" *ngIf="uploadImage">
             <div class="popover attach">
                 <div class="head">
                     <h3>Attach Image</h3>
@@ -309,10 +309,10 @@
                         <label for="browse">Browse</label>
                     </div>
                 </div>
-                <!-- <div class="link">
+                <div class="link">
                     <label>You can also add a image link here</label>
                     <input type="text" placeholder="http://exampleimage.com/image.jpg">
-                </div> -->
+                </div>
                 <div class="footer">
                     <button class="cancel" (click)="imagePopover()">Cancel</button><button class="upload">Save</button>
                 </div>
@@ -457,8 +457,8 @@
         </button>
     </div> -->
     <!-- Fill Color -->
-    <div class="col" data-id="fill-color">
-        <button data-id="fill-color">
+    <div class="col" data-id="fill-color" clickOutside (clickOutside)="closeHighlitePopover()">
+        <button data-id="fill-color" (click)="highlight()" [class.active]="fillColor">
             <svg width="298" height="298" viewBox="0 0 298 298" fill="none" xmlns="http://www.w3.org/2000/svg"
                 data-id="fill-color">
                 <path data-id="fill-color"
@@ -470,10 +470,13 @@
                 </g>
             </svg>
         </button>
+        <div class="popover color-palette" *ngIf="fillColor">
+            <app-color-palette></app-color-palette>
+        </div>
     </div>
     <!-- Text Color -->
-    <div class="col" data-id="text-color">
-        <button data-id="text-color">
+    <div class="col" data-id="text-color" clickOutside (clickOutside)="closeTextColorPopover()">
+        <button data-id="text-color" (click)="textColor()" [class.active]="fillColor">
             <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve"
                 data-id="text-color">
                 <g>
@@ -493,6 +496,9 @@
                 </g>
             </svg>
         </button>
+        <div class="popover color-palette" *ngIf="setTextColor">
+            <app-color-palette></app-color-palette>
+        </div>
     </div>
     <!-- Superscript -->
     <div class="col">
