@@ -30,7 +30,7 @@ import { NgZone } from '@angular/core';
 })
 export class EditorContainerComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy, AfterViewChecked {
   @Input() editorConfig: EditorConfig;
-
+  @Input() multiple: boolean;
   html: string;
   innerText: string;
   lastChar: string;
