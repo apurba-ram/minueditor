@@ -141,30 +141,7 @@
                 </li>
             </ul>
         </div>
-    </div>
-    <!-- Number list -->
-    <!-- <div class="col" data-id="ordered-list">
-        <button data-id="ordered-list">
-            <svg width="298" height="298" viewBox="0 0 298 298" fill="none" xmlns="http://www.w3.org/2000/svg"
-                data-id="ordered-list">
-                <g clip-path="url(#clip0)">
-                    <path data-id="ordered-list"
-                        d="M0 242.125H31.3687V251.438H15.684V270.063H31.3687V279.375H0V298H47.0527V223.5H0V242.125Z" />
-                    <path data-id="ordered-list" d="M15.684 74.4998H31.3687V0H0V18.6247H15.684V74.4998Z" />
-                    <path data-id="ordered-list"
-                        d="M0 130.375H28.2316L0 169.487V186.25H47.0527V167.625H18.8211L47.0527 128.513V111.75H0V130.375Z" />
-                    <path data-id="ordered-list" d="M298.001 242.125H78.4214V279.375H298.001V242.125Z" />
-                    <path data-id="ordered-list" d="M298.001 18.6246H78.4214V55.875H298.001V18.6246Z" />
-                    <path data-id="ordered-list" d="M298.001 130.375H78.4214V167.625H298.001V130.375Z" />
-                </g>
-                <defs>
-                    <clipPath id="clip0">
-                        <rect width="298" height="298" fill="white" />
-                    </clipPath>
-                </defs>
-            </svg>
-        </button>
-    </div> -->
+    </div>    
     <!-- Quote -->
     <div class="col" data-id="quote">
         <button data-id="quote">
@@ -300,8 +277,8 @@
         </div>
     </div>
     <!-- font-size -->
-    <div class="col">
-        <button>
+    <div class="col" clickOutside (clickOutside)="closeFontStylePopover()">
+        <button (click)="fontStylePopover()">
             <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 405.333 405.333" xml:space="preserve">
                 <g>
                     <g>
@@ -315,6 +292,34 @@
                 </g>
             </svg>
         </button>
+        <div class="popover small" *ngIf="fontStyle">
+            <ul class="option-list">
+                <li>
+                    <button>
+                        <h1>H1</h1>
+                        <span>Heading 1</span>
+                    </button>
+                </li>
+                <li>
+                    <button>
+                        <h2>H2</h2>
+                        <span>Heading 2</span>
+                    </button>
+                </li>
+                <li>
+                    <button>
+                        <h3>H3</h3>
+                        <span>Heading 3</span>
+                    </button>
+                </li>
+                <li>
+                    <button>
+                        <p>P</p>
+                        <span>Paragraph</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
     </div>
     <!-- Text Align -->
     <div class="col" clickOutside (clickOutside)="closeAlignPopover()">
@@ -396,7 +401,7 @@
         </div>
     </div>
     <!-- Font size -->
-    <div class="col">
+    <!-- <div class="col">
         <button>
             <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">
                 <g>
@@ -407,7 +412,7 @@
                 </g>
             </svg>
         </button>
-    </div>
+    </div> -->
     <!-- Fill Color -->
     <div class="col" data-id="fill-color">
         <button data-id="fill-color">

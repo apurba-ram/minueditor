@@ -15,14 +15,15 @@ export class EditorMenuComponent implements OnInit {
   alignment = false;
   addLink = false;
   listStyle = false;
+  fontStyle = false;
   constructor() {
     this.editorConfig = {
       file: false,
       mentionedNames: [],
       mentionedDates: [],
       colorPalette: ['#FF5630', '#000000', '#414141', '#36B37E',
-                     '#6554C0', '#FF7A00', '#008299', ' #1E5DD3',
-                     '#F0B819', '#00FFF7'],
+        '#6554C0', '#FF7A00', '#008299', ' #1E5DD3',
+        '#F0B819', '#00FFF7'],
       buttonName: '',
       fontColor: false,
       highlightColor: false
@@ -72,12 +73,16 @@ export class EditorMenuComponent implements OnInit {
   listStyles() {
     this.listStyle = !this.listStyle;
   }
+  fontStylePopover() {
+    this.fontStyle = !this.fontStyle;
+  }
   closePopover() {
     this.alignment = false;
     this.uploadImage = false;
     this.upload = false;
     this.addLink = false;
     this.listStyle = false;
+    this.fontStyle = false;
   }
   closeAlignPopover() {
     this.alignment = false;
@@ -93,5 +98,8 @@ export class EditorMenuComponent implements OnInit {
   }
   closeImagePopover() {
     this.uploadImage = false;
+  }
+  closeFontStylePopover() {
+    this.fontStyle = false;
   }
 }
