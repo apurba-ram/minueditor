@@ -403,15 +403,12 @@ export class EditorContainerComponent implements OnInit, OnChanges {
   //     }
   //     this.focus();
   //   }
-
   //   insertSubTag(): void {
   //     const { startContainer } = this.sel.getRangeAt(0);
   //     if (this.checkValidOperation(startContainer)) {
-
   //       if (this.supTag) {
   //         this.reachTextNode('sup');
   //       }
-
   //       if (!this.subTag) {
   //         const sub = document.createElement('sub');
   //         sub.innerHTML = '&#8204;';

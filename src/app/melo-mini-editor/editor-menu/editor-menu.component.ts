@@ -35,10 +35,9 @@ export class EditorMenuComponent implements OnInit {
 
   buttonClicked(event: any): void {
     event.stopPropagation();
-    console.log(event?.target?.dataset);
-    if (event?.target?.dataset?.id !== 'link' || event?.target?.dataset?.id !== 'attachment') {
+    if (event?.target?.dataset?.id === 'link' || event?.target?.dataset?.id === 'attachment') {
 
-    } else if (Object.keys(event?.target?.dataset).length > 0) {
+    } else if (event?.target?.dataset) {
       this.buttonClick.emit(event?.target?.dataset);
     }
   }
@@ -61,22 +60,26 @@ export class EditorMenuComponent implements OnInit {
   dragleave(e): void {
     this.enter = false;
   }
+
   alignPopover(): void {
     this.alignment = !this.alignment;
   }
+
   imagePopover(): void {
     this.uploadImage = !this.uploadImage;
   }
+
   addLinks(): void {
     this.addLink = !this.addLink;
   }
-  listStyles() {
+
+  listStyles(): void {
     this.listStyle = !this.listStyle;
   }
-  fontStylePopover() {
+  fontStylePopover(): void  {
     this.fontStyle = !this.fontStyle;
   }
-  closePopover() {
+  closePopover(): void  {
     this.alignment = false;
     this.uploadImage = false;
     this.upload = false;
@@ -84,22 +87,27 @@ export class EditorMenuComponent implements OnInit {
     this.listStyle = false;
     this.fontStyle = false;
   }
-  closeAlignPopover() {
+
+  closeAlignPopover(): void {
     this.alignment = false;
   }
-  closeListStylesPopover() {
+
+  closeListStylesPopover(): void {
     this.listStyle = false;
   }
-  closeAddLinksPopover() {
+
+  closeAddLinksPopover(): void {
     this.addLink = false;
   }
-  closeAttachPopover() {
+
+  closeAttachPopover(): void {
     this.upload = false;
   }
-  closeImagePopover() {
+
+  closeImagePopover(): void {
     this.uploadImage = false;
   }
-  closeFontStylePopover() {
+  closeFontStylePopover(): void  {
     this.fontStyle = false;
   }
 }
