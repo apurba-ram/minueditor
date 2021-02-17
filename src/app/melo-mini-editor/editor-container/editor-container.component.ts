@@ -8,7 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import EditorConfig from '../config-interface';
+import { EditorConfig } from '../editor-config-interface';
 import { nanoid } from 'nanoid';
 @Component({
   selector: 'app-editor-container',
