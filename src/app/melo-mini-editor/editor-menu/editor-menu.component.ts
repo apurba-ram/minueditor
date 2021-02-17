@@ -17,8 +17,8 @@ export class EditorMenuComponent implements OnInit {
   alignment = false;
   addLink = false;
   listStyle = false;
-  filesArray=[]
-  ShowFiles:boolean=false
+  filesArray: any[];
+  ShowFiles: boolean;
   fontStyle = false;
   constructor() {
     this.editorConfig = {
@@ -32,6 +32,7 @@ export class EditorMenuComponent implements OnInit {
       fontColor: false,
       highlightColor: false
     };
+    this.filesArray = [];
   }
 
   ngOnInit(): void {
@@ -64,33 +65,31 @@ export class EditorMenuComponent implements OnInit {
     // console.log(this.filesArray)
     this.enter = true;
   }
-  dropFile(e):void
-  {
-    e && e.preventDefault();
-    console.log("file drop")
-    this.filesArray.push(e.dataTransfer.files[0])
-    console.log("on drop files array",this.filesArray)
-    if(this.filesArray.length>0)
+  dropFile(e): void{
+    e && e.preventDefault(); // Why ???? - ALEC
+    console.log('file drop');
+    this.filesArray.push(e.dataTransfer.files[0]);
+    console.log('on drop files array', this.filesArray);
+    if (this.filesArray.length > 0)
     {
-      this.ShowFiles=true
+      this.ShowFiles = true;
     }
     // console.log("drop event",e)
   }
 
-  fileRemove(fileId):void
+  fileRemove(fileId): void
   {
-      console.log(fileId)
+      console.log(fileId);
   }
 
-  fileFromInput(e)
-  {
-    console.log("file from input")
+  fileFromInput(e): void {
+    console.log('file from input');
     // console.log(e.target.files)
   }
 
-  dragover(e):void
+  dragover(e): void
   {
-    e.preventDefault() 
+    e.preventDefault();
     // console.log("dragover")
     // e.preventDefault();
     // e.stopPropagation()
@@ -101,12 +100,12 @@ export class EditorMenuComponent implements OnInit {
   }
 
   dragend(e): void {
-    console.log("dragend")
+    console.log('dragend');
     this.enter = false;
   }
 
   dragleave(e): void {
-    console.log("dragleave")
+    console.log('dragleave');
     this.enter = false;
   }
 
@@ -129,13 +128,13 @@ export class EditorMenuComponent implements OnInit {
     this.fontStyle = !this.fontStyle;
   }
   closePopover(): void  {
-    this.filesArray=[];
+    this.filesArray = [];
     this.alignment = false;
     this.uploadImage = false;
     this.upload = false;
     this.addLink = false;
     this.listStyle = false;
-    this.ShowFiles=false
+    this.ShowFiles = false;
     this.fontStyle = false;
   }
 
@@ -152,9 +151,9 @@ export class EditorMenuComponent implements OnInit {
   }
 
   closeAttachPopover(): void {
-    this.filesArray=[]
+    this.filesArray = [];
     this.upload = false;
-    this.ShowFiles=false
+    this.ShowFiles = false;
   }
 
   closeImagePopover(): void {
