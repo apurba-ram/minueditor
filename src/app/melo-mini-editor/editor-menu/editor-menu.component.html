@@ -1,5 +1,5 @@
 <!-- <p>editor-menu works!</p> -->
-<div class="editor-menu">
+<div class="editor-menu" (click)="buttonClicked($event)">
     <!-- Bold -->
     <div class="col" data-id="bold">
         <button data-id="bold">
@@ -11,7 +11,7 @@
                 </g>
                 <defs>
                     <clipPath id="clip0">
-                        <rect width="298.667" height="298.667" fill="white" />
+                        <rect width="298.667" height="298.667" fill="white" data-id="bold"/>
                     </clipPath>
                 </defs>
             </svg>
