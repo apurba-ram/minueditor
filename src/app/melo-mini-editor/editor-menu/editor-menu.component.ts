@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import EditorConfig from '../config-interface';
+import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 @Component({
   selector: 'app-editor-menu',
   templateUrl: './editor-menu.component.html',
@@ -8,6 +8,7 @@ import EditorConfig from '../config-interface';
 export class EditorMenuComponent implements OnInit {
 
   @Input() editorConfig: EditorConfig;
+  @Input() toolbarConfig: ToolbarConfig;
   @Output() buttonClick: EventEmitter<string> = new EventEmitter();
   enter = false;
   upload = false;
