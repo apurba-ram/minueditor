@@ -139,6 +139,10 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
     }
   }
 
+  hello(): void {
+    console.log('HELLNO');
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.editorConfig && this.editorConfig) {
       this.placeholder = this.editorConfig?.placeholder ?? '';
