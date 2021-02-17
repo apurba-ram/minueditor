@@ -16,14 +16,14 @@ export interface MentionedName {
 }
 
 export interface ToolbarConfig {
-    bold: boolean;
-    italic: boolean;
-    strikeThrough: boolean;
-    underline: boolean;
-    orderedList: boolean;
-    unorderedList: boolean;
-    superscript: boolean;
-    subscript: boolean;
-    quote: boolean;
+    bold?: boolean;
+    italic?: boolean;
+    strikeThrough?: boolean;
+    underline?: boolean;
+    orderedList?: boolean;
+    unorderedList?: boolean;
+    superscript?: boolean;
+    subscript?: boolean;
+    quote?: boolean;
 }
 

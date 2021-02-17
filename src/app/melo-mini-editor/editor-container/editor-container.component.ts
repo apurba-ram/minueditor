@@ -6,6 +6,8 @@ import {
   forwardRef,
   ChangeDetectionStrategy,
   SimpleChanges,
+  AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
@@ -23,7 +25,7 @@ import { nanoid } from 'nanoid';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditorContainerComponent implements OnInit, OnChanges {
+export class EditorContainerComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   @Input() editorConfig: EditorConfig;
 
   html: string;
@@ -113,6 +115,40 @@ export class EditorContainerComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.sel = window.getSelection();
+  }
+
+  ngAfterViewInit(): void {
+    document.addEventListener('selectionchange', this.selectionChange.bind(this), false);
+  }
+
+  ngOnDestroy(): void {
+    document.removeEventListener('selectionchange', this.selectionChange.bind(this), false);
+  }
+
+  selectionChange(event: any): void {
+    console.log(document.activeElement,
+                document.activeElement === document.getElementById(this.id),
+                this.id, document.getElementById(this.id));
+    if (document.activeElement === document.getElementById(this.id)) {
+      // this.bold = document.queryCommandState('bold');
+      // this.italic = document.queryCommandState('italic');
+      // this.strikeThrough = document.queryCommandState('strikeThrough');
+      // this.underline = document.queryCommandState('underline');
+      // this.orderedList = document.queryCommandState('insertorderedList');
+      // this.unorderedList = document.queryCommandState('insertunorderedList');
+      // this.blockquote = this.checkParent(this.sel.anchorNode, 'blockquote');
+      // this.supTag = this.checkParent(this.sel.anchorNode, 'sup');
+      // this.subTag = this.checkParent(this.sel.anchorNode, 'sub');
+      console.log('HERE');
+      this.toolbarConfig = {
+        bold: document.queryCommandState('bold'),
+        italic: document.queryCommandState('italic'),
+        strikeThrough: document.queryCommandState('strikeThrough'),
+        underline: document.queryCommandState('underline'),
+        orderedList: document.queryCommandState('insertorderedList'),
+        unorderedList: document.queryCommandState('insertunorderedList')
+      };
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -268,6 +304,7 @@ export class EditorContainerComponent implements OnInit, OnChanges {
     }
     //  this.valueInput = true;
   }
+
   onPaste(event: any): void {
     event.preventDefault();
     const clipboardData = event.clipboardData;
