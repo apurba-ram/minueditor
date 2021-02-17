@@ -230,6 +230,7 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
 
   blur(): void {
     this.oldRange = this.sel.getRangeAt(0).cloneRange(); // to store the range when element is blurred
+    console.log('R1', this.oldRange);
     // this.bold = false;
     // this.italic =  false;
     // this.orderedList = false;
@@ -335,19 +336,18 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
   }
 
   toolbarClicked(event: any): void {
-    if (!this.sel || !this.sel.anchorNode) {
-      this.focus();
-      this.toolbarOperations(event?.id);
+    if (this.oldRange) {
+      this.sel.removeAllRanges();
+      const range = this.oldRange.cloneRange();
+      const t = document.createTextNode('');
+      range.insertNode(t);
+      range.setStartAfter(t);
+      range.collapse();
+      this.sel.addRange(range);
     } else {
-      const { startContainer } = this.sel.getRangeAt(0);
-      if (this.checkValidOperation(startContainer)) {
-        this.toolbarOperations(event?.id);
-        this.focus();
-      } else {
-        this.focus();
-        return;
-      }
+      this.focus();
     }
+    this.toolbarOperations(event?.id);
   }
 
   toolbarOperations(id: string): void {
