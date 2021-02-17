@@ -52,14 +52,14 @@
         </button>
     </div>
     <!-- Line through -->
-    <div class="col" data-id="line-through">
-        <button data-id="line-through" [class.active]="toolbarConfig?.strikeThrough">
+    <div class="col" data-id="strikeThrough">
+        <button data-id="strikeThrough" [class.active]="toolbarConfig?.strikeThrough">
             <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve"
-                data-id="line-through">
+                data-id="strikeThrough">
                 <g>
                     <g>
                         <g>
-                            <path data-id="line-through" d="M90.347,154.667c1.067,1.92,2.24,3.627,3.307,5.44H192c-13.653-4.693-21.973-9.707-29.973-14.933
+                            <path data-id="strikeThrough" d="M90.347,154.667c1.067,1.92,2.24,3.627,3.307,5.44H192c-13.653-4.693-21.973-9.707-29.973-14.933
                             c-10.453-6.933-15.68-15.573-15.68-25.813c0-4.907,1.067-9.707,3.093-14.08s5.12-8.213,9.173-11.52
                             c4.053-3.307,9.173-5.867,15.36-7.68c6.293-1.813,13.547-2.773,21.973-2.773c8.747,0,16.32,1.067,22.72,3.307
                             c6.4,2.133,11.733,5.333,16,9.28s7.467,8.747,9.493,14.4c2.027,5.547,3.093,11.627,3.093,18.133h64.213
@@ -67,7 +67,7 @@
                             c-14.08-4.8-29.76-7.147-47.04-7.147c-16.853,0-32.213,2.133-46.293,6.293c-14.08,4.16-26.133,10.027-36.373,17.6
                             c-10.24,7.573-18.133,16.747-23.787,27.52s-8.427,22.613-8.427,35.627C82.133,132.693,84.907,144.533,90.347,154.667
                             L90.347,154.667z" />
-                            <path data-id="line-through" d="M0,181.44v42.667h205.333c3.84,1.493,8.533,2.987,11.733,4.373c7.893,3.52,14.08,7.253,18.56,10.88
+                            <path data-id="strikeThrough" d="M0,181.44v42.667h205.333c3.84,1.493,8.533,2.987,11.733,4.373c7.893,3.52,14.08,7.253,18.56,10.88
                             c4.48,3.733,7.467,7.787,9.067,12.053c1.6,4.373,2.347,9.28,2.347,14.613c0,5.013-0.96,9.707-2.88,13.973
                             c-1.92,4.373-4.907,8.107-8.853,11.2c-3.947,3.093-9.067,5.547-15.147,7.36c-6.187,1.813-13.333,2.667-21.653,2.667
                             c-9.28,0-17.707-0.96-25.28-2.773c-7.573-1.813-13.973-4.8-19.307-8.853c-5.333-4.053-9.493-9.387-12.48-15.893
@@ -100,47 +100,45 @@
         </button>
         <div class="popover small" *ngIf="listStyle" (click)="closeListStylesPopover()">
             <ul class="option-list">
-                <li data-id="ordered-list">
+                <li data-id="orderedList">
                     <!-- List with Number -->
-                    <button data-id="ordered-list" [class.active]="toolbarConfig?.orderedList">
-                        <svg width="298" height="298" viewBox="0 0 298 298" fill="none" data-id="ordered-list"
-                            xmlns="http://www.w3.org/2000/svg" data-id="ordered-list">
+                    <button data-id="orderedList" [class.active]="toolbarConfig?.orderedList">
+                        <svg width="298" height="298" viewBox="0 0 298 298" fill="none" data-id="orderedList"
+                            xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0)">
-                                <path data-id="ordered-list"
+                                <path data-id="orderedList"
                                     d="M0 242.125H31.3687V251.438H15.684V270.063H31.3687V279.375H0V298H47.0527V223.5H0V242.125Z" />
-                                <path d="M15.684 74.4998H31.3687V0H0V18.6247H15.684V74.4998Z" data-id="ordered-list" />
-                                <path
-                                    d="M0 130.375H28.2316L0 169.487V186.25H47.0527V167.625H18.8211L47.0527 128.513V111.75H0V130.375Z"
-                                    data-id="ordered-list" />
-                                <path d="M298.001 242.125H78.4214V279.375H298.001V242.125Z" data-id="ordered-list" />
-                                <path d="M298.001 18.6246H78.4214V55.875H298.001V18.6246Z" data-id="ordered-list" />
-                                <path d="M298.001 130.375H78.4214V167.625H298.001V130.375Z" data-id="ordered-list" />
+                                <path d="M15.684 74.4998H31.3687V0H0V18.6247H15.684V74.4998Z" data-id="orderedList" />
+                                <path d="M0 130.375H28.2316L0 169.487V186.25H47.0527V167.625H18.8211L47.0527 128.513V111.75H0V130.375Z" data-id="orderedList" />
+                                <path d="M298.001 242.125H78.4214V279.375H298.001V242.125Z" data-id="orderedList" />
+                                <path d="M298.001 18.6246H78.4214V55.875H298.001V18.6246Z" data-id="orderedList" />
+                                <path d="M298.001 130.375H78.4214V167.625H298.001V130.375Z" data-id="orderedList" />
                             </g>
                             <defs>
                                 <clipPath id="clip0">
-                                    <rect width="298" height="298" fill="white" data-id="ordered-list" />
+                                    <rect width="298" height="298" fill="white" data-id="orderedList" />
                                 </clipPath>
                             </defs>
                         </svg>
-                        <span data-id="ordered-list">List with number</span>
+                        <span data-id="orderedList">List with number</span>
                     </button>
                 </li>
-                <li data-id="unordered-list">
+                <li data-id="unorderedList">
                     <!-- List with bullets -->
-                    <button data-id="unordered-list" [class.active]="toolbarConfig?.unorderedList">
-                        <svg width="299" height="299" viewBox="0 0 299 299" fill="none" data-id="unordered-list"
+                    <button data-id="unorderedList" [class.active]="toolbarConfig?.unorderedList">
+                        <svg width="299" height="299" viewBox="0 0 299 299" fill="none" data-id="unorderedList"
                             xmlns="http://www.w3.org/2000/svg">
-                            <path data-id="unordered-list"
+                            <path data-id="unorderedList"
                                 d="M24.2432 28.2834C10.8284 28.2834 0 39.1118 0 52.5267C0 65.9415 10.8284 76.7699 24.2432 76.7699C37.6581 76.7699 48.4865 65.9415 48.4865 52.5267C48.4865 39.1118 37.6581 28.2834 24.2432 28.2834Z" />
-                            <path data-id="unordered-list"
+                            <path data-id="unorderedList"
                                 d="M24.2432 125.256C10.8284 125.256 0 136.085 0 149.5C0 162.914 10.8284 173.743 24.2432 173.743C37.6581 173.743 48.4865 162.914 48.4865 149.5C48.4865 136.085 37.6581 125.256 24.2432 125.256Z" />
-                            <path data-id="unordered-list"
+                            <path data-id="unorderedList"
                                 d="M24.2432 222.229C10.7481 222.229 0 233.139 0 246.472C0 259.806 10.9095 270.716 24.2432 270.716C37.577 270.716 48.4865 259.806 48.4865 246.472C48.4865 233.139 37.7384 222.229 24.2432 222.229Z" />
-                            <path data-id="unordered-list" d="M299 230.311H72.7297V262.635H299V230.311Z" />
-                            <path data-id="unordered-list" d="M299 36.3647H72.7297V68.6893H299V36.3647Z" />
-                            <path data-id="unordered-list" d="M299 133.338H72.7297V165.662H299V133.338Z" />
+                            <path data-id="unorderedList" d="M299 230.311H72.7297V262.635H299V230.311Z" />
+                            <path data-id="unorderedList" d="M299 36.3647H72.7297V68.6893H299V36.3647Z" />
+                            <path data-id="unorderedList" d="M299 133.338H72.7297V165.662H299V133.338Z" />
                         </svg>
-                        <span data-id="unordered-list">List with bullets</span>
+                        <span data-id="unorderedList">List with bullets</span>
                     </button>
                 </li>
             </ul>

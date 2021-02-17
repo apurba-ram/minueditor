@@ -77,6 +77,13 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
       toolbarPlacement: 'top',
     };
 
+    this.toolbarPlacement = 'bottom';
+    this.placeholder = '';
+    this.id = nanoid();
+    this.resetToolbar();
+  }
+
+  resetToolbar(): void {
     this.toolbarConfig = {
       bold: false,
       italic: false,
@@ -88,10 +95,6 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
       subscript: false,
       quote: false
     };
-
-    this.toolbarPlacement = 'bottom';
-    this.placeholder = '';
-    this.id = nanoid();
   }
 
   onChange: any = () => {};
@@ -143,6 +146,8 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
         orderedList: document.queryCommandState('insertorderedList'),
         unorderedList: document.queryCommandState('insertunorderedList')
       };
+    } else {
+      this.resetToolbar();
     }
   }
 
@@ -346,24 +351,30 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
   }
 
   toolbarOperations(id: string): void {
-    console.log('IDEMPOTENT', id);
+
+    if (id) {
+      if (!this.toolbarConfig[id]) {
+        this.toolbarConfig[id] = true;
+      } else {
+        this.toolbarConfig[id] = false;
+      }
+    }
     switch (id) {
-      case 'bold':
-        document.execCommand('bold', false, '');
-        break;
+      case 'bold': document.execCommand('bold', false, '');
+                   break;
       case 'italic':
         document.execCommand('italic', false, '');
         break;
-      case 'line-through':
+      case 'strikeThrough':
         document.execCommand('strikeThrough', false, '');
         break;
       case 'underline':
         document.execCommand('underline', false, '');
         break;
-      case 'ordered-list':
+      case 'orderedList':
         document.execCommand('insertOrderedList', false, '');
         break;
-      case 'unordered-list':
+      case 'unorderedList':
         document.execCommand('insertunorderedList', false, '');
         break;
       case 'quote':
