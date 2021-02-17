@@ -294,7 +294,7 @@
             </svg>
 
         </button>
-        <div class="popup-mask" *ngIf="uploadImage" (click)="closePopover()">
+        <div class="popup-mask" *ngIf="uploadImage">
             <div class="popover attach">
                 <div class="head">
                     <h3>Attach Image</h3>
@@ -309,10 +309,10 @@
                         <label for="browse">Browse</label>
                     </div>
                 </div>
-                <!-- <div class="link">
+                <div class="link">
                     <label>You can also add a image link here</label>
                     <input type="text" placeholder="http://exampleimage.com/image.jpg">
-                </div> -->
+                </div>
                 <div class="footer">
                     <button class="cancel" (click)="imagePopover()">Cancel</button><button class="upload">Save</button>
                 </div>
