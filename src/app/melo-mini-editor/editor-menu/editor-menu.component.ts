@@ -35,8 +35,15 @@ export class EditorMenuComponent implements OnInit {
   buttonClicked(event: any): void {
     event.stopPropagation();
     console.log(event?.target?.dataset);
-    console.log(event?.target);
-    this.buttonClick.emit(event?.target?.dataset);
+    if (event?.target?.dataset?.id !== 'link' || event?.target?.dataset?.id !== 'attachment') {
+
+    } else if (Object.keys(event?.target?.dataset).length > 0) {
+      this.buttonClick.emit(event?.target?.dataset);
+    }
+  }
+
+  changeImage(event: any): void {
+    console.log(event);
   }
 
   attachPopover(): void {
@@ -59,7 +66,7 @@ export class EditorMenuComponent implements OnInit {
   imagePopover(): void {
     this.uploadImage = !this.uploadImage;
   }
-  addLinks() {
+  addLinks(): void {
     this.addLink = !this.addLink;
   }
   listStyles() {
