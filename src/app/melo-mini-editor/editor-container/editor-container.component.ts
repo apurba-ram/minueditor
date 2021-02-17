@@ -113,7 +113,7 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
   }
 
   ngAfterViewChecked(): void {
-    console.log('Change detection triggered!');
+   // console.log('Change detection triggered!');
   }
 
   registerOnChange(fn: any): void {
@@ -230,13 +230,6 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
 
   blur(): void {
     this.oldRange = this.sel.getRangeAt(0).cloneRange(); // to store the range when element is blurred
-    console.log('R1', this.oldRange);
-    // this.bold = false;
-    // this.italic =  false;
-    // this.orderedList = false;
-    // this.unorderedList = false;
-    // this.underline = false;
-    // this.strikeThrough = false;
   }
 
   focus(): void {
