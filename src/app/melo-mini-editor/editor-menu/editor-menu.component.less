@@ -3,9 +3,11 @@
 
     .col {
         position: relative;
+
         &+.col {
             margin-left: 2%;
         }
+
         .popover {
             position        : absolute;
             bottom          : 100%;
@@ -18,31 +20,34 @@
             // overflow     : auto;
             padding         : 15px;
             z-index         : 2;
+
             .head {
-                background: #F3F3F3;
-                padding: 10px 15px;
-                display: flex;
+                background     : #F3F3F3;
+                padding        : 10px 15px;
+                display        : flex;
                 justify-content: space-between;
-                position: relative;
-                align-items: center;
-                margin: -15px -15px 20px;
+                position       : relative;
+                align-items    : center;
+                margin         : -15px -15px 20px;
+
                 h3 {
-                    font-size: 14px;
+                    font-size  : 14px;
                     font-weight: 500;
-                    margin: 0;
+                    margin     : 0;
                 }
+
                 .close {
-                    border: none;
-                    color: #161b2f;
-                    cursor: pointer;
-                    font-size: 20px;
-                    outline: none;
-                    background: transparent;
-                    line-height: 25px;
-                    display: flex;
-                    align-items: center;
+                    border         : none;
+                    color          : #161b2f;
+                    cursor         : pointer;
+                    font-size      : 20px;
+                    outline        : none;
+                    background     : transparent;
+                    line-height    : 25px;
+                    display        : flex;
+                    align-items    : center;
                     justify-content: center;
-                    padding: 0;
+                    padding        : 0;
                 }
             }
 
@@ -163,7 +168,8 @@
                         border-color: #1e5dd3;
                     }
                 }
-                & + .link {
+
+                &+.link {
                     margin-top: 20px;
                 }
             }
@@ -190,9 +196,11 @@
                     line-height    : 24px;
                     height         : 28px;
                     position       : relative;
+
                     &+button {
                         margin-left: 5px;
                     }
+
                     &:hover {
                         &:before {
                             content   : "";
@@ -221,7 +229,7 @@
             }
 
             &.small {
-                width: 120px;
+                width  : 140px;
                 padding: 0;
 
                 ul {
@@ -235,27 +243,29 @@
                             list-style: none;
 
                             button {
-                                display: flex;
+                                display    : flex;
                                 align-items: center;
-                                padding: 10px;
-                                width: 100%;
-                                height: auto;
+                                padding    : 10px;
+                                width      : 100%;
+                                height     : auto;
+
                                 svg {
                                     height: 14px;
-                                    width: 14px;
+                                    width : 14px;
                                 }
 
                                 span {
                                     font-size     : 12px;
                                     color         : #747576;
-                                    text-transform: capitalize;
-                                    margin-left: 10px;
+                                    // text-transform: capitalize;
+                                    margin-left   : 10px;
                                 }
                             }
                         }
                     }
                 }
             }
+
             &.attach {
                 position: static;
             }
@@ -272,6 +282,12 @@
         border       : none;
         background   : #FFFFFF;
 
+        &.lg {
+            svg {
+                transform: scale(1.4);
+            }
+        }
+
         &.bgcolor,
         &.textcolor {
             svg {
@@ -284,7 +300,7 @@
             background: #F3F3F3;
 
             svg {
-                fill: #161b2f;
+                fill  : #161b2f;
                 stroke: #161b2f;
             }
         }
@@ -293,7 +309,7 @@
             height: 26px;
             width : 26px;
             fill  : #5a5a5a;
-            stroke  : #5a5a5a;
+            stroke: #5a5a5a;
         }
 
         &:focus {
@@ -309,14 +325,14 @@
 }
 
 .popup-mask {
-    position: fixed;
-    z-index: 3;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
+    position       : fixed;
+    z-index        : 3;
+    top            : 0;
+    right          : 0;
+    bottom         : 0;
+    left           : 0;
+    background     : rgba(0, 0, 0, 0.6);
+    display        : flex;
     justify-content: center;
-    align-items: center;
+    align-items    : center;
 }
