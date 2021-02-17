@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 @Component({
   selector: 'app-editor-menu',
   templateUrl: './editor-menu.component.html',
-  styleUrls: ['./editor-menu.component.less', '../theme.less']
+  styleUrls: ['./editor-menu.component.less', '../theme.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditorMenuComponent implements OnInit {
 

@@ -5,13 +5,16 @@ import {
   OnChanges,
   forwardRef,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   SimpleChanges,
   AfterViewInit,
   OnDestroy,
+  AfterViewChecked,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 import { nanoid } from 'nanoid';
+import { NgZone } from '@angular/core';
 @Component({
   selector: 'app-editor-container',
   templateUrl: './editor-container.component.html',
@@ -25,7 +28,7 @@ import { nanoid } from 'nanoid';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditorContainerComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
+export class EditorContainerComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy, AfterViewChecked {
   @Input() editorConfig: EditorConfig;
 
   html: string;
@@ -49,7 +52,8 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
 
   toolbarConfig: ToolbarConfig;
 
-  constructor() {
+  constructor(private zone: NgZone, private ref: ChangeDetectorRef) {
+
     this.editorConfig = {
       file: false,
       mentionedNames: [],
@@ -105,6 +109,10 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
     this.htmlVal = value;
   }
 
+  ngAfterViewChecked(): void {
+    console.log('Change detection triggered!');
+  }
+
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
@@ -135,12 +143,7 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
         orderedList: document.queryCommandState('insertorderedList'),
         unorderedList: document.queryCommandState('insertunorderedList')
       };
-     // console.log('HERE', this.toolbarConfig);
     }
-  }
-
-  hello(): void {
-    console.log('HELLNO');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
