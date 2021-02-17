@@ -21,7 +21,7 @@ export class EditorMenuComponent implements OnInit {
   filesArray: any[];
   ShowFiles: boolean;
   fontStyle = false;
-  fillColor = false;
+  fillColor: boolean[];
   setTextColor = false;
   constructor() {
     this.editorConfig = {
@@ -36,6 +36,7 @@ export class EditorMenuComponent implements OnInit {
       highlightColor: false
     };
     this.filesArray = [];
+    this.fillColor = Array(2).fill(false);
   }
 
   ngOnInit(): void {
@@ -43,9 +44,12 @@ export class EditorMenuComponent implements OnInit {
 
   buttonClicked(event: any): void {
     event.stopPropagation();
-    if (event?.target?.dataset?.id === 'link' || event?.target?.dataset?.id === 'attachment') {
+    if (event?.target?.dataset?.id === 'link' ||
+        event?.target?.dataset?.id === 'attachment' ||
+        event?.target?.dataset?.id === 'fill-color' ||
+        event?.target?.dataset?.id === 'text-color') {
 
-    } else if (event?.target?.dataset) {
+    } else if (event?.target?.dataset?.id) {
       this.buttonClick.emit(event?.target?.dataset);
     }
   }
@@ -157,12 +161,6 @@ export class EditorMenuComponent implements OnInit {
   fontStylePopover(): void {
     this.fontStyle = !this.fontStyle;
   }
-  highlight(): void {
-    this.fillColor = !this.fillColor;
-  }
-  textColor(): void {
-    this.setTextColor = !this.setTextColor;
-  }
   closePopover(): void {
     this.filesArray = [];
     this.alignment = false;
@@ -172,7 +170,7 @@ export class EditorMenuComponent implements OnInit {
     this.listStyle = false;
     this.ShowFiles = false;
     this.fontStyle = false;
-    this.fillColor = false;
+    this.fillColor = Array(2).fill(false);
     this.setTextColor = false;
   }
 
@@ -199,11 +197,5 @@ export class EditorMenuComponent implements OnInit {
   }
   closeFontStylePopover(): void {
     this.fontStyle = false;
-  }
-  closeHighlitePopover(): void {
-    this.fillColor = false;
-  }
-  closeTextColorPopover(): void {
-    this.setTextColor = false;
   }
 }
