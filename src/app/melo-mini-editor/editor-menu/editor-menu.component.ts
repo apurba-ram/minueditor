@@ -66,7 +66,7 @@ export class EditorMenuComponent implements OnInit {
     this.enter = true;
   }
   dropFile(e): void{
-    e && e.preventDefault(); // Why ???? - ALEC
+    e.preventDefault(); // Why ???? - ALEC
     console.log('file drop');
     this.filesArray.push(e.dataTransfer.files[0]);
     console.log('on drop files array', this.filesArray);
