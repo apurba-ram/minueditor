@@ -52,7 +52,7 @@
         </button>
     </div>
     <!-- Line through -->
-    <div class="col" data-id="unordered-list">
+    <div class="col" data-id="line-through">
         <button data-id="line-through">
             <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve"
                 data-id="line-through">
@@ -175,16 +175,16 @@
         </div>
     </div>
     <!-- Attachment -->
-    <div class="col">
-        <button (click)="attachPopover()" [class.active]="upload">
-            <svg width="199" height="199" viewBox="0 0 199 199" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div class="col" data-id="attachment">
+        <button (click)="attachPopover()" [class.active]="upload" data-id="attachment">
+            <svg width="199" height="199" viewBox="0 0 199 199" fill="none" xmlns="http://www.w3.org/2000/svg" data-id="attachment">
                 <g clip-path="url(#clip0)">
-                    <path
+                    <path data-id="attachment"
                         d="M107.325 7L112.231 1.32746L110.118 -0.5H107.325V7ZM172 62.9397H179.5V59.5105L176.906 57.2672L172 62.9397ZM106.843 93C106.843 88.8579 103.485 85.5 99.3429 85.5C95.2007 85.5 91.8429 88.8579 91.8429 93H106.843ZM91.8429 145C91.8429 149.142 95.2007 152.5 99.3429 152.5C103.485 152.5 106.843 149.142 106.843 145H91.8429ZM73.2 111.5C69.0579 111.5 65.7 114.858 65.7 119C65.7 123.142 69.0579 126.5 73.2 126.5V111.5ZM125.486 126.5C129.628 126.5 132.986 123.142 132.986 119C132.986 114.858 129.628 111.5 125.486 111.5V126.5ZM162 183.5H38V198.5H162V183.5ZM35.5 181V17H20.5V181H35.5ZM38 14.5H107.325V-0.5H38V14.5ZM99.8247 7V52.9397H114.825V7H99.8247ZM117.325 70.4397H172V55.4397H117.325V70.4397ZM164.5 62.9397V181H179.5V62.9397H164.5ZM102.418 12.6725L167.094 68.6122L176.906 57.2672L112.231 1.32746L102.418 12.6725ZM91.8429 93V119H106.843V93H91.8429ZM91.8429 119V145H106.843V119H91.8429ZM73.2 126.5H99.3429V111.5H73.2V126.5ZM99.3429 126.5H125.486V111.5H99.3429V126.5ZM38 183.5C36.6193 183.5 35.5 182.381 35.5 181H20.5C20.5 190.665 28.335 198.5 38 198.5V183.5ZM162 198.5C171.665 198.5 179.5 190.665 179.5 181H164.5C164.5 182.381 163.381 183.5 162 183.5V198.5ZM99.8247 52.9397C99.8247 62.6047 107.66 70.4397 117.325 70.4397V55.4397C115.944 55.4397 114.825 54.3204 114.825 52.9397H99.8247ZM35.5 17C35.5 15.6193 36.6193 14.5 38 14.5V-0.5C28.335 -0.5 20.5 7.33501 20.5 17H35.5Z" />
                 </g>
                 <defs>
-                    <clipPath id="clip0">
-                        <rect width="199" height="199" />
+                    <clipPath id="clip0" data-id="attachment">
+                        <rect width="199" height="199" data-id="attachment"/>
                     </clipPath>
                 </defs>
             </svg>
@@ -240,16 +240,16 @@
                 </div>
                 <div class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragenter($event)"
                     (dragend)="dragend($event)" (dragleave)="dragleave($event)" [class.enter]="enter">
-                    <input type="file" id="browse">
+                    <input type="file" id="browse" accept="image/x-png,image/gif,image/jpeg" (change)="changeImage($event)">
                     <div class="container">
                         <span>Drop image here or browse to upload</span>
                         <label for="browse">Browse</label>
                     </div>
                 </div>
-                <div class="link">
+                <!-- <div class="link">
                     <label>You can also add a image link here</label>
                     <input type="text" placeholder="http://exampleimage.com/image.jpg">
-                </div>
+                </div> -->
                 <div class="footer">
                     <button class="cancel" (click)="imagePopover()">Cancel</button><button class="upload">Save</button>
                 </div>
