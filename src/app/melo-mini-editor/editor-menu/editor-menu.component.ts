@@ -11,7 +11,7 @@ export class EditorMenuComponent implements OnInit {
   @Input() editorConfig: EditorConfig;
   @Input() toolbarConfig: ToolbarConfig;
   @Output() buttonClick: EventEmitter<string> = new EventEmitter();
-  @Input() multiple: boolean
+  @Input() multiple: boolean;
   enter = false;
   upload = false;
   uploadImage = false;
@@ -56,7 +56,7 @@ export class EditorMenuComponent implements OnInit {
   }
 
   attachPopover(): void {
-    this.filesArray = []
+    this.filesArray = [];
     this.upload = !this.upload;
   }
   dragenter(e): void {
@@ -70,18 +70,18 @@ export class EditorMenuComponent implements OnInit {
     this.enter = true;
   }
   dropFile(e): void {
-    e && e.preventDefault();
-    console.log("file drop")
+    e.preventDefault();
+    console.log('file drop');
     if (e.dataTransfer.files[0].name.includes('jpg')
       || e.dataTransfer.files[0].name.includes('png')
       || e.dataTransfer.files[0].name.includes('gif')
       || e.dataTransfer.files[0].name.includes('svg')
     ) {
-      alert("Image files are not allowed")
+      alert('Image files are not allowed');
     }
     else {
-      this.filesArray.push(e.dataTransfer.files[0])
-      console.log("on drop files array", this.filesArray)
+      this.filesArray.push(e.dataTransfer.files[0]);
+      console.log('on drop files array', this.filesArray);
       if (this.filesArray.length > 0) {
         this.ShowFiles = true;
       }
@@ -92,8 +92,8 @@ export class EditorMenuComponent implements OnInit {
   }
 
   fileRemove(fileId): void {
-    console.log(fileId)
-    this.filesArray.splice(fileId, 1)
+    console.log(fileId);
+    this.filesArray.splice(fileId, 1);
   }
 
   fileFromInput(e): void {
@@ -104,14 +104,14 @@ export class EditorMenuComponent implements OnInit {
       || e.target.files[0].name.includes('gif')
       || e.target.files[0].name.includes('svg')
     ) {
-      alert("Image files are not allowed")
+      alert('Image files are not allowed');
     }
     else {
-      this.filesArray = [...(e.target.files)]
+      this.filesArray = [...(e.target.files)];
       if (this.filesArray.length > 0) {
-        this.ShowFiles = true
+        this.ShowFiles = true;
       }
-      console.log("files Array", this.filesArray)
+      console.log('files Array', this.filesArray);
     }
 
 
