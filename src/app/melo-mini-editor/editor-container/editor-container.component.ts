@@ -8,7 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { EditorConfig } from '../editor-config-interface';
+import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 import { nanoid } from 'nanoid';
 @Component({
   selector: 'app-editor-container',
@@ -45,6 +45,8 @@ export class EditorContainerComponent implements OnInit, OnChanges {
   toolbarPlacement: 'top' | 'bottom';
   oldRange: any;
 
+  toolbarConfig: ToolbarConfig;
+
   constructor() {
     this.editorConfig = {
       file: false,
@@ -68,6 +70,19 @@ export class EditorContainerComponent implements OnInit, OnChanges {
       placeholder: '',
       toolbarPlacement: 'top',
     };
+
+    this.toolbarConfig = {
+      bold: false,
+      italic: false,
+      underline: false,
+      strikeThrough: false,
+      orderedList: false,
+      unorderedList: false,
+      superscript: false,
+      subscript: false,
+      quote: false
+    };
+
     this.toolbarPlacement = 'bottom';
     this.placeholder = '';
     this.id = nanoid();

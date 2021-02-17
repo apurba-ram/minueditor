@@ -8,7 +8,7 @@ import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 export class EditorMenuComponent implements OnInit {
 
   @Input() editorConfig: EditorConfig;
-  @Input() menuConfig: ToolbarConfig;
+  @Input() toolbarConfig: ToolbarConfig;
   @Output() buttonClick: EventEmitter<string> = new EventEmitter();
   enter = false;
   upload = false;
