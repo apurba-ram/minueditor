@@ -460,7 +460,7 @@
     </div> -->
     <!-- Fill Color -->
     <div class="col" data-id="fill-color" clickOutside (clickOutside)="fillColor[0] = false;">
-        <button data-id="fill-color" (click)="fillColor[0] = !fillColor[0];" [class.active]="fillColor[0]">
+        <button data-id="fill-color" (click)="fillColor[0] = !fillColor[0]; fillColor[1] = false;" [class.active]="fillColor[0]">
             <svg width="298" height="298" viewBox="0 0 298 298" fill="none" xmlns="http://www.w3.org/2000/svg"
                 data-id="fill-color">
                 <path data-id="fill-color"
@@ -478,7 +478,7 @@
     </div>
     <!-- Text Color -->
     <div class="col" data-id="text-color" clickOutside (clickOutside)="fillColor[1] = false;">
-        <button data-id="text-color" (click)="fillColor[1] = !fillColor[1];" [class.active]="fillColor[1]">
+        <button data-id="text-color" (click)="fillColor[1] = !fillColor[1]; fillColor[0] = false;" [class.active]="fillColor[1]">
             <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve"
                 data-id="text-color">
                 <g>
