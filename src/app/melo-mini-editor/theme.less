@@ -3,6 +3,7 @@
         display: flex;
         flex-wrap: wrap;
         margin: 0 0 10px;
+        position: relative;
     }
     &-col {
         width: 44px;
@@ -30,6 +31,7 @@
                 left: 0;
                 z-index: 1;
                 cursor: pointer;
+                width: 100%;
             }
             svg {
                 height: 20px;
@@ -43,8 +45,40 @@
                 }
             }
         }
+        button {
+            position: absolute;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            opacity: 0;
+            height: 100%;
+            width: 100%;
+            z-index: 2;
+            span {
+                height: 18px;
+                width: 18px;
+                border-radius: 50%;
+                color: #FFFFFF;
+                background: #EB2424;
+                display: flex;
+                line-height: 18px;
+                justify-content: center;
+                font-size: 16px;
+            }
+        }
+        &:hover {
+            button {
+                opacity: 1;
+                background: transparent;
+            }
+        }
     }
-
+    
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -56,7 +90,6 @@
     border-color: #747576;
     position: relative;
     background: #fff;
-    margin-right: 5px;
 
     &:before {
         position     : absolute;
