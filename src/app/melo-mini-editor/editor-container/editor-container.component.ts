@@ -126,9 +126,9 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
   }
 
   selectionChange(event: any): void {
-    console.log(document.activeElement,
-                document.activeElement === document.getElementById(this.id),
-                this.id, document.getElementById(this.id));
+    // console.log(document.activeElement,
+    //             document.activeElement === document.getElementById(this.id),
+    //             this.id, document.getElementById(this.id));
     if (document.activeElement === document.getElementById(this.id)) {
       // this.bold = document.queryCommandState('bold');
       // this.italic = document.queryCommandState('italic');
