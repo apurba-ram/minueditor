@@ -126,20 +126,7 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
   }
 
   selectionChange(event: any): void {
-    // console.log(document.activeElement,
-    //             document.activeElement === document.getElementById(this.id),
-    //             this.id, document.getElementById(this.id));
     if (document.activeElement === document.getElementById(this.id)) {
-      // this.bold = document.queryCommandState('bold');
-      // this.italic = document.queryCommandState('italic');
-      // this.strikeThrough = document.queryCommandState('strikeThrough');
-      // this.underline = document.queryCommandState('underline');
-      // this.orderedList = document.queryCommandState('insertorderedList');
-      // this.unorderedList = document.queryCommandState('insertunorderedList');
-      // this.blockquote = this.checkParent(this.sel.anchorNode, 'blockquote');
-      // this.supTag = this.checkParent(this.sel.anchorNode, 'sup');
-      // this.subTag = this.checkParent(this.sel.anchorNode, 'sub');
-      console.log('HERE');
       this.toolbarConfig = {
         bold: document.queryCommandState('bold'),
         italic: document.queryCommandState('italic'),
@@ -148,6 +135,7 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
         orderedList: document.queryCommandState('insertorderedList'),
         unorderedList: document.queryCommandState('insertunorderedList')
       };
+     // console.log('HERE', this.toolbarConfig);
     }
   }
 
