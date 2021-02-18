@@ -23,6 +23,6 @@ export class AppComponent {
   };
 
   hello(): void {
-    console.log('HELLO3');
+    // console.log('HELLO3');
   }
 }

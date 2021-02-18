@@ -131,13 +131,13 @@ export class EditorMenuComponent implements OnInit {
   dropFile(e): void
   {
       e && e.preventDefault();
-      console.log("dropped multple files",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
-      console.log("dropped files",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
+      // console.log("dropped multple files",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
+      // console.log("dropped files",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
       
 
       for (var key in e.dataTransfer.files) {
         if (e.dataTransfer.files.hasOwnProperty(key)) {
-            console.log(key + " -> " + e.dataTransfer.files[key]);
+            // console.log(key + " -> " + e.dataTransfer.files[key]);
             if(e.dataTransfer.files[key].name.split('.').includes('jpg')
             ||e.dataTransfer.files[key].name.split('.').includes('jpeg')
             ||e.dataTransfer.files[key].name.split('.').includes('png')
@@ -206,7 +206,7 @@ export class EditorMenuComponent implements OnInit {
         let i=this.filesArray.length-1
         for (var key in e.target.files) {
           if (e.target.files.hasOwnProperty(key)) {
-              console.log(key + " -> " + e.target.files[key]);
+              // console.log(key + " -> " + e.target.files[key]);
               if(e.target.files[key].name.split('.').includes('jpg'))
               {
                   // alert("images are not allowed")
