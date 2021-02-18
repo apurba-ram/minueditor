@@ -120,25 +120,30 @@ export class EditorMenuComponent implements OnInit {
   dropFile(e): void
   {
       e && e.preventDefault();
+      console.log("dropped multple files",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
       console.log("dropped files",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
-      // console.log('file drop');
-      if (
-          e.dataTransfer.files[0].name.split('.').includes('jpg') ||
-          e.dataTransfer.files[0].name.split('.').includes('png') ||
-          e.dataTransfer.files[0].name.split('.').includes('gif')
-          // e.dataTransfer.files[0].name.split('.').includes('svg')
-        ) 
-        {
-          alert('Image files are not allowed');
-        } 
-      else 
-        {
-          this.filesArray.push(e.dataTransfer.files[0]);
-          console.log('on drop files array', this.filesArray);
-          
-        }
-  }
+      
 
+      for (var key in e.dataTransfer.files) {
+        if (e.dataTransfer.files.hasOwnProperty(key)) {
+            console.log(key + " -> " + e.dataTransfer.files[key]);
+            if(e.dataTransfer.files[key].name.split('.').includes('jpg')
+            ||e.dataTransfer.files[key].name.split('.').includes('jpeg')
+            ||e.dataTransfer.files[key].name.split('.').includes('png')
+            ||e.dataTransfer.files[key].name.split('.').includes('gif')
+            )
+            {
+                alert("image files are not allowed")
+            }
+            else
+            {
+              this.filesArray.push(e.dataTransfer.files[key])
+            }
+           
+        }
+
+      }
+    }
   dropImage(e) {
     // console.log(e.t)
     e && e.preventDefault();
@@ -149,16 +154,36 @@ export class EditorMenuComponent implements OnInit {
     const fileSplit = fileName.split('.');
     const fileExtension = fileSplit[fileSplit.length - 1];
     console.log(fileName, fileExtension);
-    if (fileExtension === 'jpg' || fileExtension === 'jpeg' || fileExtension === 'gif' || fileExtension === 'png') 
-      {
-        this.imgArr.push(e.dataTransfer.files[0]);
-        console.log('on drop images array', this.imgArr); 
-      } 
-    else 
-      {
-        alert('Please Image file only');
+    // if (fileExtension === 'jpg' || fileExtension === 'jpeg' || fileExtension === 'gif' || fileExtension === 'png') 
+    //   {
+    //     this.imgArr.push(e.dataTransfer.files[0]);
+    //     console.log('on drop images array', this.imgArr); 
+    //   } 
+    // else 
+    //   {
+    //     alert('Please Image file only');
+    //   }
+    for (var key in e.dataTransfer.files) {
+      if (e.dataTransfer.files.hasOwnProperty(key)) {
+          console.log(key + " -> " + e.dataTransfer.files[key]);
+          if(e.dataTransfer.files[key].name.split('.').includes('jpg')
+          ||e.dataTransfer.files[key].name.split('.').includes('jpeg')
+          ||e.dataTransfer.files[key].name.split('.').includes('png')
+          ||e.dataTransfer.files[key].name.split('.').includes('gif')
+          )
+          {
+            this.imgArr.push(e.dataTransfer.files[key])
+          }
+          else
+          {
+            alert("Please choose Image file only")
+          }
+          }
+         
       }
-  }
+
+    }
+  
 
   fileRemove(fileId): void {
     console.log(fileId);
