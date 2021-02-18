@@ -29,14 +29,10 @@ export class EditorMenuComponent implements OnInit {
   fontStyle = false;
   fillColor: boolean[];
   setTextColor = false;
-  colorValue: string;
   showAlert:boolean=false
   alertMsg:string
   imgArr: Array<object> = [];
-  url = '';
   constructor() {
-
-    this.colorValue = 'black';
     this.editorConfig = {
       file: false,
       mentionedNames: [],
@@ -64,27 +60,14 @@ export class EditorMenuComponent implements OnInit {
   ngOnInit(): void {}
 
   buttonClicked(event: any): void {
-    console.log(event?.target?.dataset?.id);
-    if (event?.target?.dataset?.id === 'link' ||
-        event?.target?.dataset?.id === 'attachment' ||
-        event?.target?.dataset?.id === 'fill-color' ||
-        event?.target?.dataset?.id === 'text-color') {
-
-    } else if (event?.target?.dataset?.id) {
+    event.stopPropagation();
+    if (
+      event?.target?.dataset?.id === 'link' ||
+      event?.target?.dataset?.id === 'attachment'
+    ) {
+    } else if (event?.target?.dataset) {
       this.buttonClick.emit(event?.target?.dataset);
     }
-  }
-
-  colorChange(type: 'textColor' | 'fillColor'){
-    const event = {
-      target: {
-        dataset : {
-          id: type,
-          value: type === 'textColor' ? this.toolbarConfig?.fontColor : this.toolbarConfig?.backgroundColor
-        }
-      }
-    };
-    this.buttonClicked(event);
   }
 
 
@@ -121,16 +104,6 @@ export class EditorMenuComponent implements OnInit {
        this.ShowFiles = true;
      }
     //  console.log('files Array', this.imgArr);
-    if (e.target.files && e.target.files[0]) {
-      var reader = new FileReader();
-
-      reader.readAsDataURL(e.target.files[0]); // read file as data url
-
-      reader.onload = (e: any) => { // called once readAsDataURL is completed
-        console.log(e);
-        this.url = e.target.result;
-      }
-    }
    
   }
 

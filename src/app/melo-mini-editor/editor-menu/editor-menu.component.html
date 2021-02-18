@@ -304,8 +304,7 @@
                 </div>
                 <div class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragenter($event)"
                     (dragend)="dragend($event)" (dragleave)="dragleave($event)" [class.enter]="enter" (drop)="dropImage($event)">
-                    <input type="file" id="browse" accept="image/x-png,image/gif,image/jpeg"
-                        (change)="changeImage($event)">
+                    <input type="file" id="browse" accept="image/x-png,image/gif,image/jpeg" (change)="changeImage($event)">
                     <div class="container">
                         <span>Drop image here or browse to upload</span>
                         <label for="browse">Browse</label>
