@@ -318,7 +318,7 @@
                         <div class="file-item">
                             <div class="file-image">
                                 <!-- <img [src]="url" alt=""> -->
-                                <span *ngIf="url === ''" class="file {{imgName.name.split('.')[1]}}">
+                                <span class="file {{imgName.name.split('.')[1]}}">
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="2672" height="1024"
                                         viewBox="0 0 2672 1024">
                                         <g id="icomoon-ignore">
@@ -332,9 +332,9 @@
                                 </span>
                                 <!-- {{url}} -->
                             </div>
-                            <div class="file-loader" *ngIf="url === ''">
+                            <!-- <div class="file-loader" *ngIf="url === ''">
                                 <span></span>
-                            </div>
+                            </div> -->
                             <span class="file-format">
                                 <span>{{imgName.name.split('.')[1]}}</span></span>
                             <p class="file-title">{{imgName.name}}</p>
