@@ -18,7 +18,7 @@ import { NgZone } from '@angular/core';
 @Component({
   selector: 'app-editor-container',
   templateUrl: './editor-container.component.html',
-  styleUrls: ['./editor-container.component.less'],
+  styleUrls: ['./editor-container.component.less', '../theme.less'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
