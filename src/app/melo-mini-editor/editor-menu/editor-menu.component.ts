@@ -60,12 +60,12 @@ export class EditorMenuComponent implements OnInit {
   ngOnInit(): void {}
 
   buttonClicked(event: any): void {
-    event.stopPropagation();
-    if (
-      event?.target?.dataset?.id === 'link' ||
-      event?.target?.dataset?.id === 'attachment'
-    ) {
-    } else if (event?.target?.dataset) {
+    if (event?.target?.dataset?.id === 'link' ||
+        event?.target?.dataset?.id === 'attachment' ||
+        event?.target?.dataset?.id === 'fill-color' ||
+        event?.target?.dataset?.id === 'text-color') {
+
+    } else if (event?.target?.dataset?.id) {
       this.buttonClick.emit(event?.target?.dataset);
     }
   }
@@ -81,8 +81,8 @@ export class EditorMenuComponent implements OnInit {
             //  console.log(key + " -> " + e.target.files[key]);
              if(e.target.files[key].name.split('.').includes('jpg')
               || e.target.files[key].name.split('.').includes('jpeg')
-              ||e.target.files[key].name.split('.').includes('png')
-              ||e.target.files[key].name.split('.').includes('gif')
+              || e.target.files[key].name.split('.').includes('png')
+              || e.target.files[key].name.split('.').includes('gif')
                )
              {
               this.imgArr.push(e.target.files[key]) 

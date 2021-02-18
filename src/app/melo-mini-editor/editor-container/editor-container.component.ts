@@ -154,6 +154,7 @@ export class EditorContainerComponent
 
   selectionChange(event: any): void {
     if (document.activeElement === document.getElementById(this.id)) {
+      this.setFontAndbackgroundColor();
       this.toolbarConfig = {
         bold: document.queryCommandState('bold'),
         italic: document.queryCommandState('italic'),
@@ -164,9 +165,30 @@ export class EditorContainerComponent
         fontColor: this.fontColor,
         backgroundColor: this.backgroundColor,
       };
-      console.log(document.queryCommandState('fontColor'));
+      // console.log('FC : ', this.fontColor, 'BKV : ',this.backgroundColor);
     } else {
       this.resetToolbar();
+    }
+  }
+
+  setFontAndbackgroundColor(): void {
+    if(this.sel?.baseNode) {
+      const node = this.sel.baseNode;
+      if(node?.parentNode?.nodeName === 'SPAN' && node?.parentNode?.attributes[0].name === 'style') {
+        let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
+        const styleArray: string[] = styleAttrib.split(';');
+        for(const style of styleArray) {
+          if(style.indexOf('color:') > -1) {
+            this.fontColor = style.substring(style.indexOf(':') + 1).trim();
+          }
+          if(style.indexOf('background-color:') > -1) {
+            this.backgroundColor = style.substring(style.indexOf(':') + 1).trim();
+          }
+        }
+      } else {
+        this.fontColor = 'black';
+        this.backgroundColor = 'white';
+      }
     }
   }
 
