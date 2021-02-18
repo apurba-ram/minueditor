@@ -28,7 +28,8 @@ import { NgZone } from '@angular/core';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditorContainerComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy, AfterViewChecked {
+export class EditorContainerComponent
+  implements OnInit, OnChanges, AfterViewInit, OnDestroy, AfterViewChecked {
   @Input() editorConfig: EditorConfig;
   @Input() multiple: boolean;
   html: string;
@@ -52,8 +53,10 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
 
   toolbarConfig: ToolbarConfig;
 
-  constructor(private zone: NgZone, private ref: ChangeDetectorRef) {
+  fontColor: string;
+  backgroundColor: string;
 
+  constructor(private zone: NgZone, private ref: ChangeDetectorRef) {
     this.editorConfig = {
       file: false,
       mentionedNames: [],
@@ -77,6 +80,9 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
       toolbarPlacement: 'top',
     };
 
+    this.fontColor = 'black';
+    this.backgroundColor = 'white';
+
     this.toolbarPlacement = 'bottom';
     this.placeholder = '';
     this.id = nanoid();
@@ -93,7 +99,9 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
       unorderedList: false,
       superscript: false,
       subscript: false,
-      quote: false
+      quote: false,
+      fontColor: this.fontColor,
+      backgroundColor: this.backgroundColor,
     };
   }
 
@@ -113,7 +121,7 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
   }
 
   ngAfterViewChecked(): void {
-   // console.log('Change detection triggered!');
+    // console.log('Change detection triggered!');
   }
 
   registerOnChange(fn: any): void {
@@ -129,11 +137,19 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
   }
 
   ngAfterViewInit(): void {
-    document.addEventListener('selectionchange', this.selectionChange.bind(this), false);
+    document.addEventListener(
+      'selectionchange',
+      this.selectionChange.bind(this),
+      false
+    );
   }
 
   ngOnDestroy(): void {
-    document.removeEventListener('selectionchange', this.selectionChange.bind(this), false);
+    document.removeEventListener(
+      'selectionchange',
+      this.selectionChange.bind(this),
+      false
+    );
   }
 
   selectionChange(event: any): void {
@@ -144,8 +160,11 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
         strikeThrough: document.queryCommandState('strikeThrough'),
         underline: document.queryCommandState('underline'),
         orderedList: document.queryCommandState('insertorderedList'),
-        unorderedList: document.queryCommandState('insertunorderedList')
+        unorderedList: document.queryCommandState('insertunorderedList'),
+        fontColor: this.fontColor,
+        backgroundColor: this.backgroundColor,
       };
+      console.log(document.queryCommandState('fontColor'));
     } else {
       this.resetToolbar();
     }
@@ -244,6 +263,10 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
 
     if (this.innerText === '') {
       document.execCommand('removeFormat', false, ''); // remove previous format once the editor is clear
+      this.toolbarConfig.fontColor = 'black';
+      this.toolbarConfig.backgroundColor = 'white';
+      this.toolbarOperations('textColor', 'black');
+      this.toolbarOperations('fillColor', 'white');
     }
     this.lastChar = this.getPrecedingCharacter(
       window.getSelection().anchorNode
@@ -340,12 +363,11 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
     } else {
       this.focus();
     }
-    this.toolbarOperations(event?.id);
+    this.toolbarOperations(event?.id, event?.value);
   }
 
-  toolbarOperations(id: string): void {
-
-    if (id) {
+  toolbarOperations(id: string, value: any): void {
+    if (id && id !== 'fillColor' && id !== 'textColor') {
       if (!this.toolbarConfig[id]) {
         this.toolbarConfig[id] = true;
       } else {
@@ -353,8 +375,9 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
       }
     }
     switch (id) {
-      case 'bold': document.execCommand('bold', false, '');
-                   break;
+      case 'bold':
+        document.execCommand('bold', false, '');
+        break;
       case 'italic':
         document.execCommand('italic', false, '');
         break;
@@ -389,8 +412,14 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
       case 'right-align':
         document.execCommand('justifyright', false, '');
         break;
-      case 'fill-color':
-      case 'text-color':
+      case 'fillColor':
+        document.execCommand('styleWithCSS', false, '');
+        document.execCommand('hiliteColor', false, value);
+        break;
+      case 'textColor':
+        document.execCommand('styleWithCSS', false, '');
+        document.execCommand('foreColor', false, value);
+        break;
     }
   }
 

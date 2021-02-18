@@ -23,7 +23,10 @@ export class EditorMenuComponent implements OnInit {
   fontStyle = false;
   fillColor: boolean[];
   setTextColor = false;
+  colorValue: string;
   constructor() {
+
+    this.colorValue = 'black';
     this.editorConfig = {
       file: false,
       mentionedNames: [],
@@ -43,7 +46,7 @@ export class EditorMenuComponent implements OnInit {
   }
 
   buttonClicked(event: any): void {
-    event.stopPropagation();
+    console.log(event?.target?.dataset?.id);
     if (event?.target?.dataset?.id === 'link' ||
         event?.target?.dataset?.id === 'attachment' ||
         event?.target?.dataset?.id === 'fill-color' ||
@@ -52,6 +55,18 @@ export class EditorMenuComponent implements OnInit {
     } else if (event?.target?.dataset?.id) {
       this.buttonClick.emit(event?.target?.dataset);
     }
+  }
+
+  colorChange(type: 'textColor' | 'fillColor'){
+    const event = {
+      target: {
+        dataset : {
+          id: type,
+          value: type === 'textColor' ? this.toolbarConfig?.fontColor : this.toolbarConfig?.backgroundColor
+        }
+      }
+    };
+    this.buttonClicked(event);
   }
 
 
