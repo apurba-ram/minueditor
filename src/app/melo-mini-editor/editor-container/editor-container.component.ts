@@ -154,6 +154,7 @@ export class EditorContainerComponent
 
   selectionChange(event: any): void {
     if (document.activeElement === document.getElementById(this.id)) {
+      console.log(this.sel);
       this.setFontAndbackgroundColor();
       this.toolbarConfig = {
         bold: document.queryCommandState('bold'),
@@ -270,7 +271,9 @@ export class EditorContainerComponent
   }
 
   blur(): void {
+    // console.log('HALLELUIJAH');
     this.oldRange = this.sel.getRangeAt(0).cloneRange(); // to store the range when element is blurred
+    // console.log(this.sel);
   }
 
   focus(): void {

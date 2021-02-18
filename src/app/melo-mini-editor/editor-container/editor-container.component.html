@@ -1,10 +1,9 @@
 <!-- <p>editor-container works!</p> -->
-<div class="editor-container">
+<div class="editor-container" (blur)="blur()">
     <div class="editable-block" 
         contenteditable="true" [class.bottom]="toolbarPlacement === 'bottom'" [class.top]="toolbarPlacement === 'top'"
         [id]="id"
         (input)="setValue($event)" 
-        (blur)="blur()"
         (paste)="onPaste($event)"
         [mentionConfig]="mentionConfig"
         (closed)="mentionClosed()"
