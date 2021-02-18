@@ -60,7 +60,10 @@ export class EditorMenuComponent implements OnInit {
   ngOnInit(): void {}
 
   buttonClicked(event: any): void {
-    event.stopPropagation();
+    if(event.stopPropagation) {
+      event.stopPropagation();
+    }
+    
     if (event?.target?.dataset?.id === 'link' ||
         event?.target?.dataset?.id === 'attachment' ||
         event?.target?.dataset?.id === 'fill-color' ||
@@ -69,6 +72,18 @@ export class EditorMenuComponent implements OnInit {
     } else if (event?.target?.dataset?.id) {
       this.buttonClick.emit(event?.target?.dataset);
     }
+  }
+
+  colorChange(type: 'textColor' | 'fillColor'){
+    const event = {
+      target: {
+        dataset : {
+          id: type,
+          value: type === 'textColor' ? this.toolbarConfig?.fontColor : this.toolbarConfig?.backgroundColor
+        }
+      }
+    };
+    this.buttonClicked(event);
   }
 
 
