@@ -4,6 +4,7 @@ import { EditorContainerComponent } from './editor-container/editor-container.co
 import { ToolsModule } from './tools/tools.module';
 import { EditorMenuComponent } from './editor-menu/editor-menu.component';
 import { MentionModule } from 'angular-mentions';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { MentionModule } from 'angular-mentions';
   imports: [
     CommonModule,
     ToolsModule,
-    MentionModule
+    MentionModule,
+    FormsModule
   ],
   exports: [
     EditorContainerComponent

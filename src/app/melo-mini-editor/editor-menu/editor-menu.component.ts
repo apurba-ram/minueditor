@@ -29,11 +29,14 @@ export class EditorMenuComponent implements OnInit {
   fontStyle = false;
   fillColor: boolean[];
   setTextColor = false;
+  colorValue: string;
   showAlert:boolean=false
   alertMsg:string
   imgArr: Array<object> = [];
   url = '';
   constructor() {
+
+    this.colorValue = 'black';
     this.editorConfig = {
       file: false,
       mentionedNames: [],
@@ -61,14 +64,27 @@ export class EditorMenuComponent implements OnInit {
   ngOnInit(): void {}
 
   buttonClicked(event: any): void {
-    event.stopPropagation();
-    if (
-      event?.target?.dataset?.id === 'link' ||
-      event?.target?.dataset?.id === 'attachment'
-    ) {
-    } else if (event?.target?.dataset) {
+    console.log(event?.target?.dataset?.id);
+    if (event?.target?.dataset?.id === 'link' ||
+        event?.target?.dataset?.id === 'attachment' ||
+        event?.target?.dataset?.id === 'fill-color' ||
+        event?.target?.dataset?.id === 'text-color') {
+
+    } else if (event?.target?.dataset?.id) {
       this.buttonClick.emit(event?.target?.dataset);
     }
+  }
+
+  colorChange(type: 'textColor' | 'fillColor'){
+    const event = {
+      target: {
+        dataset : {
+          id: type,
+          value: type === 'textColor' ? this.toolbarConfig?.fontColor : this.toolbarConfig?.backgroundColor
+        }
+      }
+    };
+    this.buttonClicked(event);
   }
 
 

@@ -518,7 +518,7 @@
             </svg>
         </button>
         <div class="popover color-palette" *ngIf="fillColor[0]">
-            <app-color-palette></app-color-palette>
+            <app-color-palette [(color)]="toolbarConfig.backgroundColor" (colorChange)="fillColor[0] = false; colorChange('fillColor');"></app-color-palette>
         </div>
     </div>
     <!-- Text Color -->
@@ -544,7 +544,7 @@
             </svg>
         </button>
         <div class="popover color-palette" *ngIf="fillColor[1]">
-            <app-color-palette></app-color-palette>
+            <app-color-palette [(color)]="toolbarConfig.fontColor" (colorChange)="fillColor[1] = false;  colorChange('textColor');"></app-color-palette>
         </div>
     </div>
     <!-- Superscript -->
