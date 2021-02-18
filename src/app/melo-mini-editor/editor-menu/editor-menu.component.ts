@@ -60,6 +60,7 @@ export class EditorMenuComponent implements OnInit {
   ngOnInit(): void {}
 
   buttonClicked(event: any): void {
+    event.stopPropagation();
     if (event?.target?.dataset?.id === 'link' ||
         event?.target?.dataset?.id === 'attachment' ||
         event?.target?.dataset?.id === 'fill-color' ||
