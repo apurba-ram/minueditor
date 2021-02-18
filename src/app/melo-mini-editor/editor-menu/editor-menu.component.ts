@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 @Component({
   selector: 'app-editor-menu',
@@ -7,7 +14,6 @@ import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditorMenuComponent implements OnInit {
-
   @Input() editorConfig: EditorConfig;
   @Input() toolbarConfig: ToolbarConfig;
   @Output() buttonClick: EventEmitter<string> = new EventEmitter();
@@ -18,12 +24,15 @@ export class EditorMenuComponent implements OnInit {
   alignment = false;
   addLink = false;
   listStyle = false;
-  filesArray: any[];
+  filesArray: Array<object>[];
   ShowFiles: boolean;
   fontStyle = false;
   fillColor: boolean[];
   setTextColor = false;
   colorValue: string;
+  showAlert:boolean=false
+  alertMsg:string
+  imgArr: Array<object> = [];
   constructor() {
 
     this.colorValue = 'black';
@@ -31,19 +40,27 @@ export class EditorMenuComponent implements OnInit {
       file: false,
       mentionedNames: [],
       mentionedDates: [],
-      colorPalette: ['#FF5630', '#000000', '#414141', '#36B37E',
-        '#6554C0', '#FF7A00', '#008299', ' #1E5DD3',
-        '#F0B819', '#00FFF7'],
+      colorPalette: [
+        '#FF5630',
+        '#000000',
+        '#414141',
+        '#36B37E',
+        '#6554C0',
+        '#FF7A00',
+        '#008299',
+        ' #1E5DD3',
+        '#F0B819',
+        '#00FFF7',
+      ],
       buttonName: '',
       fontColor: false,
-      highlightColor: false
+      highlightColor: false,
     };
     this.filesArray = [];
     this.fillColor = Array(2).fill(false);
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   buttonClicked(event: any): void {
     console.log(event?.target?.dataset?.id);
@@ -70,8 +87,46 @@ export class EditorMenuComponent implements OnInit {
   }
 
 
-  changeImage(event: any): void {
-    console.log(event);
+  changeImage(e: any): void {
+    console.log('Image from input');
+    // this.filesArray=[...e.target.files]
+       console.log("Target Images",e.target.files,"type",Array.isArray(e.target.files))
+       let i=this.filesArray.length-1
+       for (var key in e.target.files) {
+         if (e.target.files.hasOwnProperty(key)) {
+             console.log(key + " -> " + e.target.files[key]);
+             if(e.target.files[key].name.split('.').includes('jpg')
+              || e.target.files[key].name.split('.').includes('jpeg')
+              ||e.target.files[key].name.split('.').includes('png')
+              ||e.target.files[key].name.split('.').includes('gif')
+               )
+             {
+              this.imgArr.push(e.target.files[key]) 
+             }
+             else
+             {
+                // alert("Please choose image file only")
+                this.alertMsg="Please choose image file only"
+                this.showAlert=true 
+                // this.uploadImage=false
+               
+             }
+            
+         }
+     }
+
+       console.log("Image Array",this.imgArr)
+     if (this.imgArr.length > 0) {
+       this.ShowFiles = true;
+     }
+     console.log('files Array', this.imgArr);
+   
+  }
+
+  imgRemove(fileId):void
+  {
+      // alert(fileId)
+      this.imgArr.splice(fileId,1)
   }
 
   attachPopover(): void {
@@ -81,61 +136,110 @@ export class EditorMenuComponent implements OnInit {
   dragenter(e): void {
     e.preventDefault();
     e.stopPropagation();
-    // this.filesArray.push(e.name);
-    // console.log(this.filesArray)
-    // this.filesArray.push(e.dataTransfer.files)
-    // console.log(e.dataTransfer)
-    // console.log(this.filesArray)
     this.enter = true;
   }
-  dropFile(e): void {
-    e.preventDefault();
-    console.log('file drop');
-    if (e.dataTransfer.files[0].name.includes('jpg')
-      || e.dataTransfer.files[0].name.includes('png')
-      || e.dataTransfer.files[0].name.includes('gif')
-      || e.dataTransfer.files[0].name.includes('svg')
-    ) {
-      alert('Image files are not allowed');
-    }
-    else {
-      this.filesArray.push(e.dataTransfer.files[0]);
-      console.log('on drop files array', this.filesArray);
-      if (this.filesArray.length > 0) {
-        this.ShowFiles = true;
+
+  dropFile(e): void
+  {
+      e && e.preventDefault();
+      console.log("dropped multple files",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
+      console.log("dropped files",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
+      
+
+      for (var key in e.dataTransfer.files) {
+        if (e.dataTransfer.files.hasOwnProperty(key)) {
+            console.log(key + " -> " + e.dataTransfer.files[key]);
+            if(e.dataTransfer.files[key].name.split('.').includes('jpg')
+            ||e.dataTransfer.files[key].name.split('.').includes('jpeg')
+            ||e.dataTransfer.files[key].name.split('.').includes('png')
+            ||e.dataTransfer.files[key].name.split('.').includes('gif')
+            )
+            {
+                // alert("image files are not allowed")
+                this.alertMsg="image files are not allowed"
+                this.showAlert=true;
+            }
+            else
+            {
+              this.filesArray.push(e.dataTransfer.files[key])
+            }
+           
+        }
+
       }
-      // console.log("drop event",e)
     }
+  dropImage(e) {
+    // console.log(e.t)
+    e && e.preventDefault();
+    console.log("dropped images",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
+    // console.log("check extension",e.dataTransfer.files[0].name.split('.'[0]).pop())
+    console.log('DROP THE BOMB');
+    const fileName = e.dataTransfer.files[0].name;
+    const fileSplit = fileName.split('.');
+    const fileExtension = fileSplit[fileSplit.length - 1];
+    console.log(fileName, fileExtension);
+   
+    for (var key in e.dataTransfer.files) {
+      if (e.dataTransfer.files.hasOwnProperty(key)) {
+          console.log(key + " -> " + e.dataTransfer.files[key]);
+          if(e.dataTransfer.files[key].name.split('.').includes('jpg')
+          ||e.dataTransfer.files[key].name.split('.').includes('jpeg')
+          ||e.dataTransfer.files[key].name.split('.').includes('png')
+          ||e.dataTransfer.files[key].name.split('.').includes('gif')
+          )
+          {
+            this.imgArr.push(e.dataTransfer.files[key])
+          }
+          else
+          {
+            // alert("Please choose Image file only")
+            this.alertMsg="Please choose Image file only"
+            this.showAlert=true
+            break
+          }
+          }
+         
+      }
 
-
-  }
+    }
+  
 
   fileRemove(fileId): void {
     console.log(fileId);
     this.filesArray.splice(fileId, 1);
   }
 
+  //file is upploaded from browse button
   fileFromInput(e): void {
     console.log('file from input');
-    // console.log(e.target.files)
-    if (e.target.files[0].name.includes('jpg')
-      || e.target.files[0].name.includes('png')
-      || e.target.files[0].name.includes('gif')
-      || e.target.files[0].name.includes('svg')
-    ) {
-      alert('Image files are not allowed');
-    }
-    else {
-      this.filesArray = [...(e.target.files)];
+     // this.filesArray=[...e.target.files]
+        console.log("Target files",e.target.files,"type",Array.isArray(e.target.files))
+        let i=this.filesArray.length-1
+        for (var key in e.target.files) {
+          if (e.target.files.hasOwnProperty(key)) {
+              console.log(key + " -> " + e.target.files[key]);
+              if(e.target.files[key].name.split('.').includes('jpg'))
+              {
+                  // alert("images are not allowed")
+                  this.alertMsg="images are not allowed"
+                  this.showAlert=true
+                  break
+              }
+              else
+              {
+                this.filesArray.push(e.target.files[key])
+              }
+             
+          }
+      }
+
+        console.log("file Array",this.filesArray)
       if (this.filesArray.length > 0) {
         this.ShowFiles = true;
       }
       console.log('files Array', this.filesArray);
     }
-
-
-
-  }
+  
 
   dragover(e): void {
     e.preventDefault();
@@ -212,5 +316,9 @@ export class EditorMenuComponent implements OnInit {
   }
   closeFontStylePopover(): void {
     this.fontStyle = false;
+  }
+  hideAlert():void
+  {
+      this.showAlert=false
   }
 }

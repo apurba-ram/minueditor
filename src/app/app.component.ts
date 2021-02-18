@@ -17,7 +17,9 @@ export class AppComponent {
     buttonName: 'Comment',
     fontColor: true,
     highlightColor: true,
-    menuPlacement: 'bottom'
+    menuPlacement: 'bottom',
+    multiple: true
+
   };
 
   hello(): void {
