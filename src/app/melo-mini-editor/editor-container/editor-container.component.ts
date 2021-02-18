@@ -179,12 +179,11 @@ export class EditorContainerComponent
         let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
         const styleArray: string[] = styleAttrib.split(';');
         for(const style of styleArray) {
-          if(style.indexOf('color:') > -1) {
-            this.fontColor = style.substring(style.indexOf(':') + 1).trim();
-          }
-          if(style.indexOf('background-color:') > -1) {
+           if(style.indexOf('background-color:') > -1) {
             this.backgroundColor = style.substring(style.indexOf(':') + 1).trim();
-          }
+          } else if(style.indexOf('color:') > -1) {
+            this.fontColor = style.substring(style.indexOf(':') + 1).trim();
+          } 
         }
       } else {
         this.fontColor = 'black';
