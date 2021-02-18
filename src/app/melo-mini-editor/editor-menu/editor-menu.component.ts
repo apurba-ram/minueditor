@@ -16,7 +16,7 @@ import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 export class EditorMenuComponent implements OnInit {
   @Input() editorConfig: EditorConfig;
   @Input() toolbarConfig: ToolbarConfig;
-  @Output() buttonClick: EventEmitter<string> = new EventEmitter();
+  @Output() buttonClick: EventEmitter<any> = new EventEmitter();
   @Input() multiple: boolean;
   enter = false;
   upload = false;
@@ -75,15 +75,10 @@ export class EditorMenuComponent implements OnInit {
   }
 
   colorChange(type: 'textColor' | 'fillColor'){
-    const event = {
-      target: {
-        dataset : {
-          id: type,
-          value: type === 'textColor' ? this.toolbarConfig?.fontColor : this.toolbarConfig?.backgroundColor
-        }
-      }
-    };
-    this.buttonClicked(event);
+    this.buttonClick.emit({
+      id: type,
+      value: type === 'textColor' ? this.toolbarConfig?.fontColor : this.toolbarConfig?.backgroundColor
+    });
   }
 
 
