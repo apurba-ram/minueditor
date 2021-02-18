@@ -107,8 +107,7 @@ export class EditorMenuComponent implements OnInit {
    
   }
 
-  imgRemove(fileId):void
-  {
+  imgRemove(fileId):void {
       // alert(fileId)
       this.imgArr.splice(fileId,1)
   }
