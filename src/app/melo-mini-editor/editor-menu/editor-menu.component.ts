@@ -68,8 +68,43 @@ export class EditorMenuComponent implements OnInit {
     }
   }
 
-  changeImage(event: any): void {
-    console.log(event);
+
+  changeImage(e: any): void {
+    console.log('Image from input');
+    // this.filesArray=[...e.target.files]
+       console.log("Target Images",e.target.files,"type",Array.isArray(e.target.files))
+       let i=this.filesArray.length-1
+       for (var key in e.target.files) {
+         if (e.target.files.hasOwnProperty(key)) {
+             console.log(key + " -> " + e.target.files[key]);
+             if(e.target.files[key].name.split('.').includes('jpg')
+              || e.target.files[key].name.split('.').includes('jpeg')
+              ||e.target.files[key].name.split('.').includes('png')
+              ||e.target.files[key].name.split('.').includes('gif')
+               )
+             {
+              this.imgArr.push(e.target.files[key]) 
+             }
+             else
+             {
+                alert("Please choose image file only")
+             }
+            
+         }
+     }
+
+       console.log("Image Array",this.imgArr)
+     if (this.imgArr.length > 0) {
+       this.ShowFiles = true;
+     }
+     console.log('files Array', this.imgArr);
+   
+  }
+
+  imgRemove(fileId):void
+  {
+      // alert(fileId)
+      this.imgArr.splice(fileId,1)
   }
 
   attachPopover(): void {
@@ -79,37 +114,50 @@ export class EditorMenuComponent implements OnInit {
   dragenter(e): void {
     e.preventDefault();
     e.stopPropagation();
-    // this.filesArray.push(e.name);
-    // console.log(this.filesArray)
-    // this.filesArray.push(e.dataTransfer.files)
-    // console.log(e.dataTransfer)
-    // console.log(this.filesArray)
     this.enter = true;
   }
-  dropFile(e): void {
-    e && e.preventDefault();
-    console.log("dropped files",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
-    // console.log('file drop');
-    if (
-      e.dataTransfer.files[0].name.split('.').includes('jpg') ||
-      e.dataTransfer.files[0].name.split('.').includes('png') ||
-      e.dataTransfer.files[0].name.split('.').includes('gif') ||
-      e.dataTransfer.files[0].name.split('.').includes('svg')
-    ) {
-      alert('Image files are not allowed');
-    } else {
-      this.filesArray.push(e.dataTransfer.files[0]);
-      console.log('on drop files array', this.filesArray);
-      // if (this.filesArray.length > 0) {
-      //   this.ShowFiles = true;
-      // }
-      // console.log("drop event",e)
-    }
+
+  dropFile(e): void
+  {
+      e && e.preventDefault();
+      console.log("dropped files",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
+      // console.log('file drop');
+      if (
+          e.dataTransfer.files[0].name.split('.').includes('jpg') ||
+          e.dataTransfer.files[0].name.split('.').includes('png') ||
+          e.dataTransfer.files[0].name.split('.').includes('gif') ||
+          e.dataTransfer.files[0].name.split('.').includes('svg')
+        ) 
+        {
+          alert('Image files are not allowed');
+        } 
+      else 
+        {
+          this.filesArray.push(e.dataTransfer.files[0]);
+          console.log('on drop files array', this.filesArray);
+          
+        }
   }
 
   dropImage(e) {
     // console.log(e.t)
-    this.imgArr.push(e.dataTransfer.files[0])
+    e && e.preventDefault();
+    console.log("dropped images",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
+    // console.log("check extension",e.dataTransfer.files[0].name.split('.'[0]).pop())
+    console.log('DROP THE BOMB');
+    const fileName = e.dataTransfer.files[0].name;
+    const fileSplit = fileName.split('.');
+    const fileExtension = fileSplit[fileSplit.length - 1];
+    console.log(fileName, fileExtension);
+    if (fileExtension === 'jpg' || fileExtension === 'jpeg' || fileExtension === 'gif' || fileExtension === 'png') 
+      {
+        this.imgArr.push(e.dataTransfer.files[0]);
+        console.log('on drop images array', this.imgArr); 
+      } 
+    else 
+      {
+        alert('Please Image file only');
+      }
   }
 
   fileRemove(fileId): void {

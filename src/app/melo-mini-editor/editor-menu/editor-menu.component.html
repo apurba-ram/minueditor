@@ -311,6 +311,36 @@
                         <label for="browse">Browse</label>
                     </div>
                 </div>
+                <div class="file-row">
+                    <div class="file-col" *ngFor="let imgName of imgArr; let i=index ">
+                        <button (click)="imgRemove(i)">
+                            <span>&times;</span>
+                        </button>
+                        <span  title="hi" class="file {{imgName.name.split('.')[1]}}">
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="2672" height="1024"
+                                viewBox="0 0 2672 1024">
+                                <g id="icomoon-ignore">
+                                </g>
+                                <path
+                                    d="M2662.047 170.706c0-94.256-76.39-170.647-170.647-170.647h-2320.8c-94.256 0-170.647 76.391-170.647 170.647s76.391 170.647 170.647 170.647h2320.8c94.257 0 170.647-76.391 170.647-170.647zM170.601 682.647c-94.256 0-170.647 76.391-170.647 170.647s76.391 170.647 170.647 170.647h784.977c94.257 0 170.647-76.39 170.647-170.647s-76.39-170.647-170.647-170.647h-784.977z">
+                                </path>
+                            </svg>
+                            <span  class="format"  title="hi" >
+                                {{imgName.name.split('.')[1]}}
+                            </span>
+                        </span>
+                    </div>
+                    <!-- <div class="file-col" >
+                        <input type="file" (change)="fileFromInput($event)">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024"
+                            viewBox="0 0 1024 1024">
+                            <g id="icomoon-ignore"></g>
+                            <path
+                                d="M64.001 575.974h383.999v383.999c0 35.328 28.672 64 64 64s64-28.672 64-64v-383.999h383.999c35.328 0 64-28.672 64-64s-28.672-64-64-64h-383.999v-383.999c0-35.328-28.672-64-64-64s-64 28.672-64 64v383.999h-383.999c-35.328 0-64 28.672-64 64s28.672 64 64 64z">
+                            </path>
+                        </svg>
+                    </div> -->
+                </div>
                 <div class="link">
                     <label>You can also add a image link here</label>
                     <input type="text" placeholder="http://exampleimage.com/image.jpg">
