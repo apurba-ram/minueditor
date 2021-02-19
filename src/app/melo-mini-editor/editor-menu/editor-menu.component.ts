@@ -151,34 +151,6 @@ export class EditorMenuComponent implements OnInit {
       
     }
     return;
-    //if multeple files are allowed
-    // for (var key in e.target.files) {
-    //   if (e.target.files.hasOwnProperty(key)) {
-    //     //  console.log(key + " -> " + e.target.files[key]);
-    //     if (
-    //       e.target.files[key].name.split('.')==="jpg" ||
-    //       e.target.files[key].name.split('.')==="jpeg" ||
-    //       e.target.files[key].name.split('.')==="png" ||
-    //       e.target.files[key].name.split('.')==="gif"
-    //     ) {
-    //       // this.readImageFile(e.target,e.target.files[key]);
-    //       // this.imgArr.push(e.target.files[key]);
-    //       // console.log('image arrys', this.imgArr);
-    //     } else {
-    //       // alert("Please choose image file only")
-    //       this.alertMsg = 'Please choose image file only';
-    //       this.showAlert = true;
-    //       // this.uploadImage=false
-    //     }
-    //   }
-    // }
-
-    //  console.log("Image Array",this.imgArr)
-    // if (this.imgArr.length > 0) {
-    //   this.ShowFiles = true;
-    // }
-    // console.log('files Array', this.imgArr);
-    // e.target.value = '';
   }
 
   imgRemove(fileId): void {
@@ -221,36 +193,10 @@ export class EditorMenuComponent implements OnInit {
     }
   }
   dropImage(e) {
-    // console.log(e.t)
     e.preventDefault();
-    // console.log("dropped images",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
-    // console.log("check extension",e.dataTransfer.files[0].name.split('.'[0]).pop())
-    // console.log('DROP THE BOMB');
-    console.log("Image is droped")
-    const fileName = e.dataTransfer.files[0].name;
-    const fileSplit = fileName.split('.');
-    const fileExtension = fileSplit[fileSplit.length - 1];
-    // console.log(fileName, fileExtension);
-
     for (var key in e.dataTransfer.files) {
       if (e.dataTransfer.files.hasOwnProperty(key)) {
         this.readImageFile(e.dataTransfer.files[0])
-        // this.imgUrl[0]=e.dataTransfer.files[0]
-        // console.log("Image Array",this.imgUrl)
-        // console.log(key + " -> " + e.dataTransfer.files[key]);
-        // if (
-        //   e.target.files[0].name.split('.')[1]==="jpg" ||
-        //   e.target.files[0].name.split('.')[1]==="jpeg" ||
-        //   e.target.files[0].name.split('.')[1]==="png" ||
-        //   e.target.files[0].name.split('.')[1]==="gif"
-        // ) {
-        //   this.imgArr.push(e.dataTransfer.files[key]);
-        // } else {
-        //   // alert("Please choose Image file only")
-        //   this.alertMsg = 'Please choose Image file only';
-        //   this.showAlert = true;
-        //   break;
-        // }
       }
     }
   }

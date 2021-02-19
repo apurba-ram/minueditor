@@ -122,7 +122,6 @@ export class EditorContainerComponent
     anchonrTag.setAttribute('title', event.linkTitle);
     // document.getElementsByClassName('editable-block')[0].appendChild(anchonrTag);
     this.sel.removeAllRanges();
-    console.log('OLD IS GOLD', this.oldRange);
     const range = this.oldRange.cloneRange();
     range.insertNode(anchonrTag);
     range.setStartAfter(anchonrTag);
