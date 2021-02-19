@@ -59,20 +59,11 @@ export class EditorMenuComponent implements OnInit {
 
   buttonClicked(event: any): void {
     event.stopPropagation();
-<<<<<<< HEAD
     if (
       event?.target?.dataset?.id === 'link' ||
       event?.target?.dataset?.id === 'attachment'
     ) {
     } else if (event?.target?.dataset) {
-=======
-    if (event?.target?.dataset?.id === 'link' ||
-        event?.target?.dataset?.id === 'attachment' ||
-        event?.target?.dataset?.id === 'fill-color' ||
-        event?.target?.dataset?.id === 'text-color') {
-
-    } else if (event?.target?.dataset?.id) {
->>>>>>> 4380a43aafd5b42b50853214bc277f8775a14182
       this.buttonClick.emit(event?.target?.dataset);
     }
   }
@@ -96,9 +87,9 @@ export class EditorMenuComponent implements OnInit {
     this.enter = true;
   }
   dropFile(e): void {
-<<<<<<< HEAD
     e && e.preventDefault();
-    console.log('file drop');
+    console.log("dropped files",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
+    // console.log('file drop');
     if (
       e.dataTransfer.files[0].name.includes('jpg') ||
       e.dataTransfer.files[0].name.includes('png') ||
@@ -107,23 +98,11 @@ export class EditorMenuComponent implements OnInit {
     ) {
       alert('Image files are not allowed');
     } else {
-=======
-    e.preventDefault();
-    console.log('file drop');
-    if (e.dataTransfer.files[0].name.includes('jpg')
-      || e.dataTransfer.files[0].name.includes('png')
-      || e.dataTransfer.files[0].name.includes('gif')
-      || e.dataTransfer.files[0].name.includes('svg')
-    ) {
-      alert('Image files are not allowed');
-    }
-    else {
->>>>>>> 4380a43aafd5b42b50853214bc277f8775a14182
       this.filesArray.push(e.dataTransfer.files[0]);
       console.log('on drop files array', this.filesArray);
-      if (this.filesArray.length > 0) {
-        this.ShowFiles = true;
-      }
+      // if (this.filesArray.length > 0) {
+      //   this.ShowFiles = true;
+      // }
       // console.log("drop event",e)
     }
   }
@@ -138,51 +117,34 @@ export class EditorMenuComponent implements OnInit {
     this.filesArray.splice(fileId, 1);
   }
 
+  //file is upploaded from browse button
   fileFromInput(e): void {
     console.log('file from input');
-    // console.log(e.target.files)
-    if (
-      e.target.files[0].name.split('.').includes('jpg') ||
-      e.target.files[0].name.split('.').includes('png') ||
-      e.target.files[0].name.split('.').includes('gif') ||
-      e.target.files[0].name.split('.').includes('svg')
-    ) {
-      alert('Image files are not allowed');
-    } else {
-      if(e.target.files.length>0)
-      {
-        // this.filesArray=[...e.target.files]
+     // this.filesArray=[...e.target.files]
         console.log("Target files",e.target.files,"type",Array.isArray(e.target.files))
         let i=this.filesArray.length-1
-        // e.target.files.forEach(element => {
-        //   // console.log(element)
-        //   this.filesArray.push(element)
-
-        // });
-
         for (var key in e.target.files) {
           if (e.target.files.hasOwnProperty(key)) {
               console.log(key + " -> " + e.target.files[key]);
-              this.filesArray.push(e.target.files[key])
+              if(e.target.files[key].name.split('.').includes('jpg'))
+              {
+                  alert("images are not allowed")
+              }
+              else
+              {
+                this.filesArray.push(e.target.files[key])
+              }
+             
           }
       }
 
-        
-
         console.log("file Array",this.filesArray)
-
-      }
-      else{
-        this.filesArray.push(e.target.files[0])
-      }
-      
-      // [...e.target.files];
       if (this.filesArray.length > 0) {
         this.ShowFiles = true;
       }
       console.log('files Array', this.filesArray);
     }
-  }
+  
 
   dragover(e): void {
     e.preventDefault();
