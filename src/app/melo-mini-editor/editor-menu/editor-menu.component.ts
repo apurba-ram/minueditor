@@ -91,10 +91,10 @@ export class EditorMenuComponent implements OnInit {
     console.log("dropped files",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
     // console.log('file drop');
     if (
-      e.dataTransfer.files[0].name.includes('jpg') ||
-      e.dataTransfer.files[0].name.includes('png') ||
-      e.dataTransfer.files[0].name.includes('gif') ||
-      e.dataTransfer.files[0].name.includes('svg')
+      e.dataTransfer.files[0].name.split('.').includes('jpg') ||
+      e.dataTransfer.files[0].name.split('.').includes('png') ||
+      e.dataTransfer.files[0].name.split('.').includes('gif') ||
+      e.dataTransfer.files[0].name.split('.').includes('svg')
     ) {
       alert('Image files are not allowed');
     } else {
