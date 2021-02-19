@@ -27,7 +27,7 @@ export class EditorMenuComponent implements OnInit {
   filesArray: Array<object>[];
   ShowFiles: boolean;
   fontStyle = false;
-  fillColor = false;
+  fillColor: boolean[];
   setTextColor = false;
   imgArr: Array<object> = [];
   constructor() {
@@ -52,17 +52,27 @@ export class EditorMenuComponent implements OnInit {
       highlightColor: false,
     };
     this.filesArray = [];
+    this.fillColor = Array(2).fill(false);
   }
 
   ngOnInit(): void {}
 
   buttonClicked(event: any): void {
     event.stopPropagation();
+<<<<<<< HEAD
     if (
       event?.target?.dataset?.id === 'link' ||
       event?.target?.dataset?.id === 'attachment'
     ) {
     } else if (event?.target?.dataset) {
+=======
+    if (event?.target?.dataset?.id === 'link' ||
+        event?.target?.dataset?.id === 'attachment' ||
+        event?.target?.dataset?.id === 'fill-color' ||
+        event?.target?.dataset?.id === 'text-color') {
+
+    } else if (event?.target?.dataset?.id) {
+>>>>>>> 4380a43aafd5b42b50853214bc277f8775a14182
       this.buttonClick.emit(event?.target?.dataset);
     }
   }
@@ -86,6 +96,7 @@ export class EditorMenuComponent implements OnInit {
     this.enter = true;
   }
   dropFile(e): void {
+<<<<<<< HEAD
     e && e.preventDefault();
     console.log('file drop');
     if (
@@ -96,6 +107,18 @@ export class EditorMenuComponent implements OnInit {
     ) {
       alert('Image files are not allowed');
     } else {
+=======
+    e.preventDefault();
+    console.log('file drop');
+    if (e.dataTransfer.files[0].name.includes('jpg')
+      || e.dataTransfer.files[0].name.includes('png')
+      || e.dataTransfer.files[0].name.includes('gif')
+      || e.dataTransfer.files[0].name.includes('svg')
+    ) {
+      alert('Image files are not allowed');
+    }
+    else {
+>>>>>>> 4380a43aafd5b42b50853214bc277f8775a14182
       this.filesArray.push(e.dataTransfer.files[0]);
       console.log('on drop files array', this.filesArray);
       if (this.filesArray.length > 0) {
@@ -200,12 +223,6 @@ export class EditorMenuComponent implements OnInit {
   fontStylePopover(): void {
     this.fontStyle = !this.fontStyle;
   }
-  highlight(): void {
-    this.fillColor = !this.fillColor;
-  }
-  textColor(): void {
-    this.setTextColor = !this.setTextColor;
-  }
   closePopover(): void {
     this.filesArray = [];
     this.alignment = false;
@@ -215,7 +232,7 @@ export class EditorMenuComponent implements OnInit {
     this.listStyle = false;
     this.ShowFiles = false;
     this.fontStyle = false;
-    this.fillColor = false;
+    this.fillColor = Array(2).fill(false);
     this.setTextColor = false;
   }
 
@@ -242,11 +259,5 @@ export class EditorMenuComponent implements OnInit {
   }
   closeFontStylePopover(): void {
     this.fontStyle = false;
-  }
-  closeHighlitePopover(): void {
-    this.fillColor = false;
-  }
-  closeTextColorPopover(): void {
-    this.setTextColor = false;
   }
 }
