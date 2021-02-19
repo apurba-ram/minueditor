@@ -23,12 +23,12 @@
             <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg"
                 data-id="italic">
                 <g clip-path="url(#clip0)">
-                    <path
+                    <path data-id="italic"
                         d="M105.881 0V54H154.873L79.104 244.667H21V298.667H190.761V244.667H139.78L214.554 54H275.641V0H105.881Z" />
                 </g>
                 <defs>
                     <clipPath id="clip0">
-                        <rect width="298.667" height="298.667" fill="white" />
+                        <rect width="298.667" height="298.667" fill="white" data-id="italic"/>
                     </clipPath>
                 </defs>
             </svg>
@@ -42,9 +42,9 @@
                 <g>
                     <g>
                         <g>
-                            <path d="M192,298.667c70.72,0,128-57.28,128-128V0h-53.333v170.667c0,41.28-33.387,74.667-74.667,74.667
+                            <path data-id="underline" d="M192,298.667c70.72,0,128-57.28,128-128V0h-53.333v170.667c0,41.28-33.387,74.667-74.667,74.667
                             s-74.667-33.387-74.667-74.667V0H64v170.667C64,241.387,121.28,298.667,192,298.667z" />
-                            <rect x="42.667" y="341.333" width="298.667" height="42.667" />
+                            <rect x="42.667" y="341.333" width="298.667" height="42.667" data-id="underline"/>
                         </g>
                     </g>
                 </g>
@@ -128,7 +128,7 @@
                 <li data-id="unordered-list">
                     <!-- List with bullets -->
                     <button data-id="unordered-list" [class.active]="toolbarConfig?.unorderedList">
-                        <svg width="299" height="299" viewBox="0 0 299 299" fill="none"  data-id="unordered-list"
+                        <svg width="299" height="299" viewBox="0 0 299 299" fill="none" data-id="unordered-list"
                             xmlns="http://www.w3.org/2000/svg">
                             <path data-id="unordered-list"
                                 d="M24.2432 28.2834C10.8284 28.2834 0 39.1118 0 52.5267C0 65.9415 10.8284 76.7699 24.2432 76.7699C37.6581 76.7699 48.4865 65.9415 48.4865 52.5267C48.4865 39.1118 37.6581 28.2834 24.2432 28.2834Z" />
@@ -222,7 +222,7 @@
                 </div>
                 <div  *ngIf="ShowFiles==false" class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragover($event)" 
                     (dragend)="dragend($event)" (dragleave)="dragleave($event)" (drop)="dropFile($event)" [class.enter]="enter">
-                    <input type="file" id="browse">
+                    <input type="file" id="browse" (change)="fileFromInput($event)">
                     <div class="container" >
                         <span>Drop file here or browse to upload</span>
                         <label for="browse">Browse</label>
@@ -240,22 +240,25 @@
                 </div>
                 <div class="file-row">
                     <div class="file-col" *ngFor="let fileName of filesArray ">
+                        <button>
+                            <span>&times;</span>
+                        </button>
                         <span class="file {{fileName.name.split('.')[1]}}">
-                            <!-- <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="2672" height="1024"
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="2672" height="1024"
                                 viewBox="0 0 2672 1024">
                                 <g id="icomoon-ignore">
                                 </g>
                                 <path
                                     d="M2662.047 170.706c0-94.256-76.39-170.647-170.647-170.647h-2320.8c-94.256 0-170.647 76.391-170.647 170.647s76.391 170.647 170.647 170.647h2320.8c94.257 0 170.647-76.391 170.647-170.647zM170.601 682.647c-94.256 0-170.647 76.391-170.647 170.647s76.391 170.647 170.647 170.647h784.977c94.257 0 170.647-76.39 170.647-170.647s-76.39-170.647-170.647-170.647h-784.977z">
                                 </path>
-                            </svg> -->
+                            </svg>
                             <span  class="format">
                                 {{fileName.name.split('.')[1]}}
                             </span>
                         </span>
                     </div>
                     <div class="file-col" >
-                        <input type="file">
+                        <input type="file" (change)="fileFromInput($event)">
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024"
                             viewBox="0 0 1024 1024">
                             <g id="icomoon-ignore"></g>
@@ -495,7 +498,7 @@
     </div>
     <!-- Superscript -->
     <div class="col">
-        <button  [class.active]="toolbarConfig?.superscript">
+        <button [class.active]="toolbarConfig?.superscript">
             <svg width="200" height="174" viewBox="0 0 200 174" fill="none">
                 <path
                     d="M85.9381 113.681L139.578 173.934H106.571L69.0088 129.867L32.2984 173.934H0L53.2083 113.681L2.562 56.8192H35.145L70.4356 98.0449L106.001 56.8192H137.163L85.9381 113.681ZM159.28 72.9393L181.389 56.6618C188.928 51.4813 193.881 46.6757 196.255 42.2405C198.627 37.8077 199.812 33.044 199.812 27.9395C199.812 19.6009 197.024 12.8704 191.456 7.74929C185.882 2.62529 178.555 0.0657349 169.477 0.0657349C160.724 0.0657349 153.723 2.65782 148.482 7.83793C143.229 13.0209 140.607 20.8317 140.607 31.2789H157.49C157.49 25.0457 158.596 20.7365 160.802 18.3465C163.008 15.9561 166.031 14.7607 169.882 14.7607C173.727 14.7607 176.765 15.9769 179.019 18.4055C181.264 20.8317 182.384 23.8491 182.384 27.4552C182.384 31.0553 181.346 34.313 179.259 37.2295C177.173 40.1461 171.376 45.0656 161.864 51.9883C153.726 57.939 142.714 63.5448 139.412 68.807L139.578 88.3617H200V72.9393H159.28Z" />

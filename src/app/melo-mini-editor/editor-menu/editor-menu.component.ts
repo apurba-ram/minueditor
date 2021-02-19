@@ -81,6 +81,12 @@ export class EditorMenuComponent implements OnInit {
       console.log(fileId)
   }
 
+  fileFromInput(e)
+  {
+    console.log("file from input")
+    // console.log(e.target.files)
+  }
+
   dragover(e):void
   {
     e.preventDefault() 
