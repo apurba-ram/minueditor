@@ -115,22 +115,20 @@ export class EditorContainerComponent
     document.getElementsByClassName('editable-block')[0].appendChild(imgTag)
   }
 
-  saveLinkndShowInEditor($event:any)
-  {
-    console.log("event",$event)
-    const obj={
-              linkUrl:$event.linkUrl,
-              linkTitle:$event.linkTitle,
-              linkText:$event.linkText
-         }
-          this.savedLinks.push(obj)
-        console.log("Links in container",this.savedLinks[this.savedLinks.length-1])
-        const anchonrTag=document.createElement('a')
-        anchonrTag.innerHTML=this.savedLinks[this.savedLinks.length-1].linkText
-        anchonrTag.setAttribute('href',this.savedLinks[this.savedLinks.length-1].linkUrl)
-        anchonrTag.setAttribute('title',this.savedLinks[this.savedLinks.length-1].linkTitle)
-        console.log("anchor tag",anchonrTag)
-        document.getElementsByClassName('editable-block')[0].appendChild(anchonrTag)
+  saveLinkndShowInEditor(event:any) : void{
+    const anchonrTag = document.createElement('a');
+    anchonrTag.innerHTML = event.linkText;
+    anchonrTag.setAttribute('href', event.linkUrl);
+    anchonrTag.setAttribute('title', event.linkTitle);
+    // document.getElementsByClassName('editable-block')[0].appendChild(anchonrTag);
+    this.sel.removeAllRanges();
+    console.log('OLD IS GOLD', this.oldRange);
+    const range = this.oldRange.cloneRange();
+    range.insertNode(anchonrTag);
+    range.setStartAfter(anchonrTag);
+    range.collapse();
+    this.sel.removeAllRanges();
+    this.sel.addRange(range);
   }
   
   resetToolbar(): void {
@@ -199,6 +197,8 @@ export class EditorContainerComponent
   selectionChange(event: any): void {
     if (document.activeElement === document.getElementById(this.id)) {
       // console.log(this.sel);
+      this.oldRange = this.sel.getRangeAt(0).cloneRange();
+      console.log('BIITS',this.oldRange);
       this.setFontAndbackgroundColor();
       this.toolbarConfig = {
         bold: document.queryCommandState('bold'),
@@ -235,6 +235,9 @@ export class EditorContainerComponent
         this.fontColor = 'black';
         this.backgroundColor = 'white';
       }
+    } else {
+        this.fontColor = 'black';
+        this.backgroundColor = 'white';
     }
   }
 
@@ -333,6 +336,7 @@ export class EditorContainerComponent
 
   blur(): void {
     this.oldRange = this.sel.getRangeAt(0).cloneRange(); // to store the range when element is blurred
+    console.log('RECALL THE BLURRY VISION', this.oldRange);
   }
 
   focus(): void {
@@ -442,13 +446,16 @@ export class EditorContainerComponent
 
   toolbarClicked(event: any): void {
     if (this.oldRange) {
-      this.sel.removeAllRanges();
-      const range = this.oldRange.cloneRange();
-      const t = document.createTextNode('');
-      range.insertNode(t);
-      range.setStartAfter(t);
-      range.collapse();
-      this.sel.addRange(range);
+
+      if(event?.id !== 'textColor' && event?.id !== 'fillColor') {
+        this.sel.removeAllRanges();
+        const range = this.oldRange.cloneRange();
+        const t = document.createTextNode('');
+        range.insertNode(t);
+        range.setStartAfter(t);
+        range.collapse();
+        this.sel.addRange(range);
+      }
     } else {
       this.focus();
     }
@@ -463,7 +470,6 @@ export class EditorContainerComponent
         this.toolbarConfig[id] = false;
       }
     }
-   // console.log('SAR WAAR BHI PHAT GAYE', id);
     switch (id) {
       case 'h1': 
       case 'h2': 

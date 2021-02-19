@@ -84,7 +84,7 @@
     </div>
     <!-- list -->
     <div class="col" clickOutside (clickOutside)="closeListStylesPopover()">
-        <button class="lg" [class.active]="listStyle" (click)="listStyles()">
+        <button class="lg" (click)="listStyles()" [class.active]="listStyle || toolbarConfig?.orderedList || toolbarConfig?.unorderedList">
             <svg width="595" height="400" viewBox="0 0 595 400" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M34.3783 20C15.3553 20 0 35.6776 0 55.1C0 74.5224 15.3553 90.2 34.3783 90.2C53.4013 90.2 68.7566 74.5224 68.7566 55.1C68.7566 35.6776 53.4013 20 34.3783 20Z" />
@@ -536,8 +536,8 @@
                 </g>
             </svg>
         </button>
-        <div class="popover color-palette" *ngIf="fillColor[0]">
-            <app-color-palette [(color)]="toolbarConfig.backgroundColor" (colorChange)="fillColor[0] = false; colorChange('fillColor');"></app-color-palette>
+        <div class="popover color-palette" *ngIf="fillColor[0]" data-id="fill-color">
+            <app-color-palette [(color)]="toolbarConfig.backgroundColor" (colorChange)="fillColor[0] = false; colorChange('fillColor');" data-id="fill-color"></app-color-palette>
         </div>
     </div>
     <!-- Text Color -->
@@ -562,8 +562,8 @@
                 </g>
             </svg>
         </button>
-        <div class="popover color-palette" *ngIf="fillColor[1]">
-            <app-color-palette [(color)]="toolbarConfig.fontColor" (colorChange)="fillColor[1] = false;  colorChange('textColor');"></app-color-palette>
+        <div class="popover color-palette" *ngIf="fillColor[1]" data-id="text-color">
+            <app-color-palette [(color)]="toolbarConfig.fontColor" (colorChange)="fillColor[1] = false;  colorChange('textColor');" data-id="text-color"></app-color-palette>
         </div>
     </div>
     <!-- Superscript -->

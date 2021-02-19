@@ -75,9 +75,9 @@ export class EditorMenuComponent implements OnInit {
   buttonClicked(event: any): void {
   event.stopPropagation();
   if (event?.target?.dataset?.id &&
-    (event?.target?.dataset?.id !== 'link' ||
-      event?.target?.dataset?.id !== 'attachment' ||
-      event?.target?.dataset?.id !== 'fill-color' ||
+    (event?.target?.dataset?.id !== 'link' &&
+      event?.target?.dataset?.id !== 'attachment' &&
+      event?.target?.dataset?.id !== 'fill-color' &&
       event?.target?.dataset?.id !== 'text-color')) {
         this.buttonClick.emit(event?.target?.dataset);
   }
