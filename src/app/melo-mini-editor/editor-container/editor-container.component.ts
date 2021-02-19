@@ -5,13 +5,16 @@ import {
   OnChanges,
   forwardRef,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   SimpleChanges,
   AfterViewInit,
   OnDestroy,
+  AfterViewChecked,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 import { nanoid } from 'nanoid';
+import { NgZone } from '@angular/core';
 @Component({
   selector: 'app-editor-container',
   templateUrl: './editor-container.component.html',
@@ -25,7 +28,7 @@ import { nanoid } from 'nanoid';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditorContainerComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
+export class EditorContainerComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy, AfterViewChecked {
   @Input() editorConfig: EditorConfig;
 
   html: string;
@@ -49,7 +52,8 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
 
   toolbarConfig: ToolbarConfig;
 
-  constructor() {
+  constructor(private zone: NgZone, private ref: ChangeDetectorRef) {
+
     this.editorConfig = {
       file: false,
       mentionedNames: [],
@@ -73,6 +77,13 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
       toolbarPlacement: 'top',
     };
 
+    this.toolbarPlacement = 'bottom';
+    this.placeholder = '';
+    this.id = nanoid();
+    this.resetToolbar();
+  }
+
+  resetToolbar(): void {
     this.toolbarConfig = {
       bold: false,
       italic: false,
@@ -84,10 +95,6 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
       subscript: false,
       quote: false
     };
-
-    this.toolbarPlacement = 'bottom';
-    this.placeholder = '';
-    this.id = nanoid();
   }
 
   onChange: any = () => {};
@@ -103,6 +110,10 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
 
   writeValue(value: any): void {
     this.htmlVal = value;
+  }
+
+  ngAfterViewChecked(): void {
+    console.log('Change detection triggered!');
   }
 
   registerOnChange(fn: any): void {
@@ -135,12 +146,9 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
         orderedList: document.queryCommandState('insertorderedList'),
         unorderedList: document.queryCommandState('insertunorderedList')
       };
-     // console.log('HERE', this.toolbarConfig);
+    } else {
+      this.resetToolbar();
     }
-  }
-
-  hello(): void {
-    console.log('HELLNO');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -222,6 +230,7 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
 
   blur(): void {
     this.oldRange = this.sel.getRangeAt(0).cloneRange(); // to store the range when element is blurred
+    console.log('R1', this.oldRange);
     // this.bold = false;
     // this.italic =  false;
     // this.orderedList = false;
@@ -327,40 +336,45 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
   }
 
   toolbarClicked(event: any): void {
-    if (!this.sel || !this.sel.anchorNode) {
-      this.focus();
-      this.toolbarOperations(event?.id);
+    if (this.oldRange) {
+      this.sel.removeAllRanges();
+      const range = this.oldRange.cloneRange();
+      const t = document.createTextNode('');
+      range.insertNode(t);
+      range.setStartAfter(t);
+      range.collapse();
+      this.sel.addRange(range);
     } else {
-      const { startContainer } = this.sel.getRangeAt(0);
-      if (this.checkValidOperation(startContainer)) {
-        this.toolbarOperations(event?.id);
-        this.focus();
-      } else {
-        this.focus();
-        return;
-      }
+      this.focus();
     }
+    this.toolbarOperations(event?.id);
   }
 
   toolbarOperations(id: string): void {
-    console.log('IDEMPOTENT', id);
+
+    if (id) {
+      if (!this.toolbarConfig[id]) {
+        this.toolbarConfig[id] = true;
+      } else {
+        this.toolbarConfig[id] = false;
+      }
+    }
     switch (id) {
-      case 'bold':
-        document.execCommand('bold', false, '');
-        break;
+      case 'bold': document.execCommand('bold', false, '');
+                   break;
       case 'italic':
         document.execCommand('italic', false, '');
         break;
-      case 'line-through':
+      case 'strikeThrough':
         document.execCommand('strikeThrough', false, '');
         break;
       case 'underline':
         document.execCommand('underline', false, '');
         break;
-      case 'ordered-list':
+      case 'orderedList':
         document.execCommand('insertOrderedList', false, '');
         break;
-      case 'unordered-list':
+      case 'unorderedList':
         document.execCommand('insertunorderedList', false, '');
         break;
       case 'quote':
