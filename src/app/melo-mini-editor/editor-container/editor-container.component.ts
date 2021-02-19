@@ -341,6 +341,9 @@ export class EditorContainerComponent
     }
   }
    
+  /*
+  * @param event - This parameter is an event that is occurred whenever we make changes inside the div contenteditable
+  */
   setValue(event: any): void {
     event.stopPropagation();
     this.innerText = event.target.innerText;
@@ -375,15 +378,11 @@ export class EditorContainerComponent
     }
 
     this.writeValue(document.getElementById(`${this.id}`).innerHTML);
-
-    //  get cursor possition
-    console.log("OLD Range",this.oldRange)
-    console.log("last char", window.getSelection().anchorNode)
-    
-
-
   }
 
+  /*
+  * This function is called whenever the mention tab is closed
+  */
   mentionClosed(): void {
     // insert mentions
 
@@ -413,6 +412,9 @@ export class EditorContainerComponent
     //  this.valueInput = true;
   }
 
+  /*
+  * @param event - This parameter is an event that is occurred whenever we paste things inside the div contenteditable
+  */
   onPaste(event: any): void {
     event.preventDefault();
     const clipboardData = event.clipboardData;
