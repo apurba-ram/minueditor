@@ -456,7 +456,7 @@ export class EditorContainerComponent
   }
 
   toolbarOperations(id: string, value: any): void {
-    if (id && id !== 'fillColor' && id !== 'textColor') {
+    if (id && id !== 'fillColor' && id !== 'textColor' && id !== 'subscript' && id !== 'superscript' && id !== 'quote') {
       if (!this.toolbarConfig[id]) {
         this.toolbarConfig[id] = true;
       } else {
@@ -473,7 +473,7 @@ export class EditorContainerComponent
                    break; 
       case 'superscript': this.insertSupTag();
                         break;
-      case 'subscript': this.insertSupTag();
+      case 'subscript': this.insertSubTag();
                         break;
       case 'bold':
         document.execCommand('bold', false, '');
@@ -542,6 +542,7 @@ export class EditorContainerComponent
   }
 
   insertSupTag(): void {
+    console.log('HEREIN')
     if(!this.toolbarConfig.superscript) {
       const sup = document.createElement('sup');
       sup.innerHTML = '&#8204;';
