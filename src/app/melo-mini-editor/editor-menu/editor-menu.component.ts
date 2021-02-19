@@ -10,6 +10,7 @@ export class EditorMenuComponent implements OnInit {
   @Input() editorConfig: EditorConfig;
   @Input() toolbarConfig: ToolbarConfig;
   @Output() buttonClick: EventEmitter<string> = new EventEmitter();
+  @Input() multiple:boolean
   enter = false;
   upload = false;
   uploadImage = false;
@@ -19,6 +20,7 @@ export class EditorMenuComponent implements OnInit {
   filesArray=[]
   ShowFiles:boolean=false
   fontStyle = false;
+  
   constructor() {
     this.editorConfig = {
       file: false,
@@ -51,6 +53,7 @@ export class EditorMenuComponent implements OnInit {
   }
 
   attachPopover(): void {
+    this.filesArray=[]
     this.upload = !this.upload;
   }
   dragenter(e): void {
@@ -67,24 +70,56 @@ export class EditorMenuComponent implements OnInit {
   {
     e && e.preventDefault();
     console.log("file drop")
-    this.filesArray.push(e.dataTransfer.files[0])
-    console.log("on drop files array",this.filesArray)
+    if(e.dataTransfer.files[0].name.includes('jpg') 
+    ||  e.dataTransfer.files[0].name.includes('png') 
+    || e.dataTransfer.files[0].name.includes('gif')
+    || e.dataTransfer.files[0].name.includes('svg')
+    )
+    {
+      alert("Image files are not allowed")
+    }
+    else{
+      this.filesArray.push(e.dataTransfer.files[0])
+      console.log("on drop files array",this.filesArray)
     if(this.filesArray.length>0)
     {
       this.ShowFiles=true
     }
     // console.log("drop event",e)
+    }
+    
+    
   }
 
   fileRemove(fileId):void
   {
       console.log(fileId)
+      this.filesArray.splice(fileId,1)
   }
 
   fileFromInput(e)
   {
     console.log("file from input")
     // console.log(e.target.files)
+    if(e.target.files[0].name.includes('jpg') 
+    ||  e.target.files[0].name.includes('png') 
+    || e.target.files[0].name.includes('gif')
+    || e.target.files[0].name.includes('svg')
+    )
+    {
+      alert("Image files are not allowed")
+    }
+    else{
+      this.filesArray=[...(e.target.files)]
+      if(this.filesArray.length>0)
+      {
+        this.ShowFiles=true
+      }
+      console.log("files Array",this.filesArray)
+    }
+    
+   
+
   }
 
   dragover(e):void
