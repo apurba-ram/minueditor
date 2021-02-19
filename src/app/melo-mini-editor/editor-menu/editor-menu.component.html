@@ -2,7 +2,7 @@
 <div class="editor-menu" (click)="buttonClicked($event)">
     <!-- Bold -->
     <div class="col" data-id="bold">
-        <button data-id="bold">
+        <button data-id="bold" [class.active]="toolbarConfig?.bold">
             <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg"
                 data-id="bold">
                 <g clip-path="url(#clip0)">
@@ -11,7 +11,7 @@
                 </g>
                 <defs>
                     <clipPath id="clip0">
-                        <rect width="298.667" height="298.667" fill="white" data-id="bold"/>
+                        <rect width="298.667" height="298.667" fill="white" data-id="bold" />
                     </clipPath>
                 </defs>
             </svg>
@@ -19,7 +19,7 @@
     </div>
     <!-- Italic -->
     <div class="col" data-id="italic">
-        <button data-id="italic">
+        <button data-id="italic" [class.active]="toolbarConfig?.italic">
             <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg"
                 data-id="italic">
                 <g clip-path="url(#clip0)">
@@ -36,7 +36,7 @@
     </div>
     <!-- Underline -->
     <div class="col" data-id="underline">
-        <button data-id="underline">
+        <button data-id="underline" [class.active]="toolbarConfig?.underline">
             <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" data-id="underline"
                 style="enable-background: new 0 0 384 384" xml:space="preserve">
                 <g>
@@ -53,7 +53,7 @@
     </div>
     <!-- Line through -->
     <div class="col" data-id="line-through">
-        <button data-id="line-through">
+        <button data-id="line-through" [class.active]="toolbarConfig?.strikeThrough">
             <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve"
                 data-id="line-through">
                 <g>
@@ -83,49 +83,53 @@
         </button>
     </div>
     <!-- list -->
-    <div class="col" data-id="unordered-list" clickOutside (clickOutside)="closeListStylesPopover()">
-        <button data-id="unordered-list" class="lg" [class.active]="listStyle" (click)="listStyles()">
+    <div class="col" clickOutside (clickOutside)="closeListStylesPopover()">
+        <button class="lg" [class.active]="listStyle" (click)="listStyles()">
             <svg width="595" height="400" viewBox="0 0 595 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M34.3783 20C15.3553 20 0 35.6776 0 55.1C0 74.5224 15.3553 90.2 34.3783 90.2C53.4013 90.2 68.7566 74.5224 68.7566 55.1C68.7566 35.6776 53.4013 20 34.3783 20Z" />
-                <path d="M34.3783 160.4C15.3553 160.4 0 176.077 0 195.5C0 214.922 15.3553 230.6 34.3783 230.6C53.4013 230.6 68.7566 214.922 68.7566 195.5C68.7566 176.077 53.4013 160.4 34.3783 160.4Z" />
-                <path d="M34.3783 300.8C15.2414 300.8 0 316.595 0 335.9C0 355.205 15.4702 371 34.3783 371C53.2864 371 68.7566 355.205 68.7566 335.9C68.7566 316.595 53.5152 300.8 34.3783 300.8Z" />
+                <path
+                    d="M34.3783 20C15.3553 20 0 35.6776 0 55.1C0 74.5224 15.3553 90.2 34.3783 90.2C53.4013 90.2 68.7566 74.5224 68.7566 55.1C68.7566 35.6776 53.4013 20 34.3783 20Z" />
+                <path
+                    d="M34.3783 160.4C15.3553 160.4 0 176.077 0 195.5C0 214.922 15.3553 230.6 34.3783 230.6C53.4013 230.6 68.7566 214.922 68.7566 195.5C68.7566 176.077 53.4013 160.4 34.3783 160.4Z" />
+                <path
+                    d="M34.3783 300.8C15.2414 300.8 0 316.595 0 335.9C0 355.205 15.4702 371 34.3783 371C53.2864 371 68.7566 355.205 68.7566 335.9C68.7566 316.595 53.5152 300.8 34.3783 300.8Z" />
                 <path d="M424 312.5H103.135V359.301H424V312.5Z" />
                 <path d="M424 31.7002H103.135V78.5006H424V31.7002Z" />
                 <path d="M424 172.1H103.135V218.901H424V172.1Z" />
                 <path d="M595 162L538 228L481 162H594.989H595Z" />
             </svg>
         </button>
-        <div class="popover small" *ngIf="listStyle">
+        <div class="popover small" *ngIf="listStyle" (click)="closeListStylesPopover()">
             <ul class="option-list">
-                <li data-id="left-align">
+                <li data-id="ordered-list">
                     <!-- List with Number -->
-                    <button data-id="left-align">
-                        <svg width="298" height="298" viewBox="0 0 298 298" fill="none"
+                    <button data-id="ordered-list" [class.active]="toolbarConfig?.orderedList">
+                        <svg width="298" height="298" viewBox="0 0 298 298" fill="none" data-id="ordered-list"
                             xmlns="http://www.w3.org/2000/svg" data-id="ordered-list">
                             <g clip-path="url(#clip0)">
                                 <path data-id="ordered-list"
                                     d="M0 242.125H31.3687V251.438H15.684V270.063H31.3687V279.375H0V298H47.0527V223.5H0V242.125Z" />
-                                <path data-id="ordered-list" d="M15.684 74.4998H31.3687V0H0V18.6247H15.684V74.4998Z" />
-                                <path data-id="ordered-list"
-                                    d="M0 130.375H28.2316L0 169.487V186.25H47.0527V167.625H18.8211L47.0527 128.513V111.75H0V130.375Z" />
-                                <path data-id="ordered-list" d="M298.001 242.125H78.4214V279.375H298.001V242.125Z" />
-                                <path data-id="ordered-list" d="M298.001 18.6246H78.4214V55.875H298.001V18.6246Z" />
-                                <path data-id="ordered-list" d="M298.001 130.375H78.4214V167.625H298.001V130.375Z" />
+                                <path d="M15.684 74.4998H31.3687V0H0V18.6247H15.684V74.4998Z" data-id="ordered-list" />
+                                <path
+                                    d="M0 130.375H28.2316L0 169.487V186.25H47.0527V167.625H18.8211L47.0527 128.513V111.75H0V130.375Z"
+                                    data-id="ordered-list" />
+                                <path d="M298.001 242.125H78.4214V279.375H298.001V242.125Z" data-id="ordered-list" />
+                                <path d="M298.001 18.6246H78.4214V55.875H298.001V18.6246Z" data-id="ordered-list" />
+                                <path d="M298.001 130.375H78.4214V167.625H298.001V130.375Z" data-id="ordered-list" />
                             </g>
                             <defs>
                                 <clipPath id="clip0">
-                                    <rect width="298" height="298" fill="white" />
+                                    <rect width="298" height="298" fill="white" data-id="ordered-list" />
                                 </clipPath>
                             </defs>
                         </svg>
-                        <span data-id="left-align">List with number</span>
+                        <span data-id="ordered-list">List with number</span>
                     </button>
                 </li>
-                <li data-id="center-align">
+                <li data-id="unordered-list">
                     <!-- List with bullets -->
-                    <button data-id="center-align">
-                        <svg width="299" height="299" viewBox="0 0 299 299" fill="none"
-                            xmlns="http://www.w3.org/2000/svg" data-id="unordered-list">
+                    <button data-id="unordered-list" [class.active]="toolbarConfig?.unorderedList">
+                        <svg width="299" height="299" viewBox="0 0 299 299" fill="none"  data-id="unordered-list"
+                            xmlns="http://www.w3.org/2000/svg">
                             <path data-id="unordered-list"
                                 d="M24.2432 28.2834C10.8284 28.2834 0 39.1118 0 52.5267C0 65.9415 10.8284 76.7699 24.2432 76.7699C37.6581 76.7699 48.4865 65.9415 48.4865 52.5267C48.4865 39.1118 37.6581 28.2834 24.2432 28.2834Z" />
                             <path data-id="unordered-list"
@@ -136,37 +140,14 @@
                             <path data-id="unordered-list" d="M299 36.3647H72.7297V68.6893H299V36.3647Z" />
                             <path data-id="unordered-list" d="M299 133.338H72.7297V165.662H299V133.338Z" />
                         </svg>
-                        <span data-id="center-align">List with bullets</span>
+                        <span data-id="unordered-list">List with bullets</span>
                     </button>
                 </li>
             </ul>
         </div>
     </div>
-    <!-- Number list -->
-    <!-- <div class="col" data-id="ordered-list">
-        <button data-id="ordered-list">
-            <svg width="298" height="298" viewBox="0 0 298 298" fill="none" xmlns="http://www.w3.org/2000/svg"
-                data-id="ordered-list">
-                <g clip-path="url(#clip0)">
-                    <path data-id="ordered-list"
-                        d="M0 242.125H31.3687V251.438H15.684V270.063H31.3687V279.375H0V298H47.0527V223.5H0V242.125Z" />
-                    <path data-id="ordered-list" d="M15.684 74.4998H31.3687V0H0V18.6247H15.684V74.4998Z" />
-                    <path data-id="ordered-list"
-                        d="M0 130.375H28.2316L0 169.487V186.25H47.0527V167.625H18.8211L47.0527 128.513V111.75H0V130.375Z" />
-                    <path data-id="ordered-list" d="M298.001 242.125H78.4214V279.375H298.001V242.125Z" />
-                    <path data-id="ordered-list" d="M298.001 18.6246H78.4214V55.875H298.001V18.6246Z" />
-                    <path data-id="ordered-list" d="M298.001 130.375H78.4214V167.625H298.001V130.375Z" />
-                </g>
-                <defs>
-                    <clipPath id="clip0">
-                        <rect width="298" height="298" fill="white" />
-                    </clipPath>
-                </defs>
-            </svg>
-        </button>
-    </div> -->
     <!-- Quote -->
-    <div class="col" data-id="quote">
+    <div class="col" data-id="quote" [class.active]="toolbarConfig?.quote">
         <button data-id="quote">
             <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg"
                 data-id="quote">
@@ -227,13 +208,13 @@
                 </g>
                 <defs>
                     <clipPath id="clip0" data-id="attachment">
-                        <rect width="199" height="199" data-id="attachment"/>
+                        <rect width="199" height="199" data-id="attachment" />
                     </clipPath>
                 </defs>
             </svg>
 
         </button>
-        <div class="popup-mask" *ngIf="upload" (click)="closePopover()">
+        <div class="popup-mask" *ngIf="upload">
             <div class="popover attach">
                 <div class="head">
                     <h3>Attach File</h3>
@@ -255,6 +236,31 @@
                                    </div>
                                    <br/>
                             </div>
+                    </div>
+                </div>
+                <div class="file-row">
+                    <div class="file-col">
+                        <span class="file svg">
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="2672" height="1024"
+                                viewBox="0 0 2672 1024">
+                                <g id="icomoon-ignore">
+                                </g>
+                                <path
+                                    d="M2662.047 170.706c0-94.256-76.39-170.647-170.647-170.647h-2320.8c-94.256 0-170.647 76.391-170.647 170.647s76.391 170.647 170.647 170.647h2320.8c94.257 0 170.647-76.391 170.647-170.647zM170.601 682.647c-94.256 0-170.647 76.391-170.647 170.647s76.391 170.647 170.647 170.647h784.977c94.257 0 170.647-76.39 170.647-170.647s-76.39-170.647-170.647-170.647h-784.977z">
+                                </path>
+                            </svg>
+                            <span class="format">svg</span>
+                        </span>
+                    </div>
+                    <div class="file-col">
+                        <input type="file">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024"
+                            viewBox="0 0 1024 1024">
+                            <g id="icomoon-ignore"></g>
+                            <path
+                                d="M64.001 575.974h383.999v383.999c0 35.328 28.672 64 64 64s64-28.672 64-64v-383.999h383.999c35.328 0 64-28.672 64-64s-28.672-64-64-64h-383.999v-383.999c0-35.328-28.672-64-64-64s-64 28.672-64 64v383.999h-383.999c-35.328 0-64 28.672-64 64s28.672 64 64 64z">
+                            </path>
+                        </svg>
                     </div>
                 </div>
                 <div class="link">
@@ -293,7 +299,8 @@
                 </div>
                 <div class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragenter($event)"
                     (dragend)="dragend($event)" (dragleave)="dragleave($event)" [class.enter]="enter">
-                    <input type="file" id="browse" accept="image/x-png,image/gif,image/jpeg" (change)="changeImage($event)">
+                    <input type="file" id="browse" accept="image/x-png,image/gif,image/jpeg"
+                        (change)="changeImage($event)">
                     <div class="container">
                         <span>Drop image here or browse to upload</span>
                         <label for="browse">Browse</label>
@@ -310,8 +317,8 @@
         </div>
     </div>
     <!-- font-size -->
-    <div class="col">
-        <button>
+    <div class="col" clickOutside (clickOutside)="closeFontStylePopover()">
+        <button (click)="fontStylePopover()">
             <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 405.333 405.333" xml:space="preserve">
                 <g>
                     <g>
@@ -325,6 +332,34 @@
                 </g>
             </svg>
         </button>
+        <div class="popover small" *ngIf="fontStyle">
+            <ul class="option-list">
+                <li>
+                    <button>
+                        <h1>H1</h1>
+                        <span>Heading 1</span>
+                    </button>
+                </li>
+                <li>
+                    <button>
+                        <h2>H2</h2>
+                        <span>Heading 2</span>
+                    </button>
+                </li>
+                <li>
+                    <button>
+                        <h3>H3</h3>
+                        <span>Heading 3</span>
+                    </button>
+                </li>
+                <li>
+                    <button>
+                        <p>P</p>
+                        <span>Paragraph</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
     </div>
     <!-- Text Align -->
     <div class="col" clickOutside (clickOutside)="closeAlignPopover()">
@@ -406,7 +441,7 @@
         </div>
     </div>
     <!-- Font size -->
-    <div class="col">
+    <!-- <div class="col">
         <button>
             <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">
                 <g>
@@ -417,7 +452,7 @@
                 </g>
             </svg>
         </button>
-    </div>
+    </div> -->
     <!-- Fill Color -->
     <div class="col" data-id="fill-color">
         <button data-id="fill-color">
@@ -458,7 +493,7 @@
     </div>
     <!-- Superscript -->
     <div class="col">
-        <button>
+        <button  [class.active]="toolbarConfig?.superscript">
             <svg width="200" height="174" viewBox="0 0 200 174" fill="none">
                 <path
                     d="M85.9381 113.681L139.578 173.934H106.571L69.0088 129.867L32.2984 173.934H0L53.2083 113.681L2.562 56.8192H35.145L70.4356 98.0449L106.001 56.8192H137.163L85.9381 113.681ZM159.28 72.9393L181.389 56.6618C188.928 51.4813 193.881 46.6757 196.255 42.2405C198.627 37.8077 199.812 33.044 199.812 27.9395C199.812 19.6009 197.024 12.8704 191.456 7.74929C185.882 2.62529 178.555 0.0657349 169.477 0.0657349C160.724 0.0657349 153.723 2.65782 148.482 7.83793C143.229 13.0209 140.607 20.8317 140.607 31.2789H157.49C157.49 25.0457 158.596 20.7365 160.802 18.3465C163.008 15.9561 166.031 14.7607 169.882 14.7607C173.727 14.7607 176.765 15.9769 179.019 18.4055C181.264 20.8317 182.384 23.8491 182.384 27.4552C182.384 31.0553 181.346 34.313 179.259 37.2295C177.173 40.1461 171.376 45.0656 161.864 51.9883C153.726 57.939 142.714 63.5448 139.412 68.807L139.578 88.3617H200V72.9393H159.28Z" />
@@ -467,8 +502,7 @@
     </div>
     <!-- Subscript -->
     <div class="col">
-        <button>
-
+        <button [class.active]="toolbarConfig?.subscript">
             <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M85.9381 68.8616L139.578 129.115H106.571L69.0088 85.048L32.2984 129.115H0L53.2083 68.8616L2.562 12H35.145L70.4356 53.2257L106.001 12H137.163L85.9381 68.8616ZM159.28 173.12L181.389 156.843C188.928 151.662 193.881 146.857 196.255 142.421C198.627 137.989 199.812 133.225 199.812 128.12C199.812 119.782 197.024 113.051 191.456 107.93C185.882 102.806 178.555 100.247 169.477 100.247C160.724 100.247 153.723 102.839 148.482 108.019C143.229 113.202 140.607 121.013 140.607 131.46H157.49C157.49 125.227 158.596 120.917 160.802 118.527C163.008 116.137 166.031 114.942 169.882 114.942C173.727 114.942 176.765 116.158 179.019 118.586C181.264 121.013 182.384 124.03 182.384 127.636C182.384 131.236 181.346 134.494 179.259 137.41C177.173 140.327 171.376 145.246 161.864 152.169C153.726 158.12 142.714 173.726 139.412 178.988L139.578 188.543H200V173.12H159.28Z" />

@@ -6,9 +6,11 @@ import {
   forwardRef,
   ChangeDetectionStrategy,
   SimpleChanges,
+  AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import EditorConfig from '../config-interface';
+import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 import { nanoid } from 'nanoid';
 @Component({
   selector: 'app-editor-container',
@@ -23,7 +25,7 @@ import { nanoid } from 'nanoid';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditorContainerComponent implements OnInit, OnChanges {
+export class EditorContainerComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   @Input() editorConfig: EditorConfig;
 
   html: string;
@@ -44,6 +46,8 @@ export class EditorContainerComponent implements OnInit, OnChanges {
   mentionedDates: string[];
   toolbarPlacement: 'top' | 'bottom';
   oldRange: any;
+
+  toolbarConfig: ToolbarConfig;
 
   constructor() {
     this.editorConfig = {
@@ -68,6 +72,19 @@ export class EditorContainerComponent implements OnInit, OnChanges {
       placeholder: '',
       toolbarPlacement: 'top',
     };
+
+    this.toolbarConfig = {
+      bold: false,
+      italic: false,
+      underline: false,
+      strikeThrough: false,
+      orderedList: false,
+      unorderedList: false,
+      superscript: false,
+      subscript: false,
+      quote: false
+    };
+
     this.toolbarPlacement = 'bottom';
     this.placeholder = '';
     this.id = nanoid();
@@ -98,6 +115,28 @@ export class EditorContainerComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.sel = window.getSelection();
+  }
+
+  ngAfterViewInit(): void {
+    document.addEventListener('selectionchange', this.selectionChange.bind(this), false);
+  }
+
+  ngOnDestroy(): void {
+    document.removeEventListener('selectionchange', this.selectionChange.bind(this), false);
+  }
+
+  selectionChange(event: any): void {
+    if (document.activeElement === document.getElementById(this.id)) {
+      this.toolbarConfig = {
+        bold: document.queryCommandState('bold'),
+        italic: document.queryCommandState('italic'),
+        strikeThrough: document.queryCommandState('strikeThrough'),
+        underline: document.queryCommandState('underline'),
+        orderedList: document.queryCommandState('insertorderedList'),
+        unorderedList: document.queryCommandState('insertunorderedList')
+      };
+     // console.log('HERE', this.toolbarConfig);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -253,6 +292,7 @@ export class EditorContainerComponent implements OnInit, OnChanges {
     }
     //  this.valueInput = true;
   }
+
   onPaste(event: any): void {
     event.preventDefault();
     const clipboardData = event.clipboardData;

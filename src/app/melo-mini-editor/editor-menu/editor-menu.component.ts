@@ -1,13 +1,14 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import EditorConfig from '../config-interface';
+import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 @Component({
   selector: 'app-editor-menu',
   templateUrl: './editor-menu.component.html',
-  styleUrls: ['./editor-menu.component.less']
+  styleUrls: ['./editor-menu.component.less', '../theme.less']
 })
 export class EditorMenuComponent implements OnInit {
 
   @Input() editorConfig: EditorConfig;
+  @Input() toolbarConfig: ToolbarConfig;
   @Output() buttonClick: EventEmitter<string> = new EventEmitter();
   enter = false;
   upload = false;
@@ -17,14 +18,15 @@ export class EditorMenuComponent implements OnInit {
   listStyle = false;
   filesArray=[]
   ShowFiles:boolean=false
+  fontStyle = false;
   constructor() {
     this.editorConfig = {
       file: false,
       mentionedNames: [],
       mentionedDates: [],
       colorPalette: ['#FF5630', '#000000', '#414141', '#36B37E',
-                     '#6554C0', '#FF7A00', '#008299', ' #1E5DD3',
-                     '#F0B819', '#00FFF7'],
+        '#6554C0', '#FF7A00', '#008299', ' #1E5DD3',
+        '#F0B819', '#00FFF7'],
       buttonName: '',
       fontColor: false,
       highlightColor: false
@@ -116,15 +118,18 @@ export class EditorMenuComponent implements OnInit {
   listStyles(): void {
     this.listStyle = !this.listStyle;
   }
-
-  closePopover(): void {
-    this.filesArray=[]
+  fontStylePopover(): void  {
+    this.fontStyle = !this.fontStyle;
+  }
+  closePopover(): void  {
+    this.filesArray=[];
     this.alignment = false;
     this.uploadImage = false;
     this.upload = false;
     this.addLink = false;
     this.listStyle = false;
     this.ShowFiles=false
+    this.fontStyle = false;
   }
 
   closeAlignPopover(): void {
@@ -147,5 +152,8 @@ export class EditorMenuComponent implements OnInit {
 
   closeImagePopover(): void {
     this.uploadImage = false;
+  }
+  closeFontStylePopover(): void  {
+    this.fontStyle = false;
   }
 }
