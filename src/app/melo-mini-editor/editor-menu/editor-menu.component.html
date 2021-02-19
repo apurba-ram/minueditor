@@ -239,12 +239,22 @@
                     <h3>Attach File</h3>
                     <button class="close" (click)="attachPopover()">&times;</button>
                 </div>
-                <div class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragenter($event)"
-                    (dragend)="dragend($event)" (dragleave)="dragleave($event)" [class.enter]="enter">
+                <div class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragover($event)" 
+                    (dragend)="dragend($event)" (dragleave)="dragleave($event)" (drop)="dropFile($event)" [class.enter]="enter">
                     <input type="file" id="browse">
-                    <div class="container">
-                        <span>Drop image here or browse to upload</span>
+                    <div class="container"  *ngIf="ShowFiles==false">
+                        <span>Drop file here or browse to upload</span>
                         <label for="browse">Browse</label>
+                    </div>
+                    <div class="container" *ngIf="ShowFiles==true">
+                            <div *ngFor="let fileName of filesArray; let i = index">
+                                   <div>
+                                    {{fileName.name}}  
+                                    <br/>
+                                    <button (click)="fileRemove(i)" >Delete</button> 
+                                   </div>
+                                   <br/>
+                            </div>
                     </div>
                 </div>
                 <div class="link">

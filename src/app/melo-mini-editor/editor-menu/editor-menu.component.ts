@@ -15,6 +15,8 @@ export class EditorMenuComponent implements OnInit {
   alignment = false;
   addLink = false;
   listStyle = false;
+  filesArray=[]
+  ShowFiles:boolean=false
   constructor() {
     this.editorConfig = {
       file: false,
@@ -41,6 +43,7 @@ export class EditorMenuComponent implements OnInit {
     }
   }
 
+
   changeImage(event: any): void {
     console.log(event);
   }
@@ -49,14 +52,52 @@ export class EditorMenuComponent implements OnInit {
     this.upload = !this.upload;
   }
   dragenter(e): void {
+    e.preventDefault();
+    e.stopPropagation();
+    // this.filesArray.push(e.name);
+    // console.log(this.filesArray)
+    // this.filesArray.push(e.dataTransfer.files)
+    // console.log(e.dataTransfer)
+    // console.log(this.filesArray)
     this.enter = true;
+  }
+  dropFile(e):void
+  {
+    e && e.preventDefault();
+    console.log("file drop")
+    this.filesArray.push(e.dataTransfer.files[0])
+    console.log("on drop files array",this.filesArray)
+    if(this.filesArray.length>0)
+    {
+      this.ShowFiles=true
+    }
+    // console.log("drop event",e)
+  }
+
+  fileRemove(fileId):void
+  {
+      console.log(fileId)
+  }
+
+  dragover(e):void
+  {
+    e.preventDefault() 
+    // console.log("dragover")
+    // e.preventDefault();
+    // e.stopPropagation()
+    // this.filesArray.push(e.dataTransfer.types)
+    // console.log(e.dataTransfer.types)
+    // console.log(this.filesArray)
+    // this.enter = true;
   }
 
   dragend(e): void {
+    console.log("dragend")
     this.enter = false;
   }
 
   dragleave(e): void {
+    console.log("dragleave")
     this.enter = false;
   }
 
@@ -77,11 +118,13 @@ export class EditorMenuComponent implements OnInit {
   }
 
   closePopover(): void {
+    this.filesArray=[]
     this.alignment = false;
     this.uploadImage = false;
     this.upload = false;
     this.addLink = false;
     this.listStyle = false;
+    this.ShowFiles=false
   }
 
   closeAlignPopover(): void {
@@ -97,7 +140,9 @@ export class EditorMenuComponent implements OnInit {
   }
 
   closeAttachPopover(): void {
+    this.filesArray=[]
     this.upload = false;
+    this.ShowFiles=false
   }
 
   closeImagePopover(): void {
