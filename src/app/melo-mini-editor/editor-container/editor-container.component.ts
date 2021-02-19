@@ -496,23 +496,31 @@ export class EditorContainerComponent
   }
 
   insertSupTag(): void {
-    const sup = document.createElement('sup');
-    sup.innerHTML = '&#8204;';
-    const range = this.sel.getRangeAt(0);
-    range.insertNode(sup);
-    range.setStart(sup, 1);
-    range.setEnd(sup, 1);
-    range.collapse();
+    if(!this.toolbarConfig.superscript) {
+      const sup = document.createElement('sup');
+      sup.innerHTML = '&#8204;';
+      const range = this.sel.getRangeAt(0);
+      range.insertNode(sup);
+      range.setStart(sup, 1);
+      range.setEnd(sup, 1);
+      range.collapse();
+    } else {
+      this.reachTextNode('sup');
+    }
   }
 
   insertSubTag(): void {
-    const sub = document.createElement('sub');
-    sub.innerHTML = '&#8204;';
-    const range = this.sel.getRangeAt(0);
-    range.insertNode(sub);
-    range.setStart(sub, 1);
-    range.setEnd(sub, 1);
-    range.collapse();
+    if(!this.toolbarConfig.subscript) {
+      const sub = document.createElement('sub');
+      sub.innerHTML = '&#8204;';
+      const range = this.sel.getRangeAt(0);
+      range.insertNode(sub);
+      range.setStart(sub, 1);
+      range.setEnd(sub, 1);
+      range.collapse();
+    } else {
+      this.reachTextNode('sub');
+    }
   }
 
   reachTextNode(tagName: string): void {
