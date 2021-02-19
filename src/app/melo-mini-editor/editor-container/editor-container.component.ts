@@ -110,13 +110,14 @@ export class EditorContainerComponent
   * @param event - Event which stores the image emitted from the image popup
   */
   saveImage(event:any): void{
-    this.imageToBeShown= event;
-    console.log(event);
-    // console.log("Image from menu to container",this.imageToBeShown)
     const imgTag = document.createElement('img')
-    // console.log("Image uRL",this.imageToBeShown[(this.imageToBeShown.length-1)].imgUrl)
-    // imgTag.setAttribute('src',this.imageToBeShown[(this.imageToBeShown.length-1)].imgUrl)
-    // document.getElementsByClassName('editable-block')[0].appendChild(imgTag)
+    imgTag.setAttribute('src', event.url);
+    this.sel.removeAllRanges();
+    const range = this.oldRange.cloneRange();
+    range.insertNode(imgTag);
+    range.setStartAfter(imgTag);
+    range.collapse();
+    this.sel.addRange(range);
   }
 
   /*

@@ -347,7 +347,7 @@
                     </div>
                 </div>
                 <div class="footer">
-                    <button class="cancel" (click)="uploadImage = false;  image = null;">Cancel</button><button (click)="saveImage()" class="upload">Save</button>
+                    <button class="cancel" (click)="uploadImage = false;  image = null;">Cancel</button><button (click)="saveImage(); uploadImage = false;  image = null;" class="upload">Save</button>
                 </div>
             </div>
         </div>
