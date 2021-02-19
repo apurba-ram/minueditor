@@ -196,9 +196,7 @@ export class EditorContainerComponent
 
   selectionChange(event: any): void {
     if (document.activeElement === document.getElementById(this.id)) {
-      // console.log(this.sel);
       this.oldRange = this.sel.getRangeAt(0).cloneRange();
-      console.log('BIITS',this.oldRange);
       this.setFontAndbackgroundColor();
       this.toolbarConfig = {
         bold: document.queryCommandState('bold'),
