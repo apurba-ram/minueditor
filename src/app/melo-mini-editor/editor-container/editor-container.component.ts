@@ -96,26 +96,33 @@ export class EditorContainerComponent
     this.resetToolbar();
   }
 
-//from menu to container
-  filesSaved($event: any) {
-    this.filesFromChild = $event;
-    console.log("files after saving in parent",this.filesFromChild)
-    this.sendSavedFiles.emit(this.filesFromChild)
-    
+ 
+  /*
+  * @param event - Event which stores the files that are emitted from the file popup
+  */
+  saveFiles(event: any): void {
+    // this.filesFromChild = $event;
+    // console.log("files after saving in parent",this.filesFromChild)
+    this.sendSavedFiles.emit(event);
   }
 
-//show image in ediotr
-  saveImg($event:any)
-  {
-    this.imageToBeShown=$event
+  /*
+  * @param event - Event which stores the image emitted from the image popup
+  */
+  saveImage(event:any): void{
+    this.imageToBeShown= event;
+    console.log(event);
     // console.log("Image from menu to container",this.imageToBeShown)
-    const imgTag= document.createElement('img')
+    const imgTag = document.createElement('img')
     // console.log("Image uRL",this.imageToBeShown[(this.imageToBeShown.length-1)].imgUrl)
-     imgTag.setAttribute('src',this.imageToBeShown[(this.imageToBeShown.length-1)].imgUrl)
-    document.getElementsByClassName('editable-block')[0].appendChild(imgTag)
+    // imgTag.setAttribute('src',this.imageToBeShown[(this.imageToBeShown.length-1)].imgUrl)
+    // document.getElementsByClassName('editable-block')[0].appendChild(imgTag)
   }
 
-  saveLinkndShowInEditor(event:any) : void{
+  /*
+  * @param event - Event which stores the link emitted from the link popup
+  */
+  saveLink(event:any) : void{
     const anchonrTag = document.createElement('a');
     anchonrTag.innerHTML = event.linkText;
     anchonrTag.setAttribute('href', event.linkUrl);

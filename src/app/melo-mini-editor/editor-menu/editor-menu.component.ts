@@ -18,7 +18,7 @@ export class EditorMenuComponent implements OnInit {
   @Output() buttonClick: EventEmitter<any> = new EventEmitter();
   // @Input() multiple: boolean;
   @Output() sendSavedFiles = new EventEmitter<any>();
-  @Output() imgInEditor=new EventEmitter<any>();
+  @Output() imageInEditor=new EventEmitter<any>();
   @Output() linkInEditor=new EventEmitter<any>()
   enter = false;
   upload = false;
@@ -44,7 +44,13 @@ export class EditorMenuComponent implements OnInit {
   inValidUrlMsg:string
   inValidLinkTitle=''
   inValidLinkText=''
-  savedLinks:object={ }
+  savedLinks:object={ };
+
+
+
+
+  image: any;
+
   constructor() {
     this.editorConfig = {
       file: false,
@@ -68,20 +74,21 @@ export class EditorMenuComponent implements OnInit {
     };
     this.filesArray = [];
     this.fillColor = Array(2).fill(false);
+    this.image = null;
   }
 
   ngOnInit(): void {}
 
   buttonClicked(event: any): void {
-  event.stopPropagation();
-  if (event?.target?.dataset?.id &&
-    (event?.target?.dataset?.id !== 'link' &&
-      event?.target?.dataset?.id !== 'attachment' &&
-      event?.target?.dataset?.id !== 'fill-color' &&
-      event?.target?.dataset?.id !== 'text-color')) {
-        this.buttonClick.emit(event?.target?.dataset);
+    event.stopPropagation();
+    if (event?.target?.dataset?.id &&
+      (event?.target?.dataset?.id !== 'link' &&
+        event?.target?.dataset?.id !== 'attachment' &&
+        event?.target?.dataset?.id !== 'fill-color' &&
+        event?.target?.dataset?.id !== 'text-color')) {
+          this.buttonClick.emit(event?.target?.dataset);
+    }
   }
-}
 
   colorChange(type: 'textColor' | 'fillColor'){
     this.buttonClick.emit({
@@ -100,59 +107,6 @@ export class EditorMenuComponent implements OnInit {
     // console.log("emit event",this.sendSavedFiles.emit(this.savedFiles))
   }
 
-
-
-  saveImage():void
-  {
-    //imgInEditor
-    this.savedImages.push.apply(this.savedImages,this.imgUrl)
-    this.imgUrl=[]
-    this.uploadImage=false
-    console.log("after saving images",this.savedImages)
-    this.imgInEditor.emit(this.savedImages)
-
-  }
-
-  readImageFile(file:any): void {
-    // console.log("img",InputValue)
-    
-    var fReader = new FileReader();
-    fReader.readAsDataURL(file);
-    fReader.onloadend =  (event) => {
-      const obj = {
-        imgUrl: event.target.result,
-        file
-      };
-      this.imgUrl[0]=(obj);
-      this.imgUrl = [...this.imgUrl]; // Object.assign({}, this.imgUrl);
-      console.log("Image after read array",this.imgUrl)
-    };
-  }
-
-  changeImage(e: any): void {
-
-    console.log('Image from input', e.target.files,e.target.files[0].name.split('.'));
-    
-    for(const file of e.target.files) {
-      if (
-              e.target.files[0].name.split('.')[1]==="jpg" ||
-              e.target.files[0].name.split('.')[1]==="jpeg" ||
-              e.target.files[0].name.split('.')[1]==="png" ||
-              e.target.files[0].name.split('.')[1]==="gif"
-      )
-      {
-        this.readImageFile(file);
-      }
-      else
-      {
-        this.alertMsg = 'Please choose image file only';
-        this.showAlert = true;
-      }
-      
-    }
-    return;
-  }
-
   imgRemove(fileId): void {
     // alert(fileId)
     this.imgUrl.splice(fileId, 1);
@@ -162,11 +116,6 @@ export class EditorMenuComponent implements OnInit {
   attachPopover(): void {
     this.filesArray = [];
     this.upload = !this.upload;
-  }
-  dragenter(e): void {
-    e.preventDefault();
-    e.stopPropagation();
-    this.enter = true;
   }
 
   dropFile(e): void {
@@ -192,14 +141,62 @@ export class EditorMenuComponent implements OnInit {
       }
     }
   }
-  dropImage(e) {
-    e.preventDefault();
-    for (var key in e.dataTransfer.files) {
-      if (e.dataTransfer.files.hasOwnProperty(key)) {
-        this.readImageFile(e.dataTransfer.files[0])
+  
+  // Image popup code begins
+
+  dropImage(event: any) {
+    event.preventDefault();
+    event.stopPropagation();
+    if(event?.dataTransfer?.files && event?.dataTransfer?.files.length > 0) {
+      if(this.validImage(event?.dataTransfer?.files[0])) {
+        this.showAlert = false;
+        this.readImageFile(event?.dataTransfer?.files[0]);
+      } else {
+        this.alertMsg = 'Please choose image file only';
+        this.showAlert = true;
       }
     }
+    this.enter = false;
   }
+
+  validImage(file: any): boolean {
+    const fileExtension = file?.name?.slice(file?.name.lastIndexOf('.') + 1);
+    switch(fileExtension) {
+      case 'jpg':
+      case 'jpeg':
+      case 'png':
+      case 'gif': return true; 
+
+      default: return false;
+    }
+  }
+
+  saveImage(): void{
+    this.imageInEditor.emit(this.image);
+  }
+
+  readImageFile(file:any): void {
+    const fReader = new FileReader();
+    fReader.readAsDataURL(file);
+    fReader.onloadend =  (event) => {
+      this.image = {
+        url: event.target.result,
+        file
+      };
+    };
+  }
+
+  changeImage(event: any): void {
+    if(this.validImage(event?.target?.files[0])) {
+      this.showAlert = false;
+      this.readImageFile(event?.target?.files[0]);
+    } else {
+        this.alertMsg = 'Please choose image file only';
+        this.showAlert = true;
+    }
+  }
+
+   // Image popup code ends
 
   fileRemove(fileId): void {
     console.log('file remove');
@@ -234,24 +231,26 @@ export class EditorMenuComponent implements OnInit {
     // console.log('files Array', this.filesArray);
   }
 
-  dragover(e): void {
-    e.preventDefault();
-    // console.log("dragover")
-    // e.preventDefault();
-    // e.stopPropagation()
-    // this.filesArray.push(e.dataTransfer.types)
-    // console.log(e.dataTransfer.types)
-    // console.log(this.filesArray)
-    // this.enter = true;
+  dragenter(event: any): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.enter = true;
   }
 
-  dragend(e): void {
-    // console.log('dragend');
+  dragover(event: any): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  dragend(event: any): void {
+    event.preventDefault();
+    event.stopPropagation();
     this.enter = false;
   }
 
-  dragleave(e): void {
-    // console.log('dragleave');
+  dragleave(event: any): void {
+    event.preventDefault();
+    event.stopPropagation();
     this.enter = false;
   }
 
@@ -259,18 +258,11 @@ export class EditorMenuComponent implements OnInit {
     this.alignment = !this.alignment;
   }
 
-  imagePopover(): void {
-    this.uploadImage = !this.uploadImage;
-  }
-
   addLinks(): void {
-
     this.addLink = !this.addLink;
-
   }
 
-  saveLinks():void
-  { 
+  saveLinks(): void { 
     console.log("Link Data",this.linkText,this.linkTitle,this.linkUrl)
     //check url is valid or not
     if(this.linkUrl===undefined)
@@ -310,37 +302,8 @@ export class EditorMenuComponent implements OnInit {
  
             this.inValidUrlMsg="Please provide a valid URL"
     }
+     } 
   }
-      // try {
-      //   // this.inValidUrl=false
-      //   this.inValidUrlMsg=''
-      // let  url = new URL(this.linkUrl);
-      // const obj = {
-      //   linkUrl:this.linkUrl,
-      //   linkText:this.linkText.trim(),
-      //   linkTitle:this.linkTitle.trim()
-      // };
-      
-      // console.log("object ",obj)
-      //     this.savedLinks={...obj}
-      //     console.log("saved Link",this.savedLinks)
-      //     this.linkInEditor.emit(this.savedLinks)
-      //     this.linkText=''
-      //     this.linkTitle=''
-      //     this.linkUrl=''
-      //     this.savedLinks={}
-      //     this.addLink=!this.addLink
-      // // console.log("url is perfect")
-      // }
-      //  catch (_) {
-      //   //  console.log("not valid url")
-      //       // this.inValidUrl=true
-      //       this.inValidUrlMsg="Please provide a valid URL"
-      //    // return  false;  
-      // }
-     
-
-   }
   listStyles(): void {
     this.listStyle = !this.listStyle;
   }
@@ -378,9 +341,6 @@ export class EditorMenuComponent implements OnInit {
     this.ShowFiles = false;
   }
 
-  closeImagePopover(): void {
-    this.uploadImage = false;
-  }
   closeFontStylePopover(): void {
     this.fontStyle = false;
   }
