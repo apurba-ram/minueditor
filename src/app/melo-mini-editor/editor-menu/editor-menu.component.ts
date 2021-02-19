@@ -16,7 +16,10 @@ export class EditorMenuComponent implements OnInit {
   @Input() editorConfig: EditorConfig;
   @Input() toolbarConfig: ToolbarConfig;
   @Output() buttonClick: EventEmitter<any> = new EventEmitter();
-  @Input() multiple: boolean;
+  // @Input() multiple: boolean;
+  @Output() sendSavedFiles = new EventEmitter<any>();
+  @Output() imgInEditor=new EventEmitter<any>();
+  @Output() linkInEditor=new EventEmitter<any>()
   enter = false;
   upload = false;
   uploadImage = false;
@@ -28,9 +31,20 @@ export class EditorMenuComponent implements OnInit {
   fontStyle = false;
   fillColor: boolean[];
   setTextColor = false;
-  showAlert:boolean=false
-  alertMsg:string
+  showAlert: boolean = false;
+  alertMsg: string;
+  savedFiles: any = [];
+  savedImages:any=[]
+  imgUrl: any = []; //img url array
   imgArr: Array<object> = [];
+  linkUrl:string
+  linkText:string
+  linkTitle:string
+  inValidUrl:boolean
+  inValidUrlMsg:string
+  inValidLinkTitle=''
+  inValidLinkText=''
+  savedLinks:object={ }
   constructor() {
     this.editorConfig = {
       file: false,
@@ -59,15 +73,15 @@ export class EditorMenuComponent implements OnInit {
   ngOnInit(): void {}
 
   buttonClicked(event: any): void {
-    event.stopPropagation();
-    if (event?.target?.dataset?.id &&
-       (event?.target?.dataset?.id !== 'link' ||
-        event?.target?.dataset?.id !== 'attachment' ||
-        event?.target?.dataset?.id !== 'fill-color' ||
-        event?.target?.dataset?.id !== 'text-color')) {
-          this.buttonClick.emit(event?.target?.dataset);
-    }
+  event.stopPropagation();
+  if (event?.target?.dataset?.id &&
+    (event?.target?.dataset?.id !== 'link' ||
+      event?.target?.dataset?.id !== 'attachment' ||
+      event?.target?.dataset?.id !== 'fill-color' ||
+      event?.target?.dataset?.id !== 'text-color')) {
+        this.buttonClick.emit(event?.target?.dataset);
   }
+}
 
   colorChange(type: 'textColor' | 'fillColor'){
     this.buttonClick.emit({
@@ -76,46 +90,101 @@ export class EditorMenuComponent implements OnInit {
     });
   }
 
+  saveFiles(): void {
+    this.savedFiles.push.apply(this.savedFiles, this.filesArray);
+    this.filesArray = [];
 
-  changeImage(e: any): void {
-    // console.log('Image from input');
-    // this.filesArray=[...e.target.files]
-      //  console.log("Target Images",e.target.files,"type",Array.isArray(e.target.files))
-       let i=this.filesArray.length-1
-       for (var key in e.target.files) {
-         if (e.target.files.hasOwnProperty(key)) {
-            //  console.log(key + " -> " + e.target.files[key]);
-             if(e.target.files[key].name.split('.').includes('jpg')
-              || e.target.files[key].name.split('.').includes('jpeg')
-              || e.target.files[key].name.split('.').includes('png')
-              || e.target.files[key].name.split('.').includes('gif')
-               )
-             {
-              this.imgArr.push(e.target.files[key]) 
-             }
-             else
-             {
-                // alert("Please choose image file only")
-                this.alertMsg="Please choose image file only"
-                this.showAlert=true 
-                // this.uploadImage=false
-               
-             }
-            
-         }         
-     }
-
-      //  console.log("Image Array",this.imgArr)
-     if (this.imgArr.length > 0) {
-       this.ShowFiles = true;
-     }
-    //  console.log('files Array', this.imgArr);
-   
+    console.log('files after saving in child', this.savedFiles);
+    this.sendSavedFiles.emit(this.savedFiles);
+    this.upload = false;
+    // console.log("emit event",this.sendSavedFiles.emit(this.savedFiles))
   }
 
-  imgRemove(fileId):void {
-      // alert(fileId)
-      this.imgArr.splice(fileId,1)
+
+
+  saveImage():void
+  {
+    //imgInEditor
+    this.savedImages.push.apply(this.savedImages,this.imgUrl)
+    this.imgUrl=[]
+    this.uploadImage=false
+    console.log("after saving images",this.savedImages)
+    this.imgInEditor.emit(this.savedImages)
+
+  }
+
+  readImageFile(file:any): void {
+    // console.log("img",InputValue)
+    
+    var fReader = new FileReader();
+    fReader.readAsDataURL(file);
+    fReader.onloadend =  (event) => {
+      const obj = {
+        imgUrl: event.target.result,
+        file
+      };
+      this.imgUrl[0]=(obj);
+      this.imgUrl = [...this.imgUrl]; // Object.assign({}, this.imgUrl);
+      console.log("Image after read array",this.imgUrl)
+    };
+  }
+
+  changeImage(e: any): void {
+
+    console.log('Image from input', e.target.files,e.target.files[0].name.split('.'));
+    
+    for(const file of e.target.files) {
+      if (
+              e.target.files[0].name.split('.')[1]==="jpg" ||
+              e.target.files[0].name.split('.')[1]==="jpeg" ||
+              e.target.files[0].name.split('.')[1]==="png" ||
+              e.target.files[0].name.split('.')[1]==="gif"
+      )
+      {
+        this.readImageFile(file);
+      }
+      else
+      {
+        this.alertMsg = 'Please choose image file only';
+        this.showAlert = true;
+      }
+      
+    }
+    return;
+    //if multeple files are allowed
+    // for (var key in e.target.files) {
+    //   if (e.target.files.hasOwnProperty(key)) {
+    //     //  console.log(key + " -> " + e.target.files[key]);
+    //     if (
+    //       e.target.files[key].name.split('.')==="jpg" ||
+    //       e.target.files[key].name.split('.')==="jpeg" ||
+    //       e.target.files[key].name.split('.')==="png" ||
+    //       e.target.files[key].name.split('.')==="gif"
+    //     ) {
+    //       // this.readImageFile(e.target,e.target.files[key]);
+    //       // this.imgArr.push(e.target.files[key]);
+    //       // console.log('image arrys', this.imgArr);
+    //     } else {
+    //       // alert("Please choose image file only")
+    //       this.alertMsg = 'Please choose image file only';
+    //       this.showAlert = true;
+    //       // this.uploadImage=false
+    //     }
+    //   }
+    // }
+
+    //  console.log("Image Array",this.imgArr)
+    // if (this.imgArr.length > 0) {
+    //   this.ShowFiles = true;
+    // }
+    // console.log('files Array', this.imgArr);
+    // e.target.value = '';
+  }
+
+  imgRemove(fileId): void {
+    // alert(fileId)
+    this.imgUrl.splice(fileId, 1);
+    console.log('image array after remove', this.imgArr);
   }
 
   attachPopover(): void {
@@ -128,107 +197,96 @@ export class EditorMenuComponent implements OnInit {
     this.enter = true;
   }
 
-  dropFile(e): void
-  {
-      e && e.preventDefault();
-      // console.log("dropped multple files",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
-      // console.log("dropped files",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
-      
+  dropFile(e): void {
+    e.preventDefault();
+    console.log(
+      'dropped multple files',
+      e.dataTransfer.files,
+      'type',
+      Array.isArray(e.dataTransfer.files)
+    );
+    console.log(
+      'dropped files',
+      e.dataTransfer.files,
+      'type',
+      Array.isArray(e.dataTransfer.files)
+    );
 
-      for (var key in e.dataTransfer.files) {
-        if (e.dataTransfer.files.hasOwnProperty(key)) {
-            // console.log(key + " -> " + e.dataTransfer.files[key]);
-            if(e.dataTransfer.files[key].name.split('.').includes('jpg')
-            ||e.dataTransfer.files[key].name.split('.').includes('jpeg')
-            ||e.dataTransfer.files[key].name.split('.').includes('png')
-            ||e.dataTransfer.files[key].name.split('.').includes('gif')
-            )
-            {
-                // alert("image files are not allowed")
-                this.alertMsg="image files are not allowed"
-                this.showAlert=true;
-            }
-            else
-            {
-              this.filesArray.push(e.dataTransfer.files[key])
-            }
-           
-        }
+    for (var key in e.dataTransfer.files) {
+      if (e.dataTransfer.files.hasOwnProperty(key)) {
+        console.log(key + ' -> ' + e.dataTransfer.files[key]);
+        this.filesArray.push(e.dataTransfer.files[key]);
 
       }
     }
+  }
   dropImage(e) {
     // console.log(e.t)
-    e && e.preventDefault();
+    e.preventDefault();
     // console.log("dropped images",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
     // console.log("check extension",e.dataTransfer.files[0].name.split('.'[0]).pop())
     // console.log('DROP THE BOMB');
+    console.log("Image is droped")
     const fileName = e.dataTransfer.files[0].name;
     const fileSplit = fileName.split('.');
     const fileExtension = fileSplit[fileSplit.length - 1];
     // console.log(fileName, fileExtension);
-   
+
     for (var key in e.dataTransfer.files) {
       if (e.dataTransfer.files.hasOwnProperty(key)) {
-          // console.log(key + " -> " + e.dataTransfer.files[key]);
-          if(e.dataTransfer.files[key].name.split('.').includes('jpg')
-          ||e.dataTransfer.files[key].name.split('.').includes('jpeg')
-          ||e.dataTransfer.files[key].name.split('.').includes('png')
-          ||e.dataTransfer.files[key].name.split('.').includes('gif')
-          )
-          {
-            this.imgArr.push(e.dataTransfer.files[key])
-          }
-          else
-          {
-            // alert("Please choose Image file only")
-            this.alertMsg="Please choose Image file only"
-            this.showAlert=true
-            break
-          }
-          }
-         
+        this.readImageFile(e.dataTransfer.files[0])
+        // this.imgUrl[0]=e.dataTransfer.files[0]
+        // console.log("Image Array",this.imgUrl)
+        // console.log(key + " -> " + e.dataTransfer.files[key]);
+        // if (
+        //   e.target.files[0].name.split('.')[1]==="jpg" ||
+        //   e.target.files[0].name.split('.')[1]==="jpeg" ||
+        //   e.target.files[0].name.split('.')[1]==="png" ||
+        //   e.target.files[0].name.split('.')[1]==="gif"
+        // ) {
+        //   this.imgArr.push(e.dataTransfer.files[key]);
+        // } else {
+        //   // alert("Please choose Image file only")
+        //   this.alertMsg = 'Please choose Image file only';
+        //   this.showAlert = true;
+        //   break;
+        // }
       }
-
     }
-  
-
-  fileRemove(fileId): void {
-    // console.log(fileId);
-    this.filesArray.splice(fileId, 1);
   }
 
-  //file is upploaded from browse button
-  fileFromInput(e): void {
-    // console.log('file from input');
-     // this.filesArray=[...e.target.files]
-        // console.log("Target files",e.target.files,"type",Array.isArray(e.target.files))
-        let i=this.filesArray.length-1
-        for (var key in e.target.files) {
-          if (e.target.files.hasOwnProperty(key)) {
-              // console.log(key + " -> " + e.target.files[key]);
-              if(e.target.files[key].name.split('.').includes('jpg'))
-              {
-                  // alert("images are not allowed")
-                  this.alertMsg="images are not allowed"
-                  this.showAlert=true
-                  break
-              }
-              else
-              {
-                this.filesArray.push(e.target.files[key])
-              }
-             
-          }
-      }
+  fileRemove(fileId): void {
+    console.log('file remove');
+    console.log(fileId);
+    //  delete this.filesArray[fileId]
+    console.log('upload value before delete', this.upload);
+    this.filesArray.splice(fileId, 1);
+    console.log('uplod value after delete', this.upload);
+    console.log('file Array after removed', this.filesArray);
+  }
 
-        // console.log("file Array",this.filesArray)
-      if (this.filesArray.length > 0) {
-        this.ShowFiles = true;
+  //file is uploaded from browse button
+  fileFromInput(e): void {
+     console.log('file from input');
+    // this.filesArray=[...e.target.files]
+     console.log("Target files",e.target.files,"type",Array.isArray(e.target.files))
+    let i = this.filesArray.length - 1;
+    for (var key in e.target.files) {
+      if (e.target.files.hasOwnProperty(key)) {
+        this.filesArray.push(e.target.files[key]);
+        console.log(key + ' -> ' + e.target.files[key]);
+      
       }
-      // console.log('files Array', this.filesArray);
+       
     }
-  
+
+    // console.log("file Array",this.filesArray)
+    if (this.filesArray.length > 0) {
+      this.ShowFiles = true;
+    }
+    e.target.value = ''
+    // console.log('files Array', this.filesArray);
+  }
 
   dragover(e): void {
     e.preventDefault();
@@ -260,9 +318,83 @@ export class EditorMenuComponent implements OnInit {
   }
 
   addLinks(): void {
+
     this.addLink = !this.addLink;
+
   }
 
+  saveLinks():void
+  { 
+    console.log("Link Data",this.linkText,this.linkTitle,this.linkUrl)
+    //check url is valid or not
+    if(this.linkUrl===undefined)
+    {
+        this.inValidUrlMsg="Please provde a  URL"
+    }
+    else if(this.linkText===undefined)
+    {
+      this.inValidLinkTitle="Please Provide a Text"
+    }
+    else if(this.linkTitle==undefined)
+    {
+      this.inValidLinkText="Please Provide a Title"
+    }
+    else{    
+    const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+    if(this.linkUrl?.match(rex))  
+    {
+      // console.log("GOOD")
+      const obj = {
+            linkUrl:this.linkUrl,
+            linkText:this.linkText?.trim(),
+            linkTitle:this.linkTitle?.trim()
+          };
+      
+          console.log("object ",obj)
+          this.savedLinks={...obj}
+          console.log("saved Link",this.savedLinks)
+          this.linkInEditor.emit(this.savedLinks)
+          this.linkText=''
+          this.linkTitle=''
+          this.linkUrl=''
+          this.savedLinks={}
+          this.addLink=!this.addLink
+  }
+    else{
+ 
+            this.inValidUrlMsg="Please provide a valid URL"
+    }
+  }
+      // try {
+      //   // this.inValidUrl=false
+      //   this.inValidUrlMsg=''
+      // let  url = new URL(this.linkUrl);
+      // const obj = {
+      //   linkUrl:this.linkUrl,
+      //   linkText:this.linkText.trim(),
+      //   linkTitle:this.linkTitle.trim()
+      // };
+      
+      // console.log("object ",obj)
+      //     this.savedLinks={...obj}
+      //     console.log("saved Link",this.savedLinks)
+      //     this.linkInEditor.emit(this.savedLinks)
+      //     this.linkText=''
+      //     this.linkTitle=''
+      //     this.linkUrl=''
+      //     this.savedLinks={}
+      //     this.addLink=!this.addLink
+      // // console.log("url is perfect")
+      // }
+      //  catch (_) {
+      //   //  console.log("not valid url")
+      //       // this.inValidUrl=true
+      //       this.inValidUrlMsg="Please provide a valid URL"
+      //    // return  false;  
+      // }
+     
+
+   }
   listStyles(): void {
     this.listStyle = !this.listStyle;
   }
@@ -306,8 +438,7 @@ export class EditorMenuComponent implements OnInit {
   closeFontStylePopover(): void {
     this.fontStyle = false;
   }
-  hideAlert():void
-  {
-      this.showAlert=false
+  hideAlert(): void {
+    this.showAlert = false;
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,OnChanges,SimpleChanges } from '@angular/core';
 // ChangeDetectionStrategy
 @Component({
   selector: 'app-root',
@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
+  
+  filesFromChild:any=[]
   title = 'minieditor';
   defValue = 'jdi';
   modelvalue = '';
@@ -17,10 +19,21 @@ export class AppComponent {
     buttonName: 'Comment',
     fontColor: true,
     highlightColor: true,
-    menuPlacement: 'bottom',
-    multiple: true
-
+    menuPlacement: 'bottom'
   };
+  
+  
+
+//from menu to container
+filesSaved($event: any) {
+  this.filesFromChild = $event;
+  console.log("APP COMPONENT",this.filesFromChild)
+  // this.sendSavedFiles.emit(this.filesFromChild)
+  
+}
+
+
+  
 
   hello(): void {
     // console.log('HELLO3');

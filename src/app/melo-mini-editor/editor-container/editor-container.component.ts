@@ -2,16 +2,16 @@ import {
   Component,
   OnInit,
   Input,
+  Output,
+  EventEmitter,
   OnChanges,
   forwardRef,
-  EventEmitter,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   SimpleChanges,
   AfterViewInit,
   OnDestroy,
   AfterViewChecked,
-  Output,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
@@ -28,13 +28,16 @@ import { NgZone } from '@angular/core';
       multi: true,
     },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditorContainerComponent
   implements OnInit, OnChanges, AfterViewInit, OnDestroy, AfterViewChecked {
   @Input() editorConfig: EditorConfig;
-  @Input() multiple: boolean;
-  @Output() comment: EventEmitter<string> = new EventEmitter();
+  // @Input() multiple: boolean;
+  @Output() comment = new EventEmitter<string>();
+  @Output() sendSavedFiles = new EventEmitter<any>();//coming from menu to container from container to ap
+  imageToBeShown:any
+  filesFromChild:any
   html: string;
   innerText: string;
   lastChar: string;
@@ -53,6 +56,7 @@ export class EditorContainerComponent
   mentionedDates: string[];
   toolbarPlacement: 'top' | 'bottom';
   oldRange: any;
+  savedLinks:any=[]
 
   toolbarConfig: ToolbarConfig;
 
@@ -92,6 +96,43 @@ export class EditorContainerComponent
     this.resetToolbar();
   }
 
+//from menu to container
+  filesSaved($event: any) {
+    this.filesFromChild = $event;
+    console.log("files after saving in parent",this.filesFromChild)
+    this.sendSavedFiles.emit(this.filesFromChild)
+    
+  }
+
+//show image in ediotr
+  saveImg($event:any)
+  {
+    this.imageToBeShown=$event
+    // console.log("Image from menu to container",this.imageToBeShown)
+    const imgTag= document.createElement('img')
+    // console.log("Image uRL",this.imageToBeShown[(this.imageToBeShown.length-1)].imgUrl)
+     imgTag.setAttribute('src',this.imageToBeShown[(this.imageToBeShown.length-1)].imgUrl)
+    document.getElementsByClassName('editable-block')[0].appendChild(imgTag)
+  }
+
+  saveLinkndShowInEditor($event:any)
+  {
+    console.log("event",$event)
+    const obj={
+              linkUrl:$event.linkUrl,
+              linkTitle:$event.linkTitle,
+              linkText:$event.linkText
+         }
+          this.savedLinks.push(obj)
+        console.log("Links in container",this.savedLinks[this.savedLinks.length-1])
+        const anchonrTag=document.createElement('a')
+        anchonrTag.innerHTML=this.savedLinks[this.savedLinks.length-1].linkText
+        anchonrTag.setAttribute('href',this.savedLinks[this.savedLinks.length-1].linkUrl)
+        anchonrTag.setAttribute('title',this.savedLinks[this.savedLinks.length-1].linkTitle)
+        console.log("anchor tag",anchonrTag)
+        document.getElementsByClassName('editable-block')[0].appendChild(anchonrTag)
+  }
+  
   resetToolbar(): void {
     this.toolbarConfig = {
       bold: false,
@@ -299,7 +340,7 @@ export class EditorContainerComponent
       document.getElementById(`${this.id}`).focus();
     }
   }
-
+   
   setValue(event: any): void {
     event.stopPropagation();
     this.innerText = event.target.innerText;
@@ -313,6 +354,7 @@ export class EditorContainerComponent
     }
     this.lastChar = this.getPrecedingCharacter(
       window.getSelection().anchorNode
+    
     ); // gets the last input character
 
     if (this.format && this.startOffset && this.tribute) {
@@ -333,6 +375,13 @@ export class EditorContainerComponent
     }
 
     this.writeValue(document.getElementById(`${this.id}`).innerHTML);
+
+    //  get cursor possition
+    console.log("OLD Range",this.oldRange)
+    console.log("last char", window.getSelection().anchorNode)
+    
+
+
   }
 
   mentionClosed(): void {
@@ -561,6 +610,13 @@ export class EditorContainerComponent
     this.comment.emit(event);
     document.getElementById(`${this.id}`).innerHTML = '';
   }
+
+  // showImageInEditor():void
+  // {
+  //  var ImageTag= document.createElement('img')
+   
+
+  // }
 
   //   insertSupTag(): void {
   //     const { startContainer } = this.sel.getRangeAt(0);
