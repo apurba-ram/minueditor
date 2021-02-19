@@ -21,12 +21,8 @@ export class EditorMenuComponent implements OnInit {
   filesArray: any[];
   ShowFiles: boolean;
   fontStyle = false;
-<<<<<<< HEAD
-  
-=======
   fillColor = false;
   setTextColor = false;
->>>>>>> c85c16533ea4fd1cde9ae6f86d2cebe12eeacd47
   constructor() {
     this.editorConfig = {
       file: false,
@@ -73,7 +69,6 @@ export class EditorMenuComponent implements OnInit {
     // console.log(this.filesArray)
     this.enter = true;
   }
-<<<<<<< HEAD
   dropFile(e):void
   {
     e && e.preventDefault();
@@ -90,14 +85,6 @@ export class EditorMenuComponent implements OnInit {
       this.filesArray.push(e.dataTransfer.files[0])
       console.log("on drop files array",this.filesArray)
     if(this.filesArray.length>0)
-=======
-  dropFile(e): void{
-    e.preventDefault(); // Why ???? - ALEC
-    console.log('file drop');
-    this.filesArray.push(e.dataTransfer.files[0]);
-    console.log('on drop files array', this.filesArray);
-    if (this.filesArray.length > 0)
->>>>>>> c85c16533ea4fd1cde9ae6f86d2cebe12eeacd47
     {
       this.ShowFiles = true;
     }
@@ -109,12 +96,8 @@ export class EditorMenuComponent implements OnInit {
 
   fileRemove(fileId): void
   {
-<<<<<<< HEAD
       console.log(fileId)
       this.filesArray.splice(fileId,1)
-=======
-      console.log(fileId);
->>>>>>> c85c16533ea4fd1cde9ae6f86d2cebe12eeacd47
   }
 
   fileFromInput(e): void {
