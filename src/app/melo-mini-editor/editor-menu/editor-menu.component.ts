@@ -125,8 +125,7 @@ export class EditorMenuComponent implements OnInit {
       if (
           e.dataTransfer.files[0].name.split('.').includes('jpg') ||
           e.dataTransfer.files[0].name.split('.').includes('png') ||
-          e.dataTransfer.files[0].name.split('.').includes('gif') ||
-          e.dataTransfer.files[0].name.split('.').includes('svg')
+          e.dataTransfer.files[0].name.split('.').includes('gif') 
         ) 
         {
           alert('Image files are not allowed');
