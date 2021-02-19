@@ -428,12 +428,7 @@ export class EditorContainerComponent
       document.execCommand('insertHtml', false, pastedText);
     } else {
       // console.log('HERE', pastedHtml);
-      pastedHtml = pastedHtml.replace(regexStyle, (match: any) => {
-        // console.log('M');  
-        // console.log(match);
-        return '';
-      });
-      pastedHtml = pastedHtml.replace(regexComment, (match: any) => '');
+      pastedHtml = pastedHtml.replace(regexStyle, (match: any) =>  '');
       const rexa = /href=".*?"/g; // match all a href
       pastedHtml = pastedHtml.replace(rexa, (match: any) => {
         const str = ' target="_blank" rel="noopener noreferrer"';
@@ -590,7 +585,6 @@ export class EditorContainerComponent
       if (elem?.nodeName === 'APP-TEXT-EDITOR') {
         return null;
       } else {
-        console.log('POKER', elem?.nodeName, tagName);
         if (elem.nodeName === tagName.toUpperCase()) {
           return elem;
         } else {
@@ -610,56 +604,4 @@ export class EditorContainerComponent
     this.comment.emit(event);
     document.getElementById(`${this.id}`).innerHTML = '';
   }
-
-  // showImageInEditor():void
-  // {
-  //  var ImageTag= document.createElement('img')
-   
-
-  // }
-
-  //   insertSupTag(): void {
-  //     const { startContainer } = this.sel.getRangeAt(0);
-  //     if (this.checkValidOperation(startContainer)) {
-
-  //       if (this.subTag) {
-  //         this.reachTextNode('sub');
-  //       }
-
-  //       if (!this.supTag) {
-  //         const sup = document.createElement('sup');
-  //         sup.innerHTML = '&#8204;';
-  //         const range =  this.sel.getRangeAt(0);
-  //         range.insertNode(sup);
-  //         range.setStart(sup, 1);
-  //         range.setEnd(sup, 1);
-  //         range.collapse();
-  //         this.showEmoji = false;
-  //       } else {
-  //         this.reachTextNode('sup');
-  //       }
-  //     }
-  //     this.focus();
-  //   }
-  //   insertSubTag(): void {
-  //     const { startContainer } = this.sel.getRangeAt(0);
-  //     if (this.checkValidOperation(startContainer)) {
-  //       if (this.supTag) {
-  //         this.reachTextNode('sup');
-  //       }
-  //       if (!this.subTag) {
-  //         const sub = document.createElement('sub');
-  //         sub.innerHTML = '&#8204;';
-  //         const range =  this.sel.getRangeAt(0);
-  //         range.insertNode(sub);
-  //         range.setStart(sub, 1);
-  //         range.setEnd(sub, 1);
-  //         range.collapse();
-  //         this.showEmoji = false;
-  //       } else {
-  //         this.reachTextNode('sub');
-  //       }
-  //     }
-  //     this.focus();
-  //   }
 }
