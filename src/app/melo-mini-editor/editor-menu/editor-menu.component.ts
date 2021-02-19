@@ -107,7 +107,7 @@ export class EditorMenuComponent implements OnInit {
 
   dropImage(e) {
     // console.log(e.t)
-    // this.imgArr.push(e.)
+    this.imgArr.push(e.dataTransfer.files[0])
   }
 
   fileRemove(fileId): void {
@@ -119,14 +119,41 @@ export class EditorMenuComponent implements OnInit {
     console.log('file from input');
     // console.log(e.target.files)
     if (
-      e.target.files[0].name.includes('jpg') ||
-      e.target.files[0].name.includes('png') ||
-      e.target.files[0].name.includes('gif') ||
-      e.target.files[0].name.includes('svg')
+      e.target.files[0].name.split('.').includes('jpg') ||
+      e.target.files[0].name.split('.').includes('png') ||
+      e.target.files[0].name.split('.').includes('gif') ||
+      e.target.files[0].name.split('.').includes('svg')
     ) {
       alert('Image files are not allowed');
     } else {
-      this.filesArray = [...e.target.files];
+      if(e.target.files.length>0)
+      {
+        // this.filesArray=[...e.target.files]
+        console.log("Target files",e.target.files,"type",Array.isArray(e.target.files))
+        let i=this.filesArray.length-1
+        // e.target.files.forEach(element => {
+        //   // console.log(element)
+        //   this.filesArray.push(element)
+
+        // });
+
+        for (var key in e.target.files) {
+          if (e.target.files.hasOwnProperty(key)) {
+              console.log(key + " -> " + e.target.files[key]);
+              this.filesArray.push(e.target.files[key])
+          }
+      }
+
+        
+
+        console.log("file Array",this.filesArray)
+
+      }
+      else{
+        this.filesArray.push(e.target.files[0])
+      }
+      
+      // [...e.target.files];
       if (this.filesArray.length > 0) {
         this.ShowFiles = true;
       }
