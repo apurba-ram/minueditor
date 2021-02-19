@@ -171,27 +171,30 @@
                 </g>
             </svg>
         </button>
-        <div class="popup-mask" *ngIf="addLink" (click)="closePopover()">
+        <div class="popup-mask" *ngIf="addLink" >
             <div class="popover attach">
                 <div class="head">
                     <h3>Insert Link</h3>
                     <button class="close" (click)="addLinks()">&times;</button>
                 </div>
-
                 <div class="link">
                     <label>Web Address</label>
-                    <input type="text" placeholder="http://exampleimage.com/image.jpg">
+                    <input [(ngModel)]="linkUrl" type="text" placeholder="http://exampleimage.com/image.jpg" required>
+                    <h6>{{inValidUrlMsg}}</h6>
                 </div>
                 <div class="link">
                     <label>Display Text</label>
-                    <input type="text" placeholder="Enter Text">
+                    <input [(ngModel)]="linkText" type="text" placeholder="Enter Text" required>
+                    <h6>{{inValidLinkText}}</h6>
                 </div>
                 <div class="link">
                     <label>Title</label>
-                    <input type="text" placeholder="Enter a title">
+                    <input [(ngModel)]="linkTitle" type="text" placeholder="Enter a title" required>
+                    <h6>  {{inValidLinkTitle}}</h6>
                 </div>
                 <div class="footer">
-                    <button class="cancel" (click)="addLinks()">Cancel</button><button class="upload">Save</button>
+                    <button class="cancel" (click)="addLinks()">Cancel</button><button (click)="saveLinks()"  class="upload">Save</button>
+                  
                 </div>
             </div>
         </div>
@@ -220,7 +223,7 @@
                 </div>
                 <div   class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragover($event)" 
                     (dragend)="dragend($event)" (dragleave)="dragleave($event)" (drop)="dropFile($event)" [class.enter]="enter">
-                    <input type="file" id="browse" (change)="fileFromInput($event)" [attr.multiple]="multiple?'multiple':null">
+                    <input type="file" id="browse" (change)="fileFromInput($event)" multiple>
                     <div class="container" >
                         <span>Drop file here or browse to upload</span>
                         <label for="browse">Browse</label>
@@ -292,12 +295,8 @@
                         </svg>
                     </div> -->
                 </div>
-                <div class="link">
-                    <label>You can also add a image link here</label>
-                    <input type="text" placeholder="http://exampleimage.com/image.jpg">
-                </div>
                 <div class="footer">
-                    <button class="cancel" (click)="attachPopover()">Cancel</button><button class="upload">Save</button>
+                    <button class="cancel" (click)="attachPopover()">Cancel</button><button (click)="saveFiles()" class="upload">Save</button>
                 </div>
             </div>
         </div>
@@ -334,15 +333,16 @@
                         <label for="browse">Browse</label>
                     </div>
                 </div>
-                <div class="file-row">
-                    <div class="file-col" *ngFor="let imgName of imgArr; let i=index ">
+                <div class="file-row" *ngIf="imgUrl.length > 0">
+                    <div class="file-col" *ngFor="let imgData of imgUrl; let i=index ;  ">
                         <button (click)="imgRemove(i)">
                             <span>&times;</span>
                         </button>
                         <div class="file-item">
                             <div class="file-image">
-                                <!-- <img [src]="url" alt=""> -->
-                                <span class="file {{imgName.name.split('.')[1]}}">
+                                <!-- {{imgData}} -->
+                                <img [src]="imgData.imgUrl" alt="">
+                                <span class="file {{imgData.file.name.split('.')[1]}}">
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="2672" height="1024"
                                         viewBox="0 0 2672 1024">
                                         <g id="icomoon-ignore">
@@ -351,7 +351,7 @@
                                         </path>
                                     </svg>
                                     <span  class="format" >
-                                        {{imgName.name.split('.')[1]}}
+                                        {{imgData.file.name.split('.')[1]}}
                                     </span>
                                 </span>
                                 <!-- {{url}} -->
@@ -361,7 +361,7 @@
                             </div> -->
                             <!-- <span class="file-format">
                                 <span>{{imgName.name.split('.')[1]}}</span></span> -->
-                            <p class="file-title">{{imgName.name}}</p>
+                            <p class="file-title">{{imgData.file.name}}</p>
                         </div>
                     </div>
                     <!-- <div class="file-col" >
@@ -375,12 +375,8 @@
                         </svg>
                     </div> -->
                 </div>
-                <div class="link">
-                    <label>You can also add a image link here</label>
-                    <input type="text" placeholder="http://exampleimage.com/image.jpg">
-                </div>
                 <div class="footer">
-                    <button class="cancel" (click)="imagePopover()">Cancel</button><button class="upload">Save</button>
+                    <button class="cancel" (click)="imagePopover()">Cancel</button><button (click)="saveImage()" class="upload">Save</button>
                 </div>
             </div>
         </div>
