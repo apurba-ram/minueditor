@@ -120,7 +120,7 @@ export class EditorContainerComponent
     anchonrTag.innerHTML = event.linkText;
     anchonrTag.setAttribute('href', event.linkUrl);
     anchonrTag.setAttribute('title', event.linkTitle);
-    // document.getElementsByClassName('editable-block')[0].appendChild(anchonrTag);
+
     this.sel.removeAllRanges();
     const range = this.oldRange.cloneRange();
     range.insertNode(anchonrTag);
@@ -333,7 +333,6 @@ export class EditorContainerComponent
 
   blur(): void {
     this.oldRange = this.sel.getRangeAt(0).cloneRange(); // to store the range when element is blurred
-    console.log('RECALL THE BLURRY VISION', this.oldRange);
   }
 
   focus(): void {
@@ -444,7 +443,7 @@ export class EditorContainerComponent
   toolbarClicked(event: any): void {
     if (this.oldRange) {
 
-      if(event?.id !== 'textColor' && event?.id !== 'fillColor') {
+      if(this.oldRange.collapsed) {
         this.sel.removeAllRanges();
         const range = this.oldRange.cloneRange();
         const t = document.createTextNode('');
@@ -453,6 +452,18 @@ export class EditorContainerComponent
         range.collapse();
         this.sel.addRange(range);
       }
+      // if(event?.id !== 'textColor' && event?.id !== 'fillColor') {
+      // } else {
+      //   if(this.oldRange.collapsed) {
+      //     this.sel.removeAllRanges();
+      //     const range = this.oldRange.cloneRange();
+      //     const t = document.createTextNode('');
+      //     range.insertNode(t);
+      //     range.setStartAfter(t);
+      //     range.collapse();
+      //     this.sel.addRange(range);
+      //   }
+      // }
     } else {
       this.focus();
     }
@@ -499,7 +510,6 @@ export class EditorContainerComponent
       case 'quote':
         this.insertBlockQuote();
         break;
-      case 'link':
       case 'increase-indent':
         document.execCommand('indent', false, '');
         break;
@@ -518,10 +528,12 @@ export class EditorContainerComponent
       case 'fillColor':
         document.execCommand('styleWithCSS', false, '');
         document.execCommand('hiliteColor', false, value);
+        this.sel.getRangeAt(0).collapse();
         break;
       case 'textColor':
         document.execCommand('styleWithCSS', false, '');
         document.execCommand('foreColor', false, value);
+        this.sel.getRangeAt(0).collapse();
         break;
     }
   }
@@ -545,7 +557,6 @@ export class EditorContainerComponent
   }
 
   insertSupTag(): void {
-    console.log('HEREIN')
     if(!this.toolbarConfig.superscript) {
       const sup = document.createElement('sup');
       sup.innerHTML = '&#8204;';
