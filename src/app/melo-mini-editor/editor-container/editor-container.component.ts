@@ -398,7 +398,14 @@ export class EditorContainerComponent
         this.toolbarConfig[id] = false;
       }
     }
+   // console.log('SAR WAAR BHI PHAT GAYE', id);
     switch (id) {
+      case 'h1': 
+      case 'h2': 
+      case 'h3': document.execCommand('formatBlock', false, id.toUpperCase());
+                 break; 
+      case 'para': document.execCommand('formatBlock', false, 'p');
+                   break; 
       case 'bold':
         document.execCommand('bold', false, '');
         break;

@@ -65,6 +65,7 @@ export class EditorMenuComponent implements OnInit {
         event?.target?.dataset?.id !== 'attachment' ||
         event?.target?.dataset?.id !== 'fill-color' ||
         event?.target?.dataset?.id !== 'text-color')) {
+          console.log(event?.target?.dataset);
           this.buttonClick.emit(event?.target?.dataset);
     }
   }
