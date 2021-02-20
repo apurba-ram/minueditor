@@ -45,7 +45,7 @@ export class EditorMenuComponent implements OnInit {
   inValidLinkTitle=''
   inValidLinkText=''
   savedLinks:object={ };
-
+  fontFamily = false;
 
 
 
@@ -201,9 +201,7 @@ export class EditorMenuComponent implements OnInit {
         this.showAlert = true;
     }
   }
-
    // Image popup code ends
-
   fileRemove(fileId): void {
     console.log('file remove');
     console.log(fileId);
@@ -213,7 +211,6 @@ export class EditorMenuComponent implements OnInit {
     console.log('uplod value after delete', this.upload);
     console.log('file Array after removed', this.filesArray);
   }
-
   //file is uploaded from browse button
   fileFromInput(e): void {
      console.log('file from input');
@@ -315,6 +312,9 @@ export class EditorMenuComponent implements OnInit {
   }
   fontStylePopover(): void {
     this.fontStyle = !this.fontStyle;
+  }
+  openfontFamily() {
+    this.fontFamily = !this.fontFamily;
   }
   closePopover(): void {
     this.filesArray = [];
