@@ -125,15 +125,17 @@ export class EditorContainerComponent
   * @param event - Event which stores the link emitted from the link popup
   */
   saveLink(event:any) : void{
-    const anchonrTag = document.createElement('a');
-    anchonrTag.innerHTML = event.linkText;
-    anchonrTag.setAttribute('href', event.linkUrl);
-    anchonrTag.setAttribute('title', event.linkTitle);
+    const anchorTag = document.createElement('a');
+    anchorTag.innerHTML = event.linkText;
+    anchorTag.setAttribute('href', event.linkUrl);
+    anchorTag.setAttribute('title', event.linkTitle);
+    anchorTag.setAttribute('target', '_blank');
+    anchorTag.setAttribute('rel', 'noopener noreferrer');
 
     this.sel.removeAllRanges();
     const range = this.oldRange.cloneRange();
-    range.insertNode(anchonrTag);
-    range.setStartAfter(anchonrTag);
+    range.insertNode(anchorTag);
+    range.setStartAfter(anchorTag);
     range.collapse();
     this.sel.removeAllRanges();
     this.sel.addRange(range);

@@ -192,7 +192,7 @@
                     <div class="link">
                         <label>Web Address</label>
                         <input [(ngModel)]="linkUrl" type="text" placeholder="https://exampleimage.com">
-                        <h6>{{invalidUrlMessage}}</h6>
+                        <span class="error" *ngIf="invalidUrlMessage">{{invalidUrlMessage}}</span>
                     </div>
                     <div class="link">
                         <label>Display Text</label>
