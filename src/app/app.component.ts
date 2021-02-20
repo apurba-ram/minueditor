@@ -16,7 +16,7 @@ export class AppComponent {
     file: true,
     mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],
     mentionedDates: ['19-02-2020', '11-02-2020', '12-02-2020', '14-02-2020'],
-    buttonName: 'Comment',
+    buttonName: 'Upload',
     fontColor: true,
     highlightColor: true,
     menuPlacement: 'bottom'

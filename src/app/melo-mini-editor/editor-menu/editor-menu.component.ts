@@ -40,7 +40,7 @@ export class EditorMenuComponent implements OnInit {
   linkText:string
   linkTitle:string
   inValidUrl:boolean
-  inValidUrlMsg:string
+  invalidUrlMessage:string
   inValidLinkTitle=''
   inValidLinkText=''
   savedLinks:object={ };
@@ -258,8 +258,8 @@ export class EditorMenuComponent implements OnInit {
     event.target.value = ''
   }
 
-  // File code ends
-  // Drag events
+  // File Upload code ends
+  // Drag event code starts
 
   /**
    * 
@@ -301,7 +301,7 @@ export class EditorMenuComponent implements OnInit {
     this.enter = false;
   }
 
-
+  // Drag Event code ends
 
   // Add Link code starts
 
@@ -312,7 +312,7 @@ export class EditorMenuComponent implements OnInit {
     console.log("Link Data",this.linkText,this.linkTitle,this.linkUrl)
     const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     if(!this.linkUrl || !this.linkUrl?.match(rex)) { //check url is valid or not
-        this.inValidUrlMsg = 'Please provde a valid URL';
+        this.invalidUrlMessage = 'Please provde a valid URL';
     } else {    
       const obj = {
             linkUrl:this.linkUrl,
