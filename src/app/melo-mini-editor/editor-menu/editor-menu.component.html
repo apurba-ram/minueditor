@@ -2,7 +2,7 @@
 <div class="editor-menu" (click)="buttonClicked($event)">
     <!-- Bold -->
     <div class="col" data-id="bold">
-        <button data-id="bold" [class.active]="toolbarConfig?.bold" [csTooltip]="'Bold" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
+        <button data-id="bold" [class.active]="toolbarConfig?.bold" [csTooltip]="'Bold'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
             <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg"
                 data-id="bold">
                 <g clip-path="url(#clip0)">
@@ -19,7 +19,7 @@
     </div>
     <!-- Italic -->
     <div class="col" data-id="italic">
-        <button data-id="italic" [class.active]="toolbarConfig?.italic" [csTooltip]="'Italic" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
+        <button data-id="italic" [class.active]="toolbarConfig?.italic" [csTooltip]="'Italic'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
             <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg"
                 data-id="italic">
                 <g clip-path="url(#clip0)">
@@ -36,7 +36,7 @@
     </div>
     <!-- Underline -->
     <div class="col" data-id="underline">
-        <button data-id="underline" [class.active]="toolbarConfig?.underline" [csTooltip]="'Underline" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
+        <button data-id="underline" [class.active]="toolbarConfig?.underline" [csTooltip]="'Underline'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
             <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" data-id="underline"
                 style="enable-background: new 0 0 384 384" xml:space="preserve">
                 <g>
@@ -302,7 +302,7 @@
         </div>
     </div>
     <!-- Image -->
-    <div class="col" clickOutside (clickOutside)="uploadImage = false; image = null;">
+    <div class="col" clickOutside (clickOutside)="clickOutsideImage()">
         <button (click)="uploadImage = true" [class.active]="uploadImage">
 
             <svg width="199" height="199" viewBox="0 0 199 199" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -323,7 +323,7 @@
             <div class="popover attach">
                 <div class="head">
                     <h3>Attach Image</h3>
-                    <button class="close" (click)="uploadImage = false; image = null;">&times;</button>
+                    <button class="close" (click)="clickOutsideImage()">&times;</button>
                 </div>
                 <div class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragover($event)"
                     (dragend)="dragend($event)" (dragleave)="dragleave($event)" [class.enter]="enter" (drop)="dropImage($event)">
@@ -347,7 +347,7 @@
                     </div>
                 </div>
                 <div class="footer">
-                    <button class="cancel" (click)="uploadImage = false;  image = null;">Cancel</button><button (click)="saveImage(); uploadImage = false;  image = null;" class="upload">Save</button>
+                    <button class="cancel" (click)="clickOutsideImage()">Cancel</button><button (click)="saveImage()" class="upload">Save</button>
                 </div>
             </div>
         </div>

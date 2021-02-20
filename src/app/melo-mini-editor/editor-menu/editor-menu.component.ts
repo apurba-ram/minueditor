@@ -144,6 +144,11 @@ export class EditorMenuComponent implements OnInit {
   
   // Image popup code begins
 
+  clickOutsideImage(): void {
+    this.image = null;
+    this.uploadImage = false;
+  }
+
   dropImage(event: any) {
     event.preventDefault();
     event.stopPropagation();
@@ -173,6 +178,7 @@ export class EditorMenuComponent implements OnInit {
 
   saveImage(): void{
     this.imageInEditor.emit(this.image);
+    this.clickOutsideImage();
   }
 
   readImageFile(file:any): void {
