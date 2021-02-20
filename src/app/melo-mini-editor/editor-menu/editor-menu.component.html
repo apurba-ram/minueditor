@@ -167,7 +167,7 @@
         </div>
         <!-- Link -->
         <div class="col" data-id="link" clickOutside (clickOutside)="closeAddLinksPopover()">
-            <button data-id="link" (click)="addLinks()" [class.active]="addLink" [csTooltip]="'Add Link'"
+            <button data-id="link" (click)="addLink = true;" [class.active]="addLink" [csTooltip]="'Add Link'"
                 placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
                 <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 426.667 426.667" xml:space="preserve">
                     <g>
@@ -187,26 +187,23 @@
                 <div class="popover attach">
                     <div class="head">
                         <h3>Insert Link</h3>
-                        <button class="close" (click)="addLinks()">&times;</button>
+                        <button class="close" (click)="closeAddLinksPopover()">&times;</button>
                     </div>
                     <div class="link">
                         <label>Web Address</label>
-                        <input [(ngModel)]="linkUrl" type="text" placeholder="http://exampleimage.com/image.jpg"
-                            required>
+                        <input [(ngModel)]="linkUrl" type="text" placeholder="https://exampleimage.com">
                         <h6>{{inValidUrlMsg}}</h6>
                     </div>
                     <div class="link">
                         <label>Display Text</label>
-                        <input [(ngModel)]="linkText" type="text" placeholder="Enter Text" required>
-                        <h6>{{inValidLinkText}}</h6>
+                        <input [(ngModel)]="linkText" type="text" placeholder="Enter Text">
                     </div>
                     <div class="link">
                         <label>Title</label>
-                        <input [(ngModel)]="linkTitle" type="text" placeholder="Enter a title" required>
-                        <h6> {{inValidLinkTitle}}</h6>
+                        <input [(ngModel)]="linkTitle" type="text" placeholder="Enter a title">
                     </div>
                     <div class="footer">
-                        <button class="cancel" (click)="addLinks()">Cancel</button><button (click)="saveLinks()"
+                        <button class="cancel" (click)="closeAddLinksPopover()">Cancel</button><button (click)="saveLink()"
                             class="upload">Save</button>
 
                     </div>

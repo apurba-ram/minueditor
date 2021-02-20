@@ -97,7 +97,7 @@ export class EditorContainerComponent
   }
 
  
-  /*
+  /**
   * @param event - Event which stores the files that are emitted from the file popup
   */
   saveFiles(event: any): void {
@@ -107,7 +107,7 @@ export class EditorContainerComponent
     this.sendSavedFiles.emit(event);
   }
 
-  /*
+  /**
   * @param event - Event which stores the image emitted from the image popup
   */
   saveImage(event:any): void{
@@ -121,7 +121,7 @@ export class EditorContainerComponent
     this.sel.addRange(range);
   }
 
-  /*
+  /**
   * @param event - Event which stores the link emitted from the link popup
   */
   saveLink(event:any) : void{
