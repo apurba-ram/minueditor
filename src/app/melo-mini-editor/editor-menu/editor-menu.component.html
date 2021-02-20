@@ -84,7 +84,7 @@
     </div>
     <!-- list -->
     <div class="col" clickOutside (clickOutside)="closeListStylesPopover()">
-        <button class="lg" [class.active]="listStyle" (click)="listStyles()" [csTooltip]="'List Option'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
+        <button class="lg" [class.active]="listStyle|| toolbarConfig?.orderedList || toolbarConfig?.unorderedList" (click)="listStyles()" [csTooltip]="'List Option'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
             <svg width="595" height="400" viewBox="0 0 595 400" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M34.3783 20C15.3553 20 0 35.6776 0 55.1C0 74.5224 15.3553 90.2 34.3783 90.2C53.4013 90.2 68.7566 74.5224 68.7566 55.1C68.7566 35.6776 53.4013 20 34.3783 20Z" />
@@ -171,27 +171,30 @@
                 </g>
             </svg>
         </button>
-        <div class="popup-mask" *ngIf="addLink" (click)="closePopover()">
+        <div class="popup-mask" *ngIf="addLink" >
             <div class="popover attach">
                 <div class="head">
                     <h3>Insert Link</h3>
                     <button class="close" (click)="addLinks()">&times;</button>
                 </div>
-
                 <div class="link">
                     <label>Web Address</label>
-                    <input type="text" placeholder="http://exampleimage.com/image.jpg">
+                    <input [(ngModel)]="linkUrl" type="text" placeholder="http://exampleimage.com/image.jpg" required>
+                    <h6>{{inValidUrlMsg}}</h6>
                 </div>
                 <div class="link">
                     <label>Display Text</label>
-                    <input type="text" placeholder="Enter Text">
+                    <input [(ngModel)]="linkText" type="text" placeholder="Enter Text" required>
+                    <h6>{{inValidLinkText}}</h6>
                 </div>
                 <div class="link">
                     <label>Title</label>
-                    <input type="text" placeholder="Enter a title">
+                    <input [(ngModel)]="linkTitle" type="text" placeholder="Enter a title" required>
+                    <h6>  {{inValidLinkTitle}}</h6>
                 </div>
                 <div class="footer">
-                    <button class="cancel" (click)="addLinks()">Cancel</button><button class="upload">Save</button>
+                    <button class="cancel" (click)="addLinks()">Cancel</button><button (click)="saveLinks()"  class="upload">Save</button>
+                  
                 </div>
             </div>
         </div>
@@ -220,7 +223,7 @@
                 </div>
                 <div   class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragover($event)" 
                     (dragend)="dragend($event)" (dragleave)="dragleave($event)" (drop)="dropFile($event)" [class.enter]="enter">
-                    <input type="file" id="browse" (change)="fileFromInput($event)" [attr.multiple]="multiple?'multiple':null">
+                    <input type="file" id="browse" (change)="fileFromInput($event)" multiple>
                     <div class="container" >
                         <span>Drop file here or browse to upload</span>
                         <label for="browse">Browse</label>
@@ -292,19 +295,15 @@
                         </svg>
                     </div> -->
                 </div>
-                <div class="link">
-                    <label>You can also add a image link here</label>
-                    <input type="text" placeholder="http://exampleimage.com/image.jpg">
-                </div>
                 <div class="footer">
-                    <button class="cancel" (click)="attachPopover()">Cancel</button><button class="upload">Save</button>
+                    <button class="cancel" (click)="attachPopover()">Cancel</button><button (click)="saveFiles()" class="upload">Save</button>
                 </div>
             </div>
         </div>
     </div>
     <!-- Image -->
-    <div class="col" clickOutside (clickOutside)="closeImagePopover()">
-        <button (click)="imagePopover()" [class.active]="uploadImage">
+    <div class="col" clickOutside (clickOutside)="uploadImage = false; image = null;">
+        <button (click)="uploadImage = true" [class.active]="uploadImage">
 
             <svg width="199" height="199" viewBox="0 0 199 199" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0)">
@@ -324,9 +323,9 @@
             <div class="popover attach">
                 <div class="head">
                     <h3>Attach Image</h3>
-                    <button class="close" (click)="imagePopover()">&times;</button>
+                    <button class="close" (click)="uploadImage = false; image = null;">&times;</button>
                 </div>
-                <div class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragenter($event)"
+                <div class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragover($event)"
                     (dragend)="dragend($event)" (dragleave)="dragleave($event)" [class.enter]="enter" (drop)="dropImage($event)">
                     <input type="file" id="browse" accept="image/x-png,image/gif,image/jpeg" (change)="changeImage($event)">
                     <div class="container">
@@ -334,57 +333,25 @@
                         <label for="browse">Browse</label>
                     </div>
                 </div>
-                <div class="file-row">
-                    <div class="file-col" *ngFor="let imgName of imgArr; let i=index ">
-                        <button (click)="imgRemove(i)">
+                <div class="file-row" *ngIf="image">
+                    <div class="file-col">
+                        <button (click)="image = null;">
                             <span>&times;</span>
                         </button>
                         <div class="file-item">
                             <div class="file-image">
-                                <!-- <img [src]="url" alt=""> -->
-                                <span class="file {{imgName.name.split('.')[1]}}">
-                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="2672" height="1024"
-                                        viewBox="0 0 2672 1024">
-                                        <g id="icomoon-ignore">
-                                        </g>
-                                        <path d="M2662.047 170.706c0-94.256-76.39-170.647-170.647-170.647h-2320.8c-94.256 0-170.647 76.391-170.647 170.647s76.391 170.647 170.647 170.647h2320.8c94.257 0 170.647-76.391 170.647-170.647zM170.601 682.647c-94.256 0-170.647 76.391-170.647 170.647s76.391 170.647 170.647 170.647h784.977c94.257 0 170.647-76.39 170.647-170.647s-76.39-170.647-170.647-170.647h-784.977z">
-                                        </path>
-                                    </svg>
-                                    <span  class="format" >
-                                        {{imgName.name.split('.')[1]}}
-                                    </span>
-                                </span>
-                                <!-- {{url}} -->
+                                <img [src]="image.url" alt="">
                             </div>
-                            <!-- <div class="file-loader" *ngIf="url === ''">
-                                <span></span>
-                            </div> -->
-                            <!-- <span class="file-format">
-                                <span>{{imgName.name.split('.')[1]}}</span></span> -->
-                            <p class="file-title">{{imgName.name}}</p>
+                            <p class="file-title">{{image?.file?.name}}</p>
                         </div>
                     </div>
-                    <!-- <div class="file-col" >
-                        <input type="file" (change)="fileFromInput($event)">
-                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024"
-                            viewBox="0 0 1024 1024">
-                            <g id="icomoon-ignore"></g>
-                            <path
-                                d="M64.001 575.974h383.999v383.999c0 35.328 28.672 64 64 64s64-28.672 64-64v-383.999h383.999c35.328 0 64-28.672 64-64s-28.672-64-64-64h-383.999v-383.999c0-35.328-28.672-64-64-64s-64 28.672-64 64v383.999h-383.999c-35.328 0-64 28.672-64 64s28.672 64 64 64z">
-                            </path>
-                        </svg>
-                    </div> -->
-                </div>
-                <div class="link">
-                    <label>You can also add a image link here</label>
-                    <input type="text" placeholder="http://exampleimage.com/image.jpg">
                 </div>
                 <div class="footer">
-                    <button class="cancel" (click)="imagePopover()">Cancel</button><button class="upload">Save</button>
+                    <button class="cancel" (click)="uploadImage = false;  image = null;">Cancel</button><button (click)="saveImage(); uploadImage = false;  image = null;" class="upload">Save</button>
                 </div>
             </div>
         </div>
-        <div class="alert-box" *ngIf="showAlert===true">
+        <div class="alert-box" *ngIf="showAlert">
                 <h1 id="alert-msg">{{alertMsg}}</h1>
                 <button (click)="hideAlert()" id="ok-btn">OK</button>
         </div>  
@@ -407,28 +374,28 @@
         </button>
         <div class="popover small" *ngIf="fontStyle">
             <ul class="option-list">
-                <li>
-                    <button>
-                        <h1>H1</h1>
-                        <span>Heading 1</span>
+                <li data-id="h1">
+                    <button data-id="h1">
+                        <h1 data-id="h1">H1</h1>
+                        <span data-id="h1">Heading 1</span>
                     </button>
                 </li>
-                <li>
-                    <button>
-                        <h2>H2</h2>
-                        <span>Heading 2</span>
+                <li data-id="h2">
+                    <button data-id="h2">
+                        <h2 data-id="h2">H2</h2>
+                        <span data-id="h2">Heading 2</span>
                     </button>
                 </li>
-                <li>
-                    <button>
-                        <h3>H3</h3>
-                        <span>Heading 3</span>
+                <li data-id="h3">
+                    <button data-id="h3">
+                        <h3 data-id="h3">H3</h3>
+                        <span data-id="h3">Heading 3</span>
                     </button>
                 </li>
-                <li>
-                    <button>
-                        <p>P</p>
-                        <span>Paragraph</span>
+                <li data-id="para">
+                    <button data-id="para">
+                        <p data-id="para">P</p>
+                        <span data-id="para">Paragraph</span>
                     </button>
                 </li>
             </ul>
@@ -540,8 +507,8 @@
                 </g>
             </svg>
         </button>
-        <div class="popover color-palette" *ngIf="fillColor[0]">
-            <app-color-palette [(color)]="toolbarConfig.backgroundColor" (colorChange)="fillColor[0] = false; colorChange('fillColor');"></app-color-palette>
+        <div class="popover color-palette" *ngIf="fillColor[0]" data-id="fill-color">
+            <app-color-palette [(color)]="toolbarConfig.backgroundColor" (colorChange)="fillColor[0] = false; colorChange('fillColor');" data-id="fill-color"></app-color-palette>
         </div>
     </div>
     <!-- Text Color -->
@@ -566,24 +533,24 @@
                 </g>
             </svg>
         </button>
-        <div class="popover color-palette" *ngIf="fillColor[1]">
-            <app-color-palette [(color)]="toolbarConfig.fontColor" (colorChange)="fillColor[1] = false;  colorChange('textColor');"></app-color-palette>
+        <div class="popover color-palette" *ngIf="fillColor[1]" data-id="text-color">
+            <app-color-palette [(color)]="toolbarConfig.fontColor" (colorChange)="fillColor[1] = false;  colorChange('textColor');" data-id="text-color"></app-color-palette>
         </div>
     </div>
     <!-- Superscript -->
-    <div class="col">
-        <button [class.active]="toolbarConfig?.superscript">
-            <svg width="200" height="174" viewBox="0 0 200 174" fill="none">
-                <path
+    <div class="col" data-id="superscript">
+        <button [class.active]="toolbarConfig?.superscript" data-id="superscript">
+            <svg width="200" height="174" viewBox="0 0 200 174" fill="none" data-id="superscript">
+                <path data-id="superscript"
                     d="M85.9381 113.681L139.578 173.934H106.571L69.0088 129.867L32.2984 173.934H0L53.2083 113.681L2.562 56.8192H35.145L70.4356 98.0449L106.001 56.8192H137.163L85.9381 113.681ZM159.28 72.9393L181.389 56.6618C188.928 51.4813 193.881 46.6757 196.255 42.2405C198.627 37.8077 199.812 33.044 199.812 27.9395C199.812 19.6009 197.024 12.8704 191.456 7.74929C185.882 2.62529 178.555 0.0657349 169.477 0.0657349C160.724 0.0657349 153.723 2.65782 148.482 7.83793C143.229 13.0209 140.607 20.8317 140.607 31.2789H157.49C157.49 25.0457 158.596 20.7365 160.802 18.3465C163.008 15.9561 166.031 14.7607 169.882 14.7607C173.727 14.7607 176.765 15.9769 179.019 18.4055C181.264 20.8317 182.384 23.8491 182.384 27.4552C182.384 31.0553 181.346 34.313 179.259 37.2295C177.173 40.1461 171.376 45.0656 161.864 51.9883C153.726 57.939 142.714 63.5448 139.412 68.807L139.578 88.3617H200V72.9393H159.28Z" />
             </svg>
         </button>
     </div>
     <!-- Subscript -->
-    <div class="col">
-        <button [class.active]="toolbarConfig?.subscript">
-            <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
+    <div class="col" data-id="subscript">
+        <button [class.active]="toolbarConfig?.subscript" data-id="subscript">
+            <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" data-id="subscript">
+                <path data-id="subscript"
                     d="M85.9381 68.8616L139.578 129.115H106.571L69.0088 85.048L32.2984 129.115H0L53.2083 68.8616L2.562 12H35.145L70.4356 53.2257L106.001 12H137.163L85.9381 68.8616ZM159.28 173.12L181.389 156.843C188.928 151.662 193.881 146.857 196.255 142.421C198.627 137.989 199.812 133.225 199.812 128.12C199.812 119.782 197.024 113.051 191.456 107.93C185.882 102.806 178.555 100.247 169.477 100.247C160.724 100.247 153.723 102.839 148.482 108.019C143.229 113.202 140.607 121.013 140.607 131.46H157.49C157.49 125.227 158.596 120.917 160.802 118.527C163.008 116.137 166.031 114.942 169.882 114.942C173.727 114.942 176.765 116.158 179.019 118.586C181.264 121.013 182.384 124.03 182.384 127.636C182.384 131.236 181.346 134.494 179.259 137.41C177.173 140.327 171.376 145.246 161.864 152.169C153.726 158.12 142.714 173.726 139.412 178.988L139.578 188.543H200V173.12H159.28Z" />
             </svg>
         </button>

@@ -2,6 +2,8 @@ import {
   Component,
   OnInit,
   Input,
+  Output,
+  EventEmitter,
   OnChanges,
   forwardRef,
   ChangeDetectionStrategy,
@@ -26,12 +28,16 @@ import { NgZone } from '@angular/core';
       multi: true,
     },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditorContainerComponent
   implements OnInit, OnChanges, AfterViewInit, OnDestroy, AfterViewChecked {
   @Input() editorConfig: EditorConfig;
-  @Input() multiple: boolean;
+  // @Input() multiple: boolean;
+  @Output() comment = new EventEmitter<string>();
+  @Output() sendSavedFiles = new EventEmitter<any>();//coming from menu to container from container to ap
+  imageToBeShown:any
+  filesFromChild:any
   html: string;
   innerText: string;
   lastChar: string;
@@ -50,6 +56,7 @@ export class EditorContainerComponent
   mentionedDates: string[];
   toolbarPlacement: 'top' | 'bottom';
   oldRange: any;
+  savedLinks:any=[]
 
   toolbarConfig: ToolbarConfig;
 
@@ -89,6 +96,48 @@ export class EditorContainerComponent
     this.resetToolbar();
   }
 
+ 
+  /*
+  * @param event - Event which stores the files that are emitted from the file popup
+  */
+  saveFiles(event: any): void {
+    // this.filesFromChild = $event;
+    // console.log("files after saving in parent",this.filesFromChild)
+    this.sendSavedFiles.emit(event);
+  }
+
+  /*
+  * @param event - Event which stores the image emitted from the image popup
+  */
+  saveImage(event:any): void{
+    const imgTag = document.createElement('img')
+    imgTag.setAttribute('src', event.url);
+    this.sel.removeAllRanges();
+    const range = this.oldRange.cloneRange();
+    range.insertNode(imgTag);
+    range.setStartAfter(imgTag);
+    range.collapse();
+    this.sel.addRange(range);
+  }
+
+  /*
+  * @param event - Event which stores the link emitted from the link popup
+  */
+  saveLink(event:any) : void{
+    const anchonrTag = document.createElement('a');
+    anchonrTag.innerHTML = event.linkText;
+    anchonrTag.setAttribute('href', event.linkUrl);
+    anchonrTag.setAttribute('title', event.linkTitle);
+
+    this.sel.removeAllRanges();
+    const range = this.oldRange.cloneRange();
+    range.insertNode(anchonrTag);
+    range.setStartAfter(anchonrTag);
+    range.collapse();
+    this.sel.removeAllRanges();
+    this.sel.addRange(range);
+  }
+  
   resetToolbar(): void {
     this.toolbarConfig = {
       bold: false,
@@ -154,7 +203,7 @@ export class EditorContainerComponent
 
   selectionChange(event: any): void {
     if (document.activeElement === document.getElementById(this.id)) {
-      // console.log(this.sel);
+      this.oldRange = this.sel.getRangeAt(0).cloneRange();
       this.setFontAndbackgroundColor();
       this.toolbarConfig = {
         bold: document.queryCommandState('bold'),
@@ -165,8 +214,10 @@ export class EditorContainerComponent
         unorderedList: document.queryCommandState('insertunorderedList'),
         fontColor: this.fontColor,
         backgroundColor: this.backgroundColor,
+        quote: this.checkParent(this.sel.anchorNode, 'blockquote'),
+        superscript: this.checkParent(this.sel.anchorNode, 'sup'),
+        subscript: this.checkParent(this.sel.anchorNode, 'sub')
       };
-      // console.log('FC : ', this.fontColor, 'BKV : ',this.backgroundColor);
     } else {
       this.resetToolbar();
     }
@@ -179,17 +230,35 @@ export class EditorContainerComponent
         let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
         const styleArray: string[] = styleAttrib.split(';');
         for(const style of styleArray) {
-          if(style.indexOf('color:') > -1) {
-            this.fontColor = style.substring(style.indexOf(':') + 1).trim();
-          }
-          if(style.indexOf('background-color:') > -1) {
+           if(style.indexOf('background-color:') > -1) {
             this.backgroundColor = style.substring(style.indexOf(':') + 1).trim();
-          }
+          } else if(style.indexOf('color:') > -1) {
+            this.fontColor = style.substring(style.indexOf(':') + 1).trim();
+          } 
         }
       } else {
         this.fontColor = 'black';
         this.backgroundColor = 'white';
       }
+    } else {
+        this.fontColor = 'black';
+        this.backgroundColor = 'white';
+    }
+  }
+
+  checkParent(elem: any, tagName: string): boolean {
+    if (elem) {
+      if (elem?.nodeName === 'APP-TEXT-EDITOR') {
+        return false;
+      } else {
+        if (elem.nodeName === tagName.toUpperCase()) {
+          return true;
+        } else {
+          return this.checkParent(elem?.parentNode, tagName);
+        }
+      }
+    } else {
+      return false;
     }
   }
 
@@ -271,9 +340,7 @@ export class EditorContainerComponent
   }
 
   blur(): void {
-    // console.log('HALLELUIJAH');
     this.oldRange = this.sel.getRangeAt(0).cloneRange(); // to store the range when element is blurred
-    // console.log(this.sel);
   }
 
   focus(): void {
@@ -281,7 +348,10 @@ export class EditorContainerComponent
       document.getElementById(`${this.id}`).focus();
     }
   }
-
+   
+  /*
+  * @param event - This parameter is an event that is occurred whenever we make changes inside the div contenteditable
+  */
   setValue(event: any): void {
     event.stopPropagation();
     this.innerText = event.target.innerText;
@@ -295,6 +365,7 @@ export class EditorContainerComponent
     }
     this.lastChar = this.getPrecedingCharacter(
       window.getSelection().anchorNode
+    
     ); // gets the last input character
 
     if (this.format && this.startOffset && this.tribute) {
@@ -317,6 +388,9 @@ export class EditorContainerComponent
     this.writeValue(document.getElementById(`${this.id}`).innerHTML);
   }
 
+  /*
+  * This function is called whenever the mention tab is closed
+  */
   mentionClosed(): void {
     // insert mentions
 
@@ -334,7 +408,6 @@ export class EditorContainerComponent
       input.style.color = '#4681ef';
       input.style.fontWeight = 'inherit';
       input.style.fontSize = 'inherit';
-      // console.log(this.oldRange);
       const range = this.sel.getRangeAt(0).cloneRange();
       this.sel.removeAllRanges();
       const sp = document.createTextNode(' ');
@@ -347,12 +420,16 @@ export class EditorContainerComponent
     //  this.valueInput = true;
   }
 
+  /*
+  * @param event - This parameter is an event that is occurred whenever we paste things inside the div contenteditable
+  */
   onPaste(event: any): void {
     event.preventDefault();
     const clipboardData = event.clipboardData;
     let pastedHtml = clipboardData.getData('text/html');
     let pastedText = clipboardData.getData('text');
-    const regIn = /style=".+?"/g; // matching all inline styles
+    const regexStyle = /style=".+?"/g; // matching all inline styles
+    const regexComment = /<!--.+?-->/g; // matching all inline styles
     if (pastedHtml === '' && pastedText !== '') {
       const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
       pastedText = pastedText.replace(rex, (match: any) => {
@@ -360,16 +437,11 @@ export class EditorContainerComponent
       });
       document.execCommand('insertHtml', false, pastedText);
     } else {
-      pastedHtml = pastedHtml.replace(regIn, (match: any) => '');
-      // const rexa = /<a href=".*?">.+?<\/a>/g; // match all a href
+      // console.log('HERE', pastedHtml);
+      pastedHtml = pastedHtml.replace(regexStyle, (match: any) =>  '');
       const rexa = /href=".*?"/g; // match all a href
       pastedHtml = pastedHtml.replace(rexa, (match: any) => {
         const str = ' target="_blank" rel="noopener noreferrer"';
-        // return (
-        //   match.substring(0, match.indexOf('>')) +
-        //   str +
-        //   match.slice(match.indexOf('>'))
-        // );
         return match + str;
       });
       document.execCommand('insertHtml', false, pastedHtml);
@@ -378,13 +450,28 @@ export class EditorContainerComponent
 
   toolbarClicked(event: any): void {
     if (this.oldRange) {
-      this.sel.removeAllRanges();
-      const range = this.oldRange.cloneRange();
-      const t = document.createTextNode('');
-      range.insertNode(t);
-      range.setStartAfter(t);
-      range.collapse();
-      this.sel.addRange(range);
+
+      if(this.oldRange.collapsed) {
+        this.sel.removeAllRanges();
+        const range = this.oldRange.cloneRange();
+        const t = document.createTextNode('');
+        range.insertNode(t);
+        range.setStartAfter(t);
+        range.collapse();
+        this.sel.addRange(range);
+      }
+      // if(event?.id !== 'textColor' && event?.id !== 'fillColor') {
+      // } else {
+      //   if(this.oldRange.collapsed) {
+      //     this.sel.removeAllRanges();
+      //     const range = this.oldRange.cloneRange();
+      //     const t = document.createTextNode('');
+      //     range.insertNode(t);
+      //     range.setStartAfter(t);
+      //     range.collapse();
+      //     this.sel.addRange(range);
+      //   }
+      // }
     } else {
       this.focus();
     }
@@ -392,7 +479,7 @@ export class EditorContainerComponent
   }
 
   toolbarOperations(id: string, value: any): void {
-    if (id && id !== 'fillColor' && id !== 'textColor') {
+    if (id && id !== 'fillColor' && id !== 'textColor' && id !== 'subscript' && id !== 'superscript' && id !== 'quote') {
       if (!this.toolbarConfig[id]) {
         this.toolbarConfig[id] = true;
       } else {
@@ -400,6 +487,16 @@ export class EditorContainerComponent
       }
     }
     switch (id) {
+      case 'h1': 
+      case 'h2': 
+      case 'h3': document.execCommand('formatBlock', false, id.toUpperCase());
+                 break; 
+      case 'para': document.execCommand('formatBlock', false, 'p');
+                   break; 
+      case 'superscript': this.insertSupTag();
+                        break;
+      case 'subscript': this.insertSubTag();
+                        break;
       case 'bold':
         document.execCommand('bold', false, '');
         break;
@@ -421,7 +518,6 @@ export class EditorContainerComponent
       case 'quote':
         this.insertBlockQuote();
         break;
-      case 'link':
       case 'increase-indent':
         document.execCommand('indent', false, '');
         break;
@@ -440,93 +536,97 @@ export class EditorContainerComponent
       case 'fillColor':
         document.execCommand('styleWithCSS', false, '');
         document.execCommand('hiliteColor', false, value);
+        this.sel.getRangeAt(0).collapse();
         break;
       case 'textColor':
         document.execCommand('styleWithCSS', false, '');
         document.execCommand('foreColor', false, value);
+        this.sel.getRangeAt(0).collapse();
         break;
     }
   }
 
   insertBlockQuote(): void {
-    const blockquote = document.createElement('blockquote');
-    blockquote.setAttribute(
-      'style',
-      'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px'
-    );
-    blockquote.innerHTML = '&#8204;';
-    const div = document.createElement('div');
-    div.appendChild(document.createElement('br'));
-    const range = this.sel.getRangeAt(0);
-    range.insertNode(div);
-    range.insertNode(blockquote);
-    range.setStart(blockquote, 0);
-    range.setEnd(blockquote, 0);
-    range.collapse();
+    if (!this.toolbarConfig.quote) {
+      const blockquote = document.createElement('blockquote');
+      blockquote.setAttribute('style', 'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px');
+      blockquote.innerHTML = '&#8204;';
+      const div = document.createElement('div');
+      div.appendChild(document.createElement('br'));
+      const range =  this.sel.getRangeAt(0);
+      range.insertNode(div);
+      range.insertNode(blockquote);
+      range.setStart(blockquote, 0);
+      range.setEnd(blockquote, 0);
+      range.collapse();
+    } else {
+      this.reachTextNode('blockquote');
+    }
   }
 
   insertSupTag(): void {
-    const sup = document.createElement('sup');
-    sup.innerHTML = '&#8204;';
-    const range = this.sel.getRangeAt(0);
-    range.insertNode(sup);
-    range.setStart(sup, 1);
-    range.setEnd(sup, 1);
-    range.collapse();
+    if(!this.toolbarConfig.superscript) {
+      const sup = document.createElement('sup');
+      sup.innerHTML = '&#8204;';
+      const range = this.sel.getRangeAt(0);
+      range.insertNode(sup);
+      range.setStart(sup, 1);
+      range.setEnd(sup, 1);
+      range.collapse();
+    } else {
+      this.reachTextNode('sup');
+    }
   }
 
   insertSubTag(): void {
-    const sub = document.createElement('sub');
-    sub.innerHTML = '&#8204;';
-    const range = this.sel.getRangeAt(0);
-    range.insertNode(sub);
-    range.setStart(sub, 1);
-    range.setEnd(sub, 1);
-    range.collapse();
+    if(!this.toolbarConfig.subscript) {
+      const sub = document.createElement('sub');
+      sub.innerHTML = '&#8204;';
+      const range = this.sel.getRangeAt(0);
+      range.insertNode(sub);
+      range.setStart(sub, 1);
+      range.setEnd(sub, 1);
+      range.collapse();
+    } else {
+      this.reachTextNode('sub');
+    }
   }
 
-  //   insertSupTag(): void {
-  //     const { startContainer } = this.sel.getRangeAt(0);
-  //     if (this.checkValidOperation(startContainer)) {
+  reachTextNode(tagName: string): void {
+    const parent = this.getParent(this.sel.anchorNode, tagName);
+    const space = document.createElement('text');
+    space.innerHTML = '&#8204;';
+    if (parent?.nextSibling) {
+      this.sel.getRangeAt(0).setStartAfter(parent.nextSibling);
+    } else {
+      this.sel.getRangeAt(0).setStartAfter(parent);
+    }
+    this.sel.getRangeAt(0).insertNode(space);
+    this.sel.getRangeAt(0).setStartAfter(space);
+  }
 
-  //       if (this.subTag) {
-  //         this.reachTextNode('sub');
-  //       }
+  getParent(elem: any, tagName: string): any {
+    if (elem) {
+      if (elem?.nodeName === 'APP-TEXT-EDITOR') {
+        return null;
+      } else {
+        if (elem.nodeName === tagName.toUpperCase()) {
+          return elem;
+        } else {
+          return this.getParent(elem?.parentNode, tagName);
+        }
+      }
+    } else {
+      return null;
+    }
+  }
 
-  //       if (!this.supTag) {
-  //         const sup = document.createElement('sup');
-  //         sup.innerHTML = '&#8204;';
-  //         const range =  this.sel.getRangeAt(0);
-  //         range.insertNode(sup);
-  //         range.setStart(sup, 1);
-  //         range.setEnd(sup, 1);
-  //         range.collapse();
-  //         this.showEmoji = false;
-  //       } else {
-  //         this.reachTextNode('sup');
-  //       }
-  //     }
-  //     this.focus();
-  //   }
-  //   insertSubTag(): void {
-  //     const { startContainer } = this.sel.getRangeAt(0);
-  //     if (this.checkValidOperation(startContainer)) {
-  //       if (this.supTag) {
-  //         this.reachTextNode('sup');
-  //       }
-  //       if (!this.subTag) {
-  //         const sub = document.createElement('sub');
-  //         sub.innerHTML = '&#8204;';
-  //         const range =  this.sel.getRangeAt(0);
-  //         range.insertNode(sub);
-  //         range.setStart(sub, 1);
-  //         range.setEnd(sub, 1);
-  //         range.collapse();
-  //         this.showEmoji = false;
-  //       } else {
-  //         this.reachTextNode('sub');
-  //       }
-  //     }
-  //     this.focus();
-  //   }
+  /**
+   *  Output event to export comment data and cleanup the editor
+   */
+  comment_action(): void {
+    const event = document.getElementById(`${this.id}`).innerHTML;
+    this.comment.emit(event);
+    document.getElementById(`${this.id}`).innerHTML = '';
+  }
 }

@@ -5,8 +5,15 @@
 <!-- <lib-minieditor [(ngModel)]="modelvalue" [value]="defValue" [file]="true" [mentionedNames]="[1,1,1,1,1,1]" [mentionedDates]="[1,1,1,1,1,1,1]" [buttonName]="'Hi Alec'"></lib-minieditor> -->
 <br>
 <br><br>
-<app-editor-container [editorConfig]="editorConfig" [multiple]="true"></app-editor-container>
+
+<div *ngFor="let files of filesFromChild">
+    {{files.name}}
+</div>
+
+<app-editor-container [(ngModel)]="modelvalue" [editorConfig]="editorConfig"  (sendSavedFiles)="filesSaved($event)" ></app-editor-container>
 <br><br>
+
+{{modelvalue}}
 
 
 
