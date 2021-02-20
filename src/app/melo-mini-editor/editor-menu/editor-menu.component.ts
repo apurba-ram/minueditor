@@ -16,17 +16,16 @@ export class EditorMenuComponent implements OnInit {
   @Input() editorConfig: EditorConfig;
   @Input() toolbarConfig: ToolbarConfig;
   @Output() buttonClick: EventEmitter<any> = new EventEmitter();
-  // @Input() multiple: boolean;
-  @Output() sendSavedFiles = new EventEmitter<any>();
-  @Output() imageInEditor=new EventEmitter<any>();
-  @Output() linkInEditor=new EventEmitter<any>()
+  @Output() sendSavedFiles: EventEmitter<any> = new EventEmitter();
+  @Output() imageInEditor: EventEmitter<any> = new EventEmitter();
+  @Output() linkInEditor: EventEmitter<any> = new EventEmitter();
   enter = false;
   upload = false;
   uploadImage = false;
   alignment = false;
   addLink = false;
   listStyle = false;
-  filesArray: Array<object>[];
+  filesArray: any[];
   ShowFiles: boolean;
   fontStyle = false;
   fillColor: boolean[];
@@ -97,58 +96,36 @@ export class EditorMenuComponent implements OnInit {
     });
   }
 
-  saveFiles(): void {
-    this.savedFiles.push.apply(this.savedFiles, this.filesArray);
-    this.filesArray = [];
-
-    console.log('files after saving in child', this.savedFiles);
-    this.sendSavedFiles.emit(this.savedFiles);
-    this.upload = false;
-    // console.log("emit event",this.sendSavedFiles.emit(this.savedFiles))
-  }
-
-  imgRemove(fileId): void {
-    // alert(fileId)
-    this.imgUrl.splice(fileId, 1);
-    console.log('image array after remove', this.imgArr);
-  }
-
-  attachPopover(): void {
-    this.filesArray = [];
-    this.upload = !this.upload;
-  }
-
-  dropFile(e): void {
-    e.preventDefault();
-    console.log(
-      'dropped multple files',
-      e.dataTransfer.files,
-      'type',
-      Array.isArray(e.dataTransfer.files)
-    );
-    console.log(
-      'dropped files',
-      e.dataTransfer.files,
-      'type',
-      Array.isArray(e.dataTransfer.files)
-    );
-
-    for (var key in e.dataTransfer.files) {
-      if (e.dataTransfer.files.hasOwnProperty(key)) {
-        console.log(key + ' -> ' + e.dataTransfer.files[key]);
-        this.filesArray.push(e.dataTransfer.files[key]);
-
+  /**
+   * 
+   * @param file - Represents a file whose extension needs to be returned
+   * @returns a string value which represents an extension
+   */
+  getFileExtension(file: File): string {
+    if(file) {
+      const index = file?.name.lastIndexOf('.');
+      if(index === -1) {
+        return 'file';
+      } else {
+        return file?.name?.slice(index + 1);
       }
     }
+    return '';
   }
   
   // Image popup code begins
 
+  /**
+   * Closes the image popover
+   */
   clickOutsideImage(): void {
     this.image = null;
     this.uploadImage = false;
   }
 
+   /**
+   * @param event - Dropped event triggered
+  */
   dropImage(event: any) {
     event.preventDefault();
     event.stopPropagation();
@@ -164,8 +141,12 @@ export class EditorMenuComponent implements OnInit {
     this.enter = false;
   }
 
-  validImage(file: any): boolean {
-    const fileExtension = file?.name?.slice(file?.name.lastIndexOf('.') + 1);
+  /**
+   * @param file - File that needs to be checked
+   * @returns true or false based on if the file is an image file or not
+  */
+  validImage(file: File): boolean {
+    const fileExtension = this.getFileExtension(file);
     switch(fileExtension) {
       case 'jpg':
       case 'jpeg':
@@ -176,12 +157,18 @@ export class EditorMenuComponent implements OnInit {
     }
   }
 
+  /**
+   * Function is invoked after the final save button is clicked from the image popup
+  */
   saveImage(): void{
     this.imageInEditor.emit(this.image);
     this.clickOutsideImage();
   }
 
-  readImageFile(file:any): void {
+  /**
+   * @param file - Represents the image file that needs to be previewed
+  */
+  readImageFile(file: File): void {
     const fReader = new FileReader();
     fReader.readAsDataURL(file);
     fReader.onloadend =  (event) => {
@@ -192,6 +179,9 @@ export class EditorMenuComponent implements OnInit {
     };
   }
 
+  /**
+   * @param event - Event which is triggered when the user hits the browse button in image popup and selects a file
+  */
   changeImage(event: any): void {
     if(this.validImage(event?.target?.files[0])) {
       this.showAlert = false;
@@ -202,59 +192,102 @@ export class EditorMenuComponent implements OnInit {
     }
   }
 
-   // Image popup code ends
+  // Image popup code ends
 
-  fileRemove(fileId): void {
-    console.log('file remove');
-    console.log(fileId);
-    //  delete this.filesArray[fileId]
-    console.log('upload value before delete', this.upload);
-    this.filesArray.splice(fileId, 1);
-    console.log('uplod value after delete', this.upload);
-    console.log('file Array after removed', this.filesArray);
+  // File code begins
+
+  saveFiles(): void {
+    // this.savedFiles.push.apply(this.savedFiles, this.filesArray);
+    // this.filesArray = [];
+    // console.log('files after saving in child', this.savedFiles);
+    // this.sendSavedFiles.emit(this.savedFiles);
+    // this.upload = false;
+    this.sendSavedFiles.emit(this.filesArray);
+    this.closeAttachPopover();
   }
 
-  //file is uploaded from browse button
-  fileFromInput(e): void {
-     console.log('file from input');
-    // this.filesArray=[...e.target.files]
-     console.log("Target files",e.target.files,"type",Array.isArray(e.target.files))
-    let i = this.filesArray.length - 1;
-    for (var key in e.target.files) {
-      if (e.target.files.hasOwnProperty(key)) {
-        this.filesArray.push(e.target.files[key]);
-        console.log(key + ' -> ' + e.target.files[key]);
-      
+  /**
+   *  Function is triggered to close the file popover
+   */
+  closeAttachPopover(): void {
+    this.filesArray = [];
+    this.upload = false;
+  }
+
+
+  /**
+   * 
+   * @param event - Triggered when a file is dropped in the drag & drop area
+   */
+  dropFiles(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if(event?.dataTransfer?.files && event?.dataTransfer?.files.length > 0) {
+      for (let i = 0; i <  event.dataTransfer.files.length; i++) {
+        this.filesArray.push({file: event.dataTransfer.files[i], extension: this.getFileExtension(event.dataTransfer.files[i])});
       }
-       
     }
-
-    // console.log("file Array",this.filesArray)
-    if (this.filesArray.length > 0) {
-      this.ShowFiles = true;
-    }
-    e.target.value = ''
-    // console.log('files Array', this.filesArray);
+    this.enter = false;
   }
 
-  dragenter(event: any): void {
+  /**
+   * 
+   * @param fileIndex - Index from where file needs to be removed
+   */
+  removeFile(fileIndex: number): void {
+    this.filesArray.splice(fileIndex, 1);
+  }
+
+  /**
+   * 
+   * @param event - Event triggered when user clicks on browse button of the file popup
+   */
+  filesFromInput(event: any): void {
+    for (let i = 0; i <  event.target.files.length; i++) {
+      this.filesArray.push({file: event.target.files[i], extension: this.getFileExtension(event.target.files[i])});
+    }
+    event.target.value = ''
+  }
+
+  // File code ends
+  // Drag events
+
+  /**
+   * 
+   * @param event - Represents a dragenter event
+   */
+  dragenter(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this.enter = true;
   }
 
-  dragover(event: any): void {
+  /**
+   * 
+   * @param event - Represents a dragover event
+   */
+  dragover(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
+    this.enter = true;
   }
 
-  dragend(event: any): void {
+  /**
+   * 
+   * @param event - Represents a dragend event
+   */
+  dragend(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this.enter = false;
   }
 
-  dragleave(event: any): void {
+  /**
+   * 
+   * @param event - Represents a dragleave event
+   */
+  dragleave(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this.enter = false;
@@ -341,11 +374,11 @@ export class EditorMenuComponent implements OnInit {
     this.addLink = false;
   }
 
-  closeAttachPopover(): void {
-    this.filesArray = [];
-    this.upload = false;
-    this.ShowFiles = false;
-  }
+  // closeAttachPopover(): void {
+  //   this.filesArray = [];
+  //   // this.upload = false;
+  //   // this.ShowFiles = false;
+  // }
 
   closeFontStylePopover(): void {
     this.fontStyle = false;

@@ -201,7 +201,7 @@
     </div>
     <!-- Attachment -->
     <div class="col" clickOutside (clickOutside)="closeAttachPopover()" data-id="attachment">
-        <button (click)="attachPopover()" [class.active]="upload" data-id="attachment">
+        <button (click)="upload = true" [class.active]="upload" data-id="attachment">
             <svg width="199" height="199" viewBox="0 0 199 199" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0)">
                     <path data-id="attachment" data-id="attachment"
@@ -219,50 +219,27 @@
             <div class="popover attach">
                 <div class="head">
                     <h3>Attach File</h3>
-                    <button class="close" (click)="attachPopover()">&times;</button>
+                    <button class="close" (click)="closeAttachPopover()">&times;</button>
                 </div>
-                <div   class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragover($event)" 
-                    (dragend)="dragend($event)" (dragleave)="dragleave($event)" (drop)="dropFile($event)" [class.enter]="enter">
-                    <input type="file" id="browse" (change)="fileFromInput($event)" multiple>
+                <div class="drag-drop" 
+                    (dragenter)="dragenter($event)" (dragover)="dragover($event)" 
+                    (dragend)="dragend($event)" (dragleave)="dragleave($event)" 
+                    (drop)="dropFiles($event)" 
+                    [class.enter]="enter">
+                    <input type="file" id="browse" (change)="filesFromInput($event)" multiple>
                     <div class="container" >
                         <span>Drop file here or browse to upload</span>
                         <label for="browse">Browse</label>
                     </div>
-                    <!--
-                        *ngIf="ShowFiles==false" 
-                        <div class="container" *ngIf="ShowFiles==true">
-                            <div *ngFor="let fileName of filesArray; let i = index">
-                                   <div>
-                                    {{fileName.name}}  
-                                    <br/>
-                                    <button (click)="fileRemove(i)" >Delete</button> 
-                                   </div>
-                                   <br/>
-                            </div>
-                    </div> -->
                 </div>
                 <div class="file-row">
-                    <div class="file-col" *ngFor="let fileName of filesArray; let i=index ">
-                        <button (click)="fileRemove(i)">
+                    <div class="file-col" *ngFor="let fileObj of filesArray; let i = index">
+                        <button (click)="removeFile(i)">
                             <span>&times;</span>
                         </button>
-                        <!-- <span  title="hi" class="file {{fileName.name.split('.')[1]}}">
-                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="2672" height="1024"
-                                viewBox="0 0 2672 1024">
-                                <g id="icomoon-ignore">
-                                </g>
-                                <path
-                                    d="M2662.047 170.706c0-94.256-76.39-170.647-170.647-170.647h-2320.8c-94.256 0-170.647 76.391-170.647 170.647s76.391 170.647 170.647 170.647h2320.8c94.257 0 170.647-76.391 170.647-170.647zM170.601 682.647c-94.256 0-170.647 76.391-170.647 170.647s76.391 170.647 170.647 170.647h784.977c94.257 0 170.647-76.39 170.647-170.647s-76.39-170.647-170.647-170.647h-784.977z">
-                                </path>
-                            </svg>
-                            <span  class="format"  title="hi" >
-                                {{fileName.name.split('.')[1]}}
-                            </span>
-                        </span> -->
                         <div class="file-item">
                             <div class="file-image">
-                                <!-- <img [src]="url" alt=""> -->
-                                <span class="file {{fileName.name.split('.')[1]}}">
+                                <span class="file {{fileObj.extension}}">
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="2672" height="1024"
                                         viewBox="0 0 2672 1024">
                                         <g id="icomoon-ignore">
@@ -271,32 +248,16 @@
                                         </path>
                                     </svg>
                                     <span  class="format" >
-                                        {{fileName.name.split('.')[1]}}
+                                        {{fileObj.extension}}
                                     </span>
                                 </span>
-                                <!-- {{url}} -->
                             </div>
-                            <!-- <div class="file-loader" *ngIf="url === ''">
-                                <span></span>
-                            </div> -->
-                            <!-- <span class="file-format">
-                                <span>{{fileName.name.split('.')[1]}}</span></span> -->
-                            <p class="file-title">{{fileName.name}}</p>
+                            <p class="file-title">{{fileObj.file.name}}</p>
                         </div>
                     </div>
-                    <!-- <div class="file-col" >
-                        <input type="file" (change)="fileFromInput($event)">
-                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024"
-                            viewBox="0 0 1024 1024">
-                            <g id="icomoon-ignore"></g>
-                            <path
-                                d="M64.001 575.974h383.999v383.999c0 35.328 28.672 64 64 64s64-28.672 64-64v-383.999h383.999c35.328 0 64-28.672 64-64s-28.672-64-64-64h-383.999v-383.999c0-35.328-28.672-64-64-64s-64 28.672-64 64v383.999h-383.999c-35.328 0-64 28.672-64 64s28.672 64 64 64z">
-                            </path>
-                        </svg>
-                    </div> -->
                 </div>
                 <div class="footer">
-                    <button class="cancel" (click)="attachPopover()">Cancel</button><button (click)="saveFiles()" class="upload">Save</button>
+                    <button class="cancel" (click)="closeAttachPopover()">Cancel</button><button (click)="saveFiles()" class="upload">Save</button>
                 </div>
             </div>
         </div>
