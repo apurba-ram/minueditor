@@ -90,7 +90,7 @@ export class EditorMenuComponent implements OnInit {
     console.log('Image from input');
     // this.filesArray=[...e.target.files]
       //  console.log("Target Images",e.target.files,"type",Array.isArray(e.target.files))
-       let i=this.filesArray.length-1
+       let i=this.imgArr.length-1
        for (var key in e.target.files) {
          if (e.target.files.hasOwnProperty(key)) {
             //  console.log(key + " -> " + e.target.files[key]);
@@ -206,11 +206,16 @@ export class EditorMenuComponent implements OnInit {
   
 
   fileRemove(fileId): void {
-    // console.log(fileId);
+    console.log("file remove")
+     console.log(fileId);
+    //  delete this.filesArray[fileId]
+    console.log("upload value before delete",this.upload)
     this.filesArray.splice(fileId, 1);
+    console.log("uplod value after delete",this.upload)
+     console.log("file Array after removed",this.filesArray)
   }
 
-  //file is upploaded from browse button
+  //file is uploaded from browse button
   fileFromInput(e): void {
     // console.log('file from input');
      // this.filesArray=[...e.target.files]
@@ -232,7 +237,7 @@ export class EditorMenuComponent implements OnInit {
               }
              
           }
-          e.target.value = ''
+          // e.target.value = ''
       }
 
         // console.log("file Array",this.filesArray)
