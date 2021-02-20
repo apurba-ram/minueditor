@@ -292,10 +292,6 @@
                         </svg>
                     </div> -->
                 </div>
-                <div class="link">
-                    <label>You can also add a image link here</label>
-                    <input type="text" placeholder="http://exampleimage.com/image.jpg">
-                </div>
                 <div class="footer">
                     <button class="cancel" (click)="attachPopover()">Cancel</button><button (click)="saveFiles()" class="upload">Save</button>
                 </div>
@@ -334,15 +330,16 @@
                         <label for="browse">Browse</label>
                     </div>
                 </div>
-                <div class="file-row">
-                    <div class="file-col" *ngFor="let imgName of imgArr; let i=index ">
+                <div class="file-row" *ngIf="imgUrl.length > 0">
+                    <div class="file-col" *ngFor="let imgData of imgUrl; let i=index ;  ">
                         <button (click)="imgRemove(i)">
                             <span>&times;</span>
                         </button>
                         <div class="file-item">
                             <div class="file-image">
-                                <!-- <img [src]="url" alt=""> -->
-                                <span class="file {{imgName.name.split('.')[1]}}">
+                                <!-- {{imgData}} -->
+                                <img [src]="imgData.imgUrl" alt="">
+                                <span class="file {{imgData.file.name.split('.')[1]}}">
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="2672" height="1024"
                                         viewBox="0 0 2672 1024">
                                         <g id="icomoon-ignore">
@@ -351,7 +348,7 @@
                                         </path>
                                     </svg>
                                     <span  class="format" >
-                                        {{imgName.name.split('.')[1]}}
+                                        {{imgData.file.name.split('.')[1]}}
                                     </span>
                                 </span>
                                 <!-- {{url}} -->
@@ -361,7 +358,7 @@
                             </div> -->
                             <!-- <span class="file-format">
                                 <span>{{imgName.name.split('.')[1]}}</span></span> -->
-                            <p class="file-title">{{imgName.name}}</p>
+                            <p class="file-title">{{imgData.file.name}}</p>
                         </div>
                     </div>
                     <!-- <div class="file-col" >

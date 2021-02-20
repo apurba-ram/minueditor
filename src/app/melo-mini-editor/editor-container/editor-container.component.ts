@@ -28,7 +28,7 @@ import { NgZone } from '@angular/core';
       multi: true,
     },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditorContainerComponent
   implements OnInit, OnChanges, AfterViewInit, OnDestroy, AfterViewChecked {
