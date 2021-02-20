@@ -546,6 +546,12 @@ export class EditorContainerComponent
         document.execCommand('foreColor', false, value);
         this.sel.getRangeAt(0).collapse();
         break;
+      case '@': this.insertTribute('@'); 
+                break;
+      case '#': this.insertTribute('#'); 
+                break;
+      case 'submit': this.commentAction();
+                     break;
     }
   }
 
@@ -627,9 +633,32 @@ export class EditorContainerComponent
   /**
    *  Output event to export comment data and cleanup the editor
    */
-  comment_action(): void {
+  commentAction(): void {
     const event = document.getElementById(`${this.id}`).innerHTML;
     this.comment.emit(event);
     document.getElementById(`${this.id}`).innerHTML = '';
+  }
+
+  insertTribute(char: string): void {
+    if (window.getSelection) {
+      const code = char === '@' ? 'Digit2' : 'Digit3';
+      const event = new KeyboardEvent('keydown', { key: `${char}`, code: `${code}` });
+      document.getElementById(this.id).dispatchEvent(event);
+      // if (this.oldRange) {
+      //   this.sel.removeAllRanges();
+      //   this.sel.addRange(this.oldRange);
+      //   document.getElementById(this.id).dispatchEvent(event);
+      //   const a = document.createTextNode(`${char}`);
+      //   this.oldRange.insertNode(a);
+      //   this.oldRange.setStartAfter(a);
+      //   this.sel.removeAllRanges();
+      //   this.sel.addRange(this.oldRange);
+      //   // this.setValue(this.innerText, this.innerHtml);
+      // } else {
+      //   this.focus();
+      //   this.oldRange = this.sel.getRangeAt(0).cloneRange();
+      //   this.insertTribute(char);
+      // }
+    }
   }
 }
