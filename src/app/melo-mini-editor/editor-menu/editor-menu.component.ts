@@ -62,12 +62,12 @@ export class EditorMenuComponent implements OnInit {
   ngOnInit(): void {}
 
   buttonClicked(event: any): void {
-    event.stopPropagation();
-    if (
-      event?.target?.dataset?.id === 'link' ||
-      event?.target?.dataset?.id === 'attachment'
-    ) {
-    } else if (event?.target?.dataset) {
+    if (event?.target?.dataset?.id === 'link' ||
+        event?.target?.dataset?.id === 'attachment' ||
+        event?.target?.dataset?.id === 'fill-color' ||
+        event?.target?.dataset?.id === 'text-color') {
+
+    } else if (event?.target?.dataset?.id) {
       this.buttonClick.emit(event?.target?.dataset);
     }
   }
@@ -89,15 +89,15 @@ export class EditorMenuComponent implements OnInit {
     
     console.log('Image from input');
     // this.filesArray=[...e.target.files]
-       console.log("Target Images",e.target.files,"type",Array.isArray(e.target.files))
+      //  console.log("Target Images",e.target.files,"type",Array.isArray(e.target.files))
        let i=this.filesArray.length-1
        for (var key in e.target.files) {
          if (e.target.files.hasOwnProperty(key)) {
-             console.log(key + " -> " + e.target.files[key]);
+            //  console.log(key + " -> " + e.target.files[key]);
              if(e.target.files[key].name.split('.').includes('jpg')
               || e.target.files[key].name.split('.').includes('jpeg')
-              ||e.target.files[key].name.split('.').includes('png')
-              ||e.target.files[key].name.split('.').includes('gif')
+              || e.target.files[key].name.split('.').includes('png')
+              || e.target.files[key].name.split('.').includes('gif')
                )
              {
               this.imgArr.push(e.target.files[key]) 
@@ -112,10 +112,10 @@ export class EditorMenuComponent implements OnInit {
                
              }
             
-         }
+         }         
      }
 
-       console.log("Image Array",this.imgArr)
+      //  console.log("Image Array",this.imgArr)
      if (this.imgArr.length > 0) {
        this.ShowFiles = true;
      }
@@ -124,8 +124,7 @@ export class EditorMenuComponent implements OnInit {
    
   }
 
-  imgRemove(fileId):void
-  {
+  imgRemove(fileId):void {
       // alert(fileId)
       this.imgArr.splice(fileId,1)
       console.log("image array after remove",this.imgArr)
@@ -173,17 +172,17 @@ export class EditorMenuComponent implements OnInit {
   dropImage(e) {
     // console.log(e.t)
     e && e.preventDefault();
-    console.log("dropped images",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
+    // console.log("dropped images",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
     // console.log("check extension",e.dataTransfer.files[0].name.split('.'[0]).pop())
-    console.log('DROP THE BOMB');
+    // console.log('DROP THE BOMB');
     const fileName = e.dataTransfer.files[0].name;
     const fileSplit = fileName.split('.');
     const fileExtension = fileSplit[fileSplit.length - 1];
-    console.log(fileName, fileExtension);
+    // console.log(fileName, fileExtension);
    
     for (var key in e.dataTransfer.files) {
       if (e.dataTransfer.files.hasOwnProperty(key)) {
-          console.log(key + " -> " + e.dataTransfer.files[key]);
+          // console.log(key + " -> " + e.dataTransfer.files[key]);
           if(e.dataTransfer.files[key].name.split('.').includes('jpg')
           ||e.dataTransfer.files[key].name.split('.').includes('jpeg')
           ||e.dataTransfer.files[key].name.split('.').includes('png')
@@ -207,15 +206,15 @@ export class EditorMenuComponent implements OnInit {
   
 
   fileRemove(fileId): void {
-    console.log(fileId);
+    // console.log(fileId);
     this.filesArray.splice(fileId, 1);
   }
 
   //file is upploaded from browse button
   fileFromInput(e): void {
-    console.log('file from input');
+    // console.log('file from input');
      // this.filesArray=[...e.target.files]
-        console.log("Target files",e.target.files,"type",Array.isArray(e.target.files))
+        // console.log("Target files",e.target.files,"type",Array.isArray(e.target.files))
         let i=this.filesArray.length-1
         for (var key in e.target.files) {
           if (e.target.files.hasOwnProperty(key)) {
@@ -236,11 +235,11 @@ export class EditorMenuComponent implements OnInit {
           e.target.value = ''
       }
 
-        console.log("file Array",this.filesArray)
+        // console.log("file Array",this.filesArray)
       if (this.filesArray.length > 0) {
         this.ShowFiles = true;
       }
-      console.log('files Array', this.filesArray);
+      // console.log('files Array', this.filesArray);
     }
   
 
@@ -256,12 +255,12 @@ export class EditorMenuComponent implements OnInit {
   }
 
   dragend(e): void {
-    console.log('dragend');
+    // console.log('dragend');
     this.enter = false;
   }
 
   dragleave(e): void {
-    console.log('dragleave');
+    // console.log('dragleave');
     this.enter = false;
   }
 

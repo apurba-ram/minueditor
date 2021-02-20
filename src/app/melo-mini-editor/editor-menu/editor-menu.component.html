@@ -304,8 +304,7 @@
                 </div>
                 <div class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragenter($event)"
                     (dragend)="dragend($event)" (dragleave)="dragleave($event)" [class.enter]="enter" (drop)="dropImage($event)">
-                    <input type="file" id="browse" accept="image/x-png,image/gif,image/jpeg"
-                        (change)="changeImage($event)">
+                    <input type="file" id="browse" accept="image/x-png,image/gif,image/jpeg" (change)="changeImage($event)">
                     <div class="container">
                         <span>Drop image here or browse to upload</span>
                         <label for="browse">Browse</label>
@@ -316,19 +315,30 @@
                         <button (click)="imgRemove(i)">
                             <span>&times;</span>
                         </button>
-                        <span  title="hi" class="file {{imgName.name.split('.')[1]}}">
-                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="2672" height="1024"
-                                viewBox="0 0 2672 1024">
-                                <g id="icomoon-ignore">
-                                </g>
-                                <path
-                                    d="M2662.047 170.706c0-94.256-76.39-170.647-170.647-170.647h-2320.8c-94.256 0-170.647 76.391-170.647 170.647s76.391 170.647 170.647 170.647h2320.8c94.257 0 170.647-76.391 170.647-170.647zM170.601 682.647c-94.256 0-170.647 76.391-170.647 170.647s76.391 170.647 170.647 170.647h784.977c94.257 0 170.647-76.39 170.647-170.647s-76.39-170.647-170.647-170.647h-784.977z">
-                                </path>
-                            </svg>
-                            <span  class="format"  title="hi" >
-                                {{imgName.name.split('.')[1]}}
-                            </span>
-                        </span>
+                        <div class="file-item">
+                            <div class="file-image">
+                                <!-- <img [src]="url" alt=""> -->
+                                <span class="file {{imgName.name.split('.')[1]}}">
+                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="2672" height="1024"
+                                        viewBox="0 0 2672 1024">
+                                        <g id="icomoon-ignore">
+                                        </g>
+                                        <path d="M2662.047 170.706c0-94.256-76.39-170.647-170.647-170.647h-2320.8c-94.256 0-170.647 76.391-170.647 170.647s76.391 170.647 170.647 170.647h2320.8c94.257 0 170.647-76.391 170.647-170.647zM170.601 682.647c-94.256 0-170.647 76.391-170.647 170.647s76.391 170.647 170.647 170.647h784.977c94.257 0 170.647-76.39 170.647-170.647s-76.39-170.647-170.647-170.647h-784.977z">
+                                        </path>
+                                    </svg>
+                                    <span  class="format" >
+                                        {{imgName.name.split('.')[1]}}
+                                    </span>
+                                </span>
+                                <!-- {{url}} -->
+                            </div>
+                            <!-- <div class="file-loader" *ngIf="url === ''">
+                                <span></span>
+                            </div> -->
+                            <span class="file-format">
+                                <span>{{imgName.name.split('.')[1]}}</span></span>
+                            <p class="file-title">{{imgName.name}}</p>
+                        </div>
                     </div>
                     <!-- <div class="file-col" >
                         <input type="file" (change)="fileFromInput($event)">
@@ -507,7 +517,7 @@
             </svg>
         </button>
         <div class="popover color-palette" *ngIf="fillColor[0]">
-            <app-color-palette></app-color-palette>
+            <app-color-palette [(color)]="toolbarConfig.backgroundColor" (colorChange)="fillColor[0] = false; colorChange('fillColor');"></app-color-palette>
         </div>
     </div>
     <!-- Text Color -->
@@ -533,7 +543,7 @@
             </svg>
         </button>
         <div class="popover color-palette" *ngIf="fillColor[1]">
-            <app-color-palette></app-color-palette>
+            <app-color-palette [(color)]="toolbarConfig.fontColor" (colorChange)="fillColor[1] = false;  colorChange('textColor');"></app-color-palette>
         </div>
     </div>
     <!-- Superscript -->
