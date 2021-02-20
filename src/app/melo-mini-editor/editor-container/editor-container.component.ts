@@ -103,6 +103,7 @@ export class EditorContainerComponent
   saveFiles(event: any): void {
     // this.filesFromChild = $event;
     // console.log("files after saving in parent",this.filesFromChild)
+    console.log(event);
     this.sendSavedFiles.emit(event);
   }
 

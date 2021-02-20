@@ -6,8 +6,8 @@
 <br>
 <br><br>
 
-<div *ngFor="let files of filesFromChild">
-    {{files.name}}
+<div *ngFor="let fileObj of filesFromChild">
+    {{fileObj.file.name}} - {{fileObj.extension}}
 </div>
 
 <app-editor-container [(ngModel)]="modelvalue" [editorConfig]="editorConfig"  (sendSavedFiles)="filesSaved($event)" ></app-editor-container>

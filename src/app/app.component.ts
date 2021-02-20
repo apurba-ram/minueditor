@@ -25,9 +25,9 @@ export class AppComponent {
   
 
 //from menu to container
-filesSaved($event: any) {
-  this.filesFromChild = $event;
-  console.log("APP COMPONENT",this.filesFromChild)
+filesSaved(event: any) {
+  this.filesFromChild = event;
+  console.log("APP COMPONENT",this.filesFromChild);
   // this.sendSavedFiles.emit(this.filesFromChild)
   
 }
