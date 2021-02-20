@@ -2,7 +2,7 @@
 <div class="editor-menu" (click)="buttonClicked($event)">
     <!-- Bold -->
     <div class="col" data-id="bold">
-        <button data-id="bold" [class.active]="toolbarConfig?.bold">
+        <button data-id="bold" [class.active]="toolbarConfig?.bold" [csTooltip]="'Bold" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
             <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg"
                 data-id="bold">
                 <g clip-path="url(#clip0)">
@@ -19,7 +19,7 @@
     </div>
     <!-- Italic -->
     <div class="col" data-id="italic">
-        <button data-id="italic" [class.active]="toolbarConfig?.italic">
+        <button data-id="italic" [class.active]="toolbarConfig?.italic" [csTooltip]="'Italic" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
             <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg"
                 data-id="italic">
                 <g clip-path="url(#clip0)">
@@ -36,7 +36,7 @@
     </div>
     <!-- Underline -->
     <div class="col" data-id="underline">
-        <button data-id="underline" [class.active]="toolbarConfig?.underline">
+        <button data-id="underline" [class.active]="toolbarConfig?.underline" [csTooltip]="'Underline" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
             <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" data-id="underline"
                 style="enable-background: new 0 0 384 384" xml:space="preserve">
                 <g>
@@ -53,7 +53,7 @@
     </div>
     <!-- Line through -->
     <div class="col" data-id="strikeThrough">
-        <button data-id="strikeThrough" [class.active]="toolbarConfig?.strikeThrough">
+        <button data-id="strikeThrough" [class.active]="toolbarConfig?.strikeThrough" [csTooltip]="'Strike Through'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
             <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve"
                 data-id="strikeThrough">
                 <g>
@@ -84,7 +84,7 @@
     </div>
     <!-- list -->
     <div class="col" clickOutside (clickOutside)="closeListStylesPopover()">
-        <button class="lg" [class.active]="listStyle" (click)="listStyles()">
+        <button class="lg" [class.active]="listStyle" (click)="listStyles()" [csTooltip]="'List Option'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
             <svg width="595" height="400" viewBox="0 0 595 400" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M34.3783 20C15.3553 20 0 35.6776 0 55.1C0 74.5224 15.3553 90.2 34.3783 90.2C53.4013 90.2 68.7566 74.5224 68.7566 55.1C68.7566 35.6776 53.4013 20 34.3783 20Z" />
@@ -146,7 +146,7 @@
     </div>
     <!-- Quote -->
     <div class="col" data-id="quote" [class.active]="toolbarConfig?.quote">
-        <button data-id="quote">
+        <button data-id="quote" [csTooltip]="'Quote'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
             <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg"
                 data-id="quote">
                 <path data-id="quote" d="M0 169.4H64.0714L21.3568 299H85.4281L128.143 169.4V0H0V169.4Z" />
