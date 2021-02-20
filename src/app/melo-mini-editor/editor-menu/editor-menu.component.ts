@@ -6,7 +6,9 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import Swal from 'sweetalert2'
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
+
 @Component({
   selector: 'app-editor-menu',
   templateUrl: './editor-menu.component.html',
@@ -87,7 +89,8 @@ export class EditorMenuComponent implements OnInit {
              }
              else
              {
-                alert("Please choose image file only")
+                // alert("Please choose image file only")
+                Swal.fire("Please choose imagee file only")
              }
             
          }
@@ -133,7 +136,7 @@ export class EditorMenuComponent implements OnInit {
             ||e.dataTransfer.files[key].name.split('.').includes('gif')
             )
             {
-                alert("image files are not allowed")
+              Swal.fire("image files are not allowed")
             }
             else
             {
@@ -176,7 +179,7 @@ export class EditorMenuComponent implements OnInit {
           }
           else
           {
-            alert("Please choose Image file only")
+            Swal.fire("Please choose Image file only")
             break
           }
           }
@@ -202,7 +205,7 @@ export class EditorMenuComponent implements OnInit {
               console.log(key + " -> " + e.target.files[key]);
               if(e.target.files[key].name.split('.').includes('jpg'))
               {
-                  alert("images are not allowed")
+                  // alert("images are not allowed")
                   break
               }
               else
