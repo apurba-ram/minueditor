@@ -177,6 +177,7 @@ export class EditorMenuComponent implements OnInit {
           else
           {
             alert("Please choose Image file only")
+            break
           }
           }
          
@@ -202,6 +203,7 @@ export class EditorMenuComponent implements OnInit {
               if(e.target.files[key].name.split('.').includes('jpg'))
               {
                   alert("images are not allowed")
+                  break
               }
               else
               {
