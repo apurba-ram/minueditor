@@ -72,6 +72,7 @@ export class EditorMenuComponent implements OnInit {
 
 
   changeImage(e: any): void {
+    
     console.log('Image from input');
     // this.filesArray=[...e.target.files]
        console.log("Target Images",e.target.files,"type",Array.isArray(e.target.files))
@@ -86,6 +87,7 @@ export class EditorMenuComponent implements OnInit {
                )
              {
               this.imgArr.push(e.target.files[key]) 
+              console.log("image arrys",this.imgArr)
              }
              else
              {
@@ -104,6 +106,7 @@ export class EditorMenuComponent implements OnInit {
        this.ShowFiles = true;
      }
      console.log('files Array', this.imgArr);
+     e.target.value = ''
    
   }
 
@@ -111,6 +114,7 @@ export class EditorMenuComponent implements OnInit {
   {
       // alert(fileId)
       this.imgArr.splice(fileId,1)
+      console.log("image array after remove",this.imgArr)
   }
 
   attachPopover(): void {
@@ -215,6 +219,7 @@ export class EditorMenuComponent implements OnInit {
               }
              
           }
+          e.target.value = ''
       }
 
         console.log("file Array",this.filesArray)
