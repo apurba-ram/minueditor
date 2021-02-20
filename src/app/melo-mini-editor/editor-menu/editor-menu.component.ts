@@ -44,7 +44,7 @@ export class EditorMenuComponent implements OnInit {
   inValidLinkTitle=''
   inValidLinkText=''
   savedLinks:object={ };
-
+  fontFamily = false;
 
 
 
@@ -348,6 +348,9 @@ export class EditorMenuComponent implements OnInit {
   }
   fontStylePopover(): void {
     this.fontStyle = !this.fontStyle;
+  }
+  openfontFamily() {
+    this.fontFamily = !this.fontFamily;
   }
   closePopover(): void {
     this.filesArray = [];

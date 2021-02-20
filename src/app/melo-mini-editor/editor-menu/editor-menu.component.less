@@ -1,5 +1,6 @@
 .editor-menu {
     display: flex;
+    justify-content: space-between;
 
     .col {
         position: relative;
@@ -329,8 +330,26 @@
                 fill: #161b2f;
             }
         }
+        &.submit {
+            width: auto;
+            background: #1e5dd3;
+            color: #FFFFFF;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 500;
+            line-height: 26px;
+            padding: 0 15px;
+            border-color: #1e5dd3;
+            margin-left: 20px;
+        }
 
 
+    }
+    .left, .right {
+        display: flex;
+    }
+    .right {
+        padding: 0 10px 0 0;
     }
 }
 
