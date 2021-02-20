@@ -94,41 +94,57 @@ export class EditorMenuComponent implements OnInit {
         imgUrl: event.target.result,
         file
       };
-      this.imgUrl.push(obj);
+      this.imgUrl[0]=(obj);
       this.imgUrl = [...this.imgUrl]; // Object.assign({}, this.imgUrl);
       console.log("Image after read array",this.imgUrl)
     };
   }
 
   changeImage(e: any): void {
-    console.log('Image from input', e.target.files);
+
+    console.log('Image from input', e.target.files,e.target.files[0].name.split('.'));
+    
     for(const file of e.target.files) {
-       this.readImageFile(file);
+      if (
+              e.target.files[0].name.split('.')[1]==="jpg" ||
+              e.target.files[0].name.split('.')[1]==="jpeg" ||
+              e.target.files[0].name.split('.')[1]==="png" ||
+              e.target.files[0].name.split('.')[1]==="gif"
+      )
+      {
+        this.readImageFile(file);
+      }
+      else
+      {
+        this.alertMsg = 'Please choose image file only';
+        this.showAlert = true;
+      }
+      
     }
     return;
 
-    for (var key in e.target.files) {
+    // for (var key in e.target.files) {
 
 
-      if (e.target.files.hasOwnProperty(key)) {
-        //  console.log(key + " -> " + e.target.files[key]);
-        if (
-          e.target.files[key].name.split('.').includes('jpg') ||
-          e.target.files[key].name.split('.').includes('jpeg') ||
-          e.target.files[key].name.split('.').includes('png') ||
-          e.target.files[key].name.split('.').includes('gif')
-        ) {
-          // this.readImageFile(e.target,e.target.files[key]);
-          // this.imgArr.push(e.target.files[key]);
-          console.log('image arrys', this.imgArr);
-        } else {
-          // alert("Please choose image file only")
-          this.alertMsg = 'Please choose image file only';
-          this.showAlert = true;
-          // this.uploadImage=false
-        }
-      }
-    }
+    //   if (e.target.files.hasOwnProperty(key)) {
+    //     //  console.log(key + " -> " + e.target.files[key]);
+    //     if (
+    //       e.target.files[key].name.split('.')==="jpg" ||
+    //       e.target.files[key].name.split('.')==="jpeg" ||
+    //       e.target.files[key].name.split('.')==="png" ||
+    //       e.target.files[key].name.split('.')==="gif"
+    //     ) {
+    //       // this.readImageFile(e.target,e.target.files[key]);
+    //       // this.imgArr.push(e.target.files[key]);
+    //       // console.log('image arrys', this.imgArr);
+    //     } else {
+    //       // alert("Please choose image file only")
+    //       this.alertMsg = 'Please choose image file only';
+    //       this.showAlert = true;
+    //       // this.uploadImage=false
+    //     }
+    //   }
+    // }
 
     //  console.log("Image Array",this.imgArr)
     // if (this.imgArr.length > 0) {
