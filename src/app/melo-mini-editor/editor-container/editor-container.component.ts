@@ -249,7 +249,7 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
       document.getElementById(`${this.id}`).focus();
     }
   }
-
+   
   setValue(event: any): void {
     event.stopPropagation();
     this.innerText = event.target.innerText;
@@ -259,6 +259,7 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
     }
     this.lastChar = this.getPrecedingCharacter(
       window.getSelection().anchorNode
+    
     ); // gets the last input character
 
     if (this.format && this.startOffset && this.tribute) {
@@ -279,6 +280,13 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
     }
 
     this.writeValue(document.getElementById(`${this.id}`).innerHTML);
+
+    //  get cursor possition
+    console.log("OLD Range",this.oldRange)
+    console.log("last char", window.getSelection().anchorNode)
+    
+
+
   }
 
   mentionClosed(): void {
