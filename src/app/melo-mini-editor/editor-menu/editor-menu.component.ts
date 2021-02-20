@@ -63,6 +63,7 @@ export class EditorMenuComponent implements OnInit {
   ngOnInit(): void {}
 
   buttonClicked(event: any): void {
+    event.stopPropagation()
     if (
       event?.target?.dataset?.id === 'link' ||
       event?.target?.dataset?.id === 'attachment' ||
@@ -122,10 +123,8 @@ export class EditorMenuComponent implements OnInit {
       
     }
     return;
-
+    //if multeple files are allowed
     // for (var key in e.target.files) {
-
-
     //   if (e.target.files.hasOwnProperty(key)) {
     //     //  console.log(key + " -> " + e.target.files[key]);
     //     if (
@@ -156,7 +155,7 @@ export class EditorMenuComponent implements OnInit {
 
   imgRemove(fileId): void {
     // alert(fileId)
-    this.imgArr.splice(fileId, 1);
+    this.imgUrl.splice(fileId, 1);
     console.log('image array after remove', this.imgArr);
   }
 
