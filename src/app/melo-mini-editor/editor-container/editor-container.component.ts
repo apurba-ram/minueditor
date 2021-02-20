@@ -98,16 +98,17 @@ export class EditorContainerComponent
   }
 
  
-  /*
+  /**
   * @param event - Event which stores the files that are emitted from the file popup
   */
   saveFiles(event: any): void {
     // this.filesFromChild = $event;
     // console.log("files after saving in parent",this.filesFromChild)
+    console.log(event);
     this.sendSavedFiles.emit(event);
   }
 
-  /*
+  /**
   * @param event - Event which stores the image emitted from the image popup
   */
   saveImage(event:any): void{
@@ -121,19 +122,21 @@ export class EditorContainerComponent
     this.sel.addRange(range);
   }
 
-  /*
+  /**
   * @param event - Event which stores the link emitted from the link popup
   */
   saveLink(event:any) : void{
-    const anchonrTag = document.createElement('a');
-    anchonrTag.innerHTML = event.linkText;
-    anchonrTag.setAttribute('href', event.linkUrl);
-    anchonrTag.setAttribute('title', event.linkTitle);
+    const anchorTag = document.createElement('a');
+    anchorTag.innerHTML = event.linkText;
+    anchorTag.setAttribute('href', event.linkUrl);
+    anchorTag.setAttribute('title', event.linkTitle);
+    anchorTag.setAttribute('target', '_blank');
+    anchorTag.setAttribute('rel', 'noopener noreferrer');
 
     this.sel.removeAllRanges();
     const range = this.oldRange.cloneRange();
-    range.insertNode(anchonrTag);
-    range.setStartAfter(anchonrTag);
+    range.insertNode(anchorTag);
+    range.setStartAfter(anchorTag);
     range.collapse();
     this.sel.removeAllRanges();
     this.sel.addRange(range);
@@ -550,6 +553,12 @@ export class EditorContainerComponent
         document.execCommand('foreColor', false, value);
         this.sel.getRangeAt(0).collapse();
         break;
+      case '@': this.insertTribute('@'); 
+                break;
+      case '#': this.insertTribute('#'); 
+                break;
+      case 'submit': this.commentAction();
+                     break;
     }
   }
 
@@ -631,9 +640,32 @@ export class EditorContainerComponent
   /**
    *  Output event to export comment data and cleanup the editor
    */
-  comment_action(): void {
+  commentAction(): void {
     const event = document.getElementById(`${this.id}`).innerHTML;
     this.comment.emit(event);
     document.getElementById(`${this.id}`).innerHTML = '';
+  }
+
+  insertTribute(char: string): void {
+    if (window.getSelection) {
+      const code = char === '@' ? 'Digit2' : 'Digit3';
+      const event = new KeyboardEvent('keydown', { key: `${char}`, code: `${code}` });
+      document.getElementById(this.id).dispatchEvent(event);
+      // if (this.oldRange) {
+      //   this.sel.removeAllRanges();
+      //   this.sel.addRange(this.oldRange);
+      //   document.getElementById(this.id).dispatchEvent(event);
+      //   const a = document.createTextNode(`${char}`);
+      //   this.oldRange.insertNode(a);
+      //   this.oldRange.setStartAfter(a);
+      //   this.sel.removeAllRanges();
+      //   this.sel.addRange(this.oldRange);
+      //   // this.setValue(this.innerText, this.innerHtml);
+      // } else {
+      //   this.focus();
+      //   this.oldRange = this.sel.getRangeAt(0).cloneRange();
+      //   this.insertTribute(char);
+      // }
+    }
   }
 }

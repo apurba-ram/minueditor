@@ -40,7 +40,7 @@ export class EditorMenuComponent implements OnInit {
   linkText:string
   linkTitle:string
   inValidUrl:boolean
-  inValidUrlMsg:string
+  invalidUrlMessage:string
   inValidLinkTitle=''
   inValidLinkText=''
   savedLinks:object={ };
@@ -78,6 +78,10 @@ export class EditorMenuComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  /**
+   * 
+   * @param event - Event triggered when the toolbar button is clicked
+   */
   buttonClicked(event: any): void {
     event.stopPropagation();
     if (event?.target?.dataset?.id &&
@@ -89,6 +93,10 @@ export class EditorMenuComponent implements OnInit {
     }
   }
 
+  /**
+   * 
+   * @param type - Represents the color which is 
+   */
   colorChange(type: 'textColor' | 'fillColor'){
     this.buttonClick.emit({
       id: type,
@@ -250,8 +258,8 @@ export class EditorMenuComponent implements OnInit {
     event.target.value = ''
   }
 
-  // File code ends
-  // Drag events
+  // File Upload code ends
+  // Drag event code starts
 
   /**
    * 
@@ -293,55 +301,44 @@ export class EditorMenuComponent implements OnInit {
     this.enter = false;
   }
 
-  alignPopover(): void {
-    this.alignment = !this.alignment;
-  }
+  // Drag Event code ends
 
-  addLinks(): void {
-    this.addLink = !this.addLink;
-  }
+  // Add Link code starts
 
-  saveLinks(): void { 
+  /**
+   * Function is invoked when the user clicks on the save button from the add link popover
+  */
+  saveLink(): void { 
     console.log("Link Data",this.linkText,this.linkTitle,this.linkUrl)
-    //check url is valid or not
-    if(this.linkUrl===undefined)
-    {
-        this.inValidUrlMsg="Please provde a  URL"
-    }
-    else if(this.linkText===undefined)
-    {
-      this.inValidLinkTitle="Please Provide a Text"
-    }
-    else if(this.linkTitle==undefined)
-    {
-      this.inValidLinkText="Please Provide a Title"
-    }
-    else{    
     const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
-    if(this.linkUrl?.match(rex))  
-    {
-      // console.log("GOOD")
+    if(!this.linkUrl || !this.linkUrl?.match(rex)) { //check url is valid or not
+        this.invalidUrlMessage = 'Please provde a valid URL';
+    } else {    
       const obj = {
             linkUrl:this.linkUrl,
-            linkText:this.linkText?.trim(),
-            linkTitle:this.linkTitle?.trim()
-          };
-      
-          console.log("object ",obj)
-          this.savedLinks={...obj}
-          console.log("saved Link",this.savedLinks)
-          this.linkInEditor.emit(this.savedLinks)
-          this.linkText=''
-          this.linkTitle=''
-          this.linkUrl=''
-          this.savedLinks={}
-          this.addLink=!this.addLink
-  }
-    else{
- 
-            this.inValidUrlMsg="Please provide a valid URL"
+            linkText:this.linkText?.trim() ?? '',
+            linkTitle:this.linkTitle?.trim() ?? ''
+      };
+      this.linkInEditor.emit(obj);
+      this.closeAddLinksPopover();
     }
-     } 
+  }
+
+  /**
+   * Function is invoked when the user clicks on the cancel button from the add link popover
+   */
+  closeAddLinksPopover(): void {
+    this.linkText = '';
+    this.linkTitle = '';
+    this.linkUrl = '';
+    this.addLink = false;
+  }
+   
+  // Add Link code ends
+
+
+  alignPopover(): void {
+    this.alignment = !this.alignment;
   }
   listStyles(): void {
     this.listStyle = !this.listStyle;
@@ -373,9 +370,7 @@ export class EditorMenuComponent implements OnInit {
     this.listStyle = false;
   }
 
-  closeAddLinksPopover(): void {
-    this.addLink = false;
-  }
+  
 
   // closeAttachPopover(): void {
   //   this.filesArray = [];
