@@ -350,6 +350,10 @@
                 </div>
             </div>
         </div>
+        <div class="alert-box" *ngIf="showAlert===true">
+                <h1 id="alert-msg">{{alertMsg}}</h1>
+                <button (click)="hideAlert()" id="ok-btn">OK</button>
+        </div>  
     </div>
     <!-- font-size -->
     <div class="col" clickOutside (clickOutside)="closeFontStylePopover()">

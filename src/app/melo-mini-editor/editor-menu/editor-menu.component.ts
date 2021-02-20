@@ -6,9 +6,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import Swal from 'sweetalert2'
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
-
 @Component({
   selector: 'app-editor-menu',
   templateUrl: './editor-menu.component.html',
@@ -31,6 +29,8 @@ export class EditorMenuComponent implements OnInit {
   fontStyle = false;
   fillColor: boolean[];
   setTextColor = false;
+  showAlert:boolean=false
+  alertMsg:string
   imgArr: Array<object> = [];
   constructor() {
     this.editorConfig = {
@@ -90,7 +90,10 @@ export class EditorMenuComponent implements OnInit {
              else
              {
                 // alert("Please choose image file only")
-                Swal.fire("Please choose imagee file only")
+                this.alertMsg="Please choose image file only"
+                this.showAlert=true 
+                // this.uploadImage=false
+               
              }
             
          }
@@ -136,7 +139,9 @@ export class EditorMenuComponent implements OnInit {
             ||e.dataTransfer.files[key].name.split('.').includes('gif')
             )
             {
-              Swal.fire("image files are not allowed")
+                // alert("image files are not allowed")
+                this.alertMsg="image files are not allowed"
+                this.showAlert=true;
             }
             else
             {
@@ -157,15 +162,7 @@ export class EditorMenuComponent implements OnInit {
     const fileSplit = fileName.split('.');
     const fileExtension = fileSplit[fileSplit.length - 1];
     console.log(fileName, fileExtension);
-    // if (fileExtension === 'jpg' || fileExtension === 'jpeg' || fileExtension === 'gif' || fileExtension === 'png') 
-    //   {
-    //     this.imgArr.push(e.dataTransfer.files[0]);
-    //     console.log('on drop images array', this.imgArr); 
-    //   } 
-    // else 
-    //   {
-    //     alert('Please Image file only');
-    //   }
+   
     for (var key in e.dataTransfer.files) {
       if (e.dataTransfer.files.hasOwnProperty(key)) {
           console.log(key + " -> " + e.dataTransfer.files[key]);
@@ -179,7 +176,9 @@ export class EditorMenuComponent implements OnInit {
           }
           else
           {
-            Swal.fire("Please choose Image file only")
+            // alert("Please choose Image file only")
+            this.alertMsg="Please choose Image file only"
+            this.showAlert=true
             break
           }
           }
@@ -206,6 +205,8 @@ export class EditorMenuComponent implements OnInit {
               if(e.target.files[key].name.split('.').includes('jpg'))
               {
                   // alert("images are not allowed")
+                  this.alertMsg="images are not allowed"
+                  this.showAlert=true
                   break
               }
               else
@@ -299,5 +300,9 @@ export class EditorMenuComponent implements OnInit {
   }
   closeFontStylePopover(): void {
     this.fontStyle = false;
+  }
+  hideAlert():void
+  {
+      this.showAlert=false
   }
 }
