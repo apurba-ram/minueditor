@@ -29,6 +29,19 @@
     &.bottom {
       order: 1;
     }
+    .image-resize {
+      max-width: 100%;
+      display: inline-block;
+      resize: both;
+      border: 2px solid #f1f1f1;
+      overflow: hidden;
+      &:focus, &:active {
+        border-color: #1e5dd3;
+      }
+      img {
+        width: 100%;
+      }
+    }
   }
   .editor-tools {
     display: flex;
