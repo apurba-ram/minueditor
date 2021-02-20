@@ -2,6 +2,8 @@ import {
   Component,
   OnInit,
   Input,
+  Output,
+  EventEmitter,
   OnChanges,
   forwardRef,
   ChangeDetectionStrategy,
@@ -31,6 +33,8 @@ import { NgZone } from '@angular/core';
 export class EditorContainerComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy, AfterViewChecked {
   @Input() editorConfig: EditorConfig;
   @Input() multiple: boolean;
+  @Output() sendSavedFiles = new EventEmitter<any>();//coming from menu to container from container to ap
+  filesFromChild:any
   html: string;
   innerText: string;
   lastChar: string;
@@ -81,6 +85,14 @@ export class EditorContainerComponent implements OnInit, OnChanges, AfterViewIni
     this.placeholder = '';
     this.id = nanoid();
     this.resetToolbar();
+  }
+
+//from menu to container
+  filesSaved($event: any) {
+    this.filesFromChild = $event;
+    console.log("files after saving in parent",this.filesFromChild)
+    this.sendSavedFiles.emit(this.filesFromChild)
+    
   }
 
   resetToolbar(): void {

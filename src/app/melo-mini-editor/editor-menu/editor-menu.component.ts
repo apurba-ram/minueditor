@@ -18,6 +18,7 @@ export class EditorMenuComponent implements OnInit {
   @Input() toolbarConfig: ToolbarConfig;
   @Output() buttonClick: EventEmitter<string> = new EventEmitter();
   @Input() multiple: boolean;
+  @Output() sendSavedFiles = new EventEmitter<any>();
   enter = false;
   upload = false;
   uploadImage = false;
@@ -31,6 +32,7 @@ export class EditorMenuComponent implements OnInit {
   setTextColor = false;
   showAlert:boolean=false
   alertMsg:string
+  savedFiles:any=[]
   imgArr: Array<object> = [];
   constructor() {
     this.editorConfig = {
@@ -68,6 +70,18 @@ export class EditorMenuComponent implements OnInit {
     } else if (event?.target?.dataset) {
       this.buttonClick.emit(event?.target?.dataset);
     }
+  }
+
+  saveFiles():void
+  {
+    this.savedFiles.push.apply(this.savedFiles,this.filesArray)
+    this.filesArray=[]
+    
+    console.log("files after saving in child",this.savedFiles)
+    this.sendSavedFiles.emit(this.savedFiles)
+    this.upload=false
+    // console.log("emit event",this.sendSavedFiles.emit(this.savedFiles))
+
   }
 
 
