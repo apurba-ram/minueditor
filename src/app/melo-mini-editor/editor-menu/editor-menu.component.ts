@@ -19,6 +19,7 @@ export class EditorMenuComponent implements OnInit {
   @Output() buttonClick: EventEmitter<string> = new EventEmitter();
   @Input() multiple: boolean;
   @Output() sendSavedFiles = new EventEmitter<any>();
+  @Output() imgInEditor=new EventEmitter<any>();
   enter = false;
   upload = false;
   uploadImage = false;
@@ -33,6 +34,7 @@ export class EditorMenuComponent implements OnInit {
   showAlert: boolean = false;
   alertMsg: string;
   savedFiles: any = [];
+  savedImages:any=[]
   imgUrl: any = []; //img url array
   imgArr: Array<object> = [];
   constructor() {
@@ -83,6 +85,19 @@ export class EditorMenuComponent implements OnInit {
     this.sendSavedFiles.emit(this.savedFiles);
     this.upload = false;
     // console.log("emit event",this.sendSavedFiles.emit(this.savedFiles))
+  }
+
+
+
+  saveImage():void
+  {
+    //imgInEditor
+    this.savedImages.push.apply(this.savedImages,this.imgUrl)
+    this.imgUrl=[]
+    this.uploadImage=false
+    console.log("after saving images",this.savedImages)
+    this.imgInEditor.emit(this.savedImages)
+
   }
 
   readImageFile(file:any): void {
@@ -187,18 +202,8 @@ export class EditorMenuComponent implements OnInit {
     for (var key in e.dataTransfer.files) {
       if (e.dataTransfer.files.hasOwnProperty(key)) {
         console.log(key + ' -> ' + e.dataTransfer.files[key]);
-        if (
-          e.dataTransfer.files[key].name.split('.').includes('jpg') ||
-          e.dataTransfer.files[key].name.split('.').includes('jpeg') ||
-          e.dataTransfer.files[key].name.split('.').includes('png') ||
-          e.dataTransfer.files[key].name.split('.').includes('gif')
-        ) {
-          // alert("image files are not allowed")
-          this.alertMsg = 'image files are not allowed';
-          this.showAlert = true;
-        } else {
-          this.filesArray.push(e.dataTransfer.files[key]);
-        }
+        this.filesArray.push(e.dataTransfer.files[key]);
+
       }
     }
   }
@@ -208,6 +213,7 @@ export class EditorMenuComponent implements OnInit {
     // console.log("dropped images",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
     // console.log("check extension",e.dataTransfer.files[0].name.split('.'[0]).pop())
     // console.log('DROP THE BOMB');
+    console.log("Image is droped")
     const fileName = e.dataTransfer.files[0].name;
     const fileSplit = fileName.split('.');
     const fileExtension = fileSplit[fileSplit.length - 1];
@@ -215,20 +221,23 @@ export class EditorMenuComponent implements OnInit {
 
     for (var key in e.dataTransfer.files) {
       if (e.dataTransfer.files.hasOwnProperty(key)) {
+        this.readImageFile(e.dataTransfer.files[0])
+        // this.imgUrl[0]=e.dataTransfer.files[0]
+        // console.log("Image Array",this.imgUrl)
         // console.log(key + " -> " + e.dataTransfer.files[key]);
-        if (
-          e.dataTransfer.files[key].name.split('.').includes('jpg') ||
-          e.dataTransfer.files[key].name.split('.').includes('jpeg') ||
-          e.dataTransfer.files[key].name.split('.').includes('png') ||
-          e.dataTransfer.files[key].name.split('.').includes('gif')
-        ) {
-          this.imgArr.push(e.dataTransfer.files[key]);
-        } else {
-          // alert("Please choose Image file only")
-          this.alertMsg = 'Please choose Image file only';
-          this.showAlert = true;
-          break;
-        }
+        // if (
+        //   e.target.files[0].name.split('.')[1]==="jpg" ||
+        //   e.target.files[0].name.split('.')[1]==="jpeg" ||
+        //   e.target.files[0].name.split('.')[1]==="png" ||
+        //   e.target.files[0].name.split('.')[1]==="gif"
+        // ) {
+        //   this.imgArr.push(e.dataTransfer.files[key]);
+        // } else {
+        //   // alert("Please choose Image file only")
+        //   this.alertMsg = 'Please choose Image file only';
+        //   this.showAlert = true;
+        //   break;
+        // }
       }
     }
   }
@@ -251,17 +260,11 @@ export class EditorMenuComponent implements OnInit {
     let i = this.filesArray.length - 1;
     for (var key in e.target.files) {
       if (e.target.files.hasOwnProperty(key)) {
+        this.filesArray.push(e.target.files[key]);
         console.log(key + ' -> ' + e.target.files[key]);
-        if (e.target.files[key].name.split('.').includes('jpg')) {
-          // alert("images are not allowed")
-          this.alertMsg = 'images are not allowed';
-          this.showAlert = true;
-          break;
-        } else {
-          this.filesArray.push(e.target.files[key]);
-        }
+      
       }
-      // e.target.value = ''
+       e.target.value = ''
     }
 
     // console.log("file Array",this.filesArray)

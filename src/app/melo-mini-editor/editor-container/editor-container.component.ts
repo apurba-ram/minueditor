@@ -35,6 +35,7 @@ export class EditorContainerComponent
   @Input() editorConfig: EditorConfig;
   @Input() multiple: boolean;
   @Output() sendSavedFiles = new EventEmitter<any>();//coming from menu to container from container to ap
+  imageToBeShown:any
   filesFromChild:any
   html: string;
   innerText: string;
@@ -99,6 +100,17 @@ export class EditorContainerComponent
     console.log("files after saving in parent",this.filesFromChild)
     this.sendSavedFiles.emit(this.filesFromChild)
     
+  }
+
+//show image in ediotr
+  saveImg($event:any)
+  {
+    this.imageToBeShown=$event
+    // console.log("Image from menu to container",this.imageToBeShown)
+    const imgTag= document.createElement('img')
+    // console.log("Image uRL",this.imageToBeShown[(this.imageToBeShown.length-1)].imgUrl)
+     imgTag.setAttribute('src',this.imageToBeShown[(this.imageToBeShown.length-1)].imgUrl)
+    document.getElementsByClassName('editable-block')[0].appendChild(imgTag)
   }
 
   resetToolbar(): void {
@@ -501,6 +513,13 @@ export class EditorContainerComponent
     range.setEnd(sub, 1);
     range.collapse();
   }
+
+  // showImageInEditor():void
+  // {
+  //  var ImageTag= document.createElement('img')
+   
+
+  // }
 
   //   insertSupTag(): void {
   //     const { startContainer } = this.sel.getRangeAt(0);

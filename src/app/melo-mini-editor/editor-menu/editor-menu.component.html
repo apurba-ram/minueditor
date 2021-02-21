@@ -372,12 +372,8 @@
                         </svg>
                     </div> -->
                 </div>
-                <div class="link">
-                    <label>You can also add a image link here</label>
-                    <input type="text" placeholder="http://exampleimage.com/image.jpg" >
-                </div>
                 <div class="footer">
-                    <button class="cancel" (click)="imagePopover()">Cancel</button><button class="upload">Save</button>
+                    <button class="cancel" (click)="imagePopover()">Cancel</button><button (click)="saveImage()" class="upload">Save</button>
                 </div>
             </div>
         </div>
