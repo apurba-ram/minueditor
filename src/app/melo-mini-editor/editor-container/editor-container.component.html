@@ -12,7 +12,14 @@
       jergoerg
     </div>
     <div class="editor-tools" [class.bottom]="toolbarPlacement === 'bottom'" [class.top]="toolbarPlacement === 'top'">
-        <app-editor-menu (imgInEditor)="saveImg($event)"   (sendSavedFiles)="filesSaved($event)" [editorConfig]="editorConfig" (buttonClick)="toolbarClicked($event)" [toolbarConfig]="toolbarConfig" [multiple]="multiple"></app-editor-menu>
+        <app-editor-menu
+        (linkInEditor)="saveLinkndShowInEditor($event)"
+        (imgInEditor)="saveImg($event)" 
+        (sendSavedFiles)="filesSaved($event)"
+        [editorConfig]="editorConfig" 
+        (buttonClick)="toolbarClicked($event)"
+        [toolbarConfig]="toolbarConfig" 
+        [multiple]="multiple"></app-editor-menu>
     </div>
 </div>
 

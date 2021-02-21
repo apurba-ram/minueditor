@@ -55,6 +55,7 @@ export class EditorContainerComponent
   mentionedDates: string[];
   toolbarPlacement: 'top' | 'bottom';
   oldRange: any;
+  savedLinks:any=[]
 
   toolbarConfig: ToolbarConfig;
 
@@ -113,6 +114,24 @@ export class EditorContainerComponent
     document.getElementsByClassName('editable-block')[0].appendChild(imgTag)
   }
 
+  saveLinkndShowInEditor($event:any)
+  {
+    console.log("event",$event)
+    const obj={
+              linkUrl:$event.linkUrl,
+              linkTitle:$event.linkTitle,
+              linkText:$event.linkText
+         }
+          this.savedLinks.push(obj)
+        console.log("Links in container",this.savedLinks[this.savedLinks.length-1])
+        const anchonrTag=document.createElement('a')
+        anchonrTag.innerHTML=this.savedLinks[this.savedLinks.length-1].linkText
+        anchonrTag.setAttribute('href',this.savedLinks[this.savedLinks.length-1].linkUrl)
+        anchonrTag.setAttribute('title',this.savedLinks[this.savedLinks.length-1].linkTitle)
+        console.log("anchor tag",anchonrTag)
+        document.getElementsByClassName('editable-block')[0].appendChild(anchonrTag)
+  }
+  
   resetToolbar(): void {
     this.toolbarConfig = {
       bold: false,

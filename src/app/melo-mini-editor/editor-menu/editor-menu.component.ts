@@ -20,6 +20,7 @@ export class EditorMenuComponent implements OnInit {
   @Input() multiple: boolean;
   @Output() sendSavedFiles = new EventEmitter<any>();
   @Output() imgInEditor=new EventEmitter<any>();
+  @Output() linkInEditor=new EventEmitter<any>()
   enter = false;
   upload = false;
   uploadImage = false;
@@ -37,6 +38,14 @@ export class EditorMenuComponent implements OnInit {
   savedImages:any=[]
   imgUrl: any = []; //img url array
   imgArr: Array<object> = [];
+  linkUrl:string
+  linkText:string
+  linkTitle:string
+  inValidUrl:boolean
+  inValidUrlMsg:string
+  inValidLinkTitle=''
+  inValidLinkText=''
+  savedLinks:object={ }
   constructor() {
     this.editorConfig = {
       file: false,
@@ -304,9 +313,83 @@ export class EditorMenuComponent implements OnInit {
   }
 
   addLinks(): void {
+
     this.addLink = !this.addLink;
+
   }
 
+  saveLinks():void
+  { 
+    console.log("Link Data",this.linkText,this.linkTitle,this.linkUrl)
+    //check url is valid or not
+    if(this.linkUrl===undefined)
+    {
+        this.inValidUrlMsg="Please provde a  URL"
+    }
+    else if(this.linkText===undefined)
+    {
+      this.inValidLinkTitle="Please Provide a Text"
+    }
+    else if(this.linkTitle==undefined)
+    {
+      this.inValidLinkText="Please Provide a Title"
+    }
+    else{    
+    const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+    if(this.linkUrl?.match(rex))  
+    {
+      // console.log("GOOD")
+      const obj = {
+            linkUrl:this.linkUrl,
+            linkText:this.linkText?.trim(),
+            linkTitle:this.linkTitle?.trim()
+          };
+      
+          console.log("object ",obj)
+          this.savedLinks={...obj}
+          console.log("saved Link",this.savedLinks)
+          this.linkInEditor.emit(this.savedLinks)
+          this.linkText=''
+          this.linkTitle=''
+          this.linkUrl=''
+          this.savedLinks={}
+          this.addLink=!this.addLink
+  }
+    else{
+ 
+            this.inValidUrlMsg="Please provide a valid URL"
+    }
+  }
+      // try {
+      //   // this.inValidUrl=false
+      //   this.inValidUrlMsg=''
+      // let  url = new URL(this.linkUrl);
+      // const obj = {
+      //   linkUrl:this.linkUrl,
+      //   linkText:this.linkText.trim(),
+      //   linkTitle:this.linkTitle.trim()
+      // };
+      
+      // console.log("object ",obj)
+      //     this.savedLinks={...obj}
+      //     console.log("saved Link",this.savedLinks)
+      //     this.linkInEditor.emit(this.savedLinks)
+      //     this.linkText=''
+      //     this.linkTitle=''
+      //     this.linkUrl=''
+      //     this.savedLinks={}
+      //     this.addLink=!this.addLink
+      // // console.log("url is perfect")
+      // }
+      //  catch (_) {
+      //   //  console.log("not valid url")
+      //       // this.inValidUrl=true
+      //       this.inValidUrlMsg="Please provide a valid URL"
+      //    // return  false;  
+      // }
+     
+
+   }
   listStyles(): void {
     this.listStyle = !this.listStyle;
   }
