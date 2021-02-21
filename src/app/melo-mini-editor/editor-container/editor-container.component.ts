@@ -33,7 +33,7 @@ import { NgZone } from '@angular/core';
 export class EditorContainerComponent
   implements OnInit, OnChanges, AfterViewInit, OnDestroy, AfterViewChecked {
   @Input() editorConfig: EditorConfig;
-  @Input() multiple: boolean;
+  // @Input() multiple: boolean;
   @Output() sendSavedFiles = new EventEmitter<any>();//coming from menu to container from container to ap
   imageToBeShown:any
   filesFromChild:any

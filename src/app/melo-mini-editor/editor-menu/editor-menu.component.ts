@@ -17,7 +17,7 @@ export class EditorMenuComponent implements OnInit {
   @Input() editorConfig: EditorConfig;
   @Input() toolbarConfig: ToolbarConfig;
   @Output() buttonClick: EventEmitter<string> = new EventEmitter();
-  @Input() multiple: boolean;
+  // @Input() multiple: boolean;
   @Output() sendSavedFiles = new EventEmitter<any>();
   @Output() imgInEditor=new EventEmitter<any>();
   @Output() linkInEditor=new EventEmitter<any>()

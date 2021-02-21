@@ -223,7 +223,7 @@
                 </div>
                 <div   class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragover($event)" 
                     (dragend)="dragend($event)" (dragleave)="dragleave($event)" (drop)="dropFile($event)" [class.enter]="enter">
-                    <input type="file" id="browse" (change)="fileFromInput($event)" [attr.multiple]="multiple?'multiple':null">
+                    <input type="file" id="browse" (change)="fileFromInput($event)" multiple>
                     <div class="container" >
                         <span>Drop file here or browse to upload</span>
                         <label for="browse">Browse</label>

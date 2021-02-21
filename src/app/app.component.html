@@ -9,7 +9,7 @@
 <div *ngFor="let files of filesFromChild">
     {{files.name}}
 </div>
-<app-editor-container  (sendSavedFiles)="filesSaved($event)"  [editorConfig]="editorConfig" [multiple]="true"></app-editor-container>
+<app-editor-container  (sendSavedFiles)="filesSaved($event)"  [editorConfig]="editorConfig" ></app-editor-container>
 <br><br>
 
 

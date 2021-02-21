@@ -19,8 +19,7 @@ export class AppComponent {
     buttonName: 'Comment',
     fontColor: true,
     highlightColor: true,
-    menuPlacement: 'bottom',
-    multiple: true
+    menuPlacement: 'bottom'
   };
   
   
