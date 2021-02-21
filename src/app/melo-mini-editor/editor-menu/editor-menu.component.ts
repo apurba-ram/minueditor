@@ -263,9 +263,9 @@ export class EditorMenuComponent implements OnInit {
 
   //file is uploaded from browse button
   fileFromInput(e): void {
-    // console.log('file from input');
+     console.log('file from input');
     // this.filesArray=[...e.target.files]
-    // console.log("Target files",e.target.files,"type",Array.isArray(e.target.files))
+     console.log("Target files",e.target.files,"type",Array.isArray(e.target.files))
     let i = this.filesArray.length - 1;
     for (var key in e.target.files) {
       if (e.target.files.hasOwnProperty(key)) {
@@ -273,13 +273,14 @@ export class EditorMenuComponent implements OnInit {
         console.log(key + ' -> ' + e.target.files[key]);
       
       }
-       e.target.value = ''
+       
     }
 
     // console.log("file Array",this.filesArray)
     if (this.filesArray.length > 0) {
       this.ShowFiles = true;
     }
+    e.target.value = ''
     // console.log('files Array', this.filesArray);
   }
 
