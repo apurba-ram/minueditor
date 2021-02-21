@@ -34,6 +34,7 @@ export class EditorContainerComponent
   implements OnInit, OnChanges, AfterViewInit, OnDestroy, AfterViewChecked {
   @Input() editorConfig: EditorConfig;
   // @Input() multiple: boolean;
+  @Output() comment = new EventEmitter<string>();
   @Output() sendSavedFiles = new EventEmitter<any>();//coming from menu to container from container to ap
   imageToBeShown:any
   filesFromChild:any
@@ -197,6 +198,7 @@ export class EditorContainerComponent
 
   selectionChange(event: any): void {
     if (document.activeElement === document.getElementById(this.id)) {
+      // console.log(this.sel);
       this.setFontAndbackgroundColor();
       this.toolbarConfig = {
         bold: document.queryCommandState('bold'),
@@ -207,8 +209,10 @@ export class EditorContainerComponent
         unorderedList: document.queryCommandState('insertunorderedList'),
         fontColor: this.fontColor,
         backgroundColor: this.backgroundColor,
+        quote: this.checkParent(this.sel.anchorNode, 'blockquote'),
+        superscript: this.checkParent(this.sel.anchorNode, 'sup'),
+        subscript: this.checkParent(this.sel.anchorNode, 'sub')
       };
-      // console.log('FC : ', this.fontColor, 'BKV : ',this.backgroundColor);
     } else {
       this.resetToolbar();
     }
@@ -221,17 +225,32 @@ export class EditorContainerComponent
         let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
         const styleArray: string[] = styleAttrib.split(';');
         for(const style of styleArray) {
-          if(style.indexOf('color:') > -1) {
-            this.fontColor = style.substring(style.indexOf(':') + 1).trim();
-          }
-          if(style.indexOf('background-color:') > -1) {
+           if(style.indexOf('background-color:') > -1) {
             this.backgroundColor = style.substring(style.indexOf(':') + 1).trim();
-          }
+          } else if(style.indexOf('color:') > -1) {
+            this.fontColor = style.substring(style.indexOf(':') + 1).trim();
+          } 
         }
       } else {
         this.fontColor = 'black';
         this.backgroundColor = 'white';
       }
+    }
+  }
+
+  checkParent(elem: any, tagName: string): boolean {
+    if (elem) {
+      if (elem?.nodeName === 'APP-TEXT-EDITOR') {
+        return false;
+      } else {
+        if (elem.nodeName === tagName.toUpperCase()) {
+          return true;
+        } else {
+          return this.checkParent(elem?.parentNode, tagName);
+        }
+      }
+    } else {
+      return false;
     }
   }
 
@@ -382,7 +401,6 @@ export class EditorContainerComponent
       input.style.color = '#4681ef';
       input.style.fontWeight = 'inherit';
       input.style.fontSize = 'inherit';
-      console.log(this.oldRange);
       const range = this.sel.getRangeAt(0).cloneRange();
       this.sel.removeAllRanges();
       const sp = document.createTextNode(' ');
@@ -400,7 +418,8 @@ export class EditorContainerComponent
     const clipboardData = event.clipboardData;
     let pastedHtml = clipboardData.getData('text/html');
     let pastedText = clipboardData.getData('text');
-    const regIn = /style=".+?"/g; // matching all inline styles
+    const regexStyle = /style=".+?"/g; // matching all inline styles
+    const regexComment = /<!--.+?-->/g; // matching all inline styles
     if (pastedHtml === '' && pastedText !== '') {
       const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
       pastedText = pastedText.replace(rex, (match: any) => {
@@ -408,16 +427,16 @@ export class EditorContainerComponent
       });
       document.execCommand('insertHtml', false, pastedText);
     } else {
-      pastedHtml = pastedHtml.replace(regIn, (match: any) => '');
-      // const rexa = /<a href=".*?">.+?<\/a>/g; // match all a href
+      // console.log('HERE', pastedHtml);
+      pastedHtml = pastedHtml.replace(regexStyle, (match: any) => {
+        // console.log('M');  
+        // console.log(match);
+        return '';
+      });
+      pastedHtml = pastedHtml.replace(regexComment, (match: any) => '');
       const rexa = /href=".*?"/g; // match all a href
       pastedHtml = pastedHtml.replace(rexa, (match: any) => {
         const str = ' target="_blank" rel="noopener noreferrer"';
-        // return (
-        //   match.substring(0, match.indexOf('>')) +
-        //   str +
-        //   match.slice(match.indexOf('>'))
-        // );
         return match + str;
       });
       document.execCommand('insertHtml', false, pastedHtml);
@@ -447,7 +466,18 @@ export class EditorContainerComponent
         this.toolbarConfig[id] = false;
       }
     }
+   // console.log('SAR WAAR BHI PHAT GAYE', id);
     switch (id) {
+      case 'h1': 
+      case 'h2': 
+      case 'h3': document.execCommand('formatBlock', false, id.toUpperCase());
+                 break; 
+      case 'para': document.execCommand('formatBlock', false, 'p');
+                   break; 
+      case 'superscript': this.insertSupTag();
+                        break;
+      case 'subscript': this.insertSupTag();
+                        break;
       case 'bold':
         document.execCommand('bold', false, '');
         break;
@@ -497,40 +527,88 @@ export class EditorContainerComponent
   }
 
   insertBlockQuote(): void {
-    const blockquote = document.createElement('blockquote');
-    blockquote.setAttribute(
-      'style',
-      'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px'
-    );
-    blockquote.innerHTML = '&#8204;';
-    const div = document.createElement('div');
-    div.appendChild(document.createElement('br'));
-    const range = this.sel.getRangeAt(0);
-    range.insertNode(div);
-    range.insertNode(blockquote);
-    range.setStart(blockquote, 0);
-    range.setEnd(blockquote, 0);
-    range.collapse();
+    if (!this.toolbarConfig.quote) {
+      const blockquote = document.createElement('blockquote');
+      blockquote.setAttribute('style', 'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px');
+      blockquote.innerHTML = '&#8204;';
+      const div = document.createElement('div');
+      div.appendChild(document.createElement('br'));
+      const range =  this.sel.getRangeAt(0);
+      range.insertNode(div);
+      range.insertNode(blockquote);
+      range.setStart(blockquote, 0);
+      range.setEnd(blockquote, 0);
+      range.collapse();
+    } else {
+      this.reachTextNode('blockquote');
+    }
   }
 
   insertSupTag(): void {
-    const sup = document.createElement('sup');
-    sup.innerHTML = '&#8204;';
-    const range = this.sel.getRangeAt(0);
-    range.insertNode(sup);
-    range.setStart(sup, 1);
-    range.setEnd(sup, 1);
-    range.collapse();
+    if(!this.toolbarConfig.superscript) {
+      const sup = document.createElement('sup');
+      sup.innerHTML = '&#8204;';
+      const range = this.sel.getRangeAt(0);
+      range.insertNode(sup);
+      range.setStart(sup, 1);
+      range.setEnd(sup, 1);
+      range.collapse();
+    } else {
+      this.reachTextNode('sup');
+    }
   }
 
   insertSubTag(): void {
-    const sub = document.createElement('sub');
-    sub.innerHTML = '&#8204;';
-    const range = this.sel.getRangeAt(0);
-    range.insertNode(sub);
-    range.setStart(sub, 1);
-    range.setEnd(sub, 1);
-    range.collapse();
+    if(!this.toolbarConfig.subscript) {
+      const sub = document.createElement('sub');
+      sub.innerHTML = '&#8204;';
+      const range = this.sel.getRangeAt(0);
+      range.insertNode(sub);
+      range.setStart(sub, 1);
+      range.setEnd(sub, 1);
+      range.collapse();
+    } else {
+      this.reachTextNode('sub');
+    }
+  }
+
+  reachTextNode(tagName: string): void {
+    const parent = this.getParent(this.sel.anchorNode, tagName);
+    const space = document.createElement('text');
+    space.innerHTML = '&#8204;';
+    if (parent?.nextSibling) {
+      this.sel.getRangeAt(0).setStartAfter(parent.nextSibling);
+    } else {
+      this.sel.getRangeAt(0).setStartAfter(parent);
+    }
+    this.sel.getRangeAt(0).insertNode(space);
+    this.sel.getRangeAt(0).setStartAfter(space);
+  }
+
+  getParent(elem: any, tagName: string): any {
+    if (elem) {
+      if (elem?.nodeName === 'APP-TEXT-EDITOR') {
+        return null;
+      } else {
+        console.log('POKER', elem?.nodeName, tagName);
+        if (elem.nodeName === tagName.toUpperCase()) {
+          return elem;
+        } else {
+          return this.getParent(elem?.parentNode, tagName);
+        }
+      }
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   *  Output event to export comment data and cleanup the editor
+   */
+  comment_action(): void {
+    const event = document.getElementById(`${this.id}`).innerHTML;
+    this.comment.emit(event);
+    document.getElementById(`${this.id}`).innerHTML = '';
   }
 
   // showImageInEditor():void

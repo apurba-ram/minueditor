@@ -4,7 +4,6 @@ import {
   Input,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 @Component({
@@ -16,7 +15,7 @@ import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 export class EditorMenuComponent implements OnInit {
   @Input() editorConfig: EditorConfig;
   @Input() toolbarConfig: ToolbarConfig;
-  @Output() buttonClick: EventEmitter<string> = new EventEmitter();
+  @Output() buttonClick: EventEmitter<any> = new EventEmitter();
   // @Input() multiple: boolean;
   @Output() sendSavedFiles = new EventEmitter<any>();
   @Output() imgInEditor=new EventEmitter<any>();
@@ -74,16 +73,21 @@ export class EditorMenuComponent implements OnInit {
   ngOnInit(): void {}
 
   buttonClicked(event: any): void {
-    event.stopPropagation()
-    if (
-      event?.target?.dataset?.id === 'link' ||
-      event?.target?.dataset?.id === 'attachment' ||
-      event?.target?.dataset?.id === 'fill-color' ||
-      event?.target?.dataset?.id === 'text-color'
-    ) {
-    } else if (event?.target?.dataset?.id) {
-      this.buttonClick.emit(event?.target?.dataset);
-    }
+  event.stopPropagation();
+  if (event?.target?.dataset?.id &&
+    (event?.target?.dataset?.id !== 'link' ||
+      event?.target?.dataset?.id !== 'attachment' ||
+      event?.target?.dataset?.id !== 'fill-color' ||
+      event?.target?.dataset?.id !== 'text-color')) {
+        this.buttonClick.emit(event?.target?.dataset);
+  }
+}
+
+  colorChange(type: 'textColor' | 'fillColor'){
+    this.buttonClick.emit({
+      id: type,
+      value: type === 'textColor' ? this.toolbarConfig?.fontColor : this.toolbarConfig?.backgroundColor
+    });
   }
 
   saveFiles(): void {
@@ -194,7 +198,7 @@ export class EditorMenuComponent implements OnInit {
   }
 
   dropFile(e): void {
-    e && e.preventDefault();
+    e.preventDefault();
     console.log(
       'dropped multple files',
       e.dataTransfer.files,
@@ -218,7 +222,7 @@ export class EditorMenuComponent implements OnInit {
   }
   dropImage(e) {
     // console.log(e.t)
-    e && e.preventDefault();
+    e.preventDefault();
     // console.log("dropped images",e.dataTransfer.files,"type",Array.isArray(e.dataTransfer.files))
     // console.log("check extension",e.dataTransfer.files[0].name.split('.'[0]).pop())
     // console.log('DROP THE BOMB');

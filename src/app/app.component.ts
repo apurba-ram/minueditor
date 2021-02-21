@@ -36,7 +36,6 @@ filesSaved($event: any) {
   
 
   hello(): void {
-    console.log('HELLO3');
-    
+    // console.log('HELLO3');
   }
 }
