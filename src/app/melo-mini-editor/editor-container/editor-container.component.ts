@@ -17,6 +17,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 import { nanoid } from 'nanoid';
 import { NgZone } from '@angular/core';
+import { ConstantPool } from '@angular/compiler';
 @Component({
   selector: 'app-editor-container',
   templateUrl: './editor-container.component.html',
@@ -194,6 +195,12 @@ export class EditorContainerComponent
       this.selectionChange.bind(this),
       false
     );
+    
+  }
+  immageResize() {
+    const imageWidth = document.getElementById('contentimage').offsetWidth;
+    const imageHeight = document.getElementById('contentimage').offsetWidth;
+    console.log('Hi');
   }
 
   ngOnDestroy(): void {
