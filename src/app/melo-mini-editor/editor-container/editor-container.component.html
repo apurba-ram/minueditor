@@ -5,7 +5,7 @@
         [class.top]="editorConfig?.toolbarPlacement === 'top'" [id]="id" (input)="setValue($event)"
         (paste)="onPaste($event)" [mentionConfig]="mentionConfig" (closed)="mentionClosed()"
         [attr.placeholder]="placeholder">
-        <div class="image-container">
+        <!-- <div class="image-container">
             <ul class="navigation">
                 <li>
                     <button>
@@ -119,7 +119,7 @@
             <span class="image-resize" contenteditable="false" tabindex="0">
                 <img src="./assets/images/indian-god.jpg" alt="" id="contentimage">
             </span>
-        </div>
+        </div> -->
     </div>
     <div class="editor-tools"
         [class.bottom]="!editorConfig?.toolbarPlacement || editorConfig?.toolbarPlacement === 'bottom'"

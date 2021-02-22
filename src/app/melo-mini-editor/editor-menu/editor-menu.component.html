@@ -350,7 +350,7 @@
                 </svg>
             </button>
             <div class="popover small" *ngIf="fontStyle">
-                <ul class="option-list">
+                <ul class="option-list" (click)="fontStyle = false">
                     <li data-id="h1">
                         <button data-id="h1">
                             <h1 data-id="h1">H1</h1>
@@ -392,7 +392,7 @@
                 </svg>
             </button>
             <div class="popover small" *ngIf="alignment">
-                <ul class="option-list">
+                <ul class="option-list" (click)="alignment = false">
                     <li data-id="left-align">
                         <!-- Left Align -->
                         <button data-id="left-align">
