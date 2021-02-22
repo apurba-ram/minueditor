@@ -8,9 +8,7 @@
         [mentionConfig]="mentionConfig"
         (closed)="mentionClosed()"
         [attr.placeholder]="placeholder">
-        <span class="image-resize" contenteditable="false" tabindex="0">
-            <img src="./assets/images/indian-god.jpg" alt="" id="contentimage">
-        </span>
+
     </div>
     <div class="editor-tools" [class.bottom]="toolbarPlacement === 'bottom'" [class.top]="toolbarPlacement === 'top'">
         <app-editor-menu
