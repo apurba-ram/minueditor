@@ -5,7 +5,7 @@
         [class.top]="editorConfig?.toolbarPlacement === 'top'" [id]="id" (input)="setValue($event)"
         (paste)="onPaste($event)" [mentionConfig]="mentionConfig" (closed)="mentionClosed()"
         [attr.placeholder]="placeholder">
-        <div class="image-container" contenteditable="false" [class.active]="clicked">
+        <!-- <div class="image-container">
             <ul class="navigation">
                 <li>
                     <button>
@@ -128,7 +128,7 @@
             <span class="image-resize" tabindex="0">
                 <img src="./assets/images/indian-god.jpg" alt="" id="contentimage" (click)="clickedOnImage()">
             </span>
-        </div>
+        </div> -->
     </div>
     <div class="editor-tools"
         [class.bottom]="!editorConfig?.toolbarPlacement || editorConfig?.toolbarPlacement === 'bottom'"

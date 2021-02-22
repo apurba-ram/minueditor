@@ -17,13 +17,15 @@ export class AppComponent {
   editorConfig1: EditorConfig = {
     mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],
     mentionedDates: ['19-02-2020', '11-02-2020', '12-02-2020', '14-02-2020'],
-    toolbarPlacement: 'bottom'
+    toolbarPlacement: 'bottom',
+    placeholder: 'Please Add Some Text'
   };
 
   editorConfig2: EditorConfig = {
     file: true,
     colorPalette: true,
-    toolbarPlacement: 'top'
+    toolbarPlacement: 'top',
+    placeholder: 'Please Add Some Text'
   };
   
   

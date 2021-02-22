@@ -33,7 +33,6 @@ import { NgZone } from '@angular/core';
 export class EditorContainerComponent
   implements OnInit, OnChanges, AfterViewInit, OnDestroy, AfterViewChecked {
   @Input() editorConfig: EditorConfig;
-  // @Input() multiple: boolean;
   @Output() comment = new EventEmitter<string>();
   @Output() sendSavedFiles = new EventEmitter<any>();//coming from menu to container from container to ap
   imageToBeShown:any
@@ -78,9 +77,7 @@ export class EditorContainerComponent
   * @param event - Event which stores the files that are emitted from the file popup
   */
   saveFiles(event: any): void {
-    // this.filesFromChild = $event;
-    // console.log("files after saving in parent",this.filesFromChild)
-    console.log(event);
+    this.editorConfig.buttonName = 'Upload';
     this.sendSavedFiles.emit(event);
   }
 
@@ -250,7 +247,7 @@ export class EditorContainerComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.editorConfig && this.editorConfig) {
-      this.placeholder = this.editorConfig?.placeholder ?? '';
+      this.placeholder = this.editorConfig?.placeholder ?? 'Please Add Some Text';
 
       this.mentionConfig = {};
       if (

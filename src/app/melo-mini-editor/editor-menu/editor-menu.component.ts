@@ -71,11 +71,7 @@ export class EditorMenuComponent implements OnInit {
    */
   buttonClicked(event: any): void {
     event.stopPropagation();
-    if (event?.target?.dataset?.id &&
-      (event?.target?.dataset?.id !== 'link' &&
-        event?.target?.dataset?.id !== 'attachment' &&
-        event?.target?.dataset?.id !== 'fill-color' &&
-        event?.target?.dataset?.id !== 'text-color')) {
+    if (event?.target?.dataset?.id) {
           this.buttonClick.emit(event?.target?.dataset);
     }
   }
@@ -192,11 +188,6 @@ export class EditorMenuComponent implements OnInit {
   // File code begins
 
   saveFiles(): void {
-    // this.savedFiles.push.apply(this.savedFiles, this.filesArray);
-    // this.filesArray = [];
-    // console.log('files after saving in child', this.savedFiles);
-    // this.sendSavedFiles.emit(this.savedFiles);
-    // this.upload = false;
     this.sendSavedFiles.emit(this.filesArray);
     this.closeAttachPopover();
   }
@@ -362,14 +353,6 @@ export class EditorMenuComponent implements OnInit {
   closeListStylesPopover(): void {
     this.listStyle = false;
   }
-
-  
-
-  // closeAttachPopover(): void {
-  //   this.filesArray = [];
-  //   // this.upload = false;
-  //   // this.ShowFiles = false;
-  // }
 
   closeFontStylePopover(): void {
     this.fontStyle = false;
