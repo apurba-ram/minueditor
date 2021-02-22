@@ -317,18 +317,38 @@ export class EditorMenuComponent implements OnInit {
 
   alignPopover(): void {
     this.alignment = !this.alignment;
+    this.listStyle = false;
+    this.fontStyle = false;
+    this.moreOptions = false;
+    this.fontFamily = false;
   }
   listStyles(): void {
     this.listStyle = !this.listStyle;
+    this.alignment = false;
+    this.fontStyle = false;
+    this.moreOptions = false;
+    this.fontFamily = false;
   }
   fontStylePopover(): void {
     this.fontStyle = !this.fontStyle;
+    this.listStyle = false;
+    this.alignment = false;
+    this.moreOptions = false;
+    this.fontFamily = false;
   }
   openfontFamily() {
     this.fontFamily = !this.fontFamily;
+    this.fontStyle = false;
+    this.listStyle = false;
+    this.alignment = false;
+    this.moreOptions = false;
   }
   showMoreOptions() {
     this.moreOptions = !this.moreOptions;
+    this.fontFamily = false;
+    this.fontStyle = false;
+    this.listStyle = false;
+    this.alignment = false;
   }
   clickOutsideMoreOptions() {
     this.moreOptions = false;
