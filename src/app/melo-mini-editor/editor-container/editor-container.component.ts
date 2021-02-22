@@ -521,10 +521,10 @@ export class EditorContainerComponent
       case 'quote':
         this.insertBlockQuote();
         break;
-      case 'increase-indent':
+      case 'increaseIndent':
         document.execCommand('indent', false, '');
         break;
-      case 'decrease-indent':
+      case 'decreaseIndent':
         document.execCommand('outdent', false, '');
         break;
       case 'left-align':
