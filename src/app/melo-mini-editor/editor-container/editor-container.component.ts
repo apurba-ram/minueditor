@@ -17,7 +17,6 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 import { nanoid } from 'nanoid';
 import { NgZone } from '@angular/core';
-import { ConstantPool } from '@angular/compiler';
 @Component({
   selector: 'app-editor-container',
   templateUrl: './editor-container.component.html',
@@ -65,32 +64,8 @@ export class EditorContainerComponent
   backgroundColor: string;
 
   constructor(private zone: NgZone, private ref: ChangeDetectorRef) {
-    this.editorConfig = {
-      file: false,
-      mentionedNames: [],
-      mentionedDates: [],
-      colorPalette: [
-        '#FF5630',
-        '#000000',
-        '#414141',
-        '#36B37E',
-        '#6554C0',
-        '#FF7A00',
-        '#008299',
-        ' #1E5DD3',
-        '#F0B819',
-        '#00FFF7',
-      ],
-      buttonName: '',
-      fontColor: false,
-      highlightColor: false,
-      placeholder: '',
-      toolbarPlacement: 'top',
-    };
-
     this.fontColor = 'black';
     this.backgroundColor = 'white';
-
     this.toolbarPlacement = 'bottom';
     this.placeholder = '';
     this.id = nanoid();
@@ -359,7 +334,7 @@ export class EditorContainerComponent
     }
   }
    
-  /*
+  /**
   * @param event - This parameter is an event that is occurred whenever we make changes inside the div contenteditable
   */
   setValue(event: any): void {
@@ -398,7 +373,7 @@ export class EditorContainerComponent
     this.writeValue(document.getElementById(`${this.id}`).innerHTML);
   }
 
-  /*
+  /**
   * This function is called whenever the mention tab is closed
   */
   mentionClosed(): void {
@@ -430,7 +405,7 @@ export class EditorContainerComponent
     //  this.valueInput = true;
   }
 
-  /*
+  /**
   * @param event - This parameter is an event that is occurred whenever we paste things inside the div contenteditable
   */
   onPaste(event: any): void {
@@ -439,7 +414,7 @@ export class EditorContainerComponent
     let pastedHtml = clipboardData.getData('text/html');
     let pastedText = clipboardData.getData('text');
     const regexStyle = /style=".+?"/g; // matching all inline styles
-    const regexComment = /<!--.+?-->/g; // matching all inline styles
+    // const regexComment = /<!--.+?-->/g; // matching all inline styles
     if (pastedHtml === '' && pastedText !== '') {
       const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
       pastedText = pastedText.replace(rex, (match: any) => {
@@ -488,6 +463,11 @@ export class EditorContainerComponent
     this.toolbarOperations(event?.id, event?.value);
   }
 
+  /**
+   * 
+   * @param id- represents the toolbar button that was clicked
+   * @param value - Value that is passed from the toolbar to editor to perform operations
+   */
   toolbarOperations(id: string, value: any): void {
     if (id && id !== 'fillColor' && id !== 'textColor' && id !== 'subscript' && id !== 'superscript' && id !== 'quote') {
       if (!this.toolbarConfig[id]) {
@@ -543,6 +523,9 @@ export class EditorContainerComponent
       case 'right-align':
         document.execCommand('justifyright', false, '');
         break;
+      case 'justify-full':
+        document.execCommand('justifyfull', false, '');
+        break;
       case 'fillColor':
         document.execCommand('styleWithCSS', false, '');
         document.execCommand('hiliteColor', false, value);
@@ -559,6 +542,18 @@ export class EditorContainerComponent
                 break;
       case 'submit': this.commentAction();
                      break;
+      case 'font-verdana': document.execCommand('fontName', false, 'verdana');
+                           break;
+      case 'font-arial': document.execCommand('fontName', false, 'arial');
+                         break;
+      case 'font-georgia': document.execCommand('fontName', false, 'georgia');
+                           break;
+      case 'font-impact': document.execCommand('fontName', false, 'impact');
+                          break;
+      case 'font-courier': document.execCommand('fontName', false, 'courier');
+                           break;
+      case 'font-tahoma': document.execCommand('fontName', false, 'tahoma');
+                          break;
     }
   }
 
@@ -621,6 +616,12 @@ export class EditorContainerComponent
     this.sel.getRangeAt(0).setStartAfter(space);
   }
 
+
+  /**
+   * 
+   * @param elem - The element whose parent element we need to find
+   * @param tagName - Tag name to check if it is the parent node of elem
+   */
   getParent(elem: any, tagName: string): any {
     if (elem) {
       if (elem?.nodeName === 'APP-TEXT-EDITOR') {
@@ -646,6 +647,10 @@ export class EditorContainerComponent
     document.getElementById(`${this.id}`).innerHTML = '';
   }
 
+  /**
+   * 
+   * @param char - Represents the tribute that was clicked from the toolbar i.e @ or #
+   */
   insertTribute(char: string): void {
     if (window.getSelection) {
       const code = char === '@' ? 'Digit2' : 'Digit3';

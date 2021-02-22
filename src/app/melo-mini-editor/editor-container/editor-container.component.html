@@ -1,13 +1,14 @@
 <!-- <p>editor-container works!</p> -->
 <div class="editor-container" (blur)="blur()">
-    <div class="editable-block" contenteditable="true" [class.bottom]="toolbarPlacement === 'bottom'"
-        [class.top]="toolbarPlacement === 'top'" [id]="id" (input)="setValue($event)" (paste)="onPaste($event)"
-        [mentionConfig]="mentionConfig" (closed)="mentionClosed()" [attr.placeholder]="placeholder">
-        <div class="image-container right">
+    <div class="editable-block" contenteditable="true"
+        [class.bottom]="!editorConfig?.toolbarPlacement || editorConfig?.toolbarPlacement === 'bottom'"
+        [class.top]="editorConfig?.toolbarPlacement === 'top'" [id]="id" (input)="setValue($event)"
+        (paste)="onPaste($event)" [mentionConfig]="mentionConfig" (closed)="mentionClosed()"
+        [attr.placeholder]="placeholder">
+        <div class="image-container">
             <ul class="navigation">
                 <li>
                     <button>
-
                         <svg width="400" height="400" viewBox="0 0 400 400" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0)">
@@ -41,9 +42,7 @@
                             </defs>
                         </svg>
                     </button>
-               
                     <button>
-
                         <svg width="400" height="400" viewBox="0 0 400 400" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0)">
@@ -80,7 +79,6 @@
                             </defs>
                         </svg>
                     </button>
-                
                     <button>
 
                         <svg width="400" height="400" viewBox="0 0 400 400" fill="none"
@@ -119,12 +117,13 @@
                 </li>
             </ul>
             <span class="image-resize" contenteditable="false" tabindex="0">
-
                 <img src="./assets/images/indian-god.jpg" alt="" id="contentimage">
             </span>
         </div>
     </div>
-    <div class="editor-tools" [class.bottom]="toolbarPlacement === 'bottom'" [class.top]="toolbarPlacement === 'top'">
+    <div class="editor-tools"
+        [class.bottom]="!editorConfig?.toolbarPlacement || editorConfig?.toolbarPlacement === 'bottom'"
+        [class.top]="editorConfig?.toolbarPlacement === 'top'">
         <app-editor-menu (linkInEditor)="saveLink($event)" (imageInEditor)="saveImage($event)"
             (sendSavedFiles)="saveFiles($event)" (buttonClick)="toolbarClicked($event)" [toolbarConfig]="toolbarConfig"
             [editorConfig]="editorConfig"></app-editor-menu>

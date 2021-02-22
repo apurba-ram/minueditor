@@ -166,8 +166,8 @@
             </button>
         </div>
         <!-- Link -->
-        <div class="col" data-id="link" clickOutside (clickOutside)="closeAddLinksPopover()">
-            <button data-id="link" (click)="addLink = true;" [class.active]="addLink" [csTooltip]="'Add Link'"
+        <div class="col" clickOutside (clickOutside)="closeAddLinksPopover()">
+            <button (click)="addLink = true;" [class.active]="addLink" [csTooltip]="'Add Link'"
                 placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
                 <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 426.667 426.667" xml:space="preserve">
                     <g>
@@ -211,21 +211,20 @@
             </div>
         </div>
         <!-- Attachment -->
-        <div class="col" clickOutside (clickOutside)="closeAttachPopover()" data-id="attachment">
-            <button (click)="upload = true" [class.active]="upload" data-id="attachment" [csTooltip]="'Upload File'"
+        <div class="col" clickOutside (clickOutside)="closeAttachPopover()" *ngIf="editorConfig?.file">
+            <button (click)="upload = true" [class.active]="upload" [csTooltip]="'Upload File'"
                 placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
                 <svg width="199" height="199" viewBox="0 0 199 199" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0)">
-                        <path data-id="attachment" data-id="attachment"
+                        <path
                             d="M107.325 7L112.231 1.32746L110.118 -0.5H107.325V7ZM172 62.9397H179.5V59.5105L176.906 57.2672L172 62.9397ZM106.843 93C106.843 88.8579 103.485 85.5 99.3429 85.5C95.2007 85.5 91.8429 88.8579 91.8429 93H106.843ZM91.8429 145C91.8429 149.142 95.2007 152.5 99.3429 152.5C103.485 152.5 106.843 149.142 106.843 145H91.8429ZM73.2 111.5C69.0579 111.5 65.7 114.858 65.7 119C65.7 123.142 69.0579 126.5 73.2 126.5V111.5ZM125.486 126.5C129.628 126.5 132.986 123.142 132.986 119C132.986 114.858 129.628 111.5 125.486 111.5V126.5ZM162 183.5H38V198.5H162V183.5ZM35.5 181V17H20.5V181H35.5ZM38 14.5H107.325V-0.5H38V14.5ZM99.8247 7V52.9397H114.825V7H99.8247ZM117.325 70.4397H172V55.4397H117.325V70.4397ZM164.5 62.9397V181H179.5V62.9397H164.5ZM102.418 12.6725L167.094 68.6122L176.906 57.2672L112.231 1.32746L102.418 12.6725ZM91.8429 93V119H106.843V93H91.8429ZM91.8429 119V145H106.843V119H91.8429ZM73.2 126.5H99.3429V111.5H73.2V126.5ZM99.3429 126.5H125.486V111.5H99.3429V126.5ZM38 183.5C36.6193 183.5 35.5 182.381 35.5 181H20.5C20.5 190.665 28.335 198.5 38 198.5V183.5ZM162 198.5C171.665 198.5 179.5 190.665 179.5 181H164.5C164.5 182.381 163.381 183.5 162 183.5V198.5ZM99.8247 52.9397C99.8247 62.6047 107.66 70.4397 117.325 70.4397V55.4397C115.944 55.4397 114.825 54.3204 114.825 52.9397H99.8247ZM35.5 17C35.5 15.6193 36.6193 14.5 38 14.5V-0.5C28.335 -0.5 20.5 7.33501 20.5 17H35.5Z" />
                     </g>
                     <defs>
-                        <clipPath id="clip0" data-id="attachment">
-                            <rect width="199" height="199" data-id="attachment" />
+                        <clipPath id="clip0">
+                            <rect width="199" height="199"/>
                         </clipPath>
                     </defs>
                 </svg>
-
             </button>
             <div class="popup-mask" *ngIf="upload">
                 <div class="popover attach">
@@ -459,73 +458,73 @@
                             <span data-id="right-align">Align Right</span>
                         </button>
                     </li>
-                    <li>
-                        <button>
-                            <svg width="400" height="400" viewBox="0 0 400 400" fill="none"
+                    <li data-id="justify-full">
+                        <button data-id="justify-full">
+                            <svg width="400" height="400" viewBox="0 0 400 400" fill="none" data-id="justify-full"
                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M250 356H0V400H250V356Z" />
-                                <path d="M400 267H0V311H400V267Z" />
-                                <path d="M400 89H0V133H400V89Z" />
-                                <path d="M400 178H0V222H400V178Z" />
-                                <path d="M400 0H0V44H400V0Z" />
+                                <path d="M250 356H0V400H250V356Z" data-id="justify-full"/>
+                                <path d="M400 267H0V311H400V267Z" data-id="justify-full"/>
+                                <path d="M400 89H0V133H400V89Z" data-id="justify-full"/>
+                                <path d="M400 178H0V222H400V178Z" data-id="justify-full"/>
+                                <path d="M400 0H0V44H400V0Z" data-id="justify-full"/>
                             </svg>
-                            <span data-id="right-align">Align Justify</span>
+                            <span data-id="justify-full">Align Justify</span>
                         </button>
                     </li>
                 </ul>
             </div>
         </div>
         <!-- Fill Color -->
-        <div class="col" data-id="fill-color" clickOutside (clickOutside)="fillColor[0] = false;">
-            <button data-id="fill-color" (click)="fillColor[0] = !fillColor[0]; fillColor[1] = false;"
+        <div class="col" clickOutside (clickOutside)="fillColor[0] = false;" *ngIf="editorConfig?.colorPalette">
+            <button (click)="fillColor[0] = !fillColor[0]; fillColor[1] = false;"
                 [class.active]="fillColor[0]" [csTooltip]="'Backgroung Color'" placement="bottom" delay="0" type="black"
                 [tooltipMandatory]="true">
                 <svg width="298" height="298" viewBox="0 0 298 298" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    data-id="fill-color">
-                    <path data-id="fill-color"
+                >
+                    <path
                         d="M235.917 142.791C235.917 142.791 211.083 169.674 211.083 186.25C211.083 199.97 222.196 211.084 235.917 211.084C249.637 211.084 260.75 199.97 260.75 186.25C260.75 169.674 235.917 142.791 235.917 142.791Z" />
-                    <path data-id="fill-color"
+                    <path
                         d="M94.615 0L77.0453 17.5698L106.597 47.1212L42.7136 111.005C35.4498 118.269 35.4498 130.065 42.7136 137.329L111.005 205.62C114.606 209.283 119.386 211.084 124.167 211.084C128.947 211.084 133.728 209.283 137.328 205.62L205.62 137.329C212.884 130.065 212.884 118.269 205.62 111.005L94.615 0ZM64.6288 124.166L124.167 64.6904L183.704 124.166H64.6288Z" />
                     <g>
-                        <path data-id="fill-color" d="M298 248.333H0V298H298V248.333Z"
+                        <path d="M298 248.333H0V298H298V248.333Z"
                             [attr.fill]="toolbarConfig.backgroundColor" />
                     </g>
                 </svg>
             </button>
-            <div class="popover color-palette" *ngIf="fillColor[0]" data-id="fill-color">
+            <div class="popover color-palette" *ngIf="fillColor[0]">
                 <app-color-palette [(color)]="toolbarConfig.backgroundColor"
-                    (colorChange)="fillColor[0] = false; colorChange('fillColor');" data-id="fill-color">
+                    (colorChange)="fillColor[0] = false; colorChange('fillColor');">
                 </app-color-palette>
             </div>
         </div>
         <!-- Text Color -->
-        <div class="col" data-id="text-color" clickOutside (clickOutside)="fillColor[1] = false;">
-            <button data-id="text-color" (click)="fillColor[1] = !fillColor[1]; fillColor[0] = false;"
+        <div class="col" clickOutside (clickOutside)="fillColor[1] = false;" *ngIf="editorConfig?.colorPalette">
+            <button (click)="fillColor[1] = !fillColor[1]; fillColor[0] = false;"
                 [class.active]="fillColor[1]" [csTooltip]="'Text Color'" placement="bottom" delay="0" type="black"
                 [tooltipMandatory]="true">
                 <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve"
-                    data-id="text-color">
+                >
                     <g>
                         <g>
                             <g>
-                                <polygon data-id="text-color"
+                                <polygon
                                     points="85.333,282.64 85.333,362.64 165.333,362.64 378.667,149.307 298.667,69.307 			" />
-                                <path data-id="text-color" d="M441.707,56.08L391.893,6.267c-8.32-8.32-21.867-8.32-30.187,0L320,47.973l80,80l41.707-41.707
+                                <path d="M441.707,56.08L391.893,6.267c-8.32-8.32-21.867-8.32-30.187,0L320,47.973l80,80l41.707-41.707
                                 C450.027,77.947,450.027,64.4,441.707,56.08z" />
                             </g>
                         </g>
                     </g>
                     <g>
                         <g>
-                            <rect data-id="text-color" y="426.64" width="512" height="85.333"
+                            <rect y="426.64" width="512" height="85.333"
                                 [attr.fill]="toolbarConfig.fontColor" />
                         </g>
                     </g>
                 </svg>
             </button>
-            <div class="popover color-palette" *ngIf="fillColor[1]" data-id="text-color">
+            <div class="popover color-palette" *ngIf="fillColor[1]">
                 <app-color-palette [(color)]="toolbarConfig.fontColor"
-                    (colorChange)="fillColor[1] = false;  colorChange('textColor');" data-id="text-color">
+                    (colorChange)="fillColor[1] = false;  colorChange('textColor');">
                 </app-color-palette>
             </div>
         </div>
@@ -550,6 +549,7 @@
                 </svg>
             </button>
         </div>
+        <!-- Font Family-->
         <div class="col" clickOutside (clickOutside)="fontFamily = false;">
             <button (click)="openfontFamily()" [class.active]="fontFamily" [csTooltip]="'Font Family'"
                 placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
@@ -560,16 +560,17 @@
                 </svg>
             </button>
             <div class="popover small" *ngIf="fontFamily">
-                <ul class="option-list">
-                    <li><button>Verdana</button></li>
-                    <li><button>Arial</button></li>
-                    <li><button>Georgia</button></li>
-                    <li><button>Impact</button></li>
-                    <li><button>Courier New</button></li>
-                    <li><button>Tahoma</button></li>
+                <ul class="option-list" (click)="fontFamily = false;">
+                    <li data-id="font-verdana"><button data-id="font-verdana">Verdana</button></li>
+                    <li data-id="font-arial"><button data-id="font-arial">Arial</button></li>
+                    <li data-id="font-georgia"><button data-id="font-georgia">Georgia</button></li>
+                    <li data-id="font-impact"><button data-id="font-impact">Impact</button></li>
+                    <li data-id="font-courier"><button data-id="font-courier">Courier New</button></li>
+                    <li data-id="font-tahoma"><button data-id="font-tahoma">Tahoma</button></li>
                 </ul>
             </div>
         </div>
+        <!-- Increase Indent -->
         <div class="col" data-id="increaseIndent">
             <button [csTooltip]="'Increase indent'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true" data-id="increaseIndent">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" data-id="increaseIndent"
@@ -582,6 +583,7 @@
                 </svg>
             </button>
         </div>
+         <!-- Decrease Indent -->
         <div class="col" data-id="decreaseIndent">
             <button [csTooltip]="'Decrease indent'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true" data-id="decreaseIndent">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" data-id="decreaseIndent"
@@ -597,7 +599,8 @@
     </div>
 
     <div class="right">
-        <div class="col" data-id="@">
+        <!-- @ -->
+        <div class="col" data-id="@"  *ngIf="editorConfig?.mentionedNames?.length > 0">
             <button data-id="@">
                 <svg version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512"
                     style="enable-background:new 0 0 512 512;" xml:space="preserve" data-id="@">
@@ -619,7 +622,8 @@
                 </svg>
             </button>
         </div>
-        <div class="col" data-id="#">
+        <!-- # -->
+        <div class="col" data-id="#"   *ngIf="editorConfig?.mentionedDates?.length > 0">
             <button data-id="#">
                 <svg height="469pt" viewBox="0 -21 469.33333 469" width="469pt" data-id="#">
                     <path data-id="#"
@@ -627,9 +631,9 @@
                 </svg>
             </button>
         </div>
-        <div class="col" data-id="submit">
-            <button class="submit" data-id="submit" *ngIf="editorConfig?.buttonName">{{editorConfig?.buttonName}}</button>
-            <button class="submit" data-id="submit" *ngIf="!editorConfig?.buttonName">Submit</button>
+        <!-- Button Name -->
+        <div class="col" data-id="submit" *ngIf="editorConfig?.buttonName">
+            <button class="submit" data-id="submit">{{editorConfig?.buttonName}}</button>
         </div>
     </div>
 </div>
