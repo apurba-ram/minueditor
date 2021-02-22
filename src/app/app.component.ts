@@ -11,8 +11,19 @@ export class AppComponent {
   filesFromChild:any=[]
   title = 'minieditor';
   defValue = 'jdi';
-  modelvalue = '';
-  editorConfig = {
+  modelvalue1 = '';
+  modelvalue2 = '';
+  editorConfig1 = {
+    file: true,
+    mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],
+    mentionedDates: ['19-02-2020', '11-02-2020', '12-02-2020', '14-02-2020'],
+    buttonName: 'Upload',
+    fontColor: true,
+    highlightColor: true,
+    menuPlacement: 'bottom'
+  };
+
+  editorConfig2 = {
     file: true,
     mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],
     mentionedDates: ['19-02-2020', '11-02-2020', '12-02-2020', '14-02-2020'],
@@ -30,6 +41,11 @@ filesSaved(event: any) {
   console.log("APP COMPONENT",this.filesFromChild);
   // this.sendSavedFiles.emit(this.filesFromChild)
   
+}
+
+comment(event: string): void {
+  console.log('COMMENT');
+  console.log(event);
 }
 
 
