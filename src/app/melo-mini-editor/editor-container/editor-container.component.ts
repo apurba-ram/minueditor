@@ -543,6 +543,9 @@ export class EditorContainerComponent
       case 'right-align':
         document.execCommand('justifyright', false, '');
         break;
+      case 'justify-full':
+        document.execCommand('justifyfull', false, '');
+        break;
       case 'fillColor':
         document.execCommand('styleWithCSS', false, '');
         document.execCommand('hiliteColor', false, value);
