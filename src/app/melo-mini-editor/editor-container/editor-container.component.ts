@@ -64,32 +64,8 @@ export class EditorContainerComponent
   backgroundColor: string;
 
   constructor(private zone: NgZone, private ref: ChangeDetectorRef) {
-    this.editorConfig = {
-      file: false,
-      mentionedNames: [],
-      mentionedDates: [],
-      colorPalette: [
-        '#FF5630',
-        '#000000',
-        '#414141',
-        '#36B37E',
-        '#6554C0',
-        '#FF7A00',
-        '#008299',
-        ' #1E5DD3',
-        '#F0B819',
-        '#00FFF7',
-      ],
-      buttonName: '',
-      fontColor: false,
-      highlightColor: false,
-      placeholder: '',
-      toolbarPlacement: 'top',
-    };
-
     this.fontColor = 'black';
     this.backgroundColor = 'white';
-
     this.toolbarPlacement = 'bottom';
     this.placeholder = '';
     this.id = nanoid();

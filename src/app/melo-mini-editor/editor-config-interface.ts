@@ -2,10 +2,8 @@ export interface EditorConfig {
     file?: boolean;
     mentionedNames?: MentionedName[];
     mentionedDates?: string[];
-    colorPalette?: string[];
+    colorPalette?: boolean;
     buttonName?: string;
-    fontColor?: boolean;
-    highlightColor?: boolean;
     toolbarPlacement?: 'top' | 'bottom';
     placeholder?: string;
 }

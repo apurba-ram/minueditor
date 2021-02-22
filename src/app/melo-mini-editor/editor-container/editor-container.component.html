@@ -1,7 +1,7 @@
 <!-- <p>editor-container works!</p> -->
 <div class="editor-container" (blur)="blur()">
     <div class="editable-block" 
-        contenteditable="true" [class.bottom]="toolbarPlacement === 'bottom'" [class.top]="toolbarPlacement === 'top'"
+        contenteditable="true" [class.bottom]="!editorConfig?.toolbarPlacement || editorConfig?.toolbarPlacement === 'bottom'" [class.top]="editorConfig?.toolbarPlacement === 'top'"
         [id]="id"
         (input)="setValue($event)" 
         (paste)="onPaste($event)"
@@ -10,7 +10,7 @@
         [attr.placeholder]="placeholder">
 
     </div>
-    <div class="editor-tools" [class.bottom]="toolbarPlacement === 'bottom'" [class.top]="toolbarPlacement === 'top'">
+    <div class="editor-tools" [class.bottom]="!editorConfig?.toolbarPlacement || editorConfig?.toolbarPlacement === 'bottom'" [class.top]="editorConfig?.toolbarPlacement === 'top'">
         <app-editor-menu
             (linkInEditor)="saveLink($event)"
             (imageInEditor)="saveImage($event)" 

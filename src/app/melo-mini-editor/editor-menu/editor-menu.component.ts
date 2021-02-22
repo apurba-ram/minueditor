@@ -55,21 +55,8 @@ export class EditorMenuComponent implements OnInit {
       file: false,
       mentionedNames: [],
       mentionedDates: [],
-      colorPalette: [
-        '#FF5630',
-        '#000000',
-        '#414141',
-        '#36B37E',
-        '#6554C0',
-        '#FF7A00',
-        '#008299',
-        ' #1E5DD3',
-        '#F0B819',
-        '#00FFF7',
-      ],
+      colorPalette: false,
       buttonName: '',
-      fontColor: false,
-      highlightColor: false,
     };
     this.filesArray = [];
     this.fillColor = Array(2).fill(false);
