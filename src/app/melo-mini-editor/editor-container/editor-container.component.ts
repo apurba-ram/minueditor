@@ -439,7 +439,7 @@ export class EditorContainerComponent
     let pastedHtml = clipboardData.getData('text/html');
     let pastedText = clipboardData.getData('text');
     const regexStyle = /style=".+?"/g; // matching all inline styles
-    const regexComment = /<!--.+?-->/g; // matching all inline styles
+    // const regexComment = /<!--.+?-->/g; // matching all inline styles
     if (pastedHtml === '' && pastedText !== '') {
       const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
       pastedText = pastedText.replace(rex, (match: any) => {
@@ -559,6 +559,18 @@ export class EditorContainerComponent
                 break;
       case 'submit': this.commentAction();
                      break;
+      case 'font-verdana': document.execCommand('fontName', false, 'verdana');
+                           break;
+      case 'font-arial': document.execCommand('fontName', false, 'arial');
+                         break;
+      case 'font-georgia': document.execCommand('fontName', false, 'georgia');
+                           break;
+      case 'font-impact': document.execCommand('fontName', false, 'impact');
+                          break;
+      case 'font-courier': document.execCommand('fontName', false, 'courier');
+                           break;
+      case 'font-tahoma': document.execCommand('fontName', false, 'tahoma');
+                          break;
     }
   }
 
