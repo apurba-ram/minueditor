@@ -247,7 +247,7 @@ export class EditorContainerComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.editorConfig && this.editorConfig) {
-      this.placeholder = this.editorConfig?.placeholder ?? '';
+      this.placeholder = this.editorConfig?.placeholder ?? 'Please Add Some Text';
 
       this.mentionConfig = {};
       if (
