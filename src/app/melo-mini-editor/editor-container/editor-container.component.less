@@ -29,6 +29,18 @@
 
         &.top {
             order: 2;
+            border-top: transparent;
+            border-bottom: 1px solid #F1F1F1;
+            border-radius: 0 0 2px 2px;
+            &:hover, &:focus {
+                outline     : none;
+                border-color: #1e5dd3;
+                box-shadow  : 0 0 5px rgba(30, 93, 211, 0.27);
+
+                &+.editor-tools {
+                    box-shadow: 0 0 5px rgba(30, 93, 211, 0.27);
+                }
+            }
         }
 
         &.bottom {
@@ -137,14 +149,16 @@
                     cursor: s-resize;
                     top   : -7px;
                     left  : calc(50% - 2px);
+
                     &-left {
-                        top: -7px;
-                        left: -7px;
+                        top   : -7px;
+                        left  : -7px;
                         cursor: nwse-resize;
                     }
+
                     &-right {
-                        top: -7px;
-                        right: -7px;
+                        top   : -7px;
+                        right : -7px;
                         cursor: nesw-resize;
                     }
                 }
@@ -159,14 +173,16 @@
                     cursor: s-resize;
                     bottom: -7px;
                     left  : calc(50% - 2px);
+
                     &-left {
                         bottom: -7px;
-                        left: -7px;
+                        left  : -7px;
                         cursor: nesw-resize;
                     }
+
                     &-right {
                         bottom: -7px;
-                        right: -7px;
+                        right : -7px;
                         cursor: nwse-resize;
                     }
                 }
@@ -176,6 +192,7 @@
                     left  : -7px;
                     top   : calc(50% - 2px);
                 }
+
                 &.active {
                     background-color: #1e5dd3;
                 }
@@ -203,6 +220,8 @@
 
         &.top {
             order: 1;
+            border-top: none;
+            border-bottom: 1px solid #F1F1F1;
         }
 
         &.bottom {
@@ -214,4 +233,21 @@
 #LinkInEditor {
     padding: 20px 20px 20px 20px;
     border : 1px solid black;
+}
+
+[contenteditable][placeholder]:empty:before,
+input[placeholder]:empty:before {
+    content         : attr(placeholder);
+    position        : absolute;
+    color           : #747576;
+    background-color: transparent;
+    pointer-events  : none;
+
+    _::-webkit-full-page-media,
+    _:future,
+    :root .safari_only {
+
+        opacity: .7;
+
+    }
 }
