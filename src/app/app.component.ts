@@ -14,7 +14,6 @@ export class AppComponent {
   modelvalue1 = '';
   modelvalue2 = '';
   editorConfig1 = {
-    file: true,
     mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],
     mentionedDates: ['19-02-2020', '11-02-2020', '12-02-2020', '14-02-2020'],
     buttonName: 'Upload',
@@ -25,9 +24,6 @@ export class AppComponent {
 
   editorConfig2 = {
     file: true,
-    mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],
-    mentionedDates: ['19-02-2020', '11-02-2020', '12-02-2020', '14-02-2020'],
-    buttonName: 'Upload',
     fontColor: true,
     highlightColor: true,
     menuPlacement: 'bottom'
