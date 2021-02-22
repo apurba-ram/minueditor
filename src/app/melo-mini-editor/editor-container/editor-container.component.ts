@@ -305,8 +305,16 @@ export class EditorContainerComponent
           // this.clicked=true
 
         // console.log('FOCUS', event.target.childNodes);
-        console.log(event.target.children);
-        event.target.children[0].classList.add('active')
+        console.log(event.target.children[0]);
+        event.target.classList.add('active')
+        event.target.children[0].classList.add('active');
+        event.target.children[1].classList.add('active');
+        event.target.children[2].classList.add('active');
+        event.target.children[3].classList.add('active');
+        event.target.children[4].classList.add('active');
+        event.target.children[5].classList.add('active');
+        event.target.children[6].classList.add('active');
+        event.target.children[7].classList.add('active');
 
   
       });
