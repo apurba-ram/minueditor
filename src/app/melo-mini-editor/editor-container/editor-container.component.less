@@ -29,6 +29,18 @@
 
         &.top {
             order: 2;
+            border-top: transparent;
+            border-bottom: 1px solid #F1F1F1;
+            border-radius: 0 0 2px 2px;
+            &:hover, &:focus {
+                outline     : none;
+                border-color: #1e5dd3;
+                box-shadow  : 0 0 5px rgba(30, 93, 211, 0.27);
+
+                &+.editor-tools {
+                    box-shadow: 0 0 5px rgba(30, 93, 211, 0.27);
+                }
+            }
         }
 
         &.bottom {
@@ -208,6 +220,8 @@
 
         &.top {
             order: 1;
+            border-top: none;
+            border-bottom: 1px solid #F1F1F1;
         }
 
         &.bottom {

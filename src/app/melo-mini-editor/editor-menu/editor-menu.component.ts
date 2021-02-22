@@ -332,6 +332,16 @@ export class EditorMenuComponent implements OnInit {
   }
   clickOutsideMoreOptions() {
     this.moreOptions = false;
+    this.filesArray = [];
+    this.alignment = false;
+    this.uploadImage = false;
+    this.upload = false;
+    this.addLink = false;
+    this.listStyle = false;
+    this.ShowFiles = false;
+    this.fontStyle = false;
+    this.fillColor = Array(2).fill(false);
+    this.setTextColor = false;
   }
   closePopover(): void {
     this.filesArray = [];
@@ -347,15 +357,45 @@ export class EditorMenuComponent implements OnInit {
   }
 
   closeAlignPopover(): void {
+    this.moreOptions = false;
+    this.filesArray = [];
     this.alignment = false;
+    this.uploadImage = false;
+    this.upload = false;
+    this.addLink = false;
+    this.listStyle = false;
+    this.ShowFiles = false;
+    this.fontStyle = false;
+    this.fillColor = Array(2).fill(false);
+    this.setTextColor = false;
   }
 
   closeListStylesPopover(): void {
+    this.moreOptions = false;
+    this.filesArray = [];
+    this.alignment = false;
+    this.uploadImage = false;
+    this.upload = false;
+    this.addLink = false;
     this.listStyle = false;
+    this.ShowFiles = false;
+    this.fontStyle = false;
+    this.fillColor = Array(2).fill(false);
+    this.setTextColor = false;
   }
 
   closeFontStylePopover(): void {
+    this.moreOptions = false;
+    this.filesArray = [];
+    this.alignment = false;
+    this.uploadImage = false;
+    this.upload = false;
+    this.addLink = false;
+    this.listStyle = false;
+    this.ShowFiles = false;
     this.fontStyle = false;
+    this.fillColor = Array(2).fill(false);
+    this.setTextColor = false;
   }
   hideAlert(): void {
     this.showAlert = false;
