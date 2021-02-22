@@ -335,9 +335,8 @@ export class EditorContainerComponent
   /**
   * @param event - This parameter is an event that is occurred whenever we make changes inside the div contenteditable
   */
-  setValue(event: any): void {
-    event.stopPropagation();
-    this.innerText = event.target.innerText;
+  setValue(innerText: string): void {
+    this.innerText = innerText;
 
     if (this.innerText === '') {
       document.execCommand('removeFormat', false, ''); // remove previous format once the editor is clear
@@ -650,25 +649,22 @@ export class EditorContainerComponent
    * @param char - Represents the tribute that was clicked from the toolbar i.e @ or #
    */
   insertTribute(char: string): void {
-    if (window.getSelection) {
-      const code = char === '@' ? 'Digit2' : 'Digit3';
-      const event = new KeyboardEvent('keydown', { key: `${char}`, code: `${code}` });
-      document.getElementById(this.id).dispatchEvent(event);
-      // if (this.oldRange) {
-      //   this.sel.removeAllRanges();
-      //   this.sel.addRange(this.oldRange);
-      //   document.getElementById(this.id).dispatchEvent(event);
-      //   const a = document.createTextNode(`${char}`);
-      //   this.oldRange.insertNode(a);
-      //   this.oldRange.setStartAfter(a);
-      //   this.sel.removeAllRanges();
-      //   this.sel.addRange(this.oldRange);
-      //   // this.setValue(this.innerText, this.innerHtml);
-      // } else {
-      //   this.focus();
-      //   this.oldRange = this.sel.getRangeAt(0).cloneRange();
-      //   this.insertTribute(char);
-      // }
+    if (this.sel) {
+      if (this.oldRange) {
+        const code = char === '@' ? 'Digit2' : 'Digit3';
+        const event = new KeyboardEvent('keydown', { key: `${char}`, code: `${code}` });
+        this.sel.removeAllRanges();
+        this.sel.addRange(this.oldRange);
+        document.getElementById(this.id).dispatchEvent(event);
+        const a = document.createTextNode(`${char}`);
+        this.oldRange.insertNode(a);
+        this.oldRange.setStartAfter(a);
+        this.setValue(document.getElementById(this.id).innerText);
+      } else {
+        this.focus();
+        this.oldRange = this.sel.getRangeAt(0).cloneRange();
+        this.insertTribute(char);
+      }
     }
   }
 
