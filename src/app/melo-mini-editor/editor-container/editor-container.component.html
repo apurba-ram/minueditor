@@ -5,10 +5,6 @@
         [class.top]="editorConfig?.toolbarPlacement === 'top'" [id]="id" (input)="setValue($event.target.innerText)"
         (paste)="onPaste($event)" [mentionConfig]="mentionConfig" (closed)="mentionClosed()"
         [attr.placeholder]="placeholder">
-<<<<<<< HEAD
-        <div class="image-container" contenteditable="false" [class.active]="clicked" tabindex="0">
-        
-=======
         <!-- <div class="image-container">
             <ul class="navigation">
                 <li>
@@ -120,7 +116,6 @@
                     </button>
                 </li>
             </ul>
->>>>>>> eb448a5201c67095982491de7eb57eb08cc29f6b
             <div class="resize-pointer top" [class.active]="clicked"  draggable="true"></div>
             <div class="resize-pointer right" [class.active]="clicked"  draggable="true"></div>
             <div class="resize-pointer bottom" [class.active]="clicked"  draggable="true"></div>
