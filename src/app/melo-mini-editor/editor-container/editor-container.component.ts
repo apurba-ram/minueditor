@@ -89,6 +89,7 @@ export class EditorContainerComponent
 //show image in ediotr
   saveImg($event:any)
   {
+    console.log("image save")
     this.imageToBeShown=$event
     // console.log("Image from menu to container",this.imageToBeShown)
 
@@ -100,7 +101,7 @@ export class EditorContainerComponent
     })();
     console.log('ID', id);
     const ResizableDiv=document.createElement('div')//outer most div 
-    ResizableDiv.setAttribute('class','ResizableDiv');
+    ResizableDiv.setAttribute('class','image-container ');
     ResizableDiv.setAttribute('tabindex','0');
     ResizableDiv.setAttribute('id', id);
     ResizableDiv.setAttribute('contenteditable', 'false');
@@ -111,19 +112,24 @@ export class EditorContainerComponent
 
    
     const ResizerLeftTop=document.createElement('div');
-    ResizerLeftTop.setAttribute('class','ResizerLeftTop');
+    ResizerLeftTop.setAttribute('class','resize-pointer top-left');
+    ResizerLeftTop.setAttribute('draggable','true')
     ResizerLeftTop.setAttribute('id','LT'+id);
 
     const ResizerRightTop=document.createElement('div')
-    ResizerRightTop.setAttribute('class','ResizerRightTop')
+    ResizerRightTop.setAttribute('class','resize-pointer top-right')
+    ResizerRightTop.setAttribute('draggable','true')
     ResizerRightTop.setAttribute('id', 'RT'+id);
 
     const ResizerLeftBottom=document.createElement('div')
-    ResizerLeftBottom.setAttribute('class','ResizerLeftBottom')
+    ResizerLeftBottom.setAttribute('class','resize-pointer bottom-left')
+    ResizerLeftBottom.setAttribute('class','resize-pointer bottom-left')
+    ResizerLeftBottom.setAttribute('draggable','true')
     ResizerLeftBottom.setAttribute('id', 'LB' + id);
     
     const ResizerRightBottom=document.createElement('div')
-    ResizerRightBottom.setAttribute('class','ResizerRightBottom')
+    ResizerRightBottom.setAttribute('class','resize-pointer bottom-right')
+    ResizerRightBottom.setAttribute('draggable','true')
     ResizerRightBottom.setAttribute('id', 'RB' + id);
     //this is img tag to show image in the resizer div
     const imgTag= document.createElement('img')
@@ -199,14 +205,116 @@ export class EditorContainerComponent
   * @param event - Event which stores the image emitted from the image popup
   */
   saveImage(event:any): void{
-    const imgTag = document.createElement('img')
-    imgTag.setAttribute('src', event.url);
-    this.sel.removeAllRanges();
-    const range = this.oldRange.cloneRange();
-    range.insertNode(imgTag);
-    range.setStartAfter(imgTag);
-    range.collapse();
-    this.sel.addRange(range);
+
+      //generate random id
+       
+      const id = (() => {
+       
+        return '_' + Math.random().toString(36).substr(2, 9);
+      })();
+      console.log('ID', id);
+
+
+      //create image container
+      console.log("Image save THIS IS LIFE")
+      const imgContainer=document.createElement('div')
+      imgContainer.setAttribute('contenteditable','false')
+      imgContainer.setAttribute('class','image-container ')
+      imgContainer.setAttribute('id','image-container'+id);
+
+
+      const topHandle=document.createElement('div')
+      topHandle.setAttribute('class','resize-pointer top ')
+      topHandle.setAttribute('draggable','true')
+      topHandle.setAttribute('id','top'+id)
+
+      const leftHandle=document.createElement('div')
+      leftHandle.setAttribute('class','resize-pointer left ')
+      leftHandle.setAttribute('draggable','true')
+      leftHandle.setAttribute('id','left'+id)
+
+
+      const rightHandle=document.createElement('div')
+      rightHandle.setAttribute('class','resize-pointer right ')
+      rightHandle.setAttribute('draggable','true')
+      rightHandle.setAttribute('id','right'+id)
+
+      const bottomHandle=document.createElement('div')
+      bottomHandle.setAttribute('class','resize-pointer bottom ')
+      bottomHandle.setAttribute('draggable','true')
+      bottomHandle.setAttribute('id','bottom'+id)
+
+      const bottomLeftHandle=document.createElement('div')
+      bottomLeftHandle.setAttribute('class','resize-pointer bottom-left  ')
+      bottomLeftHandle.setAttribute('draggable','true')
+      bottomLeftHandle.setAttribute('id','bottom-left'+id)
+
+      
+      const topLeftHandle=document.createElement('div')
+      topLeftHandle.setAttribute('class','resize-pointer top-left  ')
+      topLeftHandle.setAttribute('draggable','true')
+      topLeftHandle.setAttribute('id','top-left'+id)
+
+      
+      const bottomRightHandle=document.createElement('div')
+      bottomRightHandle.setAttribute('class','resize-pointer bottom-right')
+      bottomRightHandle.setAttribute('draggable','true')
+      bottomRightHandle.setAttribute('id','bottom-right'+id)
+
+      const topRightHandle=document.createElement('div')
+      topRightHandle.setAttribute('class','resize-pointer top-right')
+      topRightHandle.setAttribute('draggable','true')
+      topRightHandle.setAttribute('id','top-right'+id)
+
+      imgContainer.appendChild(topHandle)
+      imgContainer.appendChild(leftHandle)
+      imgContainer.appendChild(rightHandle)
+      imgContainer.appendChild(bottomHandle)
+      imgContainer.appendChild(topLeftHandle)
+      imgContainer.appendChild(topRightHandle)
+      imgContainer.appendChild(bottomLeftHandle)
+      imgContainer.appendChild(bottomRightHandle)
+
+      const spanContainer=document.createElement('span')
+      spanContainer.setAttribute('class','image-resize')
+      const imgTag = document.createElement('img')
+      spanContainer.appendChild(imgTag)
+      imgContainer.appendChild(spanContainer)
+      imgContainer.setAttribute('tabindex','0')
+      imgTag.setAttribute('src', event.url);
+      imgTag.setAttribute('id','contentimage')
+
+      this.sel.removeAllRanges();
+      const range = this.oldRange.cloneRange();
+      range.insertNode(imgContainer);
+      range.setStartAfter(imgContainer);
+      range.collapse();
+      this.sel.addRange(range);
+
+
+      //now show handles on the image to resize
+
+      imgContainer.addEventListener('blur',(event: any)=>{
+        // this.clicked=false
+        // console.log(event.target);
+        event.target.childNodes[0].classList.remove('active')
+        
+      });
+  
+      imgContainer.addEventListener('focus',(event: any)=>{
+          // this.clicked=true
+
+        // console.log('FOCUS', event.target.childNodes);
+        console.log(event.target.children);
+        event.target.children[0].classList.add('active')
+
+  
+      });
+  
+      
+
+  
+
   }
 
   /**
