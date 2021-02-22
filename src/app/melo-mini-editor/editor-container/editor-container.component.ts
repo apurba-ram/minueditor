@@ -62,6 +62,7 @@ export class EditorContainerComponent
 
   fontColor: string;
   backgroundColor: string;
+  clicked = false;
 
   constructor(private zone: NgZone, private ref: ChangeDetectorRef) {
     this.fontColor = 'black';
@@ -672,5 +673,10 @@ export class EditorContainerComponent
       //   this.insertTribute(char);
       // }
     }
+  }
+
+
+  clickedOnImage() {
+    this.clicked = true;
   }
 }
