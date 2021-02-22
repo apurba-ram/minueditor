@@ -550,6 +550,7 @@
                 </svg>
             </button>
         </div>
+        <!-- Font Family-->
         <div class="col" clickOutside (clickOutside)="fontFamily = false;">
             <button (click)="openfontFamily()" [class.active]="fontFamily" [csTooltip]="'Font Family'"
                 placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
@@ -570,6 +571,7 @@
                 </ul>
             </div>
         </div>
+        <!-- Increase Indent -->
         <div class="col" data-id="increaseIndent">
             <button [csTooltip]="'Increase indent'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true" data-id="increaseIndent">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" data-id="increaseIndent"
@@ -582,6 +584,7 @@
                 </svg>
             </button>
         </div>
+         <!-- Decrease Indent -->
         <div class="col" data-id="decreaseIndent">
             <button [csTooltip]="'Decrease indent'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true" data-id="decreaseIndent">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" data-id="decreaseIndent"
@@ -597,6 +600,7 @@
     </div>
 
     <div class="right">
+        <!-- @ -->
         <div class="col" data-id="@"  *ngIf="editorConfig?.mentionedNames?.length > 0">
             <button data-id="@">
                 <svg version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512"
@@ -619,6 +623,7 @@
                 </svg>
             </button>
         </div>
+        <!-- # -->
         <div class="col" data-id="#"   *ngIf="editorConfig?.mentionedDates?.length > 0">
             <button data-id="#">
                 <svg height="469pt" viewBox="0 -21 469.33333 469" width="469pt" data-id="#">
@@ -627,6 +632,7 @@
                 </svg>
             </button>
         </div>
+        <!-- Button Name -->
         <div class="col" data-id="submit" *ngIf="editorConfig?.buttonName">
             <button class="submit" data-id="submit">{{editorConfig?.buttonName}}</button>
         </div>
