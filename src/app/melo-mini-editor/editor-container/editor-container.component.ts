@@ -292,17 +292,21 @@ export class EditorContainerComponent
       //now show handles on the image to resize
 
       imgContainer.addEventListener('blur',(event: any)=>{
-        // this.clicked=false
-        // console.log(event.target);
-        event.target.childNodes[0].classList.remove('active')
+      
         
+        event.target.classList.remove('active')
+        event.target.children[0].classList.remove('active');
+        event.target.children[1].classList.remove('active');
+        event.target.children[2].classList.remove('active');
+        event.target.children[3].classList.remove('active');
+        event.target.children[4].classList.remove('active');
+        event.target.children[5].classList.remove('active');
+        event.target.children[6].classList.remove('active');
+        event.target.children[7].classList.remove('active');
       });
   
       imgContainer.addEventListener('focus',(event: any)=>{
-          // this.clicked=true
 
-        // console.log('FOCUS', event.target.childNodes);
-        console.log(event.target.children[0]);
         event.target.classList.add('active')
         event.target.children[0].classList.add('active');
         event.target.children[1].classList.add('active');
@@ -313,11 +317,155 @@ export class EditorContainerComponent
         event.target.children[6].classList.add('active');
         event.target.children[7].classList.add('active');
 
+        const minimum_size = 20;
+        let original_width = 0;
+        let original_height = 0;
+        let original_x = 0;
+        let original_y = 0;
+        let original_mouse_x = 0;
+        let original_mouse_y = 0;
+
+        event.target.children[7].addEventListener('mousedown', function(e) {
+          e.preventDefault()
+          console.log("Mouse down")
+          original_width = parseFloat(getComputedStyle(spanContainer, null).getPropertyValue('width').replace('px', ''));
+          original_height = parseFloat(getComputedStyle(spanContainer, null).getPropertyValue('height').replace('px', ''));
+          original_x = imgContainer.getBoundingClientRect().left;
+          original_y = imgContainer.getBoundingClientRect().top;
+          original_mouse_x = e.pageX;
+          original_mouse_y = e.pageY;
+          window.addEventListener('mousemove', resize)
+          // window.addEventListener('mouseup', stopResize)
+        })
+
+        event.target.children[0].addEventListener('mousedown', function(e) {
+          e.preventDefault()
+          console.log("Mouse down")
+          original_width = parseFloat(getComputedStyle(spanContainer, null).getPropertyValue('width').replace('px', ''));
+          original_height = parseFloat(getComputedStyle(spanContainer, null).getPropertyValue('height').replace('px', ''));
+          original_x = imgContainer.getBoundingClientRect().left;
+          original_y = imgContainer.getBoundingClientRect().top;
+          original_mouse_x = e.pageX;
+          original_mouse_y = e.pageY;
+          window.addEventListener('mousemove', resize)
+          // window.addEventListener('mouseup', stopResize)
+        })
+    
+        event.target.children[1].addEventListener('mousedown', function(e) {
+          e.preventDefault()
+          console.log("Mouse down")
+          original_width = parseFloat(getComputedStyle(spanContainer, null).getPropertyValue('width').replace('px', ''));
+          original_height = parseFloat(getComputedStyle(spanContainer, null).getPropertyValue('height').replace('px', ''));
+          original_x = imgContainer.getBoundingClientRect().left;
+          original_y = imgContainer.getBoundingClientRect().top;
+          original_mouse_x = e.pageX;
+          original_mouse_y = e.pageY;
+          window.addEventListener('mousemove', resize)
+          // window.addEventListener('mouseup', stopResize)
+        })
+
+        event.target.children[2].addEventListener('mousedown', function(e) {
+          e.preventDefault()
+          console.log("Mouse down")
+          original_width = parseFloat(getComputedStyle(spanContainer, null).getPropertyValue('width').replace('px', ''));
+          original_height = parseFloat(getComputedStyle(spanContainer, null).getPropertyValue('height').replace('px', ''));
+          original_x = imgContainer.getBoundingClientRect().left;
+          original_y = imgContainer.getBoundingClientRect().top;
+          original_mouse_x = e.pageX;
+          original_mouse_y = e.pageY;
+          window.addEventListener('mousemove', resize)
+          // window.addEventListener('mouseup', stopResize)
+        })
+
+        event.target.children[3].addEventListener('mousedown', function(e) {
+          e.preventDefault()
+          console.log("Mouse down")
+          original_width = parseFloat(getComputedStyle(spanContainer, null).getPropertyValue('width').replace('px', ''));
+          original_height = parseFloat(getComputedStyle(spanContainer, null).getPropertyValue('height').replace('px', ''));
+          original_x = imgContainer.getBoundingClientRect().left;
+          original_y = imgContainer.getBoundingClientRect().top;
+          original_mouse_x = e.pageX;
+          original_mouse_y = e.pageY;
+          window.addEventListener('mousemove', resize)
+           window.addEventListener('mouseup', stopResize)
+        })
+
+
+        event.target.children[4].addEventListener('mousedown', function(e) {
+          e.preventDefault()
+          console.log("Mouse down")
+          original_width = parseFloat(getComputedStyle(spanContainer, null).getPropertyValue('width').replace('px', ''));
+          original_height = parseFloat(getComputedStyle(spanContainer, null).getPropertyValue('height').replace('px', ''));
+          original_x = imgContainer.getBoundingClientRect().left;
+          original_y = imgContainer.getBoundingClientRect().top;
+          original_mouse_x = e.pageX;
+          original_mouse_y = e.pageY;
+          window.addEventListener('mousemove', resize)
+          // window.addEventListener('mouseup', stopResize)
+        })
+    
+        event.target.children[5].addEventListener('mousedown', function(e) {
+          e.preventDefault()
+          console.log("Mouse down")
+          original_width = parseFloat(getComputedStyle(spanContainer, null).getPropertyValue('width').replace('px', ''));
+          original_height = parseFloat(getComputedStyle(spanContainer, null).getPropertyValue('height').replace('px', ''));
+          original_x = imgContainer.getBoundingClientRect().left;
+          original_y = imgContainer.getBoundingClientRect().top;
+          original_mouse_x = e.pageX;
+          original_mouse_y = e.pageY;
+          window.addEventListener('mousemove', resize)
+           window.addEventListener('mouseup', stopResize)
+        })
+    
+
+        event.target.children[6].addEventListener('mousedown', function(e) {
+          e.preventDefault()
+          console.log("Mouse down")
+          original_width = parseFloat(getComputedStyle(spanContainer, null).getPropertyValue('width').replace('px', ''));
+          original_height = parseFloat(getComputedStyle(spanContainer, null).getPropertyValue('height').replace('px', ''));
+          original_x = imgContainer.getBoundingClientRect().left;
+          original_y = imgContainer.getBoundingClientRect().top;
+          original_mouse_x = e.pageX;
+          original_mouse_y = e.pageY;
+          window.addEventListener('mousemove', resize)
+          // window.addEventListener('mouseup', stopResize)
+        })
+    
+    
+    
+    
+    
+
+        function resize(e)
+        {
+          console.log("Mouse Move")
+          const width = original_width + (e.pageX - original_mouse_x);
+          const height = original_height + (e.pageY - original_mouse_y)
+          imgContainer.style.width = width + 'px'
+          imgContainer.style.height = height + 'px'
+          // if (width > minimum_size) {
+          //   spanContainer.style.width = width + 'px'
+          // }
+          // if (height > minimum_size) {
+          //   spanContainer.style.height = height + 'px'
+          // }
+        }
+    
+
+        function stopResize() {
+          window.removeEventListener('mousemove', resize)
+        }
+    
+
+
+        
+
   
       });
+
+
   
       
-
   
 
   }
