@@ -137,14 +137,16 @@
                     cursor: s-resize;
                     top   : -7px;
                     left  : calc(50% - 2px);
+
                     &-left {
-                        top: -7px;
-                        left: -7px;
+                        top   : -7px;
+                        left  : -7px;
                         cursor: nwse-resize;
                     }
+
                     &-right {
-                        top: -7px;
-                        right: -7px;
+                        top   : -7px;
+                        right : -7px;
                         cursor: nesw-resize;
                     }
                 }
@@ -159,14 +161,16 @@
                     cursor: s-resize;
                     bottom: -7px;
                     left  : calc(50% - 2px);
+
                     &-left {
                         bottom: -7px;
-                        left: -7px;
+                        left  : -7px;
                         cursor: nesw-resize;
                     }
+
                     &-right {
                         bottom: -7px;
-                        right: -7px;
+                        right : -7px;
                         cursor: nwse-resize;
                     }
                 }
@@ -176,6 +180,7 @@
                     left  : -7px;
                     top   : calc(50% - 2px);
                 }
+
                 &.active {
                     background-color: #1e5dd3;
                 }
@@ -214,4 +219,21 @@
 #LinkInEditor {
     padding: 20px 20px 20px 20px;
     border : 1px solid black;
+}
+
+[contenteditable][placeholder]:empty:before,
+input[placeholder]:empty:before {
+    content         : attr(placeholder);
+    position        : absolute;
+    color           : #747576;
+    background-color: transparent;
+    pointer-events  : none;
+
+    _::-webkit-full-page-media,
+    _:future,
+    :root .safari_only {
+
+        opacity: .7;
+
+    }
 }
