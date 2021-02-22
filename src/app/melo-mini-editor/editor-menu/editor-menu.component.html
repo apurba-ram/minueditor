@@ -211,7 +211,7 @@
             </div>
         </div>
         <!-- Attachment -->
-        <div class="col" clickOutside (clickOutside)="closeAttachPopover()" data-id="attachment">
+        <div class="col" clickOutside (clickOutside)="closeAttachPopover()" data-id="attachment" *ngIf="editorConfig?.file">
             <button (click)="upload = true" [class.active]="upload" data-id="attachment" [csTooltip]="'Upload File'"
                 placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
                 <svg width="199" height="199" viewBox="0 0 199 199" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -597,7 +597,7 @@
     </div>
 
     <div class="right">
-        <div class="col" data-id="@">
+        <div class="col" data-id="@"  *ngIf="editorConfig?.mentionedNames?.length > 0">
             <button data-id="@">
                 <svg version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512"
                     style="enable-background:new 0 0 512 512;" xml:space="preserve" data-id="@">
@@ -619,7 +619,7 @@
                 </svg>
             </button>
         </div>
-        <div class="col" data-id="#">
+        <div class="col" data-id="#"   *ngIf="editorConfig?.mentionedDates?.length > 0">
             <button data-id="#">
                 <svg height="469pt" viewBox="0 -21 469.33333 469" width="469pt" data-id="#">
                     <path data-id="#"
@@ -627,9 +627,8 @@
                 </svg>
             </button>
         </div>
-        <div class="col" data-id="submit">
-            <button class="submit" data-id="submit" *ngIf="editorConfig?.buttonName">{{editorConfig?.buttonName}}</button>
-            <button class="submit" data-id="submit" *ngIf="!editorConfig?.buttonName">Submit</button>
+        <div class="col" data-id="submit" *ngIf="editorConfig?.buttonName">
+            <button class="submit" data-id="submit">{{editorConfig?.buttonName}}</button>
         </div>
     </div>
 </div>
