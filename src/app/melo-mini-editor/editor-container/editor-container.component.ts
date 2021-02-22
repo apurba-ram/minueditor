@@ -33,7 +33,6 @@ import { NgZone } from '@angular/core';
 export class EditorContainerComponent
   implements OnInit, OnChanges, AfterViewInit, OnDestroy, AfterViewChecked {
   @Input() editorConfig: EditorConfig;
-  // @Input() multiple: boolean;
   @Output() comment = new EventEmitter<string>();
   @Output() sendSavedFiles = new EventEmitter<any>();//coming from menu to container from container to ap
   imageToBeShown:any
@@ -80,9 +79,7 @@ export class EditorContainerComponent
   * @param event - Event which stores the files that are emitted from the file popup
   */
   saveFiles(event: any): void {
-    // this.filesFromChild = $event;
-    // console.log("files after saving in parent",this.filesFromChild)
-    console.log(event);
+    this.editorConfig.buttonName = 'Upload';
     this.sendSavedFiles.emit(event);
   }
 
@@ -477,7 +474,7 @@ export class EditorContainerComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.editorConfig && this.editorConfig) {
-      this.placeholder = this.editorConfig?.placeholder ?? '';
+      this.placeholder = this.editorConfig?.placeholder ?? 'Please Add Some Text';
 
       this.mentionConfig = {};
       if (
@@ -565,9 +562,8 @@ export class EditorContainerComponent
   /**
   * @param event - This parameter is an event that is occurred whenever we make changes inside the div contenteditable
   */
-  setValue(event: any): void {
-    event.stopPropagation();
-    this.innerText = event.target.innerText;
+  setValue(innerText: string): void {
+    this.innerText = innerText;
 
     if (this.innerText === '') {
       document.execCommand('removeFormat', false, ''); // remove previous format once the editor is clear
@@ -662,30 +658,30 @@ export class EditorContainerComponent
   }
 
   toolbarClicked(event: any): void {
-    if (this.oldRange) {
+    try {
+      const { startContainer } = this.sel.getRangeAt(0);
+      if(this.checkValidOperation(startContainer)) {
+        
+        if (this.oldRange) {
 
-      if(this.oldRange.collapsed) {
-        this.sel.removeAllRanges();
-        const range = this.oldRange.cloneRange();
-        const t = document.createTextNode('');
-        range.insertNode(t);
-        range.setStartAfter(t);
-        range.collapse();
-        this.sel.addRange(range);
+          if(this.oldRange.collapsed) {
+
+            this.sel.removeAllRanges();
+            const range = this.oldRange.cloneRange();
+            const t = document.createTextNode('');
+            range.insertNode(t);
+            range.setStartAfter(t);
+            range.collapse();
+            this.sel.addRange(range);
+
+          }
+        } else {
+          this.focus();
+        }
+      } else {
+        this.focus();
       }
-      // if(event?.id !== 'textColor' && event?.id !== 'fillColor') {
-      // } else {
-      //   if(this.oldRange.collapsed) {
-      //     this.sel.removeAllRanges();
-      //     const range = this.oldRange.cloneRange();
-      //     const t = document.createTextNode('');
-      //     range.insertNode(t);
-      //     range.setStartAfter(t);
-      //     range.collapse();
-      //     this.sel.addRange(range);
-      //   }
-      // }
-    } else {
+    } catch(err) {
       this.focus();
     }
     this.toolbarOperations(event?.id, event?.value);
@@ -757,12 +753,16 @@ export class EditorContainerComponent
       case 'fillColor':
         document.execCommand('styleWithCSS', false, '');
         document.execCommand('hiliteColor', false, value);
-        this.sel.getRangeAt(0).collapse();
+        if(!this.sel.getRangeAt(0).collapsed) {
+          this.sel.getRangeAt(0).collapse();
+        }
         break;
       case 'textColor':
         document.execCommand('styleWithCSS', false, '');
         document.execCommand('foreColor', false, value);
-        this.sel.getRangeAt(0).collapse();
+        if(!this.sel.getRangeAt(0).collapsed) {
+          this.sel.getRangeAt(0).collapse();
+        }
         break;
       case '@': this.insertTribute('@'); 
                 break;
@@ -880,25 +880,22 @@ export class EditorContainerComponent
    * @param char - Represents the tribute that was clicked from the toolbar i.e @ or #
    */
   insertTribute(char: string): void {
-    if (window.getSelection) {
-      const code = char === '@' ? 'Digit2' : 'Digit3';
-      const event = new KeyboardEvent('keydown', { key: `${char}`, code: `${code}` });
-      document.getElementById(this.id).dispatchEvent(event);
-      // if (this.oldRange) {
-      //   this.sel.removeAllRanges();
-      //   this.sel.addRange(this.oldRange);
-      //   document.getElementById(this.id).dispatchEvent(event);
-      //   const a = document.createTextNode(`${char}`);
-      //   this.oldRange.insertNode(a);
-      //   this.oldRange.setStartAfter(a);
-      //   this.sel.removeAllRanges();
-      //   this.sel.addRange(this.oldRange);
-      //   // this.setValue(this.innerText, this.innerHtml);
-      // } else {
-      //   this.focus();
-      //   this.oldRange = this.sel.getRangeAt(0).cloneRange();
-      //   this.insertTribute(char);
-      // }
+    if (this.sel) {
+      if (this.oldRange) {
+        const code = char === '@' ? 'Digit2' : 'Digit3';
+        const event = new KeyboardEvent('keydown', { key: `${char}`, code: `${code}` });
+        this.sel.removeAllRanges();
+        this.sel.addRange(this.oldRange);
+        document.getElementById(this.id).dispatchEvent(event);
+        const a = document.createTextNode(`${char}`);
+        this.oldRange.insertNode(a);
+        this.oldRange.setStartAfter(a);
+        this.setValue(document.getElementById(this.id).innerText);
+      } else {
+        this.focus();
+        this.oldRange = this.sel.getRangeAt(0).cloneRange();
+        this.insertTribute(char);
+      }
     }
   }
 

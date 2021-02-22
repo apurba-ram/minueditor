@@ -45,7 +45,7 @@ export class EditorMenuComponent implements OnInit {
   inValidLinkText=''
   savedLinks:object={ };
   fontFamily = false;
-
+  moreOptions = false;
 
 
   image: any;
@@ -71,11 +71,7 @@ export class EditorMenuComponent implements OnInit {
    */
   buttonClicked(event: any): void {
     event.stopPropagation();
-    if (event?.target?.dataset?.id &&
-      (event?.target?.dataset?.id !== 'link' &&
-        event?.target?.dataset?.id !== 'attachment' &&
-        event?.target?.dataset?.id !== 'fill-color' &&
-        event?.target?.dataset?.id !== 'text-color')) {
+    if (event?.target?.dataset?.id) {
           this.buttonClick.emit(event?.target?.dataset);
     }
   }
@@ -192,11 +188,6 @@ export class EditorMenuComponent implements OnInit {
   // File code begins
 
   saveFiles(): void {
-    // this.savedFiles.push.apply(this.savedFiles, this.filesArray);
-    // this.filesArray = [];
-    // console.log('files after saving in child', this.savedFiles);
-    // this.sendSavedFiles.emit(this.savedFiles);
-    // this.upload = false;
     this.sendSavedFiles.emit(this.filesArray);
     this.closeAttachPopover();
   }
@@ -326,15 +317,51 @@ export class EditorMenuComponent implements OnInit {
 
   alignPopover(): void {
     this.alignment = !this.alignment;
+    this.listStyle = false;
+    this.fontStyle = false;
+    this.moreOptions = false;
+    this.fontFamily = false;
   }
   listStyles(): void {
     this.listStyle = !this.listStyle;
+    this.alignment = false;
+    this.fontStyle = false;
+    this.moreOptions = false;
+    this.fontFamily = false;
   }
   fontStylePopover(): void {
     this.fontStyle = !this.fontStyle;
+    this.listStyle = false;
+    this.alignment = false;
+    this.moreOptions = false;
+    this.fontFamily = false;
   }
   openfontFamily() {
     this.fontFamily = !this.fontFamily;
+    this.fontStyle = false;
+    this.listStyle = false;
+    this.alignment = false;
+    this.moreOptions = false;
+  }
+  showMoreOptions() {
+    this.moreOptions = !this.moreOptions;
+    this.fontFamily = false;
+    this.fontStyle = false;
+    this.listStyle = false;
+    this.alignment = false;
+  }
+  clickOutsideMoreOptions() {
+    this.moreOptions = false;
+    this.filesArray = [];
+    this.alignment = false;
+    this.uploadImage = false;
+    this.upload = false;
+    this.addLink = false;
+    this.listStyle = false;
+    this.ShowFiles = false;
+    this.fontStyle = false;
+    this.fillColor = Array(2).fill(false);
+    this.setTextColor = false;
   }
   closePopover(): void {
     this.filesArray = [];
@@ -350,23 +377,45 @@ export class EditorMenuComponent implements OnInit {
   }
 
   closeAlignPopover(): void {
+    this.moreOptions = false;
+    this.filesArray = [];
     this.alignment = false;
+    this.uploadImage = false;
+    this.upload = false;
+    this.addLink = false;
+    this.listStyle = false;
+    this.ShowFiles = false;
+    this.fontStyle = false;
+    this.fillColor = Array(2).fill(false);
+    this.setTextColor = false;
   }
 
   closeListStylesPopover(): void {
+    this.moreOptions = false;
+    this.filesArray = [];
+    this.alignment = false;
+    this.uploadImage = false;
+    this.upload = false;
+    this.addLink = false;
     this.listStyle = false;
+    this.ShowFiles = false;
+    this.fontStyle = false;
+    this.fillColor = Array(2).fill(false);
+    this.setTextColor = false;
   }
 
-  
-
-  // closeAttachPopover(): void {
-  //   this.filesArray = [];
-  //   // this.upload = false;
-  //   // this.ShowFiles = false;
-  // }
-
   closeFontStylePopover(): void {
+    this.moreOptions = false;
+    this.filesArray = [];
+    this.alignment = false;
+    this.uploadImage = false;
+    this.upload = false;
+    this.addLink = false;
+    this.listStyle = false;
+    this.ShowFiles = false;
     this.fontStyle = false;
+    this.fillColor = Array(2).fill(false);
+    this.setTextColor = false;
   }
   hideAlert(): void {
     this.showAlert = false;
