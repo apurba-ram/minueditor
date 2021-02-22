@@ -431,30 +431,30 @@ export class EditorContainerComponent
   }
 
   toolbarClicked(event: any): void {
-    if (this.oldRange) {
+    try {
+      const { startContainer } = this.sel.getRangeAt(0);
+      if(this.checkValidOperation(startContainer)) {
+        
+        if (this.oldRange) {
 
-      if(this.oldRange.collapsed) {
-        this.sel.removeAllRanges();
-        const range = this.oldRange.cloneRange();
-        const t = document.createTextNode('');
-        range.insertNode(t);
-        range.setStartAfter(t);
-        range.collapse();
-        this.sel.addRange(range);
+          if(this.oldRange.collapsed) {
+
+            this.sel.removeAllRanges();
+            const range = this.oldRange.cloneRange();
+            const t = document.createTextNode('');
+            range.insertNode(t);
+            range.setStartAfter(t);
+            range.collapse();
+            this.sel.addRange(range);
+
+          }
+        } else {
+          this.focus();
+        }
+      } else {
+        this.focus();
       }
-      // if(event?.id !== 'textColor' && event?.id !== 'fillColor') {
-      // } else {
-      //   if(this.oldRange.collapsed) {
-      //     this.sel.removeAllRanges();
-      //     const range = this.oldRange.cloneRange();
-      //     const t = document.createTextNode('');
-      //     range.insertNode(t);
-      //     range.setStartAfter(t);
-      //     range.collapse();
-      //     this.sel.addRange(range);
-      //   }
-      // }
-    } else {
+    } catch(err) {
       this.focus();
     }
     this.toolbarOperations(event?.id, event?.value);
@@ -526,12 +526,16 @@ export class EditorContainerComponent
       case 'fillColor':
         document.execCommand('styleWithCSS', false, '');
         document.execCommand('hiliteColor', false, value);
-        this.sel.getRangeAt(0).collapse();
+        if(!this.sel.getRangeAt(0).collapsed) {
+          this.sel.getRangeAt(0).collapse();
+        }
         break;
       case 'textColor':
         document.execCommand('styleWithCSS', false, '');
         document.execCommand('foreColor', false, value);
-        this.sel.getRangeAt(0).collapse();
+        if(!this.sel.getRangeAt(0).collapsed) {
+          this.sel.getRangeAt(0).collapse();
+        }
         break;
       case '@': this.insertTribute('@'); 
                 break;
