@@ -19,6 +19,9 @@
         (buttonClick)="toolbarClicked($event)"
         [toolbarConfig]="toolbarConfig" 
         ></app-editor-menu>
+    </div> {{showResizeDiv}}
+    <div *ngIf="showResizeDiv===true" id="reSizableDiv">
+
     </div>
 </div>
 

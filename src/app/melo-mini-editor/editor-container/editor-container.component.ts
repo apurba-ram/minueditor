@@ -57,7 +57,7 @@ export class EditorContainerComponent
   toolbarPlacement: 'top' | 'bottom';
   oldRange: any;
   savedLinks:any=[]
-
+  showResizeDiv:boolean=false
   toolbarConfig: ToolbarConfig;
 
   fontColor: string;
@@ -109,11 +109,84 @@ export class EditorContainerComponent
   {
     this.imageToBeShown=$event
     // console.log("Image from menu to container",this.imageToBeShown)
+    const pTag=document.createElement('p')
+    pTag.setAttribute('class','ImageP')
+    pTag.setAttribute('id','imageP');
+    pTag.setAttribute('contenteditable', 'false');
+    document.getElementsByClassName('editable-block')[0].appendChild(pTag)
     const imgTag= document.createElement('img')
-    // console.log("Image uRL",this.imageToBeShown[(this.imageToBeShown.length-1)].imgUrl)
-     imgTag.setAttribute('src',this.imageToBeShown[(this.imageToBeShown.length-1)].imgUrl)
-    document.getElementsByClassName('editable-block')[0].appendChild(imgTag)
+    imgTag.setAttribute('class',"EdiotorImage")
+    imgTag.setAttribute('id','editableImg')
+    // imgTag.setAttribute('style','resize: both')
+    // imgTag.setAttribute('style','overflow:auto')
+    imgTag.setAttribute('style','cursor:pointer')
+    imgTag.style.width=200+"px"
+    imgTag.style.height=200+"px"
+    imgTag.setAttribute('src',this.imageToBeShown[(this.imageToBeShown.length-1)].imgUrl)
+    document.getElementsByClassName('ImageP')[this.imageToBeShown.length-1].appendChild(imgTag)
+    console.log("image",imgTag)
+    this.imageToBeShown.forEach((e,i) => {
+      document.getElementsByClassName('EdiotorImage')[i].addEventListener('click',()=>{
+        this.imageResize(i);
+    }, false)
+    });
   }
+
+  imageResize(event)
+  {
+    console.log("image clicked", event)
+   const rect= document.getElementsByClassName('EdiotorImage')[event].getBoundingClientRect()
+    var ImgTop=rect.top
+    var ImgBottom=rect.top
+    var ImgLeft=rect.left
+    var ImgRight=rect.right
+    
+    // const ResizeDiv=document.getElementById('reSizableDiv')
+    // console.log("div",ResizeDiv)
+    if(this.showResizeDiv===false)
+    {
+      this.showResizeDiv=true
+    }
+    
+    console.log("showresize div value",this.showResizeDiv)
+      const ResizeDiv=document.getElementById('reSizableDiv')
+      //create resizable diiv
+      // const ResizeDiv=document.createElement('div')
+      // ResizeDiv.setAttribute('id','reSizableDiv')
+      console.log("div in if",ResizeDiv)
+      if(ResizeDiv) {
+        ResizeDiv.style.border=10+"px solid green"
+        ResizeDiv.style.position="absolute"
+        ResizeDiv.style.left=ImgLeft-20+"px"
+        ResizeDiv.style.top=ImgTop-75+"px"
+        ResizeDiv.style.width=205+"px"
+        ResizeDiv.style.height=190+"px"
+      }
+       console.log("resize created",ResizeDiv)
+      // document.getElementById('imageP').appendChild(ResizeDiv)
+
+  
+    // else{
+    //   //just chnage resizzable div possitions
+    //   const ResizeDiv=document.getElementById('reSizableDiv')
+    //   console.log("else",ResizeDiv)
+    //   ResizeDiv.style.left=ImgLeft-20+"px"
+    //   ResizeDiv.style.top=ImgTop-75+"px"
+    // }
+   
+    document.getElementsByClassName("editable-block")[0].addEventListener("click", (e)=>
+    {
+      // console.log("mouse movement",e.x,e.y)
+      if(e.x<ImgLeft || e.y<ImgTop ||e.x>ImgRight || e.y<ImgBottom)
+      {
+        console.log("clicked outside")
+      }
+    })
+
+  }
+  
+  
+  
 
   saveLinkndShowInEditor($event:any)
   {

@@ -325,30 +325,34 @@ export class EditorMenuComponent implements OnInit {
 
   saveLinks():void
   { 
-    console.log("Link Data",this.linkText,this.linkTitle,this.linkUrl)
+    console.log("Link Data",this.linkText?.trim(),this.linkTitle?.trim(),this.linkUrl?.trim())
     //check url is valid or not
-    if(this.linkUrl===undefined)
+    // const Text=this.linkText?.split(' ').join('').trim()
+    // const Title=this.linkTitle?.split(' ').join('').trim()
+    // console.log("text",Text,"title",Title)
+    if(this.linkUrl?.trim()==='')
     {
         this.inValidUrlMsg="Please provde a  URL"
     }
-    else if(this.linkText===undefined)
+    else if(this.linkText?.trim()==='')
     {
-      this.inValidLinkTitle="Please Provide a Text"
+      this.inValidLinkText="Please Provide a Text"
     }
-    else if(this.linkTitle==undefined)
-    {
-      this.inValidLinkText="Please Provide a Title"
+    else if(this.linkTitle?.trim()==='')
+    { 
+      this.inValidLinkTitle="Please Provide a Title"
     }
-    else{    
+    else
+    {    
     const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     if(this.linkUrl?.match(rex))  
     {
-      // console.log("GOOD")
-      const obj = {
-            linkUrl:this.linkUrl,
-            linkText:this.linkText?.trim(),
-            linkTitle:this.linkTitle?.trim()
-          };
+          // console.log("GOOD")
+          const obj = {
+                linkUrl:this.linkUrl,
+                linkText:this.linkText?.trim(),
+                linkTitle:this.linkTitle?.trim()
+              };
       
           console.log("object ",obj)
           this.savedLinks={...obj}
