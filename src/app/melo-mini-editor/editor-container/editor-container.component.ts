@@ -388,7 +388,6 @@ export class EditorContainerComponent
   * This function is called whenever the mention tab is closed
   */
   mentionClosed(): void {
-    // insert mentions
 
     if (this.tribute !== '') {
       const input = document.createElement('input');
@@ -413,7 +412,6 @@ export class EditorContainerComponent
       this.sel.addRange(range);
       this.tribute = '';
     }
-    //  this.valueInput = true;
   }
 
   /**
@@ -610,6 +608,9 @@ export class EditorContainerComponent
     }
   }
 
+  /**
+   * Function inserts blockquote inside the editor
+   */
   insertBlockQuote(): void {
     if (!this.toolbarConfig.quote) {
       const blockquote = document.createElement('blockquote');
@@ -628,6 +629,9 @@ export class EditorContainerComponent
     }
   }
 
+  /**
+   * Function inserts sup tag inside the editor
+   */
   insertSupTag(): void {
     if(!this.toolbarConfig.superscript) {
       const sup = document.createElement('sup');
@@ -641,7 +645,10 @@ export class EditorContainerComponent
       this.reachTextNode('sup');
     }
   }
-
+  
+  /**
+   * Function inserts sub tag inside the editor
+   */
   insertSubTag(): void {
     if(!this.toolbarConfig.subscript) {
       const sub = document.createElement('sub');
@@ -655,7 +662,7 @@ export class EditorContainerComponent
       this.reachTextNode('sub');
     }
   }
-
+  
   reachTextNode(tagName: string): void {
     const parent = this.getParent(this.sel.anchorNode, tagName);
     const space = document.createElement('text');
