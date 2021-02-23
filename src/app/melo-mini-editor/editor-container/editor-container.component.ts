@@ -449,11 +449,12 @@ export class EditorContainerComponent
     output = output.replace(cS, '');
     let tS = new RegExp('<(/)*(meta|link|\\?xml:|st1:|o:|font)(.*?)>', 'gi');
     output = output.replace(tS, '');
-    const bT = ['style', 'script', 'applet', 'embed', 'noframes', 'noscript', 'html'];
-    // for (let i = 0; i < bT.length; i++) {
-    //   tS = new RegExp('<' + bT[i] + '\\b.*>.*</' + bT[i] + '>', 'gi');
-    //   out = out.replace(tS, '');
-    // }
+    const bT = ['style', 'script', 'applet', 'embed', 'noframes', 'noscript'];
+    // 'html'
+    for (let i = 0; i < bT.length; i++) {
+      tS = new RegExp('<' + bT[i] + '\\b.*>.*</' + bT[i] + '>', 'gi');
+      output = output.replace(tS, '');
+    }
     // console.log('HEREEEEEEEEEEEEEEEEE2', out);
     const bA = ['style', 'start'];
     for (let ii = 0; ii < bA.length; ii++ ) {
