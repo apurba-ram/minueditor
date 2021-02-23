@@ -49,11 +49,13 @@ export class EditorMenuComponent {
 
 
   image: any;
+  fontStyles: string[];
 
   constructor() {
     this.filesArray = [];
     this.fillColor = Array(2).fill(false);
     this.image = null;
+    this.fontStyles = ['verdana', 'arial', 'georgia', 'impact', 'courier new', 'tahoma']
   }
 
   /**
@@ -62,7 +64,7 @@ export class EditorMenuComponent {
    */
   buttonClicked(event: any): void {
     event.stopPropagation();
-    console.log(event);
+    // console.log(event);
     if (event?.target?.dataset?.id) {
           this.buttonClick.emit(event?.target?.dataset);
     }

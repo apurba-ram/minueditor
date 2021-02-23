@@ -9,10 +9,10 @@ import { EditorConfig } from './melo-mini-editor/editor-config-interface';
 })
 export class AppComponent {
   
-  filesFromChild:any=[]
+  filesFromChild:any[] = [];
   title = 'minieditor';
   defValue = 'jdi';
-  modelvalue1 = '';
+  modelvalue1 = 'retetertt';
   modelvalue2 = '';
   editorConfig1: EditorConfig = {
     mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],
@@ -26,17 +26,18 @@ export class AppComponent {
     file: true,
     colorPalette: true,
     toolbarPlacement: 'top',
-    placeholder: 'Please Add Some Text'
+    mode: 'prime',
+    placeholder: 'Please Add Some Text',
+    buttonName: 'Upload'
   };
   
   
 
 //from menu to container
-filesSaved(event: any) {
-  this.filesFromChild = event;
-  console.log("APP COMPONENT",this.filesFromChild);
-  // this.sendSavedFiles.emit(this.filesFromChild)
-  
+filesSaved(event: any[]) {
+  this.filesFromChild = [...this.filesFromChild, ...event];
+  console.log('FILES');
+  console.log(this.filesFromChild);
 }
 
 comment(event: string): void {

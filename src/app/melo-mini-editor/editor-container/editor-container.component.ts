@@ -6,8 +6,6 @@ import {
   EventEmitter,
   OnChanges,
   forwardRef,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   SimpleChanges,
   AfterViewInit,
   OnDestroy,
@@ -18,7 +16,6 @@ import {
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 import { nanoid } from 'nanoid';
-import { NgZone } from '@angular/core';
 @Component({
   selector: 'app-editor-container',
   templateUrl: './editor-container.component.html',
@@ -59,20 +56,20 @@ export class EditorContainerComponent
   toolbarPlacement: 'top' | 'bottom';
   oldRange: any;
   savedLinks: any = []
-
   toolbarConfig: ToolbarConfig;
-
   fontColor: string;
   backgroundColor: string;
   clicked = false;
   morebutton = false;
+  populateFlag: number;
 
-  constructor(private zone: NgZone, private ref: ChangeDetectorRef) {
+  constructor() {
     this.fontColor = 'black';
     this.backgroundColor = 'white';
     this.toolbarPlacement = 'bottom';
     this.placeholder = '';
     this.id = nanoid();
+    this.populateFlag = 0;
     this.resetToolbar();
   }
 
@@ -138,8 +135,13 @@ export class EditorContainerComponent
   onTouch: any = () => { };
 
   set htmlVal(html) {
+   
     if (html !== null && html !== undefined && this.html !== html) {
       this.html = html;
+      if(this.populateFlag === 0 && document.getElementById(this.id)) {
+        ++this.populateFlag;
+        document.getElementById(this.id).innerHTML = this.html;
+      }
       this.onChange(html);
       this.onTouch(html);
     }
@@ -209,16 +211,20 @@ export class EditorContainerComponent
         orderedList: document.queryCommandState('insertorderedList'),
         unorderedList: document.queryCommandState('insertunorderedList'),
         fontColor: this.fontColor,
+        fontStyle: this.getFontStyle(this.sel?.anchorNode),
         backgroundColor: this.backgroundColor,
-        quote: this.checkParent(this.sel.anchorNode, 'blockquote'),
-        superscript: this.checkParent(this.sel.anchorNode, 'sup'),
-        subscript: this.checkParent(this.sel.anchorNode, 'sub')
+        quote: this.checkParent(this.sel?.anchorNode, 'blockquote'),
+        superscript: this.checkParent(this.sel?.anchorNode, 'sup'),
+        subscript: this.checkParent(this.sel?.anchorNode, 'sub')
       };
     } else {
       this.resetToolbar();
     }
   }
 
+  /**
+   * Set the default font color and background color
+   */
   setFontAndbackgroundColor(): void {
     if (this.sel?.baseNode) {
       const node = this.sel.baseNode;
@@ -240,6 +246,21 @@ export class EditorContainerComponent
       this.fontColor = 'black';
       this.backgroundColor = 'white';
     }
+  }
+
+  getFontStyle(elem: any): string {
+    if (elem) {
+      if (elem?.nodeName === 'APP-TEXT-EDITOR') {
+        return '';
+      } else {
+        if (elem?.nodeName === 'FONT') {
+          return elem?.face;
+        } else {
+          return this.getFontStyle(elem?.parentElement);
+        }
+      }
+    }
+    return '';
   }
 
   checkParent(elem: any, tagName: string): boolean {
@@ -616,7 +637,7 @@ export class EditorContainerComponent
         break;
       case 'font-impact': document.execCommand('fontName', false, 'impact');
         break;
-      case 'font-courier': document.execCommand('fontName', false, 'courier');
+      case 'font-courier new': document.execCommand('fontName', false, 'courier');
         break;
       case 'font-tahoma': document.execCommand('fontName', false, 'tahoma');
         break;

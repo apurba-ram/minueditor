@@ -6,6 +6,7 @@ export interface EditorConfig {
     buttonName?: string;
     toolbarPlacement?: 'top' | 'bottom';
     placeholder?: string;
+    mode?: 'basic' | 'prime'
 }
 
 export interface MentionedName {
@@ -23,6 +24,7 @@ export interface ToolbarConfig {
     superscript?: boolean;
     subscript?: boolean;
     quote?: boolean;
+    fontStyle?: string,
     fontColor: string;
     backgroundColor: string;
 }
