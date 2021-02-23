@@ -9,7 +9,6 @@ import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
   selector: 'app-editor-menu',
   templateUrl: './editor-menu.component.html',
   styleUrls: ['./editor-menu.component.less', '../theme.less'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditorMenuComponent {
   @Input() editorConfig: EditorConfig;
