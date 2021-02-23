@@ -480,6 +480,10 @@ export class EditorContainerComponent
     return output;
   }
 
+ /**
+  * 
+  * @param event - Event triggered when one of the options in the toolbar is clicked
+  */
   toolbarClicked(event: any): void {
     try {
       const { startContainer } = this.sel.getRangeAt(0);
