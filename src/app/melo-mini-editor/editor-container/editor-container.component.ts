@@ -450,12 +450,12 @@ export class EditorContainerComponent
     let tS = new RegExp('<(/)*(meta|link|\\?xml:|st1:|o:|font)(.*?)>', 'gi');
     output = output.replace(tS, '');
     const bT = ['style', 'script', 'applet', 'embed', 'noframes', 'noscript'];
-    // 'html'
+
     for (let i = 0; i < bT.length; i++) {
       tS = new RegExp('<' + bT[i] + '\\b.*>.*</' + bT[i] + '>', 'gi');
       output = output.replace(tS, '');
     }
-    // console.log('HEREEEEEEEEEEEEEEEEE2', out);
+
     const bA = ['style', 'start'];
     for (let ii = 0; ii < bA.length; ii++ ) {
       let aS = new RegExp(' ' + bA[ii] + '=[\'|"](.*?)[\'|"]', 'gi');
@@ -463,7 +463,6 @@ export class EditorContainerComponent
       aS = new RegExp(' ' + bA[ii] + '[=0-9a-z]', 'gi');
       output = output.replace(aS, '');
     }
-    console.log('HEREEEEEEEEEEEEEEEEE3', output);
     return output;
   }
 
