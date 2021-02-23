@@ -640,7 +640,43 @@ export class EditorContainerComponent
       case 'font-courier new': document.execCommand('fontName', false, 'courier');
         break;
       case 'font-tahoma': document.execCommand('fontName', false, 'tahoma');
+        break; //8,9,10,11,12,14,18,24,32,36,48
+      case 'fontsize-arial': document.execCommand('fontName', false, 'arial');
         break;
+      case 'fontsize-8': 
+      case 'fontsize-9':       
+      case 'fontsize-10': 
+      case 'fontsize-11':      
+      case 'fontsize-12': 
+      case 'fontsize-14':       
+      case 'fontsize-18': 
+      case 'fontsize-24': 
+      case 'fontsize-32': 
+      case 'fontsize-36': 
+      case 'fontsize-48':  this.setFontSize(id);
+                           break;
+    }
+  }
+
+  /**
+   * 
+   * @param size - Represents the size of the font 
+   */
+  setFontSize(size: string): void {
+    size = size.slice(size.lastIndexOf('-') + 1) + 'px';
+    const container = document.createElement('span');
+    container.setAttribute('style', `font-size: ${size};`);
+    if(!this.oldRange.collapsed) {
+      container.appendChild(this.oldRange.cloneContents());
+      const html = `<span style="font-size: ${size};">${container.innerHTML}</span>`;
+      document.execCommand('insertHTML', false, html);
+    } else {
+      container.setAttribute('style', `font-size: ${size};`);
+      container.innerHTML = '&#8204;';
+      this.oldRange.insertNode(container);
+      this.oldRange.setStart(container, 1);
+      this.oldRange.setEnd(container, 1);
+      this.oldRange.collapse();
     }
   }
 

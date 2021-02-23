@@ -250,7 +250,7 @@
                 </ul>
             </div>
         </div>
-        <!-- font-Style -->
+        <!-- Font-Style -->
         <div class="col" clickOutside (clickOutside)="closeFontStylePopover()" *ngIf="editorConfig?.mode === 'prime'">
             <button (click)="fontStylePopover()" [csTooltip]="'Font Style'" placement="bottom" delay="0" type="black"
                 [tooltipMandatory]="true">
@@ -296,8 +296,8 @@
                 </ul>
             </div>
         </div>
-        <!-- font-Size -->
-        <div class="col" clickOutside (clickOutside)="closeFontSizePopover()">
+        <!-- Font-Size -->
+        <div class="col" clickOutside (clickOutside)="closeFontSizePopover()" *ngIf="editorConfig?.mode === 'prime'">
             <button class="lg" (click)="fontSizePopover()" [csTooltip]="'Font Size'" placement="bottom" delay="0" type="black"
                 [tooltipMandatory]="true">
                 <svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -309,8 +309,8 @@
             </button>
             <div class="popover small" *ngIf="fontSize">
                 <ul class="option-list">
-                    <li *ngFor="let size of [8,9,10,11,12,14,18,24,32,36,48]">
-                        <button>{{size}}</button>
+                    <li *ngFor="let size of [8,9,10,11,12,14,18,24,32,36,48]"  attr.data-id="fontsize-{{size}}" (click)="fontSize = false;">
+                        <button attr.data-id="fontsize-{{size}}">{{size}}</button>
                     </li>
                 </ul>
             </div>
