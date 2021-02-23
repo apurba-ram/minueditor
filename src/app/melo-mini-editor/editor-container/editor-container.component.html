@@ -1,5 +1,5 @@
 <!-- <p>editor-container works!</p> -->
-<div class="editor-container" (blur)="blur()">
+<div class="editor-container" (blur)="blur()" #editorContainer>
     <div class="editable-block" contenteditable="true"
         [class.bottom]="!editorConfig?.toolbarPlacement || editorConfig?.toolbarPlacement === 'bottom'"
         [class.top]="editorConfig?.toolbarPlacement === 'top'" [id]="id" (input)="setValue($event.target.innerText)"
@@ -135,6 +135,6 @@
         [class.top]="editorConfig?.toolbarPlacement === 'top'">
         <app-editor-menu (linkInEditor)="saveLink($event)" (imageInEditor)="saveImage($event)"
             (sendSavedFiles)="saveFiles($event)" (buttonClick)="toolbarClicked($event)" [toolbarConfig]="toolbarConfig"
-            [editorConfig]="editorConfig"></app-editor-menu>
+            [editorConfig]="editorConfig" [moreOptionsButton]="morebutton"></app-editor-menu>
     </div>
 </div>

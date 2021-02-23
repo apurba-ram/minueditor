@@ -12,6 +12,8 @@ import {
   AfterViewInit,
   OnDestroy,
   AfterViewChecked,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
@@ -35,8 +37,9 @@ export class EditorContainerComponent
   @Input() editorConfig: EditorConfig;
   @Output() comment = new EventEmitter<string>();
   @Output() sendSavedFiles = new EventEmitter<any>();//coming from menu to container from container to ap
-  imageToBeShown:any
-  filesFromChild:any
+  @ViewChild('editorContainer') editorContainer!: ElementRef;
+  imageToBeShown: any
+  filesFromChild: any
   html: string;
   innerText: string;
   lastChar: string;
@@ -55,13 +58,14 @@ export class EditorContainerComponent
   mentionedDates: string[];
   toolbarPlacement: 'top' | 'bottom';
   oldRange: any;
-  savedLinks:any=[]
+  savedLinks: any = []
 
   toolbarConfig: ToolbarConfig;
 
   fontColor: string;
   backgroundColor: string;
   clicked = false;
+  morebutton = false;
 
   constructor(private zone: NgZone, private ref: ChangeDetectorRef) {
     this.fontColor = 'black';
@@ -72,7 +76,7 @@ export class EditorContainerComponent
     this.resetToolbar();
   }
 
- 
+
   /**
   * @param event - Event which stores the files that are emitted from the file popup
   */
@@ -84,7 +88,7 @@ export class EditorContainerComponent
   /**
   * @param event - Event which stores the image emitted from the image popup
   */
-  saveImage(event:any): void{
+  saveImage(event: any): void {
     const imgTag = document.createElement('img')
     imgTag.setAttribute('src', event.url);
     this.sel.removeAllRanges();
@@ -98,7 +102,7 @@ export class EditorContainerComponent
   /**
   * @param event - Event which stores the link emitted from the link popup
   */
-  saveLink(event:any) : void{
+  saveLink(event: any): void {
     const anchorTag = document.createElement('a');
     anchorTag.innerHTML = event.linkText;
     anchorTag.setAttribute('href', event.linkUrl);
@@ -114,7 +118,7 @@ export class EditorContainerComponent
     this.sel.removeAllRanges();
     this.sel.addRange(range);
   }
-  
+
   resetToolbar(): void {
     this.toolbarConfig = {
       bold: false,
@@ -131,8 +135,8 @@ export class EditorContainerComponent
     };
   }
 
-  onChange: any = () => {};
-  onTouch: any = () => {};
+  onChange: any = () => { };
+  onTouch: any = () => { };
 
   set htmlVal(html) {
     if (html !== null && html !== undefined && this.html !== html) {
@@ -160,6 +164,13 @@ export class EditorContainerComponent
 
   ngOnInit(): void {
     this.sel = window.getSelection();
+    setTimeout(() => {
+      if (this.editorContainer.nativeElement.offsetWidth > 500) {
+        this.morebutton = false;
+      } else {
+        this.morebutton = true;
+      }
+    }, 5);
   }
 
   ngAfterViewInit(): void {
@@ -168,7 +179,7 @@ export class EditorContainerComponent
       this.selectionChange.bind(this),
       false
     );
-    
+
   }
   immageResize() {
     const imageWidth = document.getElementById('contentimage').offsetWidth;
@@ -207,25 +218,25 @@ export class EditorContainerComponent
   }
 
   setFontAndbackgroundColor(): void {
-    if(this.sel?.baseNode) {
+    if (this.sel?.baseNode) {
       const node = this.sel.baseNode;
-      if(node?.parentNode?.nodeName === 'SPAN' && node?.parentNode?.attributes[0].name === 'style') {
+      if (node?.parentNode?.nodeName === 'SPAN' && node?.parentNode?.attributes[0].name === 'style') {
         let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
         const styleArray: string[] = styleAttrib.split(';');
-        for(const style of styleArray) {
-           if(style.indexOf('background-color:') > -1) {
+        for (const style of styleArray) {
+          if (style.indexOf('background-color:') > -1) {
             this.backgroundColor = style.substring(style.indexOf(':') + 1).trim();
-          } else if(style.indexOf('color:') > -1) {
+          } else if (style.indexOf('color:') > -1) {
             this.fontColor = style.substring(style.indexOf(':') + 1).trim();
-          } 
+          }
         }
       } else {
         this.fontColor = 'black';
         this.backgroundColor = 'white';
       }
     } else {
-        this.fontColor = 'black';
-        this.backgroundColor = 'white';
+      this.fontColor = 'black';
+      this.backgroundColor = 'white';
     }
   }
 
@@ -331,7 +342,7 @@ export class EditorContainerComponent
       document.getElementById(`${this.id}`).focus();
     }
   }
-   
+
   /**
   * @param event - This parameter is an event that is occurred whenever we make changes inside the div contenteditable
   */
@@ -347,7 +358,7 @@ export class EditorContainerComponent
     }
     this.lastChar = this.getPrecedingCharacter(
       window.getSelection().anchorNode
-    
+
     ); // gets the last input character
 
     if (this.format && this.startOffset && this.tribute) {
@@ -420,7 +431,7 @@ export class EditorContainerComponent
       document.execCommand('insertHtml', false, pastedText);
     } else {
       // console.log('HERE', pastedHtml);
-      pastedHtml = pastedHtml.replace(regexStyle, (match: any) =>  '');
+      pastedHtml = pastedHtml.replace(regexStyle, (match: any) => '');
       const rexa = /href=".*?"/g; // match all a href
       pastedHtml = pastedHtml.replace(rexa, (match: any) => {
         const str = ' target="_blank" rel="noopener noreferrer"';
@@ -433,11 +444,11 @@ export class EditorContainerComponent
   toolbarClicked(event: any): void {
     try {
       const { startContainer } = this.sel.getRangeAt(0);
-      if(this.checkValidOperation(startContainer)) {
-        
+      if (this.checkValidOperation(startContainer)) {
+
         if (this.oldRange) {
 
-          if(this.oldRange.collapsed) {
+          if (this.oldRange.collapsed) {
 
             this.sel.removeAllRanges();
             const range = this.oldRange.cloneRange();
@@ -454,7 +465,7 @@ export class EditorContainerComponent
       } else {
         this.focus();
       }
-    } catch(err) {
+    } catch (err) {
       this.focus();
     }
     this.toolbarOperations(event?.id, event?.value);
@@ -474,16 +485,16 @@ export class EditorContainerComponent
       }
     }
     switch (id) {
-      case 'h1': 
-      case 'h2': 
+      case 'h1':
+      case 'h2':
       case 'h3': document.execCommand('formatBlock', false, id.toUpperCase());
-                 break; 
+        break;
       case 'para': document.execCommand('formatBlock', false, 'p');
-                   break; 
+        break;
       case 'superscript': this.insertSupTag();
-                        break;
+        break;
       case 'subscript': this.insertSubTag();
-                        break;
+        break;
       case 'bold':
         document.execCommand('bold', false, '');
         break;
@@ -526,35 +537,35 @@ export class EditorContainerComponent
       case 'fillColor':
         document.execCommand('styleWithCSS', false, '');
         document.execCommand('hiliteColor', false, value);
-        if(!this.sel.getRangeAt(0).collapsed) {
+        if (!this.sel.getRangeAt(0).collapsed) {
           this.sel.getRangeAt(0).collapse();
         }
         break;
       case 'textColor':
         document.execCommand('styleWithCSS', false, '');
         document.execCommand('foreColor', false, value);
-        if(!this.sel.getRangeAt(0).collapsed) {
+        if (!this.sel.getRangeAt(0).collapsed) {
           this.sel.getRangeAt(0).collapse();
         }
         break;
-      case '@': this.insertTribute('@'); 
-                break;
-      case '#': this.insertTribute('#'); 
-                break;
+      case '@': this.insertTribute('@');
+        break;
+      case '#': this.insertTribute('#');
+        break;
       case 'submit': this.commentAction();
-                     break;
+        break;
       case 'font-verdana': document.execCommand('fontName', false, 'verdana');
-                           break;
+        break;
       case 'font-arial': document.execCommand('fontName', false, 'arial');
-                         break;
+        break;
       case 'font-georgia': document.execCommand('fontName', false, 'georgia');
-                           break;
+        break;
       case 'font-impact': document.execCommand('fontName', false, 'impact');
-                          break;
+        break;
       case 'font-courier': document.execCommand('fontName', false, 'courier');
-                           break;
+        break;
       case 'font-tahoma': document.execCommand('fontName', false, 'tahoma');
-                          break;
+        break;
     }
   }
 
@@ -565,7 +576,7 @@ export class EditorContainerComponent
       blockquote.innerHTML = '&#8204;';
       const div = document.createElement('div');
       div.appendChild(document.createElement('br'));
-      const range =  this.sel.getRangeAt(0);
+      const range = this.sel.getRangeAt(0);
       range.insertNode(div);
       range.insertNode(blockquote);
       range.setStart(blockquote, 0);
@@ -577,7 +588,7 @@ export class EditorContainerComponent
   }
 
   insertSupTag(): void {
-    if(!this.toolbarConfig.superscript) {
+    if (!this.toolbarConfig.superscript) {
       const sup = document.createElement('sup');
       sup.innerHTML = '&#8204;';
       const range = this.sel.getRangeAt(0);
@@ -591,7 +602,7 @@ export class EditorContainerComponent
   }
 
   insertSubTag(): void {
-    if(!this.toolbarConfig.subscript) {
+    if (!this.toolbarConfig.subscript) {
       const sub = document.createElement('sub');
       sub.innerHTML = '&#8204;';
       const range = this.sel.getRangeAt(0);

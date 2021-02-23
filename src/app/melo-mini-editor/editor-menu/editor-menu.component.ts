@@ -15,6 +15,7 @@ import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 export class EditorMenuComponent implements OnInit {
   @Input() editorConfig: EditorConfig;
   @Input() toolbarConfig: ToolbarConfig;
+  @Input() moreOptionsButton: boolean;
   @Output() buttonClick: EventEmitter<any> = new EventEmitter();
   @Output() sendSavedFiles: EventEmitter<any> = new EventEmitter();
   @Output() imageInEditor: EventEmitter<any> = new EventEmitter();
