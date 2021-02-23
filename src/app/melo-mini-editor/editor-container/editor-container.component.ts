@@ -455,11 +455,16 @@ export class EditorContainerComponent
     const clipboardData = event.clipboardData;
     let pastedHtml = clipboardData.getData('text/html');
     let pastedText = clipboardData.getData('text');
-    const regexStyle = /style=".+?"/g; // matching all inline styles
+    const rexa = /href=".*?"/g; // match all a href
 
     if(event.clipboardData.types.indexOf('text/rtf') > -1) {
       // Paste from word
       pastedHtml = this.cleanPaste(pastedHtml);
+      pastedHtml = pastedHtml.replace(rexa, (match: any) => {
+        const str = ' target="_blank" rel="noopener noreferrer"';
+        return match + str;
+      });
+     //  pastedHtml = this.cleanPaste(pastedHtml);
       document.execCommand('insertHtml', false, pastedHtml);
     } else if (event.clipboardData.types.indexOf('text/html') === -1) {
 
@@ -471,8 +476,6 @@ export class EditorContainerComponent
       document.execCommand('insertHtml', false, pastedText);
     } else {
       // HTML Paste
-      // pastedHtml = pastedHtml.replace(regexStyle, (match: any) =>  '');
-      const rexa = /href=".*?"/g; // match all a href
       pastedHtml = pastedHtml.replace(rexa, (match: any) => {
         const str = ' target="_blank" rel="noopener noreferrer"';
         return match + str;
