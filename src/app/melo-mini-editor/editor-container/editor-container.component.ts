@@ -402,7 +402,7 @@ export class EditorContainerComponent
         this.focused=false
         console.log("BLUR",this.blured,this.focused)
         
-          // console.log(event.target)
+          console.log(event.target)
       })
 
 
