@@ -111,7 +111,6 @@ export class EditorContainerComponent
     range.insertNode(anchorTag);
     range.setStartAfter(anchorTag);
     range.collapse();
-    this.sel.removeAllRanges();
     this.sel.addRange(range);
   }
   
@@ -183,7 +182,10 @@ export class EditorContainerComponent
       false
     );
   }
-
+ /**
+  * 
+  * @param event - Event fired whenever there is a slection change
+  */
   selectionChange(event: any): void {
     if (document.activeElement === document.getElementById(this.id)) {
       this.oldRange = this.sel.getRangeAt(0).cloneRange();
@@ -300,7 +302,10 @@ export class EditorContainerComponent
       }
     }
   }
-
+  /**
+  * 
+  * @param container - Get the last character from editor
+  */
   getPrecedingCharacter(container: any): string {
     if (this.sel) {
       const r = this.sel.getRangeAt(0).cloneRange();
@@ -310,6 +315,10 @@ export class EditorContainerComponent
     return '';
   }
 
+  /**
+   * 
+   * @param elem - Check if the operation applied belongs to the particular instance of editor
+   */
   checkValidOperation(elem: any): boolean {
     if (elem) {
       if (elem === document.getElementById(this.id)) {
@@ -321,11 +330,16 @@ export class EditorContainerComponent
       return false;
     }
   }
-
+  /**
+   * When editor is blurred
+   */
   blur(): void {
     this.oldRange = this.sel.getRangeAt(0).cloneRange(); // to store the range when element is blurred
   }
 
+  /**
+   * Focus on the editor
+   */
   focus(): void {
     if (document.getElementById(`${this.id}`)) {
       document.getElementById(`${this.id}`).focus();
