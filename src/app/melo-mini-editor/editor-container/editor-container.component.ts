@@ -35,8 +35,8 @@ export class EditorContainerComponent
   @Input() editorConfig: EditorConfig;
   @Output() comment = new EventEmitter<string>();
   @Output() sendSavedFiles = new EventEmitter<any>();//coming from menu to container from container to ap
-  imageToBeShown:any
-  filesFromChild:any
+  imageToBeShown: any
+  filesFromChild: any
   html: string;
   innerText: string;
   lastChar: string;
@@ -55,14 +55,14 @@ export class EditorContainerComponent
   mentionedDates: string[];
   toolbarPlacement: 'top' | 'bottom';
   oldRange: any;
-  savedLinks:any=[]
-  showResizeDiv:boolean=false
+  savedLinks: any = []
+  showResizeDiv: boolean = false
   toolbarConfig: ToolbarConfig;
   fontColor: string;
   backgroundColor: string;
-  ResizableNumber:number=0
-  ResizeClicked:boolean=false
-  PrevIousImage:number
+  ResizableNumber: number = 0
+  ResizeClicked: boolean = false
+  PrevIousImage: number
   clicked = false;
 
   constructor(private zone: NgZone, private ref: ChangeDetectorRef) {
@@ -74,7 +74,7 @@ export class EditorContainerComponent
     this.resetToolbar();
   }
 
- 
+
   /**
   * @param event - Event which stores the files that are emitted from the file popup
   */
@@ -83,11 +83,10 @@ export class EditorContainerComponent
     this.sendSavedFiles.emit(event);
   }
 
-//show image in ediotr
-  saveImg($event:any)
-  {
+  //show image in ediotr
+  saveImg($event: any) {
     console.log("image save")
-    this.imageToBeShown=$event
+    this.imageToBeShown = $event
     // console.log("Image from menu to container",this.imageToBeShown)
 
     const id = (() => {
@@ -97,49 +96,49 @@ export class EditorContainerComponent
       return '_' + Math.random().toString(36).substr(2, 9);
     })();
     console.log('ID', id);
-    const ResizableDiv=document.createElement('div')//outer most div 
-    ResizableDiv.setAttribute('class','image-container ');
-    ResizableDiv.setAttribute('tabindex','0');
+    const ResizableDiv = document.createElement('div')//outer most div 
+    ResizableDiv.setAttribute('class', 'image-container ');
+    ResizableDiv.setAttribute('tabindex', '0');
     ResizableDiv.setAttribute('id', id);
     ResizableDiv.setAttribute('contenteditable', 'false');
 
-    
+
     const ResizerDiv = document.createElement('div');
-    ResizerDiv.setAttribute('class','ResizerDiv');
+    ResizerDiv.setAttribute('class', 'ResizerDiv');
 
-   
-    const ResizerLeftTop=document.createElement('div');
-    ResizerLeftTop.setAttribute('class','resize-pointer top-left');
-    ResizerLeftTop.setAttribute('draggable','true')
-    ResizerLeftTop.setAttribute('id','LT'+id);
 
-    const ResizerRightTop=document.createElement('div')
-    ResizerRightTop.setAttribute('class','resize-pointer top-right')
-    ResizerRightTop.setAttribute('draggable','true')
-    ResizerRightTop.setAttribute('id', 'RT'+id);
+    const ResizerLeftTop = document.createElement('div');
+    ResizerLeftTop.setAttribute('class', 'resize-pointer top-left');
+    ResizerLeftTop.setAttribute('draggable', 'true')
+    ResizerLeftTop.setAttribute('id', 'LT' + id);
 
-    const ResizerLeftBottom=document.createElement('div')
-    ResizerLeftBottom.setAttribute('class','resize-pointer bottom-left')
-    ResizerLeftBottom.setAttribute('class','resize-pointer bottom-left')
-    ResizerLeftBottom.setAttribute('draggable','true')
+    const ResizerRightTop = document.createElement('div')
+    ResizerRightTop.setAttribute('class', 'resize-pointer top-right')
+    ResizerRightTop.setAttribute('draggable', 'true')
+    ResizerRightTop.setAttribute('id', 'RT' + id);
+
+    const ResizerLeftBottom = document.createElement('div')
+    ResizerLeftBottom.setAttribute('class', 'resize-pointer bottom-left')
+    ResizerLeftBottom.setAttribute('class', 'resize-pointer bottom-left')
+    ResizerLeftBottom.setAttribute('draggable', 'true')
     ResizerLeftBottom.setAttribute('id', 'LB' + id);
-    
-    const ResizerRightBottom=document.createElement('div')
-    ResizerRightBottom.setAttribute('class','resize-pointer bottom-right')
-    ResizerRightBottom.setAttribute('draggable','true')
+
+    const ResizerRightBottom = document.createElement('div')
+    ResizerRightBottom.setAttribute('class', 'resize-pointer bottom-right')
+    ResizerRightBottom.setAttribute('draggable', 'true')
     ResizerRightBottom.setAttribute('id', 'RB' + id);
     //this is img tag to show image in the resizer div
-    const imgTag= document.createElement('img')
-    imgTag.setAttribute('class',"EdiotorImage")
+    const imgTag = document.createElement('img')
+    imgTag.setAttribute('class', "EdiotorImage")
     // imgTag.setAttribute('id','editableImg')
     // imgTag.setAttribute('style','resize: both')
     // imgTag.setAttribute('style','overflow:auto')
-    imgTag.setAttribute('style','cursor:pointer')
+    imgTag.setAttribute('style', 'cursor:pointer')
     // imgTag.style.width=200+"px"
     // imgTag.style.height=200+"px"
-    imgTag.setAttribute('src',this.imageToBeShown[(this.imageToBeShown.length-1)].imgUrl)
-  
-  
+    imgTag.setAttribute('src', this.imageToBeShown[(this.imageToBeShown.length - 1)].imgUrl)
+
+
 
 
     ResizerDiv.appendChild(ResizerLeftBottom);
@@ -150,21 +149,21 @@ export class EditorContainerComponent
 
     ResizableDiv.appendChild(ResizerDiv);
 
-    ResizableDiv.addEventListener('blur',(event: any)=>{
+    ResizableDiv.addEventListener('blur', (event: any) => {
       console.log('BLUR', event.target.id);
     });
 
-    ResizableDiv.addEventListener('focus',(event: any)=>{
+    ResizableDiv.addEventListener('focus', (event: any) => {
       console.log('FOCUS', event.target.id);
 
     });
 
     document.getElementsByClassName('editable-block')[0].appendChild(ResizableDiv);
     return;
-   
 
-    console.log("image",imgTag)
-    this.ResizableNumber=this.ResizableNumber+1
+
+    console.log("image", imgTag)
+    this.ResizableNumber = this.ResizableNumber + 1
 
     const element1 = document.querySelector('.EdiotorImage')
 
@@ -173,251 +172,246 @@ export class EditorContainerComponent
 
   }
 
-  imageResize(event)
-  {
-    
-  }
-  
-  
-  
+  imageResize(event) {
 
-  saveLinkndShowInEditor($event:any)
-  {
-    console.log("event",$event)
-    const obj={
-              linkUrl:$event.linkUrl,
-              linkTitle:$event.linkTitle,
-              linkText:$event.linkText
-         }
-          this.savedLinks.push(obj)
-        console.log("Links in container",this.savedLinks[this.savedLinks.length-1])
-        const anchonrTag=document.createElement('a')
-        anchonrTag.innerHTML=this.savedLinks[this.savedLinks.length-1].linkText
-        anchonrTag.setAttribute('href',this.savedLinks[this.savedLinks.length-1].linkUrl)
-        anchonrTag.setAttribute('title',this.savedLinks[this.savedLinks.length-1].linkTitle)
-        console.log("anchor tag",anchonrTag)
-        document.getElementsByClassName('editable-block')[0].appendChild(anchonrTag)
+  }
+
+
+
+
+  saveLinkndShowInEditor($event: any) {
+    console.log("event", $event)
+    const obj = {
+      linkUrl: $event.linkUrl,
+      linkTitle: $event.linkTitle,
+      linkText: $event.linkText
+    }
+    this.savedLinks.push(obj)
+    console.log("Links in container", this.savedLinks[this.savedLinks.length - 1])
+    const anchonrTag = document.createElement('a')
+    anchonrTag.innerHTML = this.savedLinks[this.savedLinks.length - 1].linkText
+    anchonrTag.setAttribute('href', this.savedLinks[this.savedLinks.length - 1].linkUrl)
+    anchonrTag.setAttribute('title', this.savedLinks[this.savedLinks.length - 1].linkTitle)
+    console.log("anchor tag", anchonrTag)
+    document.getElementsByClassName('editable-block')[0].appendChild(anchonrTag)
   }
   /**
   * @param event - Event which stores the image emitted from the image popup
   */
-  saveImage(event:any): void{
+  saveImage(event: any): void {
 
-      //generate random id
-       
-      // const id = (() => {
-       
-      //   return '_' + Math.random().toString(36).substr(2, 9);
-      // })();
-      // console.log('ID', id);
+    //generate random id
 
-       const imgContainer=document.createElement('div')
-       imgContainer.setAttribute('contenteditable','false')
-       imgContainer.setAttribute('class','image-container ')
-       imgContainer.setAttribute('id','image-container');
+    // const id = (() => {
 
-       const imgTag = document.createElement('img')
-       imgContainer.appendChild(imgTag)
-       imgContainer.setAttribute('tabindex','0')
-       imgTag.setAttribute('src', event.url);
-       imgTag.setAttribute('id','contentimage')
-       imgTag.setAttribute('width','100%')
-       imgTag.setAttribute('height','auto')
- 
-       this.sel.removeAllRanges();
-       const range = this.oldRange.cloneRange();
-       range.insertNode(imgContainer);
-       range.setStartAfter(imgContainer);
-       range.collapse();
-       this.sel.addRange(range);
- 
-      //create resizers if not exists 
-      const ResizerDiv=document.getElementById('resizerDiv')
-      console.log("Image ResizerDiv",ResizerDiv)
+    //   return '_' + Math.random().toString(36).substr(2, 9);
+    // })();
+    // console.log('ID', id);
 
-      if(ResizerDiv===null)
-      {
-        const ResizerDiv=document.createElement('div')          
-        ResizerDiv.setAttribute('id','resizerDiv')
+    const imgContainer = document.createElement('div')
+    imgContainer.setAttribute('contenteditable', 'false')
+    imgContainer.setAttribute('class', 'image-container ')
+    imgContainer.setAttribute('id', 'image-container');
 
+    const imgTag = document.createElement('img')
+    imgContainer.appendChild(imgTag)
+    imgContainer.setAttribute('tabindex', '0')
+    imgTag.setAttribute('src', event.url);
+    imgTag.setAttribute('id', 'contentimage')
+    imgTag.setAttribute('width', '100%')
+    imgTag.setAttribute('height', 'auto')
 
-        const topHandle=document.createElement('div')
-        topHandle.setAttribute('class','resize-pointer top ')
-        topHandle.setAttribute('draggable','true')
-        topHandle.setAttribute('id','top')
-  
-        const leftHandle=document.createElement('div')
-        leftHandle.setAttribute('class','resize-pointer left ')
-        leftHandle.setAttribute('draggable','true')
-        leftHandle.setAttribute('id','left')
-  
-        const rightHandle=document.createElement('div')
-        rightHandle.setAttribute('class','resize-pointer right ')
-        rightHandle.setAttribute('draggable','true')
-        rightHandle.setAttribute('id','right')
-  
-        const bottomHandle=document.createElement('div')
-        bottomHandle.setAttribute('class','resize-pointer bottom ')
-        bottomHandle.setAttribute('draggable','true')
-        bottomHandle.setAttribute('id','bottom')
-  
-        const bottomLeftHandle=document.createElement('div')
-        bottomLeftHandle.setAttribute('class','resize-pointer bottom-left  ')
-        bottomLeftHandle.setAttribute('draggable','true')
-        bottomLeftHandle.setAttribute('id','bottom-left')
-  
-        
-        const topLeftHandle=document.createElement('div')
-        topLeftHandle.setAttribute('class','resize-pointer top-left  ')
-        topLeftHandle.setAttribute('draggable','true')
-        topLeftHandle.setAttribute('id','top-left')
-  
-        
-        const bottomRightHandle=document.createElement('div')
-        bottomRightHandle.setAttribute('class','resize-pointer bottom-right')
-        bottomRightHandle.setAttribute('draggable','true')
-        bottomRightHandle.setAttribute('id','bottom-right')
-  
-        const topRightHandle=document.createElement('div')
-        topRightHandle.setAttribute('class','resize-pointer top-right')
-        topRightHandle.setAttribute('draggable','true')
-        topRightHandle.setAttribute('id','top-right')
+    this.sel.removeAllRanges();
+    const range = this.oldRange.cloneRange();
+    range.insertNode(imgContainer);
+    range.setStartAfter(imgContainer);
+    range.collapse();
+    this.sel.addRange(range);
 
+    //create resizers if not exists 
+    const ResizerDiv = document.getElementById('resizerDiv')
+    console.log("Image ResizerDiv", ResizerDiv)
 
+    if (ResizerDiv === null) {
+      const ResizerDiv = document.createElement('div');
+      ResizerDiv.setAttribute('id', 'resizerDiv');
 
-        ResizerDiv.appendChild(leftHandle)
-        ResizerDiv.appendChild(rightHandle)
-        ResizerDiv.appendChild(topHandle)
-        ResizerDiv.appendChild(bottomHandle)
-        ResizerDiv.appendChild(topLeftHandle)
-        ResizerDiv.appendChild(topRightHandle)
-        ResizerDiv.appendChild(bottomLeftHandle)
-        ResizerDiv.appendChild(bottomRightHandle)
+      const topHandle = document.createElement('div');
+      topHandle.setAttribute('class', 'resize-pointer top ');
+      topHandle.setAttribute('draggable', 'true');
+      topHandle.setAttribute('id', 'top');
+      topHandle.setAttribute('contenteditable', 'false');
 
-        document.getElementsByClassName('editable-block')[0].appendChild(ResizerDiv)
-        
-        console.log("handles created",ResizerDiv)
-      }
+      const leftHandle = document.createElement('div');
+      leftHandle.setAttribute('class', 'resize-pointer left ');
+      leftHandle.setAttribute('draggable', 'true');
+      leftHandle.setAttribute('id', 'left');
+      leftHandle.setAttribute('contenteditable', 'false');
 
-      //image focus
-      imgContainer.addEventListener('focus',(event: any)=>{
-          console.log(event.target);
-          const imageRatio = event.target.getBoundingClientRect();
+      const rightHandle = document.createElement('div');
+      rightHandle.setAttribute('class', 'resize-pointer right ');
+      rightHandle.setAttribute('draggable', 'true');
+      rightHandle.setAttribute('id', 'right');
+      rightHandle.setAttribute('contenteditable', 'false');
 
-          const minimum_size = 20;
-          let original_width = 0;
-          let original_height = 0;
-          let original_x = 0;
-          let original_y = 0;
-          let original_mouse_x = 0;
-          let original_mouse_y = 0;
+      const bottomHandle = document.createElement('div');
+      bottomHandle.setAttribute('class', 'resize-pointer bottom ');
+      bottomHandle.setAttribute('draggable', 'true');
+      bottomHandle.setAttribute('id', 'bottom');
+      bottomHandle.setAttribute('contenteditable', 'false');
 
+      const bottomLeftHandle = document.createElement('div');
+      bottomLeftHandle.setAttribute('class', 'resize-pointer bottom-left  ');
+      bottomLeftHandle.setAttribute('draggable', 'true');
+      bottomLeftHandle.setAttribute('id', 'bottom-left');
+      bottomLeftHandle.setAttribute('contenteditable', 'false');
 
-          document.getElementById('resizerDiv').style.position="fixed";
-          document.getElementById('resizerDiv').style.left=imageRatio.left+"px";
-          document.getElementById('resizerDiv').style.top=imageRatio.top+"px";
-          document.getElementById('resizerDiv').style.border=2+"px solid green";
-          document.getElementById('resizerDiv').style.width=imageRatio.width+"px";
-          document.getElementById('resizerDiv').style.height=imageRatio.height+"px";
+      const topLeftHandle = document.createElement('div');
+      topLeftHandle.setAttribute('class', 'resize-pointer top-left  ');
+      topLeftHandle.setAttribute('draggable', 'true');
+      topLeftHandle.setAttribute('id', 'top-left');
+      topLeftHandle.setAttribute('contenteditable', 'false');
 
-          document.getElementById('top').style.background="green";
-          document.getElementById('top').style.width=10+"px";
-          document.getElementById('top').style.height=10+"px";
-          document.getElementById('top').style.position="fixed";
-          document.getElementById('top').style.top=imageRatio.top - 3+"px";
-          document.getElementById('top').style.left=imageRatio.left + (imageRatio.width/2) - 5+"px";
+      const bottomRightHandle = document.createElement('div');
+      bottomRightHandle.setAttribute('class', 'resize-pointer bottom-right');
+      bottomRightHandle.setAttribute('draggable', 'true');
+      bottomRightHandle.setAttribute('id', 'bottom-right');
+      bottomRightHandle.setAttribute('contenteditable', 'false');
 
-          document.getElementById('bottom').style.background="green";
-          document.getElementById('bottom').style.width=10+"px";
-          document.getElementById('bottom').style.height=10+"px";
-          document.getElementById('bottom').style.position="fixed";
-          document.getElementById('bottom').style.top=imageRatio.top + imageRatio.height+"px";
-          document.getElementById('bottom').style.left=imageRatio.left + (imageRatio.width/2) - 5+"px";
+      const topRightHandle = document.createElement('div');
+      topRightHandle.setAttribute('class', 'resize-pointer top-right');
+      topRightHandle.setAttribute('draggable', 'true');
+      topRightHandle.setAttribute('id', 'top-right');
+      topRightHandle.setAttribute('contenteditable', 'false');
+
+      ResizerDiv.appendChild(leftHandle)
+      ResizerDiv.appendChild(rightHandle)
+      ResizerDiv.appendChild(topHandle)
+      ResizerDiv.appendChild(bottomHandle)
+      ResizerDiv.appendChild(topLeftHandle)
+      ResizerDiv.appendChild(topRightHandle)
+      ResizerDiv.appendChild(bottomLeftHandle)
+      ResizerDiv.appendChild(bottomRightHandle)
+
+      document.getElementsByClassName('editable-block')[0].appendChild(ResizerDiv)
+
+      console.log("handles created", ResizerDiv)
+    }
+
+    //image focus
+    imgContainer.addEventListener('focus', (event: any) => {
+      console.log(event.target);
+      const imageRatio = event.target.getBoundingClientRect();
+
+      // const minimum_size = 20;
+      let original_width = 0;
+      let original_height = 0;
+      let original_x = 0;
+      let original_y = 0;
+      let original_mouse_x = 0;
+      let original_mouse_y = 0;
 
 
-          document.getElementById('left').style.background="green"
-          document.getElementById('left').style.width=10+"px"
-          document.getElementById('left').style.height=10+"px"
-          document.getElementById('left').style.position="fixed"
-          document.getElementById('left').style.top=imageRatio.top + (imageRatio.height/2) - 3+"px"
-          document.getElementById('left').style.left=imageRatio.left+"px";
+      document.getElementById('resizerDiv').style.position = "fixed";
+      document.getElementById('resizerDiv').style.left = imageRatio.left + "px";
+      document.getElementById('resizerDiv').style.top = imageRatio.top + "px";
+      document.getElementById('resizerDiv').style.border = 2 + "px solid green";
+      document.getElementById('resizerDiv').style.width = imageRatio.width + "px";
+      document.getElementById('resizerDiv').style.height = imageRatio.height + "px";
+      document.getElementById('resizerDiv').style.maxWidth = imageRatio.height + "px";
+      document.getElementById('resizerDiv').style.maxHeight = imageRatio.height + "px";
+
+      document.getElementById('top').style.background = "green";
+      document.getElementById('top').style.width = 10 + "px";
+      document.getElementById('top').style.height = 10 + "px";
+      document.getElementById('top').style.position = "fixed";
+      document.getElementById('top').style.top = imageRatio.top - 3 + "px";
+      document.getElementById('top').style.left = imageRatio.left + (imageRatio.width / 2) - 5 + "px";
+
+      document.getElementById('bottom').style.background = "green";
+      document.getElementById('bottom').style.width = 10 + "px";
+      document.getElementById('bottom').style.height = 10 + "px";
+      document.getElementById('bottom').style.position = "fixed";
+      document.getElementById('bottom').style.top = imageRatio.top + imageRatio.height + "px";
+      document.getElementById('bottom').style.left = imageRatio.left + (imageRatio.width / 2) - 5 + "px";
 
 
-          document.getElementById('right').style.background="green"
-          document.getElementById('right').style.width=10+"px"
-          document.getElementById('right').style.height=10+"px"
-          document.getElementById('right').style.position="fixed"
-          document.getElementById('right').style.top=imageRatio.top + (imageRatio.height/2) - 3+"px"
-          document.getElementById('right').style.left=imageRatio.left + imageRatio.width - 3+"px";
+      document.getElementById('left').style.background = "green"
+      document.getElementById('left').style.width = 10 + "px"
+      document.getElementById('left').style.height = 10 + "px"
+      document.getElementById('left').style.position = "fixed"
+      document.getElementById('left').style.top = imageRatio.top + (imageRatio.height / 2) - 3 + "px"
+      document.getElementById('left').style.left = imageRatio.left + "px";
 
 
-
-
-
-            // document.getElementsByClassName('bottom-right')[0].style.possition="absolute"
-            // document.getElementsByClassName('bottom-right')[0].style.left=bottomPos
-          
-
-            document.getElementsByClassName('bottom-right')[0].addEventListener('mousedown', function(e: any) {
-            e.preventDefault()
-            console.log("Mouse down")
-            original_width = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('width').replace('px', ''));
-            original_height = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('height').replace('px', ''));
-            original_x = imgContainer.getBoundingClientRect().left;
-            original_y = imgContainer.getBoundingClientRect().top;
-            original_mouse_x = e.pageX;
-            original_mouse_y = e.pageY;
-            window.addEventListener('mousemove', resize)
-            window.addEventListener('mouseup', stopResize)
-          })
-
-
-          function resize(e)
-          {
-            console.log("Mouse Move")
-            const width = original_width + (e.pageX - original_mouse_x);
-            const height = original_height + (e.pageY - original_mouse_y)
-            imgContainer.style.width = width + 'px'
-            imgContainer.style.height = height + 'px'
-            // if (width > minimum_size) {
-            //   spanContainer.style.width = width + 'px'
-            // }
-            // if (height > minimum_size) {
-            //   spanContainer.style.height = height + 'px'
-            // }
-          }
-      
-  
-          function stopResize() {
-            console.log("Remove listener")
-            window.removeEventListener('mousemove', resize)
-          }
+      document.getElementById('right').style.background = "green"
+      document.getElementById('right').style.width = 10 + "px"
+      document.getElementById('right').style.height = 10 + "px"
+      document.getElementById('right').style.position = "fixed"
+      document.getElementById('right').style.top = imageRatio.top + (imageRatio.height / 2) - 3 + "px"
+      document.getElementById('right').style.left = imageRatio.left + imageRatio.width - 3 + "px";
 
 
 
-
-          
-          
-      } )
-
-      //image blur
-      imgContainer.addEventListener('blur',(event: any)=>{
-          console.log("BLUR")
-
+      document.getElementsByClassName('bottom-right')[0].addEventListener('mousedown', function (e: any) {
+        e.preventDefault()
+        console.log("Mouse down")
+        original_width = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('width').replace('px', ''));
+        original_height = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('height').replace('px', ''));
+        original_x = imgContainer.getBoundingClientRect().left;
+        original_y = imgContainer.getBoundingClientRect().top;
+        original_mouse_x = e.pageX;
+        original_mouse_y = e.pageY;
+        window.addEventListener('mousemove', resize)
+        window.addEventListener('mouseup', stopResize)
       })
 
 
+      function resize(e) {
+        console.log("Mouse Move")
+        const width = original_width + (e.pageX - original_mouse_x);
+        const height = original_height + (e.pageY - original_mouse_y)
+        imgContainer.style.width = width + 'px'
+        imgContainer.style.height = height + 'px'
+        // if (width > minimum_size) {
+        //   spanContainer.style.width = width + 'px'
+        // }
+        // if (height > minimum_size) {
+        //   spanContainer.style.height = height + 'px'
+        // }
+      }
+
+
+      function stopResize() {
+        console.log("Remove listener")
+        window.removeEventListener('mousemove', resize)
+      }
 
 
 
-      
-      
+
+
+
+    })
+
+    //image blur
+    imgContainer.addEventListener('blur', (event: any) => {
+      console.log("BLUR")
+
+    })
 
 
 
 
 
-      //create image container
+
+
+
+
+
+
+
+    //create image container
     /*  console.log("Image save THIS IS LIFE")
       const imgContainer=document.createElement('div')
       imgContainer.setAttribute('contenteditable','false')
@@ -671,15 +665,15 @@ export class EditorContainerComponent
 
 
   */
-      
-  
+
+
 
   }
 
   /**
   * @param event - Event which stores the link emitted from the link popup
   */
-  saveLink(event:any) : void{
+  saveLink(event: any): void {
     const anchorTag = document.createElement('a');
     anchorTag.innerHTML = event.linkText;
     anchorTag.setAttribute('href', event.linkUrl);
@@ -695,7 +689,7 @@ export class EditorContainerComponent
     this.sel.removeAllRanges();
     this.sel.addRange(range);
   }
-  
+
   resetToolbar(): void {
     this.toolbarConfig = {
       bold: false,
@@ -712,8 +706,8 @@ export class EditorContainerComponent
     };
   }
 
-  onChange: any = () => {};
-  onTouch: any = () => {};
+  onChange: any = () => { };
+  onTouch: any = () => { };
 
   set htmlVal(html) {
     if (html !== null && html !== undefined && this.html !== html) {
@@ -749,7 +743,7 @@ export class EditorContainerComponent
       this.selectionChange.bind(this),
       false
     );
-    
+
   }
   immageResize() {
     const imageWidth = document.getElementById('contentimage').offsetWidth;
@@ -788,25 +782,25 @@ export class EditorContainerComponent
   }
 
   setFontAndbackgroundColor(): void {
-    if(this.sel?.baseNode) {
+    if (this.sel?.baseNode) {
       const node = this.sel.baseNode;
-      if(node?.parentNode?.nodeName === 'SPAN' && node?.parentNode?.attributes[0].name === 'style') {
+      if (node?.parentNode?.nodeName === 'SPAN' && node?.parentNode?.attributes[0].name === 'style') {
         let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
         const styleArray: string[] = styleAttrib.split(';');
-        for(const style of styleArray) {
-           if(style.indexOf('background-color:') > -1) {
+        for (const style of styleArray) {
+          if (style.indexOf('background-color:') > -1) {
             this.backgroundColor = style.substring(style.indexOf(':') + 1).trim();
-          } else if(style.indexOf('color:') > -1) {
+          } else if (style.indexOf('color:') > -1) {
             this.fontColor = style.substring(style.indexOf(':') + 1).trim();
-          } 
+          }
         }
       } else {
         this.fontColor = 'black';
         this.backgroundColor = 'white';
       }
     } else {
-        this.fontColor = 'black';
-        this.backgroundColor = 'white';
+      this.fontColor = 'black';
+      this.backgroundColor = 'white';
     }
   }
 
@@ -912,7 +906,7 @@ export class EditorContainerComponent
       document.getElementById(`${this.id}`).focus();
     }
   }
-   
+
   /**
   * @param event - This parameter is an event that is occurred whenever we make changes inside the div contenteditable
   */
@@ -928,7 +922,7 @@ export class EditorContainerComponent
     }
     this.lastChar = this.getPrecedingCharacter(
       window.getSelection().anchorNode
-    
+
     ); // gets the last input character
 
     if (this.format && this.startOffset && this.tribute) {
@@ -1001,7 +995,7 @@ export class EditorContainerComponent
       document.execCommand('insertHtml', false, pastedText);
     } else {
       // console.log('HERE', pastedHtml);
-      pastedHtml = pastedHtml.replace(regexStyle, (match: any) =>  '');
+      pastedHtml = pastedHtml.replace(regexStyle, (match: any) => '');
       const rexa = /href=".*?"/g; // match all a href
       pastedHtml = pastedHtml.replace(rexa, (match: any) => {
         const str = ' target="_blank" rel="noopener noreferrer"';
@@ -1014,11 +1008,11 @@ export class EditorContainerComponent
   toolbarClicked(event: any): void {
     try {
       const { startContainer } = this.sel.getRangeAt(0);
-      if(this.checkValidOperation(startContainer)) {
-        
+      if (this.checkValidOperation(startContainer)) {
+
         if (this.oldRange) {
 
-          if(this.oldRange.collapsed) {
+          if (this.oldRange.collapsed) {
 
             this.sel.removeAllRanges();
             const range = this.oldRange.cloneRange();
@@ -1035,7 +1029,7 @@ export class EditorContainerComponent
       } else {
         this.focus();
       }
-    } catch(err) {
+    } catch (err) {
       this.focus();
     }
     this.toolbarOperations(event?.id, event?.value);
@@ -1055,16 +1049,16 @@ export class EditorContainerComponent
       }
     }
     switch (id) {
-      case 'h1': 
-      case 'h2': 
+      case 'h1':
+      case 'h2':
       case 'h3': document.execCommand('formatBlock', false, id.toUpperCase());
-                 break; 
+        break;
       case 'para': document.execCommand('formatBlock', false, 'p');
-                   break; 
+        break;
       case 'superscript': this.insertSupTag();
-                        break;
+        break;
       case 'subscript': this.insertSubTag();
-                        break;
+        break;
       case 'bold':
         document.execCommand('bold', false, '');
         break;
@@ -1107,35 +1101,35 @@ export class EditorContainerComponent
       case 'fillColor':
         document.execCommand('styleWithCSS', false, '');
         document.execCommand('hiliteColor', false, value);
-        if(!this.sel.getRangeAt(0).collapsed) {
+        if (!this.sel.getRangeAt(0).collapsed) {
           this.sel.getRangeAt(0).collapse();
         }
         break;
       case 'textColor':
         document.execCommand('styleWithCSS', false, '');
         document.execCommand('foreColor', false, value);
-        if(!this.sel.getRangeAt(0).collapsed) {
+        if (!this.sel.getRangeAt(0).collapsed) {
           this.sel.getRangeAt(0).collapse();
         }
         break;
-      case '@': this.insertTribute('@'); 
-                break;
-      case '#': this.insertTribute('#'); 
-                break;
+      case '@': this.insertTribute('@');
+        break;
+      case '#': this.insertTribute('#');
+        break;
       case 'submit': this.commentAction();
-                     break;
+        break;
       case 'font-verdana': document.execCommand('fontName', false, 'verdana');
-                           break;
+        break;
       case 'font-arial': document.execCommand('fontName', false, 'arial');
-                         break;
+        break;
       case 'font-georgia': document.execCommand('fontName', false, 'georgia');
-                           break;
+        break;
       case 'font-impact': document.execCommand('fontName', false, 'impact');
-                          break;
+        break;
       case 'font-courier': document.execCommand('fontName', false, 'courier');
-                           break;
+        break;
       case 'font-tahoma': document.execCommand('fontName', false, 'tahoma');
-                          break;
+        break;
     }
   }
 
@@ -1146,7 +1140,7 @@ export class EditorContainerComponent
       blockquote.innerHTML = '&#8204;';
       const div = document.createElement('div');
       div.appendChild(document.createElement('br'));
-      const range =  this.sel.getRangeAt(0);
+      const range = this.sel.getRangeAt(0);
       range.insertNode(div);
       range.insertNode(blockquote);
       range.setStart(blockquote, 0);
@@ -1158,7 +1152,7 @@ export class EditorContainerComponent
   }
 
   insertSupTag(): void {
-    if(!this.toolbarConfig.superscript) {
+    if (!this.toolbarConfig.superscript) {
       const sup = document.createElement('sup');
       sup.innerHTML = '&#8204;';
       const range = this.sel.getRangeAt(0);
@@ -1172,7 +1166,7 @@ export class EditorContainerComponent
   }
 
   insertSubTag(): void {
-    if(!this.toolbarConfig.subscript) {
+    if (!this.toolbarConfig.subscript) {
       const sub = document.createElement('sub');
       sub.innerHTML = '&#8204;';
       const range = this.sel.getRangeAt(0);
