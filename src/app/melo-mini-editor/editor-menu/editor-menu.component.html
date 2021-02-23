@@ -155,7 +155,7 @@
             </div>
         </div>
         <!-- Text Align -->
-        <div class="col" clickOutside (clickOutside)="closeAlignPopover()">
+        <div class="col" clickOutside (clickOutside)="closeAlignPopover()" *ngIf="editorConfig?.mode === 'prime'">
             <button (click)="alignPopover()" [class.active]="alignment" class="lg" [csTooltip]="'Text Alignment'"
                 placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
                 <svg width="595" height="400" viewBox="0 0 595 400" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -251,7 +251,7 @@
             </div>
         </div>
         <!-- font-Style -->
-        <div class="col" clickOutside (clickOutside)="closeFontStylePopover()">
+        <div class="col" clickOutside (clickOutside)="closeFontStylePopover()" *ngIf="editorConfig?.mode === 'prime'">
             <button (click)="fontStylePopover()" [csTooltip]="'Font Style'" placement="bottom" delay="0" type="black"
                 [tooltipMandatory]="true">
                 <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 405.333 405.333" xml:space="preserve">
@@ -297,7 +297,7 @@
             </div>
         </div>
         <!-- Font Family-->
-        <div class="col" clickOutside (clickOutside)="fontFamily = false;">
+        <div class="col" clickOutside (clickOutside)="fontFamily = false;" *ngIf="editorConfig?.mode === 'prime'">
             <button (click)="openfontFamily()" [class.active]="fontFamily" [csTooltip]="'Font Family'" [class.active]="fontStyles.includes(toolbarConfig?.fontStyle)"
                 placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
                 <svg viewBox="0 0 20 20">
@@ -317,7 +317,7 @@
             </div>
         </div>
         <!-- Fill Color -->
-        <div class="col" clickOutside (clickOutside)="fillColor[0] = false;" *ngIf="editorConfig?.colorPalette">
+        <div class="col" clickOutside (clickOutside)="fillColor[0] = false;" *ngIf="editorConfig?.colorPalette && editorConfig?.mode === 'prime'">
             <button (click)="fillColor[0] = !fillColor[0]; fillColor[1] = false;" [class.active]="fillColor[0]"
                 [csTooltip]="'Backgroung Color'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
                 <svg width="298" height="298" viewBox="0 0 298 298" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -337,7 +337,7 @@
             </div>
         </div>
         <!-- Text Color -->
-        <div class="col" clickOutside (clickOutside)="fillColor[1] = false;" *ngIf="editorConfig?.colorPalette">
+        <div class="col" clickOutside (clickOutside)="fillColor[1] = false;" *ngIf="editorConfig?.colorPalette && editorConfig?.mode === 'prime'">
             <button (click)="fillColor[1] = !fillColor[1]; fillColor[0] = false;" [class.active]="fillColor[1]"
                 [csTooltip]="'Text Color'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
                 <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">
@@ -473,7 +473,7 @@
             </div>
         </div>
         <!-- Image -->
-        <div class="col" clickOutside (clickOutside)="clickOutsideImage()">
+        <div class="col" clickOutside (clickOutside)="clickOutsideImage()" *ngIf="editorConfig?.mode === 'prime'">
             <button (click)="uploadImage = true" [class.active]="uploadImage" [csTooltip]="'Add Image'"
                 placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
 
@@ -611,6 +611,7 @@
                 
             </div>
         </div>
+
         <ng-container *ngIf="!moreOptionsButton">
             <!-- Quote -->
             <div class="col" data-id="quote">

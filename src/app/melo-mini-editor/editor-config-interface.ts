@@ -6,6 +6,7 @@ export interface EditorConfig {
     buttonName?: string;
     toolbarPlacement?: 'top' | 'bottom';
     placeholder?: string;
+    mode?: 'basic' | 'prime'
 }
 
 export interface MentionedName {
