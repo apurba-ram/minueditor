@@ -26,9 +26,9 @@ export class AppComponent {
     file: true,
     colorPalette: true,
     toolbarPlacement: 'top',
-    mode: 'basic',
+    mode: 'prime',
     placeholder: 'Please Add Some Text',
-    buttonName: 'JAGMOHAN'
+    buttonName: 'Upload'
   };
   
   
