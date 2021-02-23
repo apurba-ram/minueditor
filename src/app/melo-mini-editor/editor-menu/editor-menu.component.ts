@@ -60,6 +60,7 @@ export class EditorMenuComponent {
    */
   buttonClicked(event: any): void {
     event.stopPropagation();
+    console.log(event);
     if (event?.target?.dataset?.id) {
           this.buttonClick.emit(event?.target?.dataset);
     }
