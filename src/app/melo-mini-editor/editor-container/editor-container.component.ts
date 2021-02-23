@@ -6,8 +6,6 @@ import {
   EventEmitter,
   OnChanges,
   forwardRef,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   SimpleChanges,
   AfterViewInit,
   OnDestroy,
@@ -18,7 +16,6 @@ import {
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 import { nanoid } from 'nanoid';
-import { NgZone } from '@angular/core';
 @Component({
   selector: 'app-editor-container',
   templateUrl: './editor-container.component.html',
@@ -59,16 +56,14 @@ export class EditorContainerComponent
   toolbarPlacement: 'top' | 'bottom';
   oldRange: any;
   savedLinks: any = []
-
   toolbarConfig: ToolbarConfig;
-
   fontColor: string;
   backgroundColor: string;
   clicked = false;
   morebutton = false;
   populateFlag: number;
 
-  constructor(private zone: NgZone, private ref: ChangeDetectorRef) {
+  constructor() {
     this.fontColor = 'black';
     this.backgroundColor = 'white';
     this.toolbarPlacement = 'bottom';
