@@ -23,6 +23,7 @@ export interface ToolbarConfig {
     superscript?: boolean;
     subscript?: boolean;
     quote?: boolean;
+    fontStyle?: string,
     fontColor: string;
     backgroundColor: string;
 }

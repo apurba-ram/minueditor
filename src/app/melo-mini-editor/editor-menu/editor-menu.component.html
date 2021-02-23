@@ -298,7 +298,7 @@
         </div>
         <!-- Font Family-->
         <div class="col" clickOutside (clickOutside)="fontFamily = false;">
-            <button (click)="openfontFamily()" [class.active]="fontFamily" [csTooltip]="'Font Family'"
+            <button (click)="openfontFamily()" [class.active]="fontFamily" [csTooltip]="'Font Family'" [class.active]="fontStyles.includes(toolbarConfig?.fontStyle)"
                 placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
                 <svg viewBox="0 0 20 20">
                     <path
@@ -308,12 +308,11 @@
             </button>
             <div class="popover small" *ngIf="fontFamily">
                 <ul class="option-list" (click)="fontFamily = false;">
-                    <li data-id="font-verdana"><button data-id="font-verdana">Verdana</button></li>
-                    <li data-id="font-arial"><button data-id="font-arial">Arial</button></li>
-                    <li data-id="font-georgia"><button data-id="font-georgia">Georgia</button></li>
-                    <li data-id="font-impact"><button data-id="font-impact">Impact</button></li>
-                    <li data-id="font-courier"><button data-id="font-courier">Courier New</button></li>
-                    <li data-id="font-tahoma"><button data-id="font-tahoma">Tahoma</button></li>
+                    <li *ngFor="let font of fontStyles" attr.data-id="font-{{font}}">
+                        <button attr.data-id="font-{{font}}" [class.active]="toolbarConfig?.fontStyle === font">
+                            {{font | titlecase}}
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -614,8 +613,8 @@
         </div>
         <ng-container *ngIf="!moreOptionsButton">
             <!-- Quote -->
-            <div class="col" data-id="quote" [class.active]="toolbarConfig?.quote">
-                <button data-id="quote" [csTooltip]="'Quote'" placement="bottom" delay="0" type="black"
+            <div class="col" data-id="quote">
+                <button data-id="quote" [csTooltip]="'Quote'" placement="bottom" delay="0" type="black" [class.active]="toolbarConfig?.quote"
                     [tooltipMandatory]="true">
                     <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg"
                         data-id="quote">

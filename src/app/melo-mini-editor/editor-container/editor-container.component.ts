@@ -209,16 +209,20 @@ export class EditorContainerComponent
         orderedList: document.queryCommandState('insertorderedList'),
         unorderedList: document.queryCommandState('insertunorderedList'),
         fontColor: this.fontColor,
+        fontStyle: this.getFontStyle(this.sel?.anchorNode),
         backgroundColor: this.backgroundColor,
-        quote: this.checkParent(this.sel.anchorNode, 'blockquote'),
-        superscript: this.checkParent(this.sel.anchorNode, 'sup'),
-        subscript: this.checkParent(this.sel.anchorNode, 'sub')
+        quote: this.checkParent(this.sel?.anchorNode, 'blockquote'),
+        superscript: this.checkParent(this.sel?.anchorNode, 'sup'),
+        subscript: this.checkParent(this.sel?.anchorNode, 'sub')
       };
     } else {
       this.resetToolbar();
     }
   }
 
+  /**
+   * Set the default font color and background color
+   */
   setFontAndbackgroundColor(): void {
     if (this.sel?.baseNode) {
       const node = this.sel.baseNode;
@@ -240,6 +244,21 @@ export class EditorContainerComponent
       this.fontColor = 'black';
       this.backgroundColor = 'white';
     }
+  }
+
+  getFontStyle(elem: any): string {
+    if (elem) {
+      if (elem?.nodeName === 'APP-TEXT-EDITOR') {
+        return '';
+      } else {
+        if (elem?.nodeName === 'FONT') {
+          return elem?.face;
+        } else {
+          return this.getFontStyle(elem?.parentElement);
+        }
+      }
+    }
+    return '';
   }
 
   checkParent(elem: any, tagName: string): boolean {
