@@ -115,7 +115,6 @@ export class EditorContainerComponent
     range.insertNode(anchorTag);
     range.setStartAfter(anchorTag);
     range.collapse();
-    this.sel.removeAllRanges();
     this.sel.addRange(range);
   }
 
@@ -194,7 +193,10 @@ export class EditorContainerComponent
       false
     );
   }
-
+ /**
+  * 
+  * @param event - Event fired whenever there is a slection change
+  */
   selectionChange(event: any): void {
     if (document.activeElement === document.getElementById(this.id)) {
       this.oldRange = this.sel.getRangeAt(0).cloneRange();
@@ -311,7 +313,10 @@ export class EditorContainerComponent
       }
     }
   }
-
+  /**
+  * 
+  * @param container - Get the last character from editor
+  */
   getPrecedingCharacter(container: any): string {
     if (this.sel) {
       const r = this.sel.getRangeAt(0).cloneRange();
@@ -321,6 +326,10 @@ export class EditorContainerComponent
     return '';
   }
 
+  /**
+   * 
+   * @param elem - Check if the operation applied belongs to the particular instance of editor
+   */
   checkValidOperation(elem: any): boolean {
     if (elem) {
       if (elem === document.getElementById(this.id)) {
@@ -332,11 +341,16 @@ export class EditorContainerComponent
       return false;
     }
   }
-
+  /**
+   * When editor is blurred
+   */
   blur(): void {
     this.oldRange = this.sel.getRangeAt(0).cloneRange(); // to store the range when element is blurred
   }
 
+  /**
+   * Focus on the editor
+   */
   focus(): void {
     if (document.getElementById(`${this.id}`)) {
       document.getElementById(`${this.id}`).focus();
@@ -385,7 +399,6 @@ export class EditorContainerComponent
   * This function is called whenever the mention tab is closed
   */
   mentionClosed(): void {
-    // insert mentions
 
     if (this.tribute !== '') {
       const input = document.createElement('input');
@@ -410,7 +423,6 @@ export class EditorContainerComponent
       this.sel.addRange(range);
       this.tribute = '';
     }
-    //  this.valueInput = true;
   }
 
   /**
@@ -418,29 +430,71 @@ export class EditorContainerComponent
   */
   onPaste(event: any): void {
     event.preventDefault();
+    event.stopPropagation();
     const clipboardData = event.clipboardData;
     let pastedHtml = clipboardData.getData('text/html');
     let pastedText = clipboardData.getData('text');
     const regexStyle = /style=".+?"/g; // matching all inline styles
-    // const regexComment = /<!--.+?-->/g; // matching all inline styles
-    if (pastedHtml === '' && pastedText !== '') {
+
+    if(event.clipboardData.types.indexOf('text/rtf') > -1) {
+      // Paste from word
+      pastedHtml = this.cleanPaste(pastedHtml);
+      document.execCommand('insertHtml', false, pastedHtml);
+    } else if (event.clipboardData.types.indexOf('text/html') === -1) {
+
+      // Text Paste
       const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
       pastedText = pastedText.replace(rex, (match: any) => {
         return `<a href="${match}" target="_blank" rel="noopener noreferrer">${match}</a>`;
       });
       document.execCommand('insertHtml', false, pastedText);
     } else {
-      // console.log('HERE', pastedHtml);
-      pastedHtml = pastedHtml.replace(regexStyle, (match: any) => '');
+      // HTML Paste
+      // pastedHtml = pastedHtml.replace(regexStyle, (match: any) =>  '');
       const rexa = /href=".*?"/g; // match all a href
       pastedHtml = pastedHtml.replace(rexa, (match: any) => {
         const str = ' target="_blank" rel="noopener noreferrer"';
         return match + str;
       });
+     //  pastedHtml = this.cleanPaste(pastedHtml);
       document.execCommand('insertHtml', false, pastedHtml);
     }
   }
 
+  /**
+   * 
+   * @param rtf - Represents Rich Text which is pasted from the word into the editor
+   */
+  cleanPaste(rtf: string): string {
+    const sS = /(\n|\r| class=(")?Mso[a-zA-Z]+(")?)/g;
+    let output = rtf.replace(sS, ' ');
+    const nL = /(\n)+/g;
+    output = output.replace(nL, '<br>');
+    const cS = new RegExp('<!--(.*?)-->', 'gi');
+    output = output.replace(cS, '');
+    let tS = new RegExp('<(/)*(meta|link|\\?xml:|st1:|o:|font)(.*?)>', 'gi');
+    output = output.replace(tS, '');
+    const bT = ['style', 'script', 'applet', 'embed', 'noframes', 'noscript'];
+
+    for (let i = 0; i < bT.length; i++) {
+      tS = new RegExp('<' + bT[i] + '\\b.*>.*</' + bT[i] + '>', 'gi');
+      output = output.replace(tS, '');
+    }
+
+    const bA = ['style', 'start'];
+    for (let ii = 0; ii < bA.length; ii++ ) {
+      let aS = new RegExp(' ' + bA[ii] + '=[\'|"](.*?)[\'|"]', 'gi');
+      output = output.replace(aS, '');
+      aS = new RegExp(' ' + bA[ii] + '[=0-9a-z]', 'gi');
+      output = output.replace(aS, '');
+    }
+    return output;
+  }
+
+ /**
+  * 
+  * @param event - Event triggered when one of the options in the toolbar is clicked
+  */
   toolbarClicked(event: any): void {
     try {
       const { startContainer } = this.sel.getRangeAt(0);
@@ -569,6 +623,9 @@ export class EditorContainerComponent
     }
   }
 
+  /**
+   * Function inserts blockquote inside the editor
+   */
   insertBlockQuote(): void {
     if (!this.toolbarConfig.quote) {
       const blockquote = document.createElement('blockquote');
@@ -587,6 +644,9 @@ export class EditorContainerComponent
     }
   }
 
+  /**
+   * Function inserts sup tag inside the editor
+   */
   insertSupTag(): void {
     if (!this.toolbarConfig.superscript) {
       const sup = document.createElement('sup');
@@ -600,7 +660,10 @@ export class EditorContainerComponent
       this.reachTextNode('sup');
     }
   }
-
+  
+  /**
+   * Function inserts sub tag inside the editor
+   */
   insertSubTag(): void {
     if (!this.toolbarConfig.subscript) {
       const sub = document.createElement('sub');
@@ -614,7 +677,7 @@ export class EditorContainerComponent
       this.reachTextNode('sub');
     }
   }
-
+  
   reachTextNode(tagName: string): void {
     const parent = this.getParent(this.sel.anchorNode, tagName);
     const space = document.createElement('text');
