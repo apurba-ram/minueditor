@@ -637,7 +637,7 @@ export class EditorContainerComponent
         break;
       case 'font-impact': document.execCommand('fontName', false, 'impact');
         break;
-      case 'font-courier': document.execCommand('fontName', false, 'courier');
+      case 'font-courier new': document.execCommand('fontName', false, 'courier');
         break;
       case 'font-tahoma': document.execCommand('fontName', false, 'tahoma');
         break;
