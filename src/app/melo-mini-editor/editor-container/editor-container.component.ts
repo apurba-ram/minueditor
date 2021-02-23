@@ -407,12 +407,21 @@ export class EditorContainerComponent
   */
   onPaste(event: any): void {
     event.preventDefault();
+    console.log('EVENTTTTTTTTTTTTTTTTT', event, event.clipboardData.types);
     const clipboardData = event.clipboardData;
     let pastedHtml = clipboardData.getData('text/html');
     let pastedText = clipboardData.getData('text');
     const regexStyle = /style=".+?"/g; // matching all inline styles
     // const regexComment = /<!--.+?-->/g; // matching all inline styles
-    if (pastedHtml === '' && pastedText !== '') {
+
+
+    if(event.clipboardData.types.indexOf('text/rtf') > -1) {
+      // Paste from word
+      pastedHtml = this.cleanPaste(pastedHtml);
+      document.execCommand('insertHtml', false, pastedHtml);
+    } else if (event.clipboardData.types.indexOf('text/html') === -1) {
+
+      // text paste
       const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
       pastedText = pastedText.replace(rex, (match: any) => {
         return `<a href="${match}" target="_blank" rel="noopener noreferrer">${match}</a>`;
@@ -420,14 +429,41 @@ export class EditorContainerComponent
       document.execCommand('insertHtml', false, pastedText);
     } else {
       // console.log('HERE', pastedHtml);
-      pastedHtml = pastedHtml.replace(regexStyle, (match: any) =>  '');
+      // pastedHtml = pastedHtml.replace(regexStyle, (match: any) =>  '');
       const rexa = /href=".*?"/g; // match all a href
       pastedHtml = pastedHtml.replace(rexa, (match: any) => {
         const str = ' target="_blank" rel="noopener noreferrer"';
         return match + str;
       });
+      pastedHtml = this.cleanPaste(pastedHtml);
       document.execCommand('insertHtml', false, pastedHtml);
     }
+  }
+
+  cleanPaste(text: string): string {
+    const sS = /(\n|\r| class=(")?Mso[a-zA-Z]+(")?)/g;
+    let output = text.replace(sS, ' ');
+    const nL = /(\n)+/g;
+    output = output.replace(nL, '<br>');
+    const cS = new RegExp('<!--(.*?)-->', 'gi');
+    output = output.replace(cS, '');
+    let tS = new RegExp('<(/)*(meta|link|\\?xml:|st1:|o:|font)(.*?)>', 'gi');
+    output = output.replace(tS, '');
+    const bT = ['style', 'script', 'applet', 'embed', 'noframes', 'noscript', 'html'];
+    // for (let i = 0; i < bT.length; i++) {
+    //   tS = new RegExp('<' + bT[i] + '\\b.*>.*</' + bT[i] + '>', 'gi');
+    //   out = out.replace(tS, '');
+    // }
+    // console.log('HEREEEEEEEEEEEEEEEEE2', out);
+    const bA = ['style', 'start'];
+    for (let ii = 0; ii < bA.length; ii++ ) {
+      let aS = new RegExp(' ' + bA[ii] + '=[\'|"](.*?)[\'|"]', 'gi');
+      output = output.replace(aS, '');
+      aS = new RegExp(' ' + bA[ii] + '[=0-9a-z]', 'gi');
+      output = output.replace(aS, '');
+    }
+    console.log('HEREEEEEEEEEEEEEEEEE3', output);
+    return output;
   }
 
   toolbarClicked(event: any): void {
