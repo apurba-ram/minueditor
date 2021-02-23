@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   Input,
   Output,
   EventEmitter,
@@ -12,7 +11,7 @@ import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
   styleUrls: ['./editor-menu.component.less', '../theme.less'],
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditorMenuComponent implements OnInit {
+export class EditorMenuComponent {
   @Input() editorConfig: EditorConfig;
   @Input() toolbarConfig: ToolbarConfig;
   @Output() buttonClick: EventEmitter<any> = new EventEmitter();
@@ -51,19 +50,10 @@ export class EditorMenuComponent implements OnInit {
   image: any;
 
   constructor() {
-    this.editorConfig = {
-      file: false,
-      mentionedNames: [],
-      mentionedDates: [],
-      colorPalette: false,
-      buttonName: '',
-    };
     this.filesArray = [];
     this.fillColor = Array(2).fill(false);
     this.image = null;
   }
-
-  ngOnInit(): void {}
 
   /**
    * 
