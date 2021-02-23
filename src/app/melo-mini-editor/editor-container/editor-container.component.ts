@@ -64,6 +64,8 @@ export class EditorContainerComponent
   ResizeClicked:boolean=false
   PrevIousImage:number
   clicked = false;
+  focused:boolean=false
+  blured:boolean=true
 
   constructor(private zone: NgZone, private ref: ChangeDetectorRef) {
     this.fontColor = 'black';
@@ -301,17 +303,10 @@ export class EditorContainerComponent
 
       //image focus
       imgContainer.addEventListener('focus',(event: any)=>{
-<<<<<<< HEAD
-          console.log("FOUCS")
-          const leftPos=event.target.getBoundingClientRect().left
-          const rightPos=event.target.getBoundingClientRect().right
-          const topPos=event.target.getBoundingClientRect().top
-          const bottomPos=event.target.getBoundingClientRect().bottom
-          console.log("Left Pos",leftPos,rightPos,topPos,bottomPos)
-=======
+          this.focused=true
+          console.log("FOCUSED VALUE",this.focused)
           console.log(event.target);
           const imageRatio = event.target.getBoundingClientRect();
->>>>>>> 73536ef781fad04e9ed965a2ce7f0e1a6b6238b4
 
           const minimum_size = 20;
           let original_width = 0;
@@ -361,17 +356,11 @@ export class EditorContainerComponent
 
 
 
-
-
             // document.getElementsByClassName('bottom-right')[0].style.possition="absolute"
             // document.getElementsByClassName('bottom-right')[0].style.left=bottomPos
           
 
-<<<<<<< HEAD
-            document.getElementsByClassName('bottom-right')[0].addEventListener('mousedown', function(e:any) {
-=======
             document.getElementsByClassName('bottom-right')[0].addEventListener('mousedown', function(e: any) {
->>>>>>> 73536ef781fad04e9ed965a2ce7f0e1a6b6238b4
             e.preventDefault()
             console.log("Mouse down")
             original_width = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('width').replace('px', ''));
@@ -404,19 +393,16 @@ export class EditorContainerComponent
           function stopResize() {
             console.log("Remove listener")
             window.removeEventListener('mousemove', resize)
-          }
-
-
-
-
-          
-          
+          }          
       } )
 
       //image blur
       imgContainer.addEventListener('blur',(event: any)=>{
-          console.log("BLUR")
-
+        this.blured=true
+        this.focused=false
+        console.log("BLUR",this.blured,this.focused)
+        
+          // console.log(event.target)
       })
 
 
