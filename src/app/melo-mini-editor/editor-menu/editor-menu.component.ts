@@ -27,6 +27,7 @@ export class EditorMenuComponent {
   filesArray: any[];
   ShowFiles: boolean;
   fontStyle = false;
+  fontSize = false;
   fillColor: boolean[];
   setTextColor = false;
   showAlert: boolean = false;
@@ -327,6 +328,14 @@ export class EditorMenuComponent {
     this.moreOptions = false;
     this.fontFamily = false;
   }
+  fontSizePopover() {
+    this.fontStyle = false;
+    this.listStyle = false;
+    this.alignment = false;
+    this.moreOptions = false;
+    this.fontFamily = false;
+    this.fontSize = !this.fontSize;
+  }
   openfontFamily() {
     this.fontFamily = !this.fontFamily;
     this.fontStyle = false;
@@ -393,6 +402,20 @@ export class EditorMenuComponent {
     this.fontStyle = false;
     this.fillColor = Array(2).fill(false);
     this.setTextColor = false;
+  }
+  closeFontSizePopover(): void {
+    this.moreOptions = false;
+    this.filesArray = [];
+    this.alignment = false;
+    this.uploadImage = false;
+    this.upload = false;
+    this.addLink = false;
+    this.listStyle = false;
+    this.ShowFiles = false;
+    this.fontStyle = false;
+    this.fillColor = Array(2).fill(false);
+    this.setTextColor = false;
+    this.fontSize = false;
   }
 
   closeFontStylePopover(): void {

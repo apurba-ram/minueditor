@@ -296,6 +296,25 @@
                 </ul>
             </div>
         </div>
+        <!-- font-Size -->
+        <div class="col" clickOutside (clickOutside)="closeFontSizePopover()">
+            <button class="lg" (click)="fontSizePopover()" [csTooltip]="'Font Size'" placement="bottom" delay="0" type="black"
+                [tooltipMandatory]="true">
+                <svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M55.6363 235.199H148.364L165.055 275.999H204L115.909 72H88.0905L0 276H38.9454L55.6363 235.199ZM102 108.72L136.679 201.818H67.319L102 108.72Z" />
+                    <path d="M212 246.4H277L288.7 274.999H316L254.25 132H234.75L173 275H200.3L212 246.4ZM244.5 157.74L268.809 223H220.189L244.5 157.74Z" />
+                    <path d="M170 135L190.064 107.046L210 135.092L170.004 135L170 135Z" />
+                    <path d="M210.064 140.091L190 168.046L170.064 140.001L210.06 140.091L210.064 140.091Z" />
+                </svg>
+            </button>
+            <div class="popover small" *ngIf="fontSize">
+                <ul class="option-list">
+                    <li *ngFor="let size of [8,9,10,11,12,14,18,24,32,36,48]">
+                        <button>{{size}}</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <!-- Font Family-->
         <div class="col" clickOutside (clickOutside)="fontFamily = false;">
             <button (click)="openfontFamily()" [class.active]="fontFamily" [csTooltip]="'Font Family'"
@@ -320,7 +339,7 @@
         <!-- Fill Color -->
         <div class="col" clickOutside (clickOutside)="fillColor[0] = false;" *ngIf="editorConfig?.colorPalette">
             <button (click)="fillColor[0] = !fillColor[0]; fillColor[1] = false;" [class.active]="fillColor[0]"
-                [csTooltip]="'Backgroung Color'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
+                [csTooltip]="'Background Color'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
                 <svg width="298" height="298" viewBox="0 0 298 298" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M235.917 142.791C235.917 142.791 211.083 169.674 211.083 186.25C211.083 199.97 222.196 211.084 235.917 211.084C249.637 211.084 260.75 199.97 260.75 186.25C260.75 169.674 235.917 142.791 235.917 142.791Z" />
@@ -551,7 +570,8 @@
                         <button data-id="quote" [class.active]="toolbarConfig?.quote">
                             <svg width="299" height="299" viewBox="0 0 299 299" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" data-id="quote">
-                                <path data-id="quote" d="M0 169.4H64.0714L21.3568 299H85.4281L128.143 169.4V0H0V169.4Z" />
+                                <path data-id="quote"
+                                    d="M0 169.4H64.0714L21.3568 299H85.4281L128.143 169.4V0H0V169.4Z" />
                                 <path data-id="quote"
                                     d="M170.143 0V169.4H234.214L191.499 299H255.571L298.285 169.4V0H170.143Z" />
                             </svg>
@@ -609,7 +629,7 @@
                         </button>
                     </li>
                 </ul>
-                
+
             </div>
         </div>
         <ng-container *ngIf="!moreOptionsButton">
@@ -620,7 +640,8 @@
                     <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg"
                         data-id="quote">
                         <path data-id="quote" d="M0 169.4H64.0714L21.3568 299H85.4281L128.143 169.4V0H0V169.4Z" />
-                        <path data-id="quote" d="M170.143 0V169.4H234.214L191.499 299H255.571L298.285 169.4V0H170.143Z" />
+                        <path data-id="quote"
+                            d="M170.143 0V169.4H234.214L191.499 299H255.571L298.285 169.4V0H170.143Z" />
                     </svg>
                 </button>
             </div>
@@ -647,8 +668,8 @@
             </div>
             <!-- Increase Indent -->
             <div class="col" data-id="increaseIndent">
-                <button [csTooltip]="'Increase indent'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true"
-                    data-id="increaseIndent">
+                <button [csTooltip]="'Increase indent'" placement="bottom" delay="0" type="black"
+                    [tooltipMandatory]="true" data-id="increaseIndent">
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024"
                         data-id="increaseIndent" viewBox="0 0 1024 1024">
                         <g id="icomoon-ignore" data-id="increaseIndent">
@@ -661,8 +682,8 @@
             </div>
             <!-- Decrease Indent -->
             <div class="col" data-id="decreaseIndent">
-                <button [csTooltip]="'Decrease indent'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true"
-                    data-id="decreaseIndent">
+                <button [csTooltip]="'Decrease indent'" placement="bottom" delay="0" type="black"
+                    [tooltipMandatory]="true" data-id="decreaseIndent">
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024"
                         data-id="decreaseIndent" viewBox="0 0 1024 1024">
                         <g id="icomoon-ignore" data-id="decreaseIndent">
