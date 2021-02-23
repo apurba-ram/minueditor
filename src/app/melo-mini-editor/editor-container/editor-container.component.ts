@@ -303,9 +303,9 @@ export class EditorContainerComponent
       imgContainer.addEventListener('focus',(event: any)=>{
           console.log("FOUCS")
           const leftPos=event.target.getBoundingClientRect().left
-          const rightPos=event.target.getBoundingClientRect().top
-          const topPos=event.target.getBoundingClientRect().bottom
-          const bottomPos=event.target.getBoundingClientRect().right
+          const rightPos=event.target.getBoundingClientRect().right
+          const topPos=event.target.getBoundingClientRect().top
+          const bottomPos=event.target.getBoundingClientRect().bottom
           console.log("Left Pos",leftPos,rightPos,topPos,bottomPos)
 
           const minimum_size = 20;
@@ -360,7 +360,7 @@ export class EditorContainerComponent
             // document.getElementsByClassName('bottom-right')[0].style.left=bottomPos
           
 
-            document.getElementsByClassName('bottom-right')[0].addEventListener('mousedown', function(e) {
+            document.getElementsByClassName('bottom-right')[0].addEventListener('mousedown', function(e:any) {
             e.preventDefault()
             console.log("Mouse down")
             original_width = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('width').replace('px', ''));
