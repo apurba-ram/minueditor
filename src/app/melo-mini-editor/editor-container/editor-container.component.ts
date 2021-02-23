@@ -407,13 +407,11 @@ export class EditorContainerComponent
   */
   onPaste(event: any): void {
     event.preventDefault();
-    console.log('EVENTTTTTTTTTTTTTTTTT', event, event.clipboardData.types);
+    event.stopPropagation();
     const clipboardData = event.clipboardData;
     let pastedHtml = clipboardData.getData('text/html');
     let pastedText = clipboardData.getData('text');
     const regexStyle = /style=".+?"/g; // matching all inline styles
-    // const regexComment = /<!--.+?-->/g; // matching all inline styles
-
 
     if(event.clipboardData.types.indexOf('text/rtf') > -1) {
       // Paste from word
@@ -421,28 +419,32 @@ export class EditorContainerComponent
       document.execCommand('insertHtml', false, pastedHtml);
     } else if (event.clipboardData.types.indexOf('text/html') === -1) {
 
-      // text paste
+      // Text Paste
       const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
       pastedText = pastedText.replace(rex, (match: any) => {
         return `<a href="${match}" target="_blank" rel="noopener noreferrer">${match}</a>`;
       });
       document.execCommand('insertHtml', false, pastedText);
     } else {
-      // console.log('HERE', pastedHtml);
+      // HTML Paste
       // pastedHtml = pastedHtml.replace(regexStyle, (match: any) =>  '');
       const rexa = /href=".*?"/g; // match all a href
       pastedHtml = pastedHtml.replace(rexa, (match: any) => {
         const str = ' target="_blank" rel="noopener noreferrer"';
         return match + str;
       });
-      pastedHtml = this.cleanPaste(pastedHtml);
+     //  pastedHtml = this.cleanPaste(pastedHtml);
       document.execCommand('insertHtml', false, pastedHtml);
     }
   }
 
-  cleanPaste(text: string): string {
+  /**
+   * 
+   * @param rtf - Represents Rich Text which is pasted from the word into the editor
+   */
+  cleanPaste(rtf: string): string {
     const sS = /(\n|\r| class=(")?Mso[a-zA-Z]+(")?)/g;
-    let output = text.replace(sS, ' ');
+    let output = rtf.replace(sS, ' ');
     const nL = /(\n)+/g;
     output = output.replace(nL, '<br>');
     const cS = new RegExp('<!--(.*?)-->', 'gi');
