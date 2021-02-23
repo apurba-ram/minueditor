@@ -301,12 +301,17 @@ export class EditorContainerComponent
 
       //image focus
       imgContainer.addEventListener('focus',(event: any)=>{
+<<<<<<< HEAD
           console.log("FOUCS")
           const leftPos=event.target.getBoundingClientRect().left
           const rightPos=event.target.getBoundingClientRect().right
           const topPos=event.target.getBoundingClientRect().top
           const bottomPos=event.target.getBoundingClientRect().bottom
           console.log("Left Pos",leftPos,rightPos,topPos,bottomPos)
+=======
+          console.log(event.target);
+          const imageRatio = event.target.getBoundingClientRect();
+>>>>>>> 73536ef781fad04e9ed965a2ce7f0e1a6b6238b4
 
           const minimum_size = 20;
           let original_width = 0;
@@ -317,40 +322,42 @@ export class EditorContainerComponent
           let original_mouse_y = 0;
 
 
-          document.getElementById('resizerDiv').style.position="absolute"
-          document.getElementById('resizerDiv').style.left=leftPos+"px"
-          document.getElementById('resizerDiv').style.right=rightPos+"px"
-          document.getElementById('resizerDiv').style.bottom=bottomPos+"px"
-          document.getElementById('resizerDiv').style.top=topPos+"px"
-          document.getElementById('resizerDiv').style.border=2+"px solid green"
-          document.getElementById('resizerDiv').style.width=200+"px"
-          document.getElementById('resizerDiv').style.height=300+"px"
+          document.getElementById('resizerDiv').style.position="fixed";
+          document.getElementById('resizerDiv').style.left=imageRatio.left+"px";
+          document.getElementById('resizerDiv').style.top=imageRatio.top+"px";
+          document.getElementById('resizerDiv').style.border=2+"px solid green";
+          document.getElementById('resizerDiv').style.width=imageRatio.width+"px";
+          document.getElementById('resizerDiv').style.height=imageRatio.height+"px";
 
-          document.getElementById('top').style.background="green"
-          document.getElementById('top').style.width=20+"px"
-          document.getElementById('top').style.height=20+"px"
-          document.getElementById('top').style.position="absolute"
-          document.getElementById('top').style.top=topPos+"px"
+          document.getElementById('top').style.background="green";
+          document.getElementById('top').style.width=10+"px";
+          document.getElementById('top').style.height=10+"px";
+          document.getElementById('top').style.position="fixed";
+          document.getElementById('top').style.top=imageRatio.top - 3+"px";
+          document.getElementById('top').style.left=imageRatio.left + (imageRatio.width/2) - 5+"px";
 
-          document.getElementById('bottom').style.background="green"
-          document.getElementById('bottom').style.width=20+"px"
-          document.getElementById('bottom').style.height=20+"px"
-          document.getElementById('bottom').style.position="absolute"
-          document.getElementById('bottom').style.top=bottomPos+"px"
+          document.getElementById('bottom').style.background="green";
+          document.getElementById('bottom').style.width=10+"px";
+          document.getElementById('bottom').style.height=10+"px";
+          document.getElementById('bottom').style.position="fixed";
+          document.getElementById('bottom').style.top=imageRatio.top + imageRatio.height+"px";
+          document.getElementById('bottom').style.left=imageRatio.left + (imageRatio.width/2) - 5+"px";
 
 
           document.getElementById('left').style.background="green"
-          document.getElementById('left').style.width=20+"px"
-          document.getElementById('left').style.height=20+"px"
-          document.getElementById('left').style.position="absolute"
-          document.getElementById('left').style.top=leftPos+"px"
+          document.getElementById('left').style.width=10+"px"
+          document.getElementById('left').style.height=10+"px"
+          document.getElementById('left').style.position="fixed"
+          document.getElementById('left').style.top=imageRatio.top + (imageRatio.height/2) - 3+"px"
+          document.getElementById('left').style.left=imageRatio.left+"px";
 
 
           document.getElementById('right').style.background="green"
-          document.getElementById('right').style.width=20+"px"
-          document.getElementById('right').style.height=20+"px"
-          document.getElementById('right').style.position="absolute"
-          document.getElementById('right').style.top=rightPos+"px"
+          document.getElementById('right').style.width=10+"px"
+          document.getElementById('right').style.height=10+"px"
+          document.getElementById('right').style.position="fixed"
+          document.getElementById('right').style.top=imageRatio.top + (imageRatio.height/2) - 3+"px"
+          document.getElementById('right').style.left=imageRatio.left + imageRatio.width - 3+"px";
 
 
 
@@ -360,7 +367,11 @@ export class EditorContainerComponent
             // document.getElementsByClassName('bottom-right')[0].style.left=bottomPos
           
 
+<<<<<<< HEAD
             document.getElementsByClassName('bottom-right')[0].addEventListener('mousedown', function(e:any) {
+=======
+            document.getElementsByClassName('bottom-right')[0].addEventListener('mousedown', function(e: any) {
+>>>>>>> 73536ef781fad04e9ed965a2ce7f0e1a6b6238b4
             e.preventDefault()
             console.log("Mouse down")
             original_width = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('width').replace('px', ''));
