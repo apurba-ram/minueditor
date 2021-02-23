@@ -66,6 +66,7 @@ export class EditorContainerComponent
   backgroundColor: string;
   clicked = false;
   morebutton = false;
+  populateFlag: number;
 
   constructor(private zone: NgZone, private ref: ChangeDetectorRef) {
     this.fontColor = 'black';
@@ -73,6 +74,7 @@ export class EditorContainerComponent
     this.toolbarPlacement = 'bottom';
     this.placeholder = '';
     this.id = nanoid();
+    this.populateFlag = 0;
     this.resetToolbar();
   }
 
@@ -138,8 +140,13 @@ export class EditorContainerComponent
   onTouch: any = () => { };
 
   set htmlVal(html) {
+   
     if (html !== null && html !== undefined && this.html !== html) {
       this.html = html;
+      if(this.populateFlag === 0 && document.getElementById(this.id)) {
+        ++this.populateFlag;
+        document.getElementById(this.id).innerHTML = this.html;
+      }
       this.onChange(html);
       this.onTouch(html);
     }
