@@ -319,7 +319,7 @@
         <!-- Fill Color -->
         <div class="col" clickOutside (clickOutside)="fillColor[0] = false;" *ngIf="editorConfig?.colorPalette && editorConfig?.mode === 'prime'">
             <button (click)="fillColor[0] = !fillColor[0]; fillColor[1] = false;" [class.active]="fillColor[0]"
-                [csTooltip]="'Backgroung Color'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
+                [csTooltip]="'Background Color'" placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
                 <svg width="298" height="298" viewBox="0 0 298 298" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M235.917 142.791C235.917 142.791 211.083 169.674 211.083 186.25C211.083 199.97 222.196 211.084 235.917 211.084C249.637 211.084 260.75 199.97 260.75 186.25C260.75 169.674 235.917 142.791 235.917 142.791Z" />
@@ -473,7 +473,7 @@
             </div>
         </div>
         <!-- Image -->
-        <div class="col" clickOutside (clickOutside)="clickOutsideImage()" *ngIf="editorConfig?.mode === 'prime'">
+        <div class="col" clickOutside (clickOutside)="clickOutsideImage()" *ngIf="editorConfig?.mode === 'prime' && false">
             <button (click)="uploadImage = true" [class.active]="uploadImage" [csTooltip]="'Add Image'"
                 placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
 
