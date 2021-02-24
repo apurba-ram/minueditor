@@ -99,7 +99,12 @@ export class EditorContainerComponent
   /**
   * @param event - Event which stores the link emitted from the link popup
   */
-  saveLink(event: any): void {
+  insertLink(event: any): void {
+    
+    if(!this.sel || !this.sel.anchorNode) {
+      this.focus();
+    }
+    console.log(this.sel);
     const anchorTag = document.createElement('a');
     anchorTag.innerHTML = event.linkText;
     anchorTag.setAttribute('href', event.linkUrl);
@@ -107,8 +112,13 @@ export class EditorContainerComponent
     anchorTag.setAttribute('target', '_blank');
     anchorTag.setAttribute('rel', 'noopener noreferrer');
 
-    this.sel.removeAllRanges();
-    const range = this.oldRange.cloneRange();
+    let range: any;
+    if(!this.oldRange) {
+      range = this.sel.getRangeAt(0).cloneRange();
+    } else {
+      range = this.oldRange.cloneRange();
+    }   
+    this.sel.removeAllRanges(); 
     range.insertNode(anchorTag);
     range.setStartAfter(anchorTag);
     range.collapse();
