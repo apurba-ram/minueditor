@@ -100,11 +100,6 @@ export class EditorContainerComponent
   * @param event - Event which stores the link emitted from the link popup
   */
   insertLink(event: any): void {
-    
-    if(!this.sel || !this.sel.anchorNode) {
-      this.focus();
-    }
-    console.log(this.sel);
     const anchorTag = document.createElement('a');
     anchorTag.innerHTML = event.linkText;
     anchorTag.setAttribute('href', event.linkUrl);
@@ -123,6 +118,8 @@ export class EditorContainerComponent
     range.setStartAfter(anchorTag);
     range.collapse();
     this.sel.addRange(range);
+
+    this.writeValue(document.getElementById(`${this.id}`).innerHTML);
   }
 
   resetToolbar(): void {
@@ -583,6 +580,8 @@ export class EditorContainerComponent
         break;
       case 'subscript': this.insertSubTag();
         break;
+      case 'link': this.insertLink(value);
+                   break;
       case 'bold':
         document.execCommand('bold', false, '');
         break;

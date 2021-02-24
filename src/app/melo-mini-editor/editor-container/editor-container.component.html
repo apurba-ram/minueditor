@@ -9,7 +9,7 @@
     <div class="editor-tools"
         [class.bottom]="!editorConfig?.toolbarPlacement || editorConfig?.toolbarPlacement === 'bottom'"
         [class.top]="editorConfig?.toolbarPlacement === 'top'">
-        <app-editor-menu (linkInEditor)="insertLink($event)" (imageInEditor)="saveImage($event)"
+        <app-editor-menu (linkInEditor)="toolbarClicked($event)" (imageInEditor)="saveImage($event)"
             (sendSavedFiles)="saveFiles($event)" (buttonClick)="toolbarClicked($event)" [toolbarConfig]="toolbarConfig"
             [editorConfig]="editorConfig" [moreOptionsButton]="morebutton"></app-editor-menu>
     </div>

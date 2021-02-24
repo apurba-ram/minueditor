@@ -287,9 +287,12 @@ export class EditorMenuComponent {
         this.invalidUrlMessage = 'Please provde a valid URL';
     } else {    
       const obj = {
-            linkUrl:this.linkUrl,
-            linkText:this.linkText?.trim() ?? '',
-            linkTitle:this.linkTitle?.trim() ?? ''
+            value: {
+              linkUrl:this.linkUrl,
+              linkText:this.linkText?.trim() ?? '',
+              linkTitle:this.linkTitle?.trim() ?? ''
+            },
+            id: 'link'
       };
       this.linkInEditor.emit(obj);
       this.closeAddLinksPopover();
