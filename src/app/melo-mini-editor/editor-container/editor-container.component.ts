@@ -198,7 +198,7 @@ export class EditorContainerComponent
       imgContainer.addEventListener('blur',(event: any)=>{
          
         const resizerDiv=document.getElementById('resize-pointer')
-        // resizerDiv.remove()
+        resizerDiv.remove()
           
         console.log("IMAGE CONTAINER AFTER BLUR",imgContainer)
       })
