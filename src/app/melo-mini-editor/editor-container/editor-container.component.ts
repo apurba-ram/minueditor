@@ -34,7 +34,7 @@ export class EditorContainerComponent
   @Input() editorConfig: EditorConfig;
   @Output() comment = new EventEmitter<string>();
   @Output() sendSavedFiles = new EventEmitter<any>();//coming from menu to container from container to ap
-  @ViewChild('editorContainer') editorContainer!: ElementRef;
+  @ViewChild('editorContainer') editorContainer: ElementRef;
   imageToBeShown: any
   filesFromChild: any
   html: string;
@@ -60,7 +60,7 @@ export class EditorContainerComponent
   fontColor: string;
   backgroundColor: string;
   clicked = false;
-  morebutton = false;
+  moreOptionsButton: boolean;
   populateFlag: number;
 
   constructor() {
@@ -172,13 +172,6 @@ export class EditorContainerComponent
 
   ngOnInit(): void {
     this.sel = window.getSelection();
-    setTimeout(() => {
-      if (this.editorContainer.nativeElement.offsetWidth > 500) {
-        this.morebutton = false;
-      } else {
-        this.morebutton = true;
-      }
-    }, 5);
   }
 
   ngAfterViewInit(): void {
@@ -187,7 +180,12 @@ export class EditorContainerComponent
       this.selectionChange.bind(this),
       false
     );
-
+    // console.log(this.editorContainer.nativeElement.offsetWidth);
+    if (this.editorContainer.nativeElement.offsetWidth > 600) {
+      this.moreOptionsButton = false;
+    } else {
+      this.moreOptionsButton = true;
+    }
   }
   immageResize() {
     const imageWidth = document.getElementById('contentimage').offsetWidth;
