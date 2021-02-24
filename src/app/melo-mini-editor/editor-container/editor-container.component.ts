@@ -204,7 +204,7 @@ export class EditorContainerComponent
   }
  /**
   * 
-  * @param event - Event fired whenever there is a slection change
+  * @param event - Event fired whenever there is a selection change
   */
   selectionChange(event: any): void {
     if (document.activeElement === document.getElementById(this.id)) {

@@ -168,7 +168,7 @@
                 </svg>
             </button>
             <div class="popover small" *ngIf="alignment">
-                <ul class="option-list">
+                <ul class="option-list" (click)="alignment = false;">
                     <li data-id="left-align">
                         <!-- Left Align -->
                         <button data-id="left-align">
