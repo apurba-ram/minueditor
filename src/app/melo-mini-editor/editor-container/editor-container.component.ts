@@ -646,9 +646,6 @@ export class EditorContainerComponent
         break; //8,9,10,11,12,14,18,24,32,36,48
       case 'fontsize-arial': document.execCommand('fontName', false, 'arial');
         break;
-      case 'fontsize-8': 
-      case 'fontsize-9':       
-      case 'fontsize-10': 
       case 'fontsize-11':      
       case 'fontsize-12': 
       case 'fontsize-14':       
