@@ -59,9 +59,11 @@ export class EditorContainerComponent
   savedLinks:any=[]
   showResizeDiv:boolean=false
   toolbarConfig: ToolbarConfig;
-
   fontColor: string;
   backgroundColor: string;
+  ResizableNumber:number=0
+  ResizeClicked:boolean=false
+  PrevIousImage:number
 
   constructor(private zone: NgZone, private ref: ChangeDetectorRef) {
     this.editorConfig = {
@@ -109,80 +111,88 @@ export class EditorContainerComponent
   {
     this.imageToBeShown=$event
     // console.log("Image from menu to container",this.imageToBeShown)
-    const pTag=document.createElement('p')
-    pTag.setAttribute('class','ImageP')
-    pTag.setAttribute('id','imageP');
-    pTag.setAttribute('contenteditable', 'false');
-    document.getElementsByClassName('editable-block')[0].appendChild(pTag)
+
+    const id = (() => {
+      // Math.random should be unique because of its seeding algorithm.
+      // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+      // after the decimal.
+      return '_' + Math.random().toString(36).substr(2, 9);
+    })();
+    console.log('ID', id);
+    const ResizableDiv=document.createElement('div')//outer most div 
+    ResizableDiv.setAttribute('class','ResizableDiv');
+    ResizableDiv.setAttribute('tabindex','0');
+    ResizableDiv.setAttribute('id', id);
+    ResizableDiv.setAttribute('contenteditable', 'false');
+
+    
+    const ResizerDiv = document.createElement('div');
+    ResizerDiv.setAttribute('class','ResizerDiv');
+
+   
+    const ResizerLeftTop=document.createElement('div');
+    ResizerLeftTop.setAttribute('class','ResizerLeftTop');
+    ResizerLeftTop.setAttribute('id','LT'+id);
+
+    const ResizerRightTop=document.createElement('div')
+    ResizerRightTop.setAttribute('class','ResizerRightTop')
+    ResizerRightTop.setAttribute('id', 'RT'+id);
+
+    const ResizerLeftBottom=document.createElement('div')
+    ResizerLeftBottom.setAttribute('class','ResizerLeftBottom')
+    ResizerLeftBottom.setAttribute('id', 'LB' + id);
+    
+    const ResizerRightBottom=document.createElement('div')
+    ResizerRightBottom.setAttribute('class','ResizerRightBottom')
+    ResizerRightBottom.setAttribute('id', 'RB' + id);
+    //this is img tag to show image in the resizer div
     const imgTag= document.createElement('img')
     imgTag.setAttribute('class',"EdiotorImage")
-    imgTag.setAttribute('id','editableImg')
+    // imgTag.setAttribute('id','editableImg')
     // imgTag.setAttribute('style','resize: both')
     // imgTag.setAttribute('style','overflow:auto')
     imgTag.setAttribute('style','cursor:pointer')
-    imgTag.style.width=200+"px"
-    imgTag.style.height=200+"px"
+    // imgTag.style.width=200+"px"
+    // imgTag.style.height=200+"px"
     imgTag.setAttribute('src',this.imageToBeShown[(this.imageToBeShown.length-1)].imgUrl)
-    document.getElementsByClassName('ImageP')[this.imageToBeShown.length-1].appendChild(imgTag)
-    console.log("image",imgTag)
-    this.imageToBeShown.forEach((e,i) => {
-      document.getElementsByClassName('EdiotorImage')[i].addEventListener('click',()=>{
-        this.imageResize(i);
-    }, false)
+  
+  
+
+
+    ResizerDiv.appendChild(ResizerLeftBottom);
+    ResizerDiv.appendChild(ResizerRightBottom);
+    ResizerDiv.appendChild(ResizerLeftTop);
+    ResizerDiv.appendChild(ResizerRightTop);
+    ResizerDiv.appendChild(imgTag);
+
+    ResizableDiv.appendChild(ResizerDiv);
+
+    ResizableDiv.addEventListener('blur',(event: any)=>{
+      console.log('BLUR', event.target.id);
     });
+
+    ResizableDiv.addEventListener('focus',(event: any)=>{
+      console.log('FOCUS', event.target.id);
+
+    });
+
+    document.getElementsByClassName('editable-block')[0].appendChild(ResizableDiv);
+    return;
+   
+
+    console.log("image",imgTag)
+    this.ResizableNumber=this.ResizableNumber+1
+
+    const element1 = document.querySelector('.EdiotorImage')
+
+
+
+
   }
 
   imageResize(event)
   {
-    console.log("image clicked", event)
-   const rect= document.getElementsByClassName('EdiotorImage')[event].getBoundingClientRect()
-    var ImgTop=rect.top
-    var ImgBottom=rect.top
-    var ImgLeft=rect.left
-    var ImgRight=rect.right
     
-    // const ResizeDiv=document.getElementById('reSizableDiv')
-    // console.log("div",ResizeDiv)
-    if(this.showResizeDiv===false)
-    {
-      this.showResizeDiv=true
-    }
-    
-    console.log("showresize div value",this.showResizeDiv)
-      const ResizeDiv=document.getElementById('reSizableDiv')
-      //create resizable diiv
-      // const ResizeDiv=document.createElement('div')
-      // ResizeDiv.setAttribute('id','reSizableDiv')
-      console.log("div in if",ResizeDiv)
-      if(ResizeDiv) {
-        ResizeDiv.style.border=10+"px solid green"
-        ResizeDiv.style.position="absolute"
-        ResizeDiv.style.left=ImgLeft-20+"px"
-        ResizeDiv.style.top=ImgTop-75+"px"
-        ResizeDiv.style.width=205+"px"
-        ResizeDiv.style.height=190+"px"
-      }
-       console.log("resize created",ResizeDiv)
-      // document.getElementById('imageP').appendChild(ResizeDiv)
-
-  
-    // else{
-    //   //just chnage resizzable div possitions
-    //   const ResizeDiv=document.getElementById('reSizableDiv')
-    //   console.log("else",ResizeDiv)
-    //   ResizeDiv.style.left=ImgLeft-20+"px"
-    //   ResizeDiv.style.top=ImgTop-75+"px"
-    // }
-   
-    document.getElementsByClassName("editable-block")[0].addEventListener("click", (e)=>
-    {
-      // console.log("mouse movement",e.x,e.y)
-      if(e.x<ImgLeft || e.y<ImgTop ||e.x>ImgRight || e.y<ImgBottom)
-      {
-        console.log("clicked outside")
-      }
-    })
-
   }
   
   
