@@ -1,19 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ToolsContainerComponent } from './tools-container/tools-container.component';
 import { ColorPaletteComponent } from './color-palette/color-palette.component';
-import { FontListComponent } from './font-list/font-list.component';
 import { ClickOutsideDirective } from './click-outside.directive';
 import { FormsModule } from '@angular/forms';
+import { TooltipDirective } from './tooltip.directive';
 
 @NgModule({
-  declarations: [ToolsContainerComponent, ColorPaletteComponent, FontListComponent, ClickOutsideDirective],
+  declarations: [ColorPaletteComponent, ClickOutsideDirective, TooltipDirective],
   imports: [
     CommonModule,
     FormsModule
   ],
   exports: [
-    ToolsContainerComponent, ColorPaletteComponent, FontListComponent, ClickOutsideDirective
+    ColorPaletteComponent, ClickOutsideDirective, TooltipDirective
   ]
 })
 export class ToolsModule { }

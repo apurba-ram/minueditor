@@ -16,7 +16,8 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   exports: [
-    EditorContainerComponent
+    EditorContainerComponent,
+    EditorMenuComponent
   ]
 })
 export class MeloMiniEditorModule { }

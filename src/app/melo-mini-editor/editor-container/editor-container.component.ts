@@ -64,46 +64,26 @@ export class EditorContainerComponent
   ResizableNumber:number=0
   ResizeClicked:boolean=false
   PrevIousImage:number
+  clicked = false;
 
   constructor(private zone: NgZone, private ref: ChangeDetectorRef) {
-    this.editorConfig = {
-      file: false,
-      mentionedNames: [],
-      mentionedDates: [],
-      colorPalette: [
-        '#FF5630',
-        '#000000',
-        '#414141',
-        '#36B37E',
-        '#6554C0',
-        '#FF7A00',
-        '#008299',
-        ' #1E5DD3',
-        '#F0B819',
-        '#00FFF7',
-      ],
-      buttonName: '',
-      fontColor: false,
-      highlightColor: false,
-      placeholder: '',
-      toolbarPlacement: 'top',
-    };
-
     this.fontColor = 'black';
     this.backgroundColor = 'white';
-
     this.toolbarPlacement = 'bottom';
     this.placeholder = '';
     this.id = nanoid();
     this.resetToolbar();
   }
 
-//from menu to container
-  filesSaved($event: any) {
-    this.filesFromChild = $event;
-    console.log("files after saving in parent",this.filesFromChild)
-    this.sendSavedFiles.emit(this.filesFromChild)
-    
+ 
+  /**
+  * @param event - Event which stores the files that are emitted from the file popup
+  */
+  saveFiles(event: any): void {
+    // this.filesFromChild = $event;
+    // console.log("files after saving in parent",this.filesFromChild)
+    console.log(event);
+    this.sendSavedFiles.emit(event);
   }
 
 //show image in ediotr
@@ -215,6 +195,39 @@ export class EditorContainerComponent
         console.log("anchor tag",anchonrTag)
         document.getElementsByClassName('editable-block')[0].appendChild(anchonrTag)
   }
+  /**
+  * @param event - Event which stores the image emitted from the image popup
+  */
+  saveImage(event:any): void{
+    const imgTag = document.createElement('img')
+    imgTag.setAttribute('src', event.url);
+    this.sel.removeAllRanges();
+    const range = this.oldRange.cloneRange();
+    range.insertNode(imgTag);
+    range.setStartAfter(imgTag);
+    range.collapse();
+    this.sel.addRange(range);
+  }
+
+  /**
+  * @param event - Event which stores the link emitted from the link popup
+  */
+  saveLink(event:any) : void{
+    const anchorTag = document.createElement('a');
+    anchorTag.innerHTML = event.linkText;
+    anchorTag.setAttribute('href', event.linkUrl);
+    anchorTag.setAttribute('title', event.linkTitle);
+    anchorTag.setAttribute('target', '_blank');
+    anchorTag.setAttribute('rel', 'noopener noreferrer');
+
+    this.sel.removeAllRanges();
+    const range = this.oldRange.cloneRange();
+    range.insertNode(anchorTag);
+    range.setStartAfter(anchorTag);
+    range.collapse();
+    this.sel.removeAllRanges();
+    this.sel.addRange(range);
+  }
   
   resetToolbar(): void {
     this.toolbarConfig = {
@@ -269,6 +282,12 @@ export class EditorContainerComponent
       this.selectionChange.bind(this),
       false
     );
+    
+  }
+  immageResize() {
+    const imageWidth = document.getElementById('contentimage').offsetWidth;
+    const imageHeight = document.getElementById('contentimage').offsetWidth;
+    console.log('Hi');
   }
 
   ngOnDestroy(): void {
@@ -281,7 +300,7 @@ export class EditorContainerComponent
 
   selectionChange(event: any): void {
     if (document.activeElement === document.getElementById(this.id)) {
-      // console.log(this.sel);
+      this.oldRange = this.sel.getRangeAt(0).cloneRange();
       this.setFontAndbackgroundColor();
       this.toolbarConfig = {
         bold: document.queryCommandState('bold'),
@@ -318,6 +337,9 @@ export class EditorContainerComponent
         this.fontColor = 'black';
         this.backgroundColor = 'white';
       }
+    } else {
+        this.fontColor = 'black';
+        this.backgroundColor = 'white';
     }
   }
 
@@ -424,6 +446,9 @@ export class EditorContainerComponent
     }
   }
    
+  /**
+  * @param event - This parameter is an event that is occurred whenever we make changes inside the div contenteditable
+  */
   setValue(event: any): void {
     event.stopPropagation();
     this.innerText = event.target.innerText;
@@ -458,15 +483,11 @@ export class EditorContainerComponent
     }
 
     this.writeValue(document.getElementById(`${this.id}`).innerHTML);
-
-    //  get cursor possition
-    console.log("OLD Range",this.oldRange)
-    console.log("last char", window.getSelection().anchorNode)
-    
-
-
   }
 
+  /**
+  * This function is called whenever the mention tab is closed
+  */
   mentionClosed(): void {
     // insert mentions
 
@@ -496,13 +517,16 @@ export class EditorContainerComponent
     //  this.valueInput = true;
   }
 
+  /**
+  * @param event - This parameter is an event that is occurred whenever we paste things inside the div contenteditable
+  */
   onPaste(event: any): void {
     event.preventDefault();
     const clipboardData = event.clipboardData;
     let pastedHtml = clipboardData.getData('text/html');
     let pastedText = clipboardData.getData('text');
     const regexStyle = /style=".+?"/g; // matching all inline styles
-    const regexComment = /<!--.+?-->/g; // matching all inline styles
+    // const regexComment = /<!--.+?-->/g; // matching all inline styles
     if (pastedHtml === '' && pastedText !== '') {
       const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
       pastedText = pastedText.replace(rex, (match: any) => {
@@ -511,12 +535,7 @@ export class EditorContainerComponent
       document.execCommand('insertHtml', false, pastedText);
     } else {
       // console.log('HERE', pastedHtml);
-      pastedHtml = pastedHtml.replace(regexStyle, (match: any) => {
-        // console.log('M');  
-        // console.log(match);
-        return '';
-      });
-      pastedHtml = pastedHtml.replace(regexComment, (match: any) => '');
+      pastedHtml = pastedHtml.replace(regexStyle, (match: any) =>  '');
       const rexa = /href=".*?"/g; // match all a href
       pastedHtml = pastedHtml.replace(rexa, (match: any) => {
         const str = ' target="_blank" rel="noopener noreferrer"';
@@ -528,28 +547,47 @@ export class EditorContainerComponent
 
   toolbarClicked(event: any): void {
     if (this.oldRange) {
-      this.sel.removeAllRanges();
-      const range = this.oldRange.cloneRange();
-      const t = document.createTextNode('');
-      range.insertNode(t);
-      range.setStartAfter(t);
-      range.collapse();
-      this.sel.addRange(range);
+
+      if(this.oldRange.collapsed) {
+        this.sel.removeAllRanges();
+        const range = this.oldRange.cloneRange();
+        const t = document.createTextNode('');
+        range.insertNode(t);
+        range.setStartAfter(t);
+        range.collapse();
+        this.sel.addRange(range);
+      }
+      // if(event?.id !== 'textColor' && event?.id !== 'fillColor') {
+      // } else {
+      //   if(this.oldRange.collapsed) {
+      //     this.sel.removeAllRanges();
+      //     const range = this.oldRange.cloneRange();
+      //     const t = document.createTextNode('');
+      //     range.insertNode(t);
+      //     range.setStartAfter(t);
+      //     range.collapse();
+      //     this.sel.addRange(range);
+      //   }
+      // }
     } else {
       this.focus();
     }
     this.toolbarOperations(event?.id, event?.value);
   }
 
+  /**
+   * 
+   * @param id- represents the toolbar button that was clicked
+   * @param value - Value that is passed from the toolbar to editor to perform operations
+   */
   toolbarOperations(id: string, value: any): void {
-    if (id && id !== 'fillColor' && id !== 'textColor') {
+    if (id && id !== 'fillColor' && id !== 'textColor' && id !== 'subscript' && id !== 'superscript' && id !== 'quote') {
       if (!this.toolbarConfig[id]) {
         this.toolbarConfig[id] = true;
       } else {
         this.toolbarConfig[id] = false;
       }
     }
-   // console.log('SAR WAAR BHI PHAT GAYE', id);
     switch (id) {
       case 'h1': 
       case 'h2': 
@@ -559,7 +597,7 @@ export class EditorContainerComponent
                    break; 
       case 'superscript': this.insertSupTag();
                         break;
-      case 'subscript': this.insertSupTag();
+      case 'subscript': this.insertSubTag();
                         break;
       case 'bold':
         document.execCommand('bold', false, '');
@@ -582,11 +620,10 @@ export class EditorContainerComponent
       case 'quote':
         this.insertBlockQuote();
         break;
-      case 'link':
-      case 'increase-indent':
+      case 'increaseIndent':
         document.execCommand('indent', false, '');
         break;
-      case 'decrease-indent':
+      case 'decreaseIndent':
         document.execCommand('outdent', false, '');
         break;
       case 'left-align':
@@ -598,14 +635,37 @@ export class EditorContainerComponent
       case 'right-align':
         document.execCommand('justifyright', false, '');
         break;
+      case 'justify-full':
+        document.execCommand('justifyfull', false, '');
+        break;
       case 'fillColor':
         document.execCommand('styleWithCSS', false, '');
         document.execCommand('hiliteColor', false, value);
+        this.sel.getRangeAt(0).collapse();
         break;
       case 'textColor':
         document.execCommand('styleWithCSS', false, '');
         document.execCommand('foreColor', false, value);
+        this.sel.getRangeAt(0).collapse();
         break;
+      case '@': this.insertTribute('@'); 
+                break;
+      case '#': this.insertTribute('#'); 
+                break;
+      case 'submit': this.commentAction();
+                     break;
+      case 'font-verdana': document.execCommand('fontName', false, 'verdana');
+                           break;
+      case 'font-arial': document.execCommand('fontName', false, 'arial');
+                         break;
+      case 'font-georgia': document.execCommand('fontName', false, 'georgia');
+                           break;
+      case 'font-impact': document.execCommand('fontName', false, 'impact');
+                          break;
+      case 'font-courier': document.execCommand('fontName', false, 'courier');
+                           break;
+      case 'font-tahoma': document.execCommand('fontName', false, 'tahoma');
+                          break;
     }
   }
 
@@ -668,12 +728,17 @@ export class EditorContainerComponent
     this.sel.getRangeAt(0).setStartAfter(space);
   }
 
+
+  /**
+   * 
+   * @param elem - The element whose parent element we need to find
+   * @param tagName - Tag name to check if it is the parent node of elem
+   */
   getParent(elem: any, tagName: string): any {
     if (elem) {
       if (elem?.nodeName === 'APP-TEXT-EDITOR') {
         return null;
       } else {
-        console.log('POKER', elem?.nodeName, tagName);
         if (elem.nodeName === tagName.toUpperCase()) {
           return elem;
         } else {
@@ -688,61 +753,41 @@ export class EditorContainerComponent
   /**
    *  Output event to export comment data and cleanup the editor
    */
-  comment_action(): void {
+  commentAction(): void {
     const event = document.getElementById(`${this.id}`).innerHTML;
     this.comment.emit(event);
     document.getElementById(`${this.id}`).innerHTML = '';
   }
 
-  // showImageInEditor():void
-  // {
-  //  var ImageTag= document.createElement('img')
-   
+  /**
+   * 
+   * @param char - Represents the tribute that was clicked from the toolbar i.e @ or #
+   */
+  insertTribute(char: string): void {
+    if (window.getSelection) {
+      const code = char === '@' ? 'Digit2' : 'Digit3';
+      const event = new KeyboardEvent('keydown', { key: `${char}`, code: `${code}` });
+      document.getElementById(this.id).dispatchEvent(event);
+      // if (this.oldRange) {
+      //   this.sel.removeAllRanges();
+      //   this.sel.addRange(this.oldRange);
+      //   document.getElementById(this.id).dispatchEvent(event);
+      //   const a = document.createTextNode(`${char}`);
+      //   this.oldRange.insertNode(a);
+      //   this.oldRange.setStartAfter(a);
+      //   this.sel.removeAllRanges();
+      //   this.sel.addRange(this.oldRange);
+      //   // this.setValue(this.innerText, this.innerHtml);
+      // } else {
+      //   this.focus();
+      //   this.oldRange = this.sel.getRangeAt(0).cloneRange();
+      //   this.insertTribute(char);
+      // }
+    }
+  }
 
-  // }
 
-  //   insertSupTag(): void {
-  //     const { startContainer } = this.sel.getRangeAt(0);
-  //     if (this.checkValidOperation(startContainer)) {
-
-  //       if (this.subTag) {
-  //         this.reachTextNode('sub');
-  //       }
-
-  //       if (!this.supTag) {
-  //         const sup = document.createElement('sup');
-  //         sup.innerHTML = '&#8204;';
-  //         const range =  this.sel.getRangeAt(0);
-  //         range.insertNode(sup);
-  //         range.setStart(sup, 1);
-  //         range.setEnd(sup, 1);
-  //         range.collapse();
-  //         this.showEmoji = false;
-  //       } else {
-  //         this.reachTextNode('sup');
-  //       }
-  //     }
-  //     this.focus();
-  //   }
-  //   insertSubTag(): void {
-  //     const { startContainer } = this.sel.getRangeAt(0);
-  //     if (this.checkValidOperation(startContainer)) {
-  //       if (this.supTag) {
-  //         this.reachTextNode('sup');
-  //       }
-  //       if (!this.subTag) {
-  //         const sub = document.createElement('sub');
-  //         sub.innerHTML = '&#8204;';
-  //         const range =  this.sel.getRangeAt(0);
-  //         range.insertNode(sub);
-  //         range.setStart(sub, 1);
-  //         range.setEnd(sub, 1);
-  //         range.collapse();
-  //         this.showEmoji = false;
-  //       } else {
-  //         this.reachTextNode('sub');
-  //       }
-  //     }
-  //     this.focus();
-  //   }
+  clickedOnImage() {
+    this.clicked = true;
+  }
 }
