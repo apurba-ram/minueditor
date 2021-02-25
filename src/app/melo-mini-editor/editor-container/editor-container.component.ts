@@ -66,7 +66,8 @@ export class EditorContainerComponent
   clicked = false;
   focused:boolean=false
   blured:boolean=true
-  dragEvent:boolean=true
+  dragEvent:boolean=false
+  countMouseUp:number=0
   imageEventeId:any
    original_width:any = 0;
    original_height:any = 0;
@@ -75,6 +76,8 @@ export class EditorContainerComponent
    original_mouse_x:any = 0;
    original_mouse_y:any = 0;
    minimum_size:any=0
+   imageContainerId:any
+ 
 
   constructor(private zone: NgZone, private ref: ChangeDetectorRef) {
     this.fontColor = 'black';
@@ -122,17 +125,18 @@ export class EditorContainerComponent
   */
   saveImage(event:any): void{
 
+    console.log("SAVE IMAGE AND CREATE IMAGE-CONTAINER")
       //generate random id  
       const id = (() => {
         return '_' + Math.random().toString(36).substr(2, 9);
       })();
 
        const imgContainer=document.createElement('div')
-       imgContainer.setAttribute('contenteditable','false')
+      //  imgContainer.setAttribute('contenteditable','false')
        imgContainer.setAttribute('class','image-container ')
        imgContainer.setAttribute('id','image-container'+id);
-       imgContainer.setAttribute('width','200px');
-       imgContainer.setAttribute('height','200px');
+      //  imgContainer.setAttribute('width','50px');
+      //  imgContainer.setAttribute('height','50px');
        imgContainer.setAttribute('tabindex','0');
        imgContainer.setAttribute('style','cursor: pointer;');
 
@@ -140,335 +144,410 @@ export class EditorContainerComponent
        imgTag.setAttribute('src', event.url);
        imgTag.setAttribute('id','contentimage'+id);
        imgTag.setAttribute('width','100%');
-       imgTag.setAttribute('height','auto');
+       imgTag.setAttribute('height','100%');
        imgContainer.appendChild(imgTag);
 
       //image focus
       imgContainer.addEventListener('focus',(event: any)=>{
-        const imageContainerId=event.target.id
+        this.imageContainerId=event.target.children[0].id
+
+        const imageId=event.target.children[0].id
+        console.log("IMAGE ID",event.target.children[0].id)
+
+        console.log("IMAGE CONTAINER EVENE",event)
 
         const resizerDiv=document.getElementById('resize-pointer')
-        console.log("Resizer div ",resizerDiv)
+        // console.log("Resizer div ",resizerDiv)
         if(resizerDiv===null)
         {  
+          this.countMouseUp=0;
           const resizerDiv=document.createElement('div')
           resizerDiv.setAttribute('class','resize-container active')
           resizerDiv.setAttribute('id','resize-pointer')
+          resizerDiv.setAttribute('width','100%');
+          resizerDiv.setAttribute('height','100%');
 
           const topLeft=document.createElement('div')
           topLeft.setAttribute('class','resize-pointer top-left active')
+          topLeft.setAttribute('id',' top-left ')
 
           const topRight=document.createElement('div')
           topRight.setAttribute('class','resize-pointer top-right active')
+          topRight.setAttribute('id',' top-right ')
 
           const bottomLeft=document.createElement('div')
           bottomLeft.setAttribute('class','resize-pointer bottom-left active')
+          bottomLeft.setAttribute('id',' bottom-left ')
 
           const bottomRight=document.createElement('div')
           bottomRight.setAttribute('class','resize-pointer bottom-right active')
+          bottomRight.setAttribute('id','bottom-right')
 
           const right=document.createElement('div')
           right.setAttribute('class','resize-pointer right active')
+          right.setAttribute('id',' right ')
 
           const left=document.createElement('div')
           left.setAttribute('class','resize-pointer left active')
+          left.setAttribute('id','left')
 
           const top=document.createElement('div')
           top.setAttribute('class','resize-pointer top active')
+          top.setAttribute('id','top')
 
           const bottom=document.createElement('div')
-          bottom.setAttribute('class','resize-pointer left active')
-
+          bottom.setAttribute('class','resize-pointer bottom active')
+          bottom.setAttribute('id',' bottom ')
+          
 
           // const bottomRight=document.createElement('div')
           // topRight.setAttribute('class','top-right')
 
           resizerDiv.appendChild(topLeft)
           resizerDiv.appendChild(topRight)
+          resizerDiv.appendChild(bottomLeft)
+          resizerDiv.appendChild(bottomRight)
+          resizerDiv.appendChild(bottom)
+          resizerDiv.appendChild(left)
+          resizerDiv.appendChild(top)
+          resizerDiv.appendChild(right)
 
-          document.getElementById(imageContainerId).appendChild(resizerDiv)
+          document.getElementById(event.target.id).appendChild(resizerDiv)
 
           console.log("Image container after focus",imgContainer)
           console.log("resizer pointer",resizerDiv)
+
+          // console.log("IMAGE SIZE AND RESIZEER DIV SIEZE",document.getElementById('ii'))
+
+          const minimum_size = 100;
+          // const max_size=
+          let original_width = 0;
+          let original_height = 0;
+          let original_x = 0;
+          let original_y = 0;
+          let original_mouse_x = 0;
+          let original_mouse_y = 0;
+          let resizer_width=0;
+          let resizer_height=0;
+          //GET ORIGINAL WIDTH AND HEIGHT OF IMAGE CONTAINER
+          function getOriginalSize(e,ID)
+          {
+            console.log("get original data")
+            original_width = parseFloat(getComputedStyle(document.getElementById(ID), null).getPropertyValue('width').replace('px', ''));
+            original_height = parseFloat(getComputedStyle(document.getElementById(ID), null).getPropertyValue('height').replace('px', ''));
+            resizer_width= parseFloat(getComputedStyle(document.getElementById('resize-pointer'), null).getPropertyValue('width').replace('px', ''));
+            resizer_height= parseFloat(getComputedStyle(document.getElementById('resize-pointer'), null).getPropertyValue('height').replace('px', ''));
+            original_x = document.getElementById(ID).getBoundingClientRect().left;
+            original_y = document.getElementById(ID).getBoundingClientRect().top;
+            original_mouse_x = e.pageX;
+            original_mouse_y = e.pageY;
+            console.log("LALALALALA")
+          }
+
+          //RESIZE IMAGE FROM TOP RIGHT
+          topRight.addEventListener('mousedown',(event)=>{
+            // console.log("IMAGE CONTAINER ID",this.imageContainerId)
+            // console.log("TOP RISIZE EVENTE",event.target)
+            this.dragEvent=true
+            getOriginalSize(event,this.imageContainerId)
+            console.log("AFTER GET ORIGINLA DATA")
+            window.addEventListener('mousemove', resizeTopRight)
+              console.log("MOUSEUP COUNT IN MOUSEDON TOP RIGHT",this.countMouseUp)
+              window.addEventListener('mouseup', stopResize.bind(this))
+            
+
+          })
+          
+          function resizeTopRight(e)
+          {
+            // console.log("RESIZE  DRAGEVENET",this.dragEvent)
+            console.log("TOP RIGHT RESIZING")
+            const width = original_width + (e.pageX - original_mouse_x)
+            const height = original_height - (e.pageY - original_mouse_y)
+            const rwidth = resizer_width + (e.pageX - original_mouse_x)
+            const rheight = resizer_height - (e.pageY - original_mouse_y)
+            //  console.log("WIDTH HEIGHT",width,height)
+             document.getElementById(event.target.children[0].id).style.width = width + 'px'
+             document.getElementById('resize-pointer').style.width = width + 'px'
+             
+          }
+
+
+          //Resize from  top left
+
+          topLeft.addEventListener('mousedown',(event)=>{
+            // console.log("IMAGE CONTAINER ID",this.imageContainerId)
+            // console.log("TOP LEFT RISIZE EVENTE",event.target)
+            this.dragEvent=true
+            getOriginalSize(event,this.imageContainerId)
+            console.log("AFTER GET ORIGINLA DATA")
+            window.addEventListener('mousemove', resizeTopLeft)
+            window.addEventListener('mouseup', stopResize.bind(this))
+          })
+
+
+          function resizeTopLeft(e)
+          {
+            const width = original_width - (e.pageX - original_mouse_x)
+            const height = original_height - (e.pageY - original_mouse_y)
+            const rwidth = resizer_width -(e.pageX - original_mouse_x)
+            const rheight = resizer_height - (e.pageY - original_mouse_y)
+
+            
+            // if()
+            if(e.pageX!==original_mouse_x || e.pageY!==original_mouse_y )
+            {
+              
+              // document.getElementById(event.target.children[0].id).style.height = height + 'px'
+            }
+            if (width > minimum_size && height > minimum_size) {
+
+              
+              document.getElementById(event.target.children[0].id).style.pointerEvents = 'none';
+              console.log("MOUSE POSITIONS X ",e.pageX,original_mouse_x)
+              document.getElementById(event.target.children[0].id).style.width = width + 'px'
+              document.getElementById('resize-pointer').style.width = width + 'px'
+              // document.getElementById(event.target.id).style.left = original_x + (e.pageX - original_mouse_x) + 'px'
+            }
+            // if (height > minimum_size) {
+             
+            //   //  document.getElementById(event.target.id).style.top = original_y + (e.pageY - original_mouse_y) + 'px'
+            // }
+          }
+
+          bottomLeft.addEventListener('mousedown',(event)=>{
+            // console.log("IMAGE CONTAINER ID",this.imageContainerId)
+            // console.log("TOP LEFT RISIZE EVENTE",event.target)
+            this.dragEvent=true
+            getOriginalSize(event,this.imageContainerId)
+            console.log("AFTER GET ORIGINLA DATA")
+            window.addEventListener('mousemove', resizeBottomLeft)
+            window.addEventListener('mouseup', stopResize.bind(this))
+          })
+
+          function resizeBottomLeft(e)
+          {
+            const height = original_height + (e.pageY - original_mouse_y)
+            const width = original_width - (e.pageX - original_mouse_x)
+            const rwidth = resizer_width +(e.pageX - original_mouse_x)
+            const rheight = resizer_height - (e.pageY - original_mouse_y)
+            
+            if (height > minimum_size) {
+              // document.getElementById(event.target.children[0].id).style.height = height + 'px'
+            }
+            if (width > minimum_size) {
+              document.getElementById(event.target.children[0].id).style.pointerEvents =   'none';
+              document.getElementById(event.target.children[0].id).style.width = width + 'px'
+              document.getElementById('resize-pointer').style.width = width + 'px'
+              //  document.getElementById(event.target.id).style.left = original_x + (e.pageX - original_mouse_x) + 'px'
+            }
+          }
+
+          //image resize from bottom right
+          bottomRight.addEventListener('mousedown',(event)=>{
+            // console.log("IMAGE CONTAINER ID",this.imageContainerId)
+            // console.log("TOP LEFT RISIZE EVENTE",event.target)
+            this.dragEvent=true
+            getOriginalSize(event,this.imageContainerId)
+            console.log("AFTER GET ORIGINLA DATA")
+            window.addEventListener('mousemove', resizeBottomRight)
+            window.addEventListener('mouseup', stopResize.bind(this))
+          })
+
+          function resizeBottomRight(e)
+          {
+            const width = original_width + (e.pageX - original_mouse_x);
+            const height = original_height + (e.pageY - original_mouse_y)
+            const rwidth = resizer_width +(e.pageX - original_mouse_x)
+            const rheight = resizer_height+(e.pageY - original_mouse_y)
+            if (width > minimum_size) {
+              document.getElementById(event.target.children[0].id).style.pointerEvents =   'none';
+              document.getElementById(event.target.children[0].id).style.width = width + 'px'
+              document.getElementById('resize-pointer').style.width = width + 'px'
+            }
+            if (height > minimum_size) {
+              // document.getElementById(event.target.children[0].id).style.height = height + 'px'
+            }
+          }
+
+          //image resize from top mid
+          top.addEventListener('mousedown',(event)=>{
+            // console.log("IMAGE CONTAINER ID",this.imageContainerId)
+            // console.log("TOP LEFT RISIZE EVENTE",event.target)
+            this.dragEvent=true
+            getOriginalSize(event,this.imageContainerId)
+            console.log("AFTER GET ORIGINLA DATA")
+            window.addEventListener('mousemove', resizeTop)
+            window.addEventListener('mouseup', stopResize.bind(this))
+          })
+
+
+          function resizeTop(e)
+          {
+            const height = original_height - (e.pageY - original_mouse_y)
+            const rheight = resizer_height-(e.pageY - original_mouse_y)
+            if (height > minimum_size) {
+              document.getElementById(event.target.children[0].id).style.pointerEvents =   'none';
+              document.getElementById(event.target.children[0].id).style.height = height + 'px'
+              document.getElementById('resize-pointer').style.height = height + 'px'
+              // document.getElementById(event.target.children[0].id).style.top = original_y + (e.pageY - original_mouse_y) + 'px'
+            }
+
+          }
+
+          bottom.addEventListener('mousedown',(event)=>{
+            // console.log("IMAGE CONTAINER ID",this.imageContainerId)
+            // console.log("TOP LEFT RISIZE EVENTE",event.target)
+            this.dragEvent=true
+            getOriginalSize(event,this.imageContainerId)
+            console.log("AFTER GET ORIGINLA DATA")
+            window.addEventListener('mousemove', resizeBottom)
+            window.addEventListener('mouseup', stopResize.bind(this))
+          })
+
+          
+          function resizeBottom(e)
+          {
+            const height = original_height + (e.pageY - original_mouse_y)
+            const rheight = resizer_height+(e.pageY - original_mouse_y)
+            if (height > minimum_size) {
+
+              document.getElementById(event.target.children[0].id).style.pointerEvents =   'none';
+              document.getElementById(event.target.children[0].id).style.height = height + 'px'
+              document.getElementById('resize-pointer').style.height = height + 'px'
+            }
+
+          }
+
+          left.addEventListener('mousedown',(event)=>{
+            // console.log("IMAGE CONTAINER ID",this.imageContainerId)
+            // console.log("TOP LEFT RISIZE EVENTE",event.target)
+            this.dragEvent=true
+            getOriginalSize(event,this.imageContainerId)
+            console.log("AFTER GET ORIGINLA DATA")
+            window.addEventListener('mousemove', resizeLeft)
+            window.addEventListener('mouseup', stopResize.bind(this))
+          })
+
+          function resizeLeft(e)
+          {
+            //height is also chnage because height is depended on width
+            console.log("RESIIZE FROM LEFT ONLY")
+            const width = original_width - (e.pageX - original_mouse_x)
+            const height = original_height - (e.pageY - original_mouse_y)
+            const rwidth = resizer_width - (e.pageX - original_mouse_x)
+            const rheight = resizer_height-(e.pageY - original_mouse_y)
+            console.log("MOUSE MOVE Y POS",e.pageY,original_mouse_y)
+            if (width > minimum_size) {
+              document.getElementById(event.target.children[0].id).style.pointerEvents =   'none';
+              document.getElementById(event.target.children[0].id).style.width = width + 'px';
+              document.getElementById(event.target.children[0].id).style.height = height + 'px'
+              document.getElementById('resize-pointer').style.width = rwidth + 'px'
+              document.getElementById('resize-pointer').style.height = rheight + 'px'
+
+              document.getElementById(event.target.children[0].id).style.marginLeft = original_x + (e.pageX - original_mouse_x) + 'px'
+              document.getElementById('resize-pointer').style.left = original_x + (e.pageX - original_mouse_x) + 'px'
+            }
+
+          }
+
+          right.addEventListener('mousedown',(event)=>{
+            // console.log("IMAGE CONTAINER ID",this.imageContainerId)
+            // console.log("TOP LEFT RISIZE EVENTE",event.target)
+            this.dragEvent=true
+            getOriginalSize(event,this.imageContainerId)
+            console.log("AFTER GET ORIGINLA DATA")
+            window.addEventListener('mousemove', resizeRight)
+            window.addEventListener('mouseup', stopResize.bind(this))
+          })
+
+          function resizeRight(e)
+          {
+            //height is also chnage because height is depended on width
+            console.log("RESIIZE FROM RIGHT ONLY")
+            const width = original_width +(e.pageX - original_mouse_x)
+            const height = original_height - (e.pageY - original_mouse_y)
+            const rwidth = resizer_width + (e.pageX - original_mouse_x)
+            const rheight = resizer_height-(e.pageY - original_mouse_y)
+            
+            if (width > minimum_size) {
+              document.getElementById(event.target.children[0].id).style.pointerEvents =   'none';
+              document.getElementById(event.target.children[0].id).style.width = width + 'px';
+              document.getElementById(event.target.children[0].id).style.height = height + 'px'
+              document.getElementById('resize-pointer').style.width = rwidth + 'px'
+              document.getElementById('resize-pointer').style.height = rheight + 'px'
+              // document.getElementById(event.target.children[0].id).style.left = original_x + (e.pageX - original_mouse_x) + 'px'
+              // document.getElementById('resize-pointer').style.left = original_x + (e.pageX - original_mouse_x) + 'px'
+            }
+
+          }
+
+          function stopResize(e)
+          {
+            console.log("MOUSE UP IN STOPRESIZE 1",this.countMouseUp)
+            this.countMouseUp=1
+            console.log("MOUSE UP IN STOPRESIZE 1",this.countMouseUp)
+            resizerDiv.remove()
+            this.dragEvent=false
+            console.log
+            console.log("DRAGEVENET STOP",this.dragEvent)
+            window.removeEventListener('mousemove', resizeTopRight)
+            window.removeEventListener('mousemove', resizeTopLeft)
+            window.removeEventListener('mousemove', resizeBottomLeft)
+            window.removeEventListener('mousemove',resizeBottomRight)
+            window.removeEventListener('mousemove',resizeTop)
+            window.removeEventListener('mousemove',resizeBottom)
+            window.removeEventListener('mousemove',resizeLeft)
+            window.removeEventListener('mousemove',resizeRight)
+            if(this.countMouseUp===1)
+            {
+              console.log("MOUSE UP > 1 IN  STOP")
+              // this.ImageContanerBlur()
+              resizerDiv.remove()
+            }
+          }          
         } 
+
        })
 
-      
+     
+
       //image blur
       imgContainer.addEventListener('blur',(event: any)=>{
-         
-        const resizerDiv=document.getElementById('resize-pointer')
-        // resizerDiv.remove()
-          
-        console.log("IMAGE CONTAINER AFTER BLUR",imgContainer)
+          this.ImageContanerBlur()
       })
 
+      //insert the image 
       this.sel.removeAllRanges();
       const range = this.oldRange.cloneRange();
+      console.log("RANGE",range)
       range.insertNode(imgContainer);
       range.setStartAfter(imgContainer);
+      let brTag=document.createElement('br')
+      document.getElementsByClassName('editable-block')[0].appendChild(brTag)
       range.collapse();
       this.sel.addRange(range);
-
-
-      //create image container
-    /*  console.log("Image save THIS IS LIFE")
-      const imgContainer=document.createElement('div')
-      imgContainer.setAttribute('contenteditable','false')
-      imgContainer.setAttribute('class','image-container ')
-      imgContainer.setAttribute('id','image-container'+id);
-
-
-      const topHandle=document.createElement('div')
-      topHandle.setAttribute('class','resize-pointer top ')
-      topHandle.setAttribute('draggable','true')
-      topHandle.setAttribute('id','top'+id)
-
-      const leftHandle=document.createElement('div')
-      leftHandle.setAttribute('class','resize-pointer left ')
-      leftHandle.setAttribute('draggable','true')
-      leftHandle.setAttribute('id','left'+id)
-
-
-      const rightHandle=document.createElement('div')
-      rightHandle.setAttribute('class','resize-pointer right ')
-      rightHandle.setAttribute('draggable','true')
-      rightHandle.setAttribute('id','right'+id)
-
-      const bottomHandle=document.createElement('div')
-      bottomHandle.setAttribute('class','resize-pointer bottom ')
-      bottomHandle.setAttribute('draggable','true')
-      bottomHandle.setAttribute('id','bottom'+id)
-
-      const bottomLeftHandle=document.createElement('div')
-      bottomLeftHandle.setAttribute('class','resize-pointer bottom-left  ')
-      bottomLeftHandle.setAttribute('draggable','true')
-      bottomLeftHandle.setAttribute('id','bottom-left'+id)
-
-      
-      const topLeftHandle=document.createElement('div')
-      topLeftHandle.setAttribute('class','resize-pointer top-left  ')
-      topLeftHandle.setAttribute('draggable','true')
-      topLeftHandle.setAttribute('id','top-left'+id)
-
-      
-      const bottomRightHandle=document.createElement('div')
-      bottomRightHandle.setAttribute('class','resize-pointer bottom-right')
-      bottomRightHandle.setAttribute('draggable','true')
-      bottomRightHandle.setAttribute('id','bottom-right'+id)
-
-      const topRightHandle=document.createElement('div')
-      topRightHandle.setAttribute('class','resize-pointer top-right')
-      topRightHandle.setAttribute('draggable','true')
-      topRightHandle.setAttribute('id','top-right'+id)
-
-      imgContainer.appendChild(topHandle)
-      imgContainer.appendChild(leftHandle)
-      imgContainer.appendChild(rightHandle)
-      imgContainer.appendChild(bottomHandle)
-      imgContainer.appendChild(topLeftHandle)
-      imgContainer.appendChild(topRightHandle)
-      imgContainer.appendChild(bottomLeftHandle)
-      imgContainer.appendChild(bottomRightHandle)
-
-      const spanContainer=document.createElement('span')
-      spanContainer.setAttribute('class','image-resize')
-      const imgTag = document.createElement('img')
-      spanContainer.appendChild(imgTag)
-      imgContainer.appendChild(spanContainer)
-      imgContainer.setAttribute('tabindex','0')
-      imgTag.setAttribute('src', event.url);
-      imgTag.setAttribute('id','contentimage')
-      imgTag.setAttribute('width','100%')
-      imgTag.setAttribute('height','auto')
-
-      this.sel.removeAllRanges();
-      const range = this.oldRange.cloneRange();
-      range.insertNode(imgContainer);
-      range.setStartAfter(imgContainer);
-      range.collapse();
-      this.sel.addRange(range);
-
-      
-      //now show handles on the image to resize
-
-      imgContainer.addEventListener('blur',(event: any)=>{
-      
-        
-        event.target.classList.remove('active')
-        event.target.children[0].classList.remove('active');
-        event.target.children[1].classList.remove('active');
-        event.target.children[2].classList.remove('active');
-        event.target.children[3].classList.remove('active');
-        event.target.children[4].classList.remove('active');
-        event.target.children[5].classList.remove('active');
-        event.target.children[6].classList.remove('active');
-        event.target.children[7].classList.remove('active');
-      });
-  
-      imgContainer.addEventListener('focus',(event: any)=>{
-
-
-        event.target.classList.add('active')
-        event.target.children[0].classList.add('active');
-        event.target.children[1].classList.add('active');
-        event.target.children[2].classList.add('active');
-        event.target.children[3].classList.add('active');
-        event.target.children[4].classList.add('active');
-        event.target.children[5].classList.add('active');
-        event.target.children[6].classList.add('active');
-        event.target.children[7].classList.add('active');
-         
-        const minimum_size = 20;
-        let original_width = 0;
-        let original_height = 0;
-        let original_x = 0;
-        let original_y = 0;
-        let original_mouse_x = 0;
-        let original_mouse_y = 0;
-
-        event.target.children[7].addEventListener('mousedown', function(e) {
-          e.preventDefault()
-          console.log("Mouse down")
-          original_width = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('width').replace('px', ''));
-          original_height = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('height').replace('px', ''));
-          original_x = imgContainer.getBoundingClientRect().left;
-          original_y = imgContainer.getBoundingClientRect().top;
-          console.log("LEFT",original_width,'TOP',original_height)
-          original_mouse_x = e.pageX;
-          original_mouse_y = e.pageY;
-          window.addEventListener('mousemove', resize)
-           window.addEventListener('mouseup', stopResize)
-        })
-
-        event.target.children[0].addEventListener('mousedown', function(e) {
-          e.preventDefault()
-          console.log("Mouse down")
-          original_width = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('width').replace('px', ''));
-          original_height = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('height').replace('px', ''));
-          original_x = imgContainer.getBoundingClientRect().left;
-          original_y = imgContainer.getBoundingClientRect().top;
-          original_mouse_x = e.pageX;
-          original_mouse_y = e.pageY;
-          window.addEventListener('mousemove', resize)
-          window.addEventListener('mouseup', stopResize)
-        })
-    
-        event.target.children[1].addEventListener('mousedown', function(e) {
-          e.preventDefault()
-          console.log("Mouse down")
-          original_width = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('width').replace('px', ''));
-          original_height = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('height').replace('px', ''));
-          original_x = imgContainer.getBoundingClientRect().left;
-          original_y = imgContainer.getBoundingClientRect().top;
-          original_mouse_x = e.pageX;
-          original_mouse_y = e.pageY;
-          window.addEventListener('mousemove', resize)
-          window.addEventListener('mouseup', stopResize)
-        })
-
-        event.target.children[2].addEventListener('mousedown', function(e) {
-          e.preventDefault()
-          console.log("Mouse down")
-          original_width = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('width').replace('px', ''));
-          original_height = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('height').replace('px', ''));
-          original_x = imgContainer.getBoundingClientRect().left;
-          original_y = imgContainer.getBoundingClientRect().top;
-          original_mouse_x = e.pageX;
-          original_mouse_y = e.pageY;
-          window.addEventListener('mousemove', resize)
-           window.addEventListener('mouseup', stopResize)
-        })
-
-        event.target.children[3].addEventListener('mousedown', function(e) {
-          e.preventDefault()
-          console.log("Mouse down")
-          original_width = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('width').replace('px', ''));
-          original_height = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('height').replace('px', ''));
-          original_x = imgContainer.getBoundingClientRect().left;
-          original_y = imgContainer.getBoundingClientRect().top;
-          original_mouse_x = e.pageX;
-          original_mouse_y = e.pageY;
-          window.addEventListener('mousemove', resize)
-           window.addEventListener('mouseup', stopResize)
-        })
-
-       
-        event.target.children[4].addEventListener('mousedown', function(e) {
-          e.preventDefault()
-          console.log("Mouse down")
-          original_width = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('width').replace('px', ''));
-          original_height = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('height').replace('px', ''));
-          original_x = imgContainer.getBoundingClientRect().left;
-          original_y = imgContainer.getBoundingClientRect().top;
-          original_mouse_x = e.pageX;
-          original_mouse_y = e.pageY;
-          window.addEventListener('mousemove', resize)
-           window.addEventListener('mouseup', stopResize)
-        })
-    
-        event.target.children[5].addEventListener('mousedown', function(e) {
-          e.preventDefault()
-          console.log("Mouse down")
-          original_width = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('width').replace('px', ''));
-          original_height = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('height').replace('px', ''));
-          original_x = imgContainer.getBoundingClientRect().left;
-          original_y = imgContainer.getBoundingClientRect().top;
-          original_mouse_x = e.pageX;
-          original_mouse_y = e.pageY;
-          window.addEventListener('mousemove', resize)
-           window.addEventListener('mouseup', stopResize)
-        })
-    
-
-        event.target.children[6].addEventListener('mousedown', function(e) {
-          e.preventDefault()
-          console.log("Mouse down")
-          original_width = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('width').replace('px', ''));
-          original_height = parseFloat(getComputedStyle(imgTag, null).getPropertyValue('height').replace('px', ''));
-          original_x = imgContainer.getBoundingClientRect().left;
-          original_y = imgContainer.getBoundingClientRect().top;
-          original_mouse_x = e.pageX;
-          original_mouse_y = e.pageY;
-          window.addEventListener('mousemove', resize)
-           window.addEventListener('mouseup', stopResize)
-        })
-    
-    
-    
-    
-    
-
-        function resize(e)
-        {
-          console.log("Mouse Move")
-          const width = original_width + (e.pageX - original_mouse_x);
-          const height = original_height + (e.pageY - original_mouse_y)
-          imgContainer.style.width = width + 'px'
-          imgContainer.style.height = height + 'px'
-          // if (width > minimum_size) {
-          //   spanContainer.style.width = width + 'px'
-          // }
-          // if (height > minimum_size) {
-          //   spanContainer.style.height = height + 'px'
-          // }
-        }
-    
-
-        function stopResize() {
-          console.log("Remove listener")
-          window.removeEventListener('mousemove', resize)
-        }
-  
-  
-      });
-
-
-  */
-      
-  
 
   }
+
+
+
+  //IMAGE CONTAINER BLUR
+  ImageContanerBlur()
+  {
+    const resizerDiv=document.getElementById('resize-pointer')
+    console.log("DRAGEVENET BLUR",this.dragEvent)
+    if(this.dragEvent===false)
+    {
+      resizerDiv.remove()
+      // console.log("IMAGE CONTAINER AFTER BLUR",imgContainer)
+    }
+
+  }
+
+
+  
+
 
   /**
   * @param event - Event which stores the link emitted from the link popup
