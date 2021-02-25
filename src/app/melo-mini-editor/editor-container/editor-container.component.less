@@ -4,30 +4,28 @@
     flex-wrap    : wrap;
     border-radius: 2px;
     border       : 1px solid #f1f1f1;
+    &:focus-within, &:hover {         
+        outline     : none;
+        border-color: #1e5dd3;
+        box-shadow  : 0 0 5px rgba(30, 93, 211, 0.27);
+       
+        .editor-tools {
+            box-shadow: 0 0 5px rgba(30, 93, 211, 0.27);
+        }
+    }
 
     
     .editable-block {
         display      : block;
         outline      : none;
         min-height   : 150px;
-        padding      : 15px;
+        padding      : 10px;
         border       : 1px solid #f1f1f1;
         border-radius: 2px 2px 0 0;
         border-bottom: transparent;
         width        : 100%;
         overflow: auto;
-
-        &:hover,
-        &:focus {
-            // box-shadow: 0 0 0 0;
-            outline     : none;
-            border-color: #1e5dd3;
-            box-shadow  : 0 0 5px rgba(30, 93, 211, 0.27);
-
-            &+.editor-tools {
-                box-shadow: 0 0 5px rgba(30, 93, 211, 0.27);
-            }
-        }
+        max-height: 200px;
 
         &.top {
             order: 2;
@@ -240,10 +238,12 @@
             order: 1;
             border-top: none;
             border-bottom: 1px solid #F1F1F1;
+            margin-bottom: 5px;
         }
 
         &.bottom {
             order: 2;
+            margin-top: 5px;
         }
     }
 }
