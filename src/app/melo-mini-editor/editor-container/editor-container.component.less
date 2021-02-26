@@ -57,6 +57,7 @@
                 width        : 100%;
                 height       : 100%;
                 margin-bottom: -4px;
+
             }
         }
 
@@ -65,26 +66,35 @@
             position: relative;
             border  : 4px solid transparent;
             outline      : none;
-            width: 50%;
+            // width: 50%;
             margin-top: 30px;
             // width: 200px;
             // height: 400px;
             // width: 100px;
             // height: 200px;
             img {
-                width: 100%;
+                display: block;
+                z-index: 2;
+                position: relative;
                 // height: 50%;
             }
 
             &.left {
-                float: left;
+                img {
+                    float: left;
+                }                
             }
 
             &.right {
-                float: right;
+                img {
+                    float: right;
+                }
             }
             &.center {
-                margin: 0 auto;
+                img {
+                    margin: 0 auto;
+                }
+                
             }
 
             ul {
@@ -158,8 +168,9 @@
                 right: 0;
                 bottom: 0;
                 left: 0;
-                width: 100%;
-                height: auto;
+                z-index: 3;
+                // width: 100%;
+                // height: auto;
                 border: 4px solid transparent;
                 &.active {
                     border-color: #1e5dd3;
@@ -189,6 +200,7 @@
                     cursor: e-resize;
                     right : -7px;
                     top   : calc(50% - 2px);
+                    
                 }
                 &.bottom {
                     cursor: s-resize;

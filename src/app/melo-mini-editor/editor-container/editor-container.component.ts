@@ -166,6 +166,7 @@ export class EditorContainerComponent
         let ulTag=document.createElement('ul')
         ulTag.setAttribute('id','alignment-list')
         ulTag.setAttribute('class','navigation')
+        // ulTag.setAttribute()
         let liLeft=document.createElement('li')
         let leftButton=document.createElement('button')
         leftButton.setAttribute('id','left-align-btn')
@@ -306,12 +307,18 @@ export class EditorContainerComponent
         // console.log("Resizer div ",resizerDiv)
         if(resizerDiv===null)
         {  
+          let imgWidth=document.getElementById(event.target.children[0].id).offsetWidth
+          let  imgHeight=document.getElementById(event.target.children[0].id).offsetHeight
+          console.log(imgWidth, imgHeight)
           this.countMouseUp=0;
           const resizerDiv=document.createElement('div')
           resizerDiv.setAttribute('class','resize-container active')
           resizerDiv.setAttribute('id','resize-pointer')
-          resizerDiv.setAttribute('width','100%');
-          resizerDiv.setAttribute('height','100%');
+          resizerDiv.style.width = imgWidth+'px';
+          resizerDiv.style.height = 'auto'
+
+
+
 
           const topLeft=document.createElement('div')
           topLeft.setAttribute('class','resize-pointer top-left active')
@@ -359,6 +366,8 @@ export class EditorContainerComponent
           resizerDiv.appendChild(right)
 
           document.getElementById(event.target.id).appendChild(resizerDiv)
+            console.log("IMAGE ELEMENT",event.target.children[0])
+          console.log("HEIGHT WIDTH IMAGE AND RESIZER ",imgWidth,imgHeight,resizerDiv.clientHeight,resizerDiv.clientWidth)
 
           console.log("Image container after focus",imgContainer)
           console.log("resizer pointer",resizerDiv)
@@ -415,6 +424,7 @@ export class EditorContainerComponent
             //  console.log("WIDTH HEIGHT",width,height)
              document.getElementById(event.target.children[0].id).style.width = width + 'px'
              document.getElementById('resize-pointer').style.width = width + 'px'
+             document.getElementById('resize-pointer').style.height = 'auto'
              
           }
 
@@ -729,7 +739,7 @@ export class EditorContainerComponent
       resizerDiv.remove()
       if(this.shouldAlign===false)
       {
-        // alignmentList.remove()
+        alignmentList.remove()
       }
       
       // console.log("IMAGE CONTAINER AFTER BLUR",imgContainer)
