@@ -1,5 +1,6 @@
 export interface EditorConfig {
     file?: boolean;
+    id?: string;
     mentionedNames?: MentionedName[];
     mentionedDates?: string[];
     colorPalette?: boolean;

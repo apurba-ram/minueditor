@@ -12,13 +12,13 @@ export class AppComponent {
   filesFromChild:any[] = [];
   title = 'minieditor';
   defValue = 'jdi';
-  modelvalue1 = 'retetertt';
-  modelvalue2 = '';
+  modelvalue1 = 'Marham bane';
+  modelvalue2: string = '';
   editorConfig1: EditorConfig = {
+    id: 'alleluiah',
     mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],
     mentionedDates: ['19-02-2020', '11-02-2020', '12-02-2020', '14-02-2020'],
     toolbarPlacement: 'bottom',
-    placeholder: 'Please Add Some Text',
     buttonName: 'Submit',
   };
 
@@ -26,7 +26,8 @@ export class AppComponent {
     file: true,
     colorPalette: true,
     toolbarPlacement: 'bottom',
-    mode: 'basic',
+    mode: 'prime',
+    id:'khwaab',
     placeholder: 'Please Add Some Text',
     buttonName: 'Upload',
     mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],

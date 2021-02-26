@@ -48,8 +48,7 @@ export class EditorContainerComponent
   node: any;
   tribute: string;
   flag: number;
-  placeholder: string;
-  mentionConfig: any;
+  mentionConfig: { mentions: any[] };
   mentionid: number | string;
   mentionedNames: { id: number; name: string }[];
   mentionedDates: string[];
@@ -67,10 +66,12 @@ export class EditorContainerComponent
     this.fontColor = 'black';
     this.backgroundColor = 'white';
     this.toolbarPlacement = 'bottom';
-    this.placeholder = '';
     this.id = nanoid();
     this.populateFlag = 0;
     this.resetToolbar();
+    this.mentionConfig = {
+      mentions: []
+    };
   }
 
 
@@ -142,20 +143,22 @@ export class EditorContainerComponent
   onTouch: any = () => { };
 
   set htmlVal(html) {
-   
+    console.log('HTML', html);
     if (html !== null && html !== undefined && this.html !== html) {
       this.html = html;
-      if(this.populateFlag === 0 && document.getElementById(this.id)) {
-        ++this.populateFlag;
-        document.getElementById(this.id).innerHTML = this.html;
-      }
       this.onChange(html);
       this.onTouch(html);
     }
   }
 
-  writeValue(value: any): void {
+  writeValue(value: string): void {
+    console.log('VALUE', value, this.populateFlag, document.getElementById(this.id));
+    if(this.populateFlag === 0 && document.getElementById(this.id)) {
+        ++this.populateFlag;
+        document.getElementById(this.id).innerHTML = value ?? '';
+    }
     this.htmlVal = value;
+    
   }
 
   ngAfterViewChecked(): void {
@@ -286,22 +289,18 @@ export class EditorContainerComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.editorConfig && this.editorConfig) {
-      this.placeholder = this.editorConfig?.placeholder ?? 'Please Add Some Text';
+      this.id = this.editorConfig?.id ?? this.id;
 
-      this.mentionConfig = {};
-      if (
-        Array.isArray(this.editorConfig?.mentionedNames) &&
-        this.editorConfig?.mentionedNames.length > 0
-      ) {
-        this.editorConfig.mentionedNames = this.editorConfig?.mentionedNames.filter(
-          (item: { id: number; name: string }) => {
+      this.mentionConfig = {
+        mentions: []
+      };
+      if (this.editorConfig?.mentionedNames && Array.isArray(this.editorConfig?.mentionedNames) && this.editorConfig?.mentionedNames.length > 0) {
+        this.editorConfig.mentionedNames = this.editorConfig?.mentionedNames.filter((item: { id: number; name: string }) => {
             if (item.id !== 0 && item.name.trim() !== '') {
               return item;
             }
-          }
-        );
+        });
 
-        this.mentionConfig.mentions = [];
         this.mentionConfig.mentions.push({
           items: this.editorConfig.mentionedNames,
           triggerChar: '@',
@@ -316,10 +315,7 @@ export class EditorContainerComponent
           dropUp: true,
         });
       }
-      if (
-        Array.isArray(this.editorConfig?.mentionedDates) &&
-        this.editorConfig?.mentionedDates.length > 0
-      ) {
+      if (this.editorConfig?.mentionedDates && Array.isArray(this.editorConfig?.mentionedDates) && this.editorConfig?.mentionedDates.length > 0) {
         this.editorConfig.mentionedDates = [
           ...new Set(this.editorConfig?.mentionedDates),
         ];
@@ -418,6 +414,9 @@ export class EditorContainerComponent
       this.startOffset = this.sel.getRangeAt(0).startOffset;
     }
 
+    if(this.populateFlag === 0) {
+      this.populateFlag++;
+    }
     this.writeValue(document.getElementById(`${this.id}`).innerHTML);
   }
 
@@ -448,6 +447,7 @@ export class EditorContainerComponent
       range.setStartAfter(input);
       this.sel.addRange(range);
       this.tribute = '';
+      this.writeValue(document.getElementById(`${this.id}`).innerHTML);
     }
   }
 
