@@ -143,7 +143,6 @@ export class EditorContainerComponent
   onTouch: any = () => { };
 
   set htmlVal(html) {
-    console.log('HTML', html);
     if (html !== null && html !== undefined && this.html !== html) {
       this.html = html;
       this.onChange(html);
@@ -152,7 +151,6 @@ export class EditorContainerComponent
   }
 
   writeValue(value: string): void {
-    console.log('VALUE', value, this.populateFlag, document.getElementById(this.id));
     if(this.populateFlag === 0 && document.getElementById(this.id)) {
         ++this.populateFlag;
         document.getElementById(this.id).innerHTML = value ?? '';
