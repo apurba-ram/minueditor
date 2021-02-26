@@ -552,7 +552,7 @@
             </div>
         </div>
         <!-- More options -->
-        <div class="col" *ngIf="moreOptionsButton" clickOutside (clickOutside)="clickOutsideMoreOptions()">
+        <div class="col" clickOutside (clickOutside)="clickOutsideMoreOptions()" *ngIf="moreOptionsButton">
             <button (click)="showMoreOptions()" [class.active]="moreOptions">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024"
                     viewBox="0 0 1024 1024">
@@ -633,7 +633,7 @@
             </div>
         </div>
 
-        <ng-container *ngIf="!moreOptionsButton">
+        <div class="child-row" *ngIf="!moreOptionsButton">
             <!-- Quote -->
             <div class="col" data-id="quote">
                 <button data-id="quote" [csTooltip]="'Quote'" placement="bottom" delay="0" type="black" [class.active]="toolbarConfig?.quote"
@@ -695,7 +695,7 @@
                     </svg>
                 </button>
             </div>
-        </ng-container>
+        </div>
     </div>
     <div class="right">
         <!-- @ -->

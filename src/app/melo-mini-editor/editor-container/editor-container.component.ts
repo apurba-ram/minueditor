@@ -34,7 +34,7 @@ export class EditorContainerComponent
   @Input() editorConfig: EditorConfig;
   @Output() comment = new EventEmitter<string>();
   @Output() sendSavedFiles = new EventEmitter<any>();//coming from menu to container from container to ap
-  @ViewChild('editorContainer') editorContainer!: ElementRef;
+  @ViewChild('editorContainer') editorContainer: ElementRef;
   imageToBeShown: any
   filesFromChild: any
   html: string;
@@ -48,8 +48,7 @@ export class EditorContainerComponent
   node: any;
   tribute: string;
   flag: number;
-  placeholder: string;
-  mentionConfig: any;
+  mentionConfig: { mentions: any[] };
   mentionid: number | string;
   mentionedNames: { id: number; name: string }[];
   mentionedDates: string[];
@@ -60,17 +59,17 @@ export class EditorContainerComponent
   fontColor: string;
   backgroundColor: string;
   clicked = false;
-  morebutton = false;
-  populateFlag: number;
+  moreOptionsButton: boolean;
 
   constructor() {
     this.fontColor = 'black';
     this.backgroundColor = 'white';
     this.toolbarPlacement = 'bottom';
-    this.placeholder = '';
     this.id = nanoid();
-    this.populateFlag = 0;
     this.resetToolbar();
+    this.mentionConfig = {
+      mentions: []
+    };
   }
 
 
@@ -119,7 +118,7 @@ export class EditorContainerComponent
     range.collapse();
     this.sel.addRange(range);
 
-    this.writeValue(document.getElementById(`${this.id}`).innerHTML);
+    this.writeValue(document.getElementById(`${this.id}`).innerHTML, 'editor');
   }
 
   resetToolbar(): void {
@@ -142,20 +141,19 @@ export class EditorContainerComponent
   onTouch: any = () => { };
 
   set htmlVal(html) {
-   
     if (html !== null && html !== undefined && this.html !== html) {
       this.html = html;
-      if(this.populateFlag === 0 && document.getElementById(this.id)) {
-        ++this.populateFlag;
-        document.getElementById(this.id).innerHTML = this.html;
-      }
       this.onChange(html);
       this.onTouch(html);
     }
   }
 
-  writeValue(value: any): void {
+  writeValue(value: string, source?: string): void {
+    if(document.getElementById(this.id) && !source) {
+        document.getElementById(this.id).innerHTML = value ?? '';
+    }
     this.htmlVal = value;
+    
   }
 
   ngAfterViewChecked(): void {
@@ -172,13 +170,6 @@ export class EditorContainerComponent
 
   ngOnInit(): void {
     this.sel = window.getSelection();
-    setTimeout(() => {
-      if (this.editorContainer.nativeElement.offsetWidth > 500) {
-        this.morebutton = false;
-      } else {
-        this.morebutton = true;
-      }
-    }, 5);
   }
 
   ngAfterViewInit(): void {
@@ -187,7 +178,12 @@ export class EditorContainerComponent
       this.selectionChange.bind(this),
       false
     );
-
+    // console.log(this.editorContainer.nativeElement.offsetWidth);
+    if (this.editorContainer.nativeElement.offsetWidth > 600) {
+      this.moreOptionsButton = false;
+    } else {
+      this.moreOptionsButton = true;
+    }
   }
   immageResize() {
     const imageWidth = document.getElementById('contentimage').offsetWidth;
@@ -288,22 +284,18 @@ export class EditorContainerComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.editorConfig && this.editorConfig) {
-      this.placeholder = this.editorConfig?.placeholder ?? 'Please Add Some Text';
+      this.id = this.editorConfig?.id ?? this.id;
 
-      this.mentionConfig = {};
-      if (
-        Array.isArray(this.editorConfig?.mentionedNames) &&
-        this.editorConfig?.mentionedNames.length > 0
-      ) {
-        this.editorConfig.mentionedNames = this.editorConfig?.mentionedNames.filter(
-          (item: { id: number; name: string }) => {
+      this.mentionConfig = {
+        mentions: []
+      };
+      if (this.editorConfig?.mentionedNames && Array.isArray(this.editorConfig?.mentionedNames) && this.editorConfig?.mentionedNames.length > 0) {
+        this.editorConfig.mentionedNames = this.editorConfig?.mentionedNames.filter((item: { id: number; name: string }) => {
             if (item.id !== 0 && item.name.trim() !== '') {
               return item;
             }
-          }
-        );
+        });
 
-        this.mentionConfig.mentions = [];
         this.mentionConfig.mentions.push({
           items: this.editorConfig.mentionedNames,
           triggerChar: '@',
@@ -318,10 +310,7 @@ export class EditorContainerComponent
           dropUp: true,
         });
       }
-      if (
-        Array.isArray(this.editorConfig?.mentionedDates) &&
-        this.editorConfig?.mentionedDates.length > 0
-      ) {
+      if (this.editorConfig?.mentionedDates && Array.isArray(this.editorConfig?.mentionedDates) && this.editorConfig?.mentionedDates.length > 0) {
         this.editorConfig.mentionedDates = [
           ...new Set(this.editorConfig?.mentionedDates),
         ];
@@ -420,7 +409,7 @@ export class EditorContainerComponent
       this.startOffset = this.sel.getRangeAt(0).startOffset;
     }
 
-    this.writeValue(document.getElementById(`${this.id}`).innerHTML);
+    this.writeValue(document.getElementById(`${this.id}`).innerHTML, 'editor');
   }
 
   /**
@@ -450,6 +439,7 @@ export class EditorContainerComponent
       range.setStartAfter(input);
       this.sel.addRange(range);
       this.tribute = '';
+      this.writeValue(document.getElementById(`${this.id}`).innerHTML, 'editor');
     }
   }
 
