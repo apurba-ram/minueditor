@@ -60,14 +60,12 @@ export class EditorContainerComponent
   backgroundColor: string;
   clicked = false;
   moreOptionsButton: boolean;
-  populateFlag: number;
 
   constructor() {
     this.fontColor = 'black';
     this.backgroundColor = 'white';
     this.toolbarPlacement = 'bottom';
     this.id = nanoid();
-    this.populateFlag = 0;
     this.resetToolbar();
     this.mentionConfig = {
       mentions: []
@@ -120,7 +118,7 @@ export class EditorContainerComponent
     range.collapse();
     this.sel.addRange(range);
 
-    this.writeValue(document.getElementById(`${this.id}`).innerHTML);
+    this.writeValue(document.getElementById(`${this.id}`).innerHTML, 'editor');
   }
 
   resetToolbar(): void {
@@ -150,9 +148,8 @@ export class EditorContainerComponent
     }
   }
 
-  writeValue(value: string): void {
-    if(this.populateFlag === 0 && document.getElementById(this.id)) {
-        ++this.populateFlag;
+  writeValue(value: string, source?: string): void {
+    if(document.getElementById(this.id) && !source) {
         document.getElementById(this.id).innerHTML = value ?? '';
     }
     this.htmlVal = value;
@@ -412,10 +409,7 @@ export class EditorContainerComponent
       this.startOffset = this.sel.getRangeAt(0).startOffset;
     }
 
-    if(this.populateFlag === 0) {
-      this.populateFlag++;
-    }
-    this.writeValue(document.getElementById(`${this.id}`).innerHTML);
+    this.writeValue(document.getElementById(`${this.id}`).innerHTML, 'editor');
   }
 
   /**
@@ -445,7 +439,7 @@ export class EditorContainerComponent
       range.setStartAfter(input);
       this.sel.addRange(range);
       this.tribute = '';
-      this.writeValue(document.getElementById(`${this.id}`).innerHTML);
+      this.writeValue(document.getElementById(`${this.id}`).innerHTML, 'editor');
     }
   }
 

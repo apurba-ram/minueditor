@@ -7,12 +7,12 @@ import { EditorConfig } from './melo-mini-editor/editor-config-interface';
   styleUrls: ['./app.component.less'],
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
+export class AppComponent  {
   
   filesFromChild:any[] = [];
   title = 'minieditor';
   defValue = 'jdi';
-  modelvalue1 = 'Marham bane';
+  modelvalue1 = null;
   modelvalue2: string = '';
   editorConfig1: EditorConfig = {
     id: 'alleluiah',
@@ -33,6 +33,13 @@ export class AppComponent {
     mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],
     mentionedDates: ['19-02-2020', '11-02-2020', '12-02-2020', '14-02-2020']
   };
+
+
+  constructor() {
+    setTimeout(()=>{
+      this.modelvalue2 = Math.random().toString(36).replace('0.','MUJHE KYA PARWAH IS DUNIYA KI ?' || '');
+    }, 3000);
+  }
   
   
 
