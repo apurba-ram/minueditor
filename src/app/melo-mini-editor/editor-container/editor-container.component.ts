@@ -69,6 +69,7 @@ export class EditorContainerComponent
   focused:boolean=false
   blured:boolean=true
   dragEvent:boolean=false
+  mousOver:boolean=false
   countMouseUp:number=0
   imageEventeId:any
   shouldAlign:boolean=false
@@ -128,625 +129,385 @@ export class EditorContainerComponent
   */
   saveImage(event:any): void{
 
-    console.log("SAVE IMAGE AND CREATE IMAGE-CONTAINER")
-      //generate random id  
-      const id = (() => {
-        return '_' + Math.random().toString(36).substr(2, 9);
-      })();
+    //generate random ids for images
+    const id = (() => {
+      return '_' + Math.random().toString(36).substr(2, 9);
+    })();
 
-       const imgContainer=document.createElement('div')
-      //  imgContainer.setAttribute('contenteditable','false')
-       imgContainer.setAttribute('class','image-container ')
-       imgContainer.setAttribute('id','image-container'+id);
-      //  imgContainer.setAttribute('width','50px');
-      //  imgContainer.setAttribute('height','50px');
-       imgContainer.setAttribute('tabindex','0');
-       imgContainer.setAttribute('style','cursor: pointer;');
+    //create image container and img 
+    const imageContainer=document.createElement('div')
+    imageContainer.setAttribute('id','image-container'+id)
+    imageContainer.setAttribute('class','image-container')
+    imageContainer.setAttribute('contenteditable','false')
 
-       const imgTag = document.createElement('img');
-       imgTag.setAttribute('src', event.url);
-       imgTag.setAttribute('id','contentimage'+id);
-       imgTag.setAttribute('width','100%');
-       imgTag.setAttribute('height','100%');
-       imgContainer.appendChild(imgTag);
 
-      //image focus
-      imgContainer.addEventListener('focus',(event: any)=>{
-        this.imageContainerId=event.target.children[0].id
+    const imgTag=document.createElement('img')
+    imgTag.setAttribute('id','image'+id)
+    imgTag.setAttribute('src',event.url)
+    imgTag.setAttribute('tabindex','0')
+    imgTag.style.width = 300+'px';
 
-        const imageId=event.target.children[0].id
-        console.log("IMAGE ID",event.target.children[0].id)
+    //create br tag to append 
+    const br=document.createElement('br')
 
-         //create ul for alignment if not exists
-        console.log("IMAGE CONTAINER EVENE",event)
-        const alignmentList=document.getElementById('alignment-list')
-        if(alignmentList===null)
-        {
-          console.log("CREATE ALIGNMENT LIST")
-        let ulTag=document.createElement('ul')
-        ulTag.setAttribute('id','alignment-list')
-        ulTag.setAttribute('class','navigation')
-        // ulTag.setAttribute()
-        let liLeft=document.createElement('li')
-        let leftButton=document.createElement('button')
-        leftButton.setAttribute('id','left-align-btn')
-        leftButton.innerHTML=`<svg width="400" height="400" viewBox="0 0 400 400" fill="none"
-        xmlns="http://www.w3.org/2000/svg">
-        <g clip-path="url(#clip0)">
-            <g filter="url(#filter0_d)">
-                <path d="M400 0H0V44H400V0Z" />
-                <path d="M399 89H268V133H399V89Z" />
-                <path d="M399 178H268V222H399V178Z" />
-                <path d="M399 267H268V311H399V267Z" />
-                <path d="M400 356H0V400H400V356Z" />
-                <path d="M249 88H0V132H249V88Z" />
-                <path d="M249 267H0V311H249V267Z" />
-                <path d="M49 132H0V267H49V132Z" />
-                <path d="M249 132H200V267H249V132Z" />
-            </g>
-        </g>
-        <defs>
-            <filter id="filter0_d" x="-4" y="0" width="408" height="408"
-                filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                <feColorMatrix in="SourceAlpha" type="matrix"
-                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
-                <feOffset dy="4" />
-                <feGaussianBlur stdDeviation="2" />
-                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
-                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow" />
-                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
-            </filter>
-            <clipPath id="clip0">
-                <rect width="400" height="400" fill="white" />
-            </clipPath>
-        </defs`
-        liLeft.appendChild(leftButton)
+    imageContainer.appendChild(imgTag)
+    document.getElementsByClassName('editable-block')[0].appendChild(br)
 
-        //center BUTTON
+  
+    //image focus
 
-        const liMid=document.createElement('li')
-        const midButton=document.createElement('button')
-        midButton.setAttribute('id','center-align-btn')
-        midButton.innerHTML=`<svg width="400" height="400" viewBox="0 0 400 400" fill="none"
-        xmlns="http://www.w3.org/2000/svg">
-        <g clip-path="url(#clip0)">
-            <g filter="url(#filter0_d)">
-                <path d="M400 89H151V133H400V89Z" />
-                <path d="M400 268H151V312H400V268Z" />
-                <path d="M200 133H151V268H200V133Z" />
-                <path d="M400 133H351V268H400V133Z" />
-                <path d="M400 0H0V44H400V0Z" />
-                <path d="M131 89H0V133H131V89Z" />
-                <path d="M131 178H0V222H131V178Z" />
-                <path d="M131 267H0V311H131V267Z" />
-                <path d="M400 356H0V400H400V356Z" />
-            </g>
-        </g>
-        <defs>
-            <filter id="filter0_d" x="-4" y="0" width="408" height="408"
-                filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                <feColorMatrix in="SourceAlpha" type="matrix"
-                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
-                <feOffset dy="4" />
-                <feGaussianBlur stdDeviation="2" />
-                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
-                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow" />
-                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
-            </filter>
-            <clipPath id="clip0">
-                <rect width="400" height="400" fill="white" />
-            </clipPath>
-        </defs>
-    </svg>`
+    imgTag.addEventListener('focus',this.imgFoucs.bind(this));
 
-       liMid.appendChild(midButton)
 
+    //image blur
+    imgTag.addEventListener('blur',this.imgBlur.bind(this))    
 
 
-        let liRight=document.createElement('li')
-        let rightButton=document.createElement('button')
-        rightButton.setAttribute('id','right-align-btn')
-        rightButton.innerHTML=`<svg width="400" height="400" viewBox="0 0 400 400" fill="none"
-        xmlns="http://www.w3.org/2000/svg">
-        <g clip-path="url(#clip0)">
-            <g filter="url(#filter0_d)">
-                <path d="M400 0H0V44H400V0Z" />
-                <path d="M399 89H338V133H399V89Z" />
-                <path d="M399 178H338V222H399V178Z" />
-                <path d="M399 267H338V311H399V267Z" />
-                <path d="M400 356H0V400H400V356Z" />
-                <path d="M324 88H75V132H324V88Z" />
-                <path d="M324 267H75V311H324V267Z" />
-                <path d="M124 132H75V267H124V132Z" />
-                <path d="M324 132H275V267H324V132Z" />
-                <path d="M61 89H0V133H61V89Z" />
-                <path d="M61 178H0V222H61V178Z" />
-                <path d="M61 267H0V311H61V267Z" />
-            </g>
-        </g>
-        <defs>
-            <filter id="filter0_d" x="-4" y="0" width="408" height="408"
-                filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                <feColorMatrix in="SourceAlpha" type="matrix"
-                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
-                <feOffset dy="4" />
-                <feGaussianBlur stdDeviation="2" />
-                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
-                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow" />
-                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
-            </filter>
-            <clipPath id="clip0">
-                <rect width="400" height="400" fill="white" />
-            </clipPath>
-        </defs>
-    </svg>`
-        liRight.appendChild(rightButton)
-
-
-
-        ulTag.appendChild(liLeft)
-        ulTag.appendChild(liMid)
-        ulTag.appendChild(liRight)
-       
-        document.getElementById(event.target.id).appendChild(ulTag)
-        
-        //now align image right
-        console.log("RIGHT ALIGN BUTTON AND BY ID LINE 287 ",rightButton,  document.getElementById('right-align-btn'))
-        
-
-        }
-      
-
-
-
-
-        const resizerDiv=document.getElementById('resize-pointer')
-        // console.log("Resizer div ",resizerDiv)
-        if(resizerDiv===null)
-        {  
-          let imgWidth=document.getElementById(event.target.children[0].id).offsetWidth
-          let  imgHeight=document.getElementById(event.target.children[0].id).offsetHeight
-          console.log(imgWidth, imgHeight)
-          this.countMouseUp=0;
-          const resizerDiv=document.createElement('div')
-          resizerDiv.setAttribute('class','resize-container active')
-          resizerDiv.setAttribute('id','resize-pointer')
-          resizerDiv.style.width = imgWidth+'px';
-          resizerDiv.style.height = 'auto'
-
-
-
-
-          const topLeft=document.createElement('div')
-          topLeft.setAttribute('class','resize-pointer top-left active')
-          topLeft.setAttribute('id',' top-left ')
-
-          const topRight=document.createElement('div')
-          topRight.setAttribute('class','resize-pointer top-right active')
-          topRight.setAttribute('id',' top-right ')
-
-          const bottomLeft=document.createElement('div')
-          bottomLeft.setAttribute('class','resize-pointer bottom-left active')
-          bottomLeft.setAttribute('id',' bottom-left ')
-
-          const bottomRight=document.createElement('div')
-          bottomRight.setAttribute('class','resize-pointer bottom-right active')
-          bottomRight.setAttribute('id','bottom-right')
-
-          const right=document.createElement('div')
-          right.setAttribute('class','resize-pointer right active')
-          right.setAttribute('id',' right ')
-
-          const left=document.createElement('div')
-          left.setAttribute('class','resize-pointer left active')
-          left.setAttribute('id','left')
-
-          const top=document.createElement('div')
-          top.setAttribute('class','resize-pointer top active')
-          top.setAttribute('id','top')
-
-          const bottom=document.createElement('div')
-          bottom.setAttribute('class','resize-pointer bottom active')
-          bottom.setAttribute('id',' bottom ')
-          
-
-          // const bottomRight=document.createElement('div')
-          // topRight.setAttribute('class','top-right')
-
-          resizerDiv.appendChild(topLeft)
-          resizerDiv.appendChild(topRight)
-          resizerDiv.appendChild(bottomLeft)
-          resizerDiv.appendChild(bottomRight)
-          resizerDiv.appendChild(bottom)
-          resizerDiv.appendChild(left)
-          resizerDiv.appendChild(top)
-          resizerDiv.appendChild(right)
-
-          document.getElementById(event.target.id).appendChild(resizerDiv)
-            console.log("IMAGE ELEMENT",event.target.children[0])
-          console.log("HEIGHT WIDTH IMAGE AND RESIZER ",imgWidth,imgHeight,resizerDiv.clientHeight,resizerDiv.clientWidth)
-
-          console.log("Image container after focus",imgContainer)
-          console.log("resizer pointer",resizerDiv)
-
-          // console.log("IMAGE SIZE AND RESIZEER DIV SIEZE",document.getElementById('ii'))
-
-          const minimum_size = 100;
-          // const max_size=
-          let original_width = 0;
-          let original_height = 0;
-          let original_x = 0;
-          let original_y = 0;
-          let original_mouse_x = 0;
-          let original_mouse_y = 0;
-          let resizer_width=0;
-          let resizer_height=0;
-          //GET ORIGINAL WIDTH AND HEIGHT OF IMAGE CONTAINER
-          function getOriginalSize(e,ID)
-          {
-            console.log("get original data")
-            original_width = parseFloat(getComputedStyle(document.getElementById(ID), null).getPropertyValue('width').replace('px', ''));
-            original_height = parseFloat(getComputedStyle(document.getElementById(ID), null).getPropertyValue('height').replace('px', ''));
-            resizer_width= parseFloat(getComputedStyle(document.getElementById('resize-pointer'), null).getPropertyValue('width').replace('px', ''));
-            resizer_height= parseFloat(getComputedStyle(document.getElementById('resize-pointer'), null).getPropertyValue('height').replace('px', ''));
-            original_x = document.getElementById(ID).getBoundingClientRect().left;
-            original_y = document.getElementById(ID).getBoundingClientRect().top;
-            original_mouse_x = e.pageX;
-            original_mouse_y = e.pageY;
-            console.log("LALALALALA")
-          }
-
-          //RESIZE IMAGE FROM TOP RIGHT
-          topRight.addEventListener('mousedown',(event)=>{
-            // console.log("IMAGE CONTAINER ID",this.imageContainerId)
-            // console.log("TOP RISIZE EVENTE",event.target)
-            this.dragEvent=true
-            getOriginalSize(event,this.imageContainerId)
-            console.log("AFTER GET ORIGINLA DATA")
-            window.addEventListener('mousemove', resizeTopRight)
-              console.log("MOUSEUP COUNT IN MOUSEDON TOP RIGHT",this.countMouseUp)
-              window.addEventListener('mouseup', stopResize.bind(this))
-            
-
-          })
-          
-          function resizeTopRight(e)
-          {
-            // console.log("RESIZE  DRAGEVENET",this.dragEvent)
-            console.log("TOP RIGHT RESIZING")
-            const width = original_width + (e.pageX - original_mouse_x)
-            const height = original_height - (e.pageY - original_mouse_y)
-            const rwidth = resizer_width + (e.pageX - original_mouse_x)
-            const rheight = resizer_height - (e.pageY - original_mouse_y)
-            //  console.log("WIDTH HEIGHT",width,height)
-             document.getElementById(event.target.children[0].id).style.width = width + 'px'
-             document.getElementById('resize-pointer').style.width = width + 'px'
-             document.getElementById('resize-pointer').style.height = 'auto'
-             
-          }
-
-
-          //Resize from  top left
-
-          topLeft.addEventListener('mousedown',(event)=>{
-            // console.log("IMAGE CONTAINER ID",this.imageContainerId)
-            // console.log("TOP LEFT RISIZE EVENTE",event.target)
-            // alignmentList.style.visibility='hidden'
-            this.dragEvent=true
-            getOriginalSize(event,this.imageContainerId)
-            console.log("AFTER GET ORIGINLA DATA")
-            window.addEventListener('mousemove', resizeTopLeft)
-            window.addEventListener('mouseup', stopResize.bind(this))
-          })
-
-
-          function resizeTopLeft(e)
-          {
-            const width = original_width - (e.pageX - original_mouse_x)
-            const height = original_height - (e.pageY - original_mouse_y)
-            const rwidth = resizer_width -(e.pageX - original_mouse_x)
-            const rheight = resizer_height - (e.pageY - original_mouse_y)
-
-            
-            // if()
-            if(e.pageX!==original_mouse_x || e.pageY!==original_mouse_y )
-            {
-              
-              // document.getElementById(event.target.children[0].id).style.height = height + 'px'
-            }
-            if (width > minimum_size && height > minimum_size) {
-
-              
-              document.getElementById(event.target.children[0].id).style.pointerEvents = 'none';
-              console.log("MOUSE POSITIONS X ",e.pageX,original_mouse_x)
-              document.getElementById(event.target.children[0].id).style.width = width + 'px'
-              document.getElementById('resize-pointer').style.width = width + 'px'
-              // document.getElementById(event.target.id).style.left = original_x + (e.pageX - original_mouse_x) + 'px'
-            }
-            // if (height > minimum_size) {
-             
-            //   //  document.getElementById(event.target.id).style.top = original_y + (e.pageY - original_mouse_y) + 'px'
-            // }
-          }
-
-          bottomLeft.addEventListener('mousedown',(event)=>{
-            // console.log("IMAGE CONTAINER ID",this.imageContainerId)
-            // console.log("TOP LEFT RISIZE EVENTE",event.target)
-            this.dragEvent=true
-            getOriginalSize(event,this.imageContainerId)
-            console.log("AFTER GET ORIGINLA DATA")
-            window.addEventListener('mousemove', resizeBottomLeft)
-            window.addEventListener('mouseup', stopResize.bind(this))
-          })
-
-          function resizeBottomLeft(e)
-          {
-            const height = original_height + (e.pageY - original_mouse_y)
-            const width = original_width - (e.pageX - original_mouse_x)
-            const rwidth = resizer_width +(e.pageX - original_mouse_x)
-            const rheight = resizer_height - (e.pageY - original_mouse_y)
-            
-            if (height > minimum_size) {
-              // document.getElementById(event.target.children[0].id).style.height = height + 'px'
-            }
-            if (width > minimum_size) {
-              document.getElementById(event.target.children[0].id).style.pointerEvents =   'none';
-              document.getElementById(event.target.children[0].id).style.width = width + 'px'
-              document.getElementById('resize-pointer').style.width = width + 'px'
-              //  document.getElementById(event.target.id).style.left = original_x + (e.pageX - original_mouse_x) + 'px'
-            }
-          }
-
-          //image resize from bottom right
-          bottomRight.addEventListener('mousedown',(event)=>{
-            // console.log("IMAGE CONTAINER ID",this.imageContainerId)
-            // console.log("TOP LEFT RISIZE EVENTE",event.target)
-            this.dragEvent=true
-            getOriginalSize(event,this.imageContainerId)
-            console.log("AFTER GET ORIGINLA DATA")
-            window.addEventListener('mousemove', resizeBottomRight)
-            window.addEventListener('mouseup', stopResize.bind(this))
-          })
-
-          function resizeBottomRight(e)
-          {
-            const width = original_width + (e.pageX - original_mouse_x);
-            const height = original_height + (e.pageY - original_mouse_y)
-            const rwidth = resizer_width +(e.pageX - original_mouse_x)
-            const rheight = resizer_height+(e.pageY - original_mouse_y)
-            if (width > minimum_size) {
-              document.getElementById(event.target.children[0].id).style.pointerEvents =   'none';
-              document.getElementById(event.target.children[0].id).style.width = width + 'px'
-              document.getElementById('resize-pointer').style.width = width + 'px'
-            }
-            if (height > minimum_size) {
-              // document.getElementById(event.target.children[0].id).style.height = height + 'px'
-            }
-          }
-
-          //image resize from top mid
-          top.addEventListener('mousedown',(event)=>{
-            // console.log("IMAGE CONTAINER ID",this.imageContainerId)
-            // console.log("TOP LEFT RISIZE EVENTE",event.target)
-            this.dragEvent=true
-            getOriginalSize(event,this.imageContainerId)
-            console.log("AFTER GET ORIGINLA DATA")
-            window.addEventListener('mousemove', resizeTop)
-            window.addEventListener('mouseup', stopResize.bind(this))
-          })
-
-
-          function resizeTop(e)
-          {
-            const height = original_height - (e.pageY - original_mouse_y)
-            const rheight = resizer_height-(e.pageY - original_mouse_y)
-            if (height > minimum_size) {
-              document.getElementById(event.target.children[0].id).style.pointerEvents =   'none';
-              document.getElementById(event.target.children[0].id).style.height = height + 'px'
-              document.getElementById('resize-pointer').style.height = height + 'px'
-              // document.getElementById(event.target.children[0].id).style.top = original_y + (e.pageY - original_mouse_y) + 'px'
-            }
-
-          }
-
-          bottom.addEventListener('mousedown',(event)=>{
-            // console.log("IMAGE CONTAINER ID",this.imageContainerId)
-            // console.log("TOP LEFT RISIZE EVENTE",event.target)
-            this.dragEvent=true
-            getOriginalSize(event,this.imageContainerId)
-            console.log("AFTER GET ORIGINLA DATA")
-            window.addEventListener('mousemove', resizeBottom)
-            window.addEventListener('mouseup', stopResize.bind(this))
-          })
-
-          
-          function resizeBottom(e)
-          {
-            const height = original_height + (e.pageY - original_mouse_y)
-            const rheight = resizer_height+(e.pageY - original_mouse_y)
-            if (height > minimum_size) {
-
-              document.getElementById(event.target.children[0].id).style.pointerEvents =   'none';
-              document.getElementById(event.target.children[0].id).style.height = height + 'px'
-              document.getElementById('resize-pointer').style.height = height + 'px'
-            }
-
-          }
-
-          left.addEventListener('mousedown',(event)=>{
-            // console.log("IMAGE CONTAINER ID",this.imageContainerId)
-            // console.log("TOP LEFT RISIZE EVENTE",event.target)
-            this.dragEvent=true
-            getOriginalSize(event,this.imageContainerId)
-            console.log("AFTER GET ORIGINLA DATA")
-            window.addEventListener('mousemove', resizeLeft)
-            window.addEventListener('mouseup', stopResize.bind(this))
-          })
-
-          function resizeLeft(e)
-          {
-            //height is also chnage because height is depended on width
-            console.log("RESIIZE FROM LEFT ONLY")
-            const width = original_width - (e.pageX - original_mouse_x)
-            const height = original_height - (e.pageY - original_mouse_y)
-            const rwidth = resizer_width - (e.pageX - original_mouse_x)
-            const rheight = resizer_height-(e.pageY - original_mouse_y)
-            console.log("MOUSE MOVE Y POS",e.pageY,original_mouse_y)
-            if (width > minimum_size) {
-              document.getElementById(event.target.children[0].id).style.pointerEvents =   'none';
-              document.getElementById(event.target.children[0].id).style.width = width + 'px';
-              document.getElementById(event.target.children[0].id).style.height = height + 'px'
-              document.getElementById('resize-pointer').style.width = rwidth + 'px'
-              document.getElementById('resize-pointer').style.height = rheight + 'px'
-
-              document.getElementById(event.target.children[0].id).style.marginLeft = original_x + (e.pageX - original_mouse_x) + 'px'
-              document.getElementById('resize-pointer').style.left = original_x + (e.pageX - original_mouse_x) + 'px'
-            }
-
-          }
-
-          right.addEventListener('mousedown',(event)=>{
-            // console.log("IMAGE CONTAINER ID",this.imageContainerId)
-            // console.log("TOP LEFT RISIZE EVENTE",event.target)
-            this.dragEvent=true
-            getOriginalSize(event,this.imageContainerId)
-            console.log("AFTER GET ORIGINLA DATA")
-            window.addEventListener('mousemove', resizeRight)
-            window.addEventListener('mouseup', stopResize.bind(this))
-          })
-
-          function resizeRight(e)
-          {
-            //height is also chnage because height is depended on width
-            console.log("RESIIZE FROM RIGHT ONLY")
-            const width = original_width +(e.pageX - original_mouse_x)
-            const height = original_height - (e.pageY - original_mouse_y)
-            const rwidth = resizer_width + (e.pageX - original_mouse_x)
-            const rheight = resizer_height-(e.pageY - original_mouse_y)
-            
-            if (width > minimum_size) {
-              document.getElementById(event.target.children[0].id).style.pointerEvents =   'none';
-              document.getElementById(event.target.children[0].id).style.width = width + 'px';
-              document.getElementById(event.target.children[0].id).style.height = height + 'px'
-              document.getElementById('resize-pointer').style.width = rwidth + 'px'
-              document.getElementById('resize-pointer').style.height = rheight + 'px'
-              // document.getElementById(event.target.children[0].id).style.left = original_x + (e.pageX - original_mouse_x) + 'px'
-              // document.getElementById('resize-pointer').style.left = original_x + (e.pageX - original_mouse_x) + 'px'
-            }
-
-          }
-
-          function stopResize(e)
-          {
-            console.log("MOUSE UP IN STOPRESIZE 1",this.countMouseUp)
-            this.countMouseUp=1
-            console.log("MOUSE UP IN STOPRESIZE 1",this.countMouseUp)
-            resizerDiv.remove()
-            this.dragEvent=false
-            console.log
-            console.log("DRAGEVENET STOP",this.dragEvent)
-            window.removeEventListener('mousemove', resizeTopRight)
-            window.removeEventListener('mousemove', resizeTopLeft)
-            window.removeEventListener('mousemove', resizeBottomLeft)
-            window.removeEventListener('mousemove',resizeBottomRight)
-            window.removeEventListener('mousemove',resizeTop)
-            window.removeEventListener('mousemove',resizeBottom)
-            window.removeEventListener('mousemove',resizeLeft)
-            window.removeEventListener('mousemove',resizeRight)
-            if(this.countMouseUp===1)
-            {
-              console.log("MOUSE UP > 1 IN  STOP")
-              // this.ImageContanerBlur()
-              resizerDiv.remove()
-              // alignmentList.style.visibility='visible'
-              // alignmentList.remove()
-            }
-          }          
-        } 
-
-       })
-
-     
-
-      //image blur
-      imgContainer.addEventListener('blur',(event: any)=>{
-        console.log("BEFOR ALIGNMENT")
-        //align from LEFT
-        
-        document.getElementById('left-align-btn').addEventListener('click',()=>
-        {
-          console.log("LEFT ALIGN")
-          this.shouldAlign=true
-          document.getElementById(event.target.id).classList.remove('center')
-          document.getElementById(event.target.id).classList.remove('right')
-          document.getElementById(event.target.id).classList.add('left')
-        })
-        
-        //align from center
-        document.getElementById('center-align-btn').addEventListener('click',()=>
-        {
-          console.log("CENTER ALIGN")
-          this.shouldAlign=true
-          document.getElementById(event.target.id).classList.remove('left')
-          document.getElementById(event.target.id).classList.remove('right')
-          document.getElementById(event.target.id).classList.add('center')
-        })
-        
-
-
-        //align from Right
-        document.getElementById('right-align-btn').addEventListener('click',()=>
-        {
-          console.log("RIGHT ALIGN")
-          this.shouldAlign=true
-          document.getElementById(event.target.id).classList.remove('left')
-          document.getElementById(event.target.id).classList.remove('center')
-          document.getElementById(event.target.id).classList.add('right')
-        })
-
-        console.log("BEFORE BLUR")
-          this.ImageContanerBlur()
-          console.log("AFTER BLUR")
-      })
-
-      //insert the image 
-      this.sel.removeAllRanges();
-      const range = this.oldRange.cloneRange();
-      console.log("RANGE",range)
-      range.insertNode(imgContainer);
-      range.setStartAfter(imgContainer);
-      let brTag=document.createElement('br')
-      document.getElementsByClassName('editable-block')[0].appendChild(brTag)
-      range.collapse();
-      this.sel.addRange(range);
+    this.sel.removeAllRanges();
+    const range = this.oldRange.cloneRange();
+    range.insertNode(imageContainer);
+    range.setStartAfter(imageContainer);
+    range.collapse();
+    this.sel.addRange(range);
 
   }
 
-
-
-  //IMAGE CONTAINER BLUR
-  ImageContanerBlur()
+  imgFoucs(event:any)
   {
-    
-    const resizerDiv=document.getElementById('resize-pointer')
-    const alignmentList=document.getElementById('alignment-list')
-    console.log("DRAGEVENET BLUR",this.dragEvent)
-    if(this.dragEvent===false)
+    console.log("FOCUS",event.target.id)
+
+    //create resizer div
+    const resizerContainer=document.getElementById('resize-container')
+    if(resizerContainer===null)
     {
-      resizerDiv.remove()
-      if(this.shouldAlign===false)
-      {
-        alignmentList.remove()
-      }
+      const resizer=document.createElement('div')
+      resizer.setAttribute('class','resize-container active')
+      resizer.setAttribute('id','resize-container')
+      resizer.style.width=document.getElementById(event.target.id).clientWidth+'px'
+      resizer.style.height=document.getElementById(event.target.id).clientHeight+'px'
+  
+      const topLeft=document.createElement('div')
+      topLeft.setAttribute('class','resize-pointer top-left active')
+      topLeft.setAttribute('id','top-left')
+  
+  
+      const topRight=document.createElement('div')
+      topRight.setAttribute('class','resize-pointer top-right active')
+      topRight.setAttribute('id','top-right')
+  
+      const bottomLeft=document.createElement('div')
+      bottomLeft.setAttribute('class','resize-pointer bottom-left active')
+      bottomLeft.setAttribute('id','bottom-left')
+  
+  
+      const bottomRight=document.createElement('div')
+      bottomRight.setAttribute('class','resize-pointer bottom-right active')
+      bottomRight.setAttribute('id','bottom-right')
+  
+      resizer.appendChild(topLeft)
+      resizer.appendChild(topRight)
+      resizer.appendChild(bottomLeft)
+      resizer.appendChild(bottomRight)
+  
+      document.getElementById(event.target.parentNode.id).appendChild(resizer)
+
+      //resiable algorithm
+
+      const minimum_size = 20;
+      let original_width = 0;
+      let original_height = 0;
+      let original_x = 0;
+      let original_y = 0;
+      let original_mouse_x = 0;
+      let original_mouse_y = 0;
+      let resizer_width=0;
+      let resizer_height=0;
+      let resizer_x=0;
+      let resizer_y=0;
       
-      // console.log("IMAGE CONTAINER AFTER BLUR",imgContainer)
+      //get Original widht and height
+      function getOriginal(e,imgId)
+      {
+        console.log("IMAGE ID",imgId)
+        original_width = parseFloat(getComputedStyle(document.getElementById(imgId), null).getPropertyValue('width').replace('px', ''));
+        original_height = parseFloat(getComputedStyle(document.getElementById(imgId), null).getPropertyValue('height').replace('px', ''));
+        resizer_width= parseFloat(getComputedStyle(document.getElementById('resize-container'), null).getPropertyValue('width').replace('px', ''));
+        resizer_height= parseFloat(getComputedStyle(document.getElementById('resize-container'), null).getPropertyValue('height').replace('px', ''));
+        original_x = document.getElementById(imgId).getBoundingClientRect().left;
+        original_y = document.getElementById(imgId).getBoundingClientRect().top;
+        resizer_x=document.getElementById('resize-container').getBoundingClientRect().left
+        resizer_y=document.getElementById('resize-container').getBoundingClientRect().top
+        original_mouse_x = e.pageX;
+        original_mouse_y = e.pageY;
+      }
+
+
+      //resize from top right
+      topRight.addEventListener('mouseover',()=>
+      {
+        console.log("OVER")
+       // console.log(this);
+        this.mousOver = true; 
+        console.log("MOUSEOVER VALUE IN LISTSNER",this.mousOver)
+      })
+
+      topRight.addEventListener('mouseout',()=>
+      {
+        console.log("OUT")
+        this.mousOver=false
+      })
+      
+      topRight.addEventListener('mousedown',(e:any)=>
+      {
+        this.dragEvent=true
+        getOriginal(e,event.target.id);
+        console.log('holaaaa');
+        window.addEventListener('mousemove', resizeTopRight)
+        // console.log("MOUSEUP COUNT IN MOUSEDON TOP RIGHT",this.countMouseUp)
+        window.addEventListener('mouseup', stopResize.bind(this))
+      })
+
+
+      function resizeTopRight(e)
+      {
+        console.log("TARGET ID",event.target)
+        const width = original_width + (e.pageX - original_mouse_x)
+        const height = original_height - (e.pageY - original_mouse_y)
+        const resizerWidth=resizer_width+(e.pageX-original_mouse_x)
+        const resizerHeight=resizer_height-(e.pageY-original_mouse_y)
+        document.getElementById(event.target.id).style.width=width+'px'
+        document.getElementById(event.target.id).style.height=height+'px'
+        document.getElementById('resize-container').style.width=width+'px'
+        document.getElementById('resize-container').style.height=height+'px'
+
+
+      }
+
+      function stopResize()
+      {
+        
+        console.log("THIS IS CALLED MANY TIMES")
+        this.mouseover=false
+        this.dragEvent=false
+          
+        window.removeEventListener('mousemove', resizeTopRight)
+        // this.imgBlur()
+        window.removeEventListener('mouseup', stopResize.bind(this));
+        window.removeEventListener('mousedown', stopResize.bind(this));
+        
+      }
+
+     
+
+      // console.log("REISZER DIV",document.getElementById('resizer-container'))
+    }
+
+    //create alignment List
+    const navigationContainer=document.getElementById('div')
+    if(navigationContainer===null)
+    {
+      const navigationTag=document.createElement('ul')
+      navigationTag.setAttribute('class','navigation')
+     
+
+
+      const left_align=document.createElement('li')
+      // left_align.setAttribute('')
+      const left_btn=document.createElement('button')
+      left_align.appendChild(left_btn)
+      left_btn.innerHTML=`<svg width="400" height="400" viewBox="0 0 400 400" fill="none"
+      xmlns="http://www.w3.org/2000/svg">
+      <g clip-path="url(#clip0)">
+          <g filter="url(#filter0_d)">
+              <path d="M400 0H0V44H400V0Z" />
+              <path d="M399 89H268V133H399V89Z" />
+              <path d="M399 178H268V222H399V178Z" />
+              <path d="M399 267H268V311H399V267Z" />
+              <path d="M400 356H0V400H400V356Z" />
+              <path d="M249 88H0V132H249V88Z" />
+              <path d="M249 267H0V311H249V267Z" />
+              <path d="M49 132H0V267H49V132Z" />
+              <path d="M249 132H200V267H249V132Z" />
+          </g>
+      </g>
+      <defs>
+          <filter id="filter0_d" x="-4" y="0" width="408" height="408"
+              filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix" />
+              <feColorMatrix in="SourceAlpha" type="matrix"
+                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
+              <feOffset dy="4" />
+              <feGaussianBlur stdDeviation="2" />
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow" />
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
+          </filter>
+          <clipPath id="clip0">
+              <rect width="400" height="400" fill="white" />
+          </clipPath>
+      </defs`
+
+      navigationTag.appendChild(left_align)
+
+
+      //center align
+
+
+      const center_align=document.createElement('li')
+      // left_align.setAttribute('')
+      const center_btn=document.createElement('button')
+      center_btn.innerHTML=`<svg width="400" height="400" viewBox="0 0 400 400" fill="none"
+      xmlns="http://www.w3.org/2000/svg">
+      <g clip-path="url(#clip0)">
+          <g filter="url(#filter0_d)">
+              <path d="M400 89H151V133H400V89Z" />
+              <path d="M400 268H151V312H400V268Z" />
+              <path d="M200 133H151V268H200V133Z" />
+              <path d="M400 133H351V268H400V133Z" />
+              <path d="M400 0H0V44H400V0Z" />
+              <path d="M131 89H0V133H131V89Z" />
+              <path d="M131 178H0V222H131V178Z" />
+              <path d="M131 267H0V311H131V267Z" />
+              <path d="M400 356H0V400H400V356Z" />
+          </g>
+      </g>
+      <defs>
+          <filter id="filter0_d" x="-4" y="0" width="408" height="408"
+              filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix" />
+              <feColorMatrix in="SourceAlpha" type="matrix"
+                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
+              <feOffset dy="4" />
+              <feGaussianBlur stdDeviation="2" />
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow" />
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
+          </filter>
+          <clipPath id="clip0">
+              <rect width="400" height="400" fill="white" />
+          </clipPath>
+      </defs>
+  </svg>`
+
+      center_align.appendChild(center_btn)
+      
+      navigationTag.appendChild(center_align)
+
+      //right align
+      const right_align=document.createElement('li')
+      // left_align.setAttribute('')
+      const right_btn=document.createElement('button')
+      right_btn.innerHTML=`<svg width="400" height="400" viewBox="0 0 400 400" fill="none"
+      xmlns="http://www.w3.org/2000/svg">
+      <g clip-path="url(#clip0)">
+          <g filter="url(#filter0_d)">
+              <path d="M400 0H0V44H400V0Z" />
+              <path d="M399 89H338V133H399V89Z" />
+              <path d="M399 178H338V222H399V178Z" />
+              <path d="M399 267H338V311H399V267Z" />
+              <path d="M400 356H0V400H400V356Z" />
+              <path d="M324 88H75V132H324V88Z" />
+              <path d="M324 267H75V311H324V267Z" />
+              <path d="M124 132H75V267H124V132Z" />
+              <path d="M324 132H275V267H324V132Z" />
+              <path d="M61 89H0V133H61V89Z" />
+              <path d="M61 178H0V222H61V178Z" />
+              <path d="M61 267H0V311H61V267Z" />
+          </g>
+      </g>
+      <defs>
+          <filter id="filter0_d" x="-4" y="0" width="408" height="408"
+              filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix" />
+              <feColorMatrix in="SourceAlpha" type="matrix"
+                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
+              <feOffset dy="4" />
+              <feGaussianBlur stdDeviation="2" />
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow" />
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
+          </filter>
+          <clipPath id="clip0">
+              <rect width="400" height="400" fill="white" />
+          </clipPath>
+      </defs>
+  </svg>`
+      right_align.appendChild(right_btn)
+
+      navigationTag.appendChild(right_align)
+      document.getElementById('resize-container').appendChild(navigationTag)
+      // console.log(navigationTag)
+      
+      //event listener on alignments
+      
+      right_btn.addEventListener('mouseover',()=>
+      {
+        this.shouldAlign=true
+        console.log("TANTADA  1")
+
+      })
+
+      right_btn.addEventListener('mouseout',()=>
+      {
+        this.shouldAlign=false
+        console.log("TANTADA  2")
+      })
+
+
+      right_btn.addEventListener('click',()=>
+      {
+          console.log("LALALLA")
+          document.getElementsByClassName('image-container')[0].classList.remove('center')
+          document.getElementsByClassName('image-container')[0].classList.remove('left')
+          document.getElementsByClassName('image-container')[0].classList.add('right')
+          // document.getElementById('resize-container').remove();
+          const imageRatio = document.getElementById(event.target.id).getBoundingClientRect();
+          setTimeout(() => {
+            console.log(imageRatio.left);
+            document.getElementsByClassName('resize-container')[0].classList.add('right')
+            document.getElementById('resize-container').style.left=imageRatio.left-25 +'px';
+
+          }, 10);
+          
+         
+
+      })
+
+
+
     }
 
   }
 
+
+  imgBlur(event:any)
+  {
+    
+    // console.log("BLUR",event.target.id)
+    console.log("DRAGEVENT",this.dragEvent)
+    console.log("MOUSEOVER",this.mousOver)
+    if(this.mousOver===false)
+    {
+      console.log("MOUSEOVER FALSE")
+      if(this.dragEvent===false )
+      {
+        console.log("DRAGEEVENT FALSE")
+        if(document.getElementById('resize-container')!==null)
+        {
+            if(this.shouldAlign===false)
+            {
+              document.getElementById('resize-container').remove()
+            }
+
+
+        }
+
+
+      }
+
+    }
+
+  }
 
   
 
