@@ -280,9 +280,9 @@ export class EditorContainerComponent
         document.getElementById('resize-container').style.width=resizerWidth+'px'
         document.getElementById('resize-container').style.height=resizerHeight+'px'
 
-        document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left+'px'
-        console.log("IMAGE POS",document.getElementById(event.target.id).getBoundingClientRect().left)
-        console.log("Resize-container",document.getElementById('resize-container').style.left)
+        document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-25+'px'
+        // console.log("IMAGE POS",document.getElementById(event.target.id).getBoundingClientRect().left)
+        // console.log("Resize-container",document.getElementById('resize-container').style.left)
         
 
       }
