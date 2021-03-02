@@ -1,6 +1,7 @@
 export interface EditorConfig {
     file?: boolean;
     id?: string;
+    disabledButton?: boolean;
     mentionedNames?: MentionedName[];
     mentionedDates?: string[];
     colorPalette?: boolean;

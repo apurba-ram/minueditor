@@ -731,8 +731,8 @@
             </button>
         </div>
         <!-- Button Name -->
-        <div class="col" data-id="submit" *ngIf="editorConfig?.buttonName">
-            <button class="submit" data-id="submit">{{editorConfig?.buttonName}}</button>
+        <div class="col" *ngIf="editorConfig?.buttonName">
+            <button class="submit" data-id="submit" [class.disabled]="editorConfig?.disabledButton">{{editorConfig?.buttonName}}</button>
         </div>
     </div>
 </div>
