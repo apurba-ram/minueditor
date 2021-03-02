@@ -199,7 +199,7 @@ export class EditorContainerComponent
       resizer.setAttribute('id','resize-container')
       resizer.style.width=document.getElementById(event.target.id).clientWidth+'px'
       resizer.style.height=document.getElementById(event.target.id).clientHeight+'px'
-      resizer.style.left=document.getElementById(event.target.id).getBoundingClientRect().left-25+'px'
+      resizer.style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
   
       const topLeft=document.createElement('div')
       topLeft.setAttribute('class','resize-pointer top-left active')
@@ -308,7 +308,7 @@ export class EditorContainerComponent
           document.getElementById(event.target.id).style.height=height+'px'
           document.getElementById('resize-container').style.width=resizerWidth+'px'
           document.getElementById('resize-container').style.height=resizerHeight+'px'
-          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-25+'px'
+          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
         }
         else if(document.getElementById(event.target.parentNode.id).classList[1]==='center'){
           document.getElementById(event.target.id).style.pointerEvents='none'
@@ -317,13 +317,15 @@ export class EditorContainerComponent
           document.getElementById(event.target.id).style.height=height+'px'
           document.getElementById('resize-container').style.width=resizerWidth+'px'
           document.getElementById('resize-container').style.height=resizerHeight+'px'
-          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-25+'px'
+          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
         }
 
         // console.log("IMAGE POS",document.getElementById(event.target.id).getBoundingClientRect().left)
         // console.log("Resize-container",document.getElementById('resize-container').style.left)
 
       }
+
+      //resize from top left side
 
       topLeft.addEventListener('mouseover',()=>
       {
@@ -367,6 +369,7 @@ export class EditorContainerComponent
         document.getElementById(event.target.id).style.height=height+'px'
         document.getElementById('resize-container').style.width=resizerWidth+'px'
         document.getElementById('resize-container').style.height=resizerHeight+'px'
+
         }
         else if(document.getElementById(event.target.parentNode.id).classList[1]==='right'){
           document.getElementById(event.target.id).style.pointerEvents='none'
@@ -375,7 +378,7 @@ export class EditorContainerComponent
           document.getElementById(event.target.id).style.height=height+'px'
           document.getElementById('resize-container').style.width=resizerWidth+'px'
           document.getElementById('resize-container').style.height=resizerHeight+'px'
-          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-25+'px'
+          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
         }
         else if(document.getElementById(event.target.parentNode.id).classList[1]==='center'){
           document.getElementById(event.target.id).style.pointerEvents='none'
@@ -384,7 +387,77 @@ export class EditorContainerComponent
           document.getElementById(event.target.id).style.height=height+'px'
           document.getElementById('resize-container').style.width=resizerWidth+'px'
           document.getElementById('resize-container').style.height=resizerHeight+'px'
-          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-25+'px'
+          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
+        }
+        // if(document.getElementById(event.target))
+
+
+      }
+
+
+
+      bottomLeft.addEventListener('mouseover',()=>
+      {
+        console.log("OVER")
+       // console.log(this);
+        this.mousOver = true; 
+        console.log("MOUSEOVER VALUE IN LISTSNER",this.mousOver)
+      })
+
+      bottomLeft.addEventListener('mouseout',()=>
+      {
+        console.log("OUT")
+        this.mousOver=false
+      })
+      
+      bottomLeft.addEventListener('mousedown',(e:any)=>
+      {
+        this.countMouseUp=0
+        this.dragEvent=true
+        getOriginal(e,event.target.id);
+        console.log('holaaaa');
+        window.addEventListener('mousemove', resizsTopLeft)
+        // console.log("MOUSEUP COUNT IN MOUSEDON TOP RIGHT",this.countMouseUp)
+        window.addEventListener('mouseup', stopResize.bind(this))
+      })
+
+      function resizsBottomLeft(e)
+      {
+        console.log("RESIZE FROM BOTTOM LEFT")
+        const width = original_width - (e.pageX - original_mouse_x)
+        const height = original_height + (e.pageY - original_mouse_y)
+        const resizerWidth=resizer_width-(e.pageX-original_mouse_x)
+        const resizerHeight=resizer_height+(e.pageY-original_mouse_y)
+        document.getElementById(event.target.id).style.width=width+'px'
+        document.getElementById(event.target.id).style.height=height+'px'
+        document.getElementById('resize-container').style.width=resizerWidth+'px'
+        document.getElementById('resize-container').style.height=resizerHeight+'px'
+        if(document.getElementById(event.target.parentNode.id).classList[1]===undefined || document.getElementById(event.target.parentNode.id).classList[1]==='left')
+        {
+          document.getElementById(event.target.id).style.width=width+'px'
+        // document.getElementById(event.target.id).style.height='auto'
+        document.getElementById('resize-container').style.width=resizerWidth+'px'
+        // document.getElementById('resize-container').style.height='auto'
+        document.getElementById(event.target.id).style.left= original_x + (e.pageX - original_mouse_x) + 'px'
+        document.getElementById(event.target.id).style.bottom= original_y + (e.pageY - original_mouse_y) + 'px'
+        }
+        else if(document.getElementById(event.target.parentNode.id).classList[1]==='right'){
+          document.getElementById(event.target.id).style.pointerEvents='none'
+          document.getElementById('resize-container').style.pointerEvents='none'
+          document.getElementById(event.target.id).style.width=width+'px'
+          document.getElementById(event.target.id).style.height=height+'px'
+          document.getElementById('resize-container').style.width=resizerWidth+'px'
+          document.getElementById('resize-container').style.height=resizerHeight+'px'
+          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
+        }
+        else if(document.getElementById(event.target.parentNode.id).classList[1]==='center'){
+          document.getElementById(event.target.id).style.pointerEvents='none'
+          document.getElementById('resize-container').style.pointerEvents='none'
+          document.getElementById(event.target.id).style.width=width+'px'
+          document.getElementById(event.target.id).style.height=height+'px'
+          document.getElementById('resize-container').style.width=resizerWidth+'px'
+          document.getElementById('resize-container').style.height=resizerHeight+'px'
+          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
         }
         // if(document.getElementById(event.target))
 
@@ -609,7 +682,7 @@ export class EditorContainerComponent
           setTimeout(() => {
             console.log(imageRatio.left);
             // document.getElementsByClassName('resize-container')[0].classList.add('right')
-            document.getElementById('resize-container').style.left=imageRatio.left-25 +'px';
+            document.getElementById('resize-container').style.left=imageRatio.left-290 +'px';
             console.log("FLOAT RIGHT COMPLETED")
             this.shouldAlign=false
             this.imgBlur()
@@ -656,7 +729,7 @@ export class EditorContainerComponent
           setTimeout(() => {
             console.log(imageRatio.left);
             // document.getElementsByClassName('resize-container')[0].classList.add('right')
-            document.getElementById('resize-container').style.left=imageRatio.left-25 +'px';
+            document.getElementById('resize-container').style.left=imageRatio.left-290 +'px';
             this.shouldAlign=false
             this.imgBlur()
 
@@ -691,7 +764,7 @@ export class EditorContainerComponent
           setTimeout(() => {
             console.log(imageRatio.left);
             // document.getElementsByClassName('resize-container')[0].classList.add('right')
-            document.getElementById('resize-container').style.left=imageRatio.left-25 +'px';
+            document.getElementById('resize-container').style.left=imageRatio.left-290 +'px';
             this.shouldAlign=false
             this.imgBlur()
 
