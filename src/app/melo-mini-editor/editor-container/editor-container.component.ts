@@ -296,12 +296,17 @@ export class EditorContainerComponent
         const resizerHeight=resizer_height-(e.pageY-original_mouse_y)
         if(document.getElementById(event.target.parentNode.id).classList[1]===undefined || document.getElementById(event.target.parentNode.id).classList[1]==='left')
         {
-          document.getElementById(event.target.id).style.width=width+'px'
-        document.getElementById(event.target.id).style.height=height+'px'
-        document.getElementById('resize-container').style.width=resizerWidth+'px'
-        document.getElementById('resize-container').style.height=resizerHeight+'px'
+          // console.log(width,document.getElementById('editable-block').clientWidth)
+          if(width<document.getElementsByClassName('editable-block')[0].clientWidth-50){
+            document.getElementById(event.target.id).style.width=width+'px'
+            document.getElementById(event.target.id).style.height=height+'px'
+            document.getElementById('resize-container').style.width=resizerWidth+'px'
+            document.getElementById('resize-container').style.height=resizerHeight+'px'
+          }
+
         }
         else if(document.getElementById(event.target.parentNode.id).classList[1]==='right'){
+          if(width<document.getElementsByClassName('editable-block')[0].clientWidth-50){
           document.getElementById(event.target.id).style.pointerEvents='none'
           document.getElementById('resize-container').style.pointerEvents='none'
           document.getElementById(event.target.id).style.width=width+'px'
@@ -310,7 +315,9 @@ export class EditorContainerComponent
           document.getElementById('resize-container').style.height=resizerHeight+'px'
           document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
         }
+      }
         else if(document.getElementById(event.target.parentNode.id).classList[1]==='center'){
+          if(width<document.getElementsByClassName('editable-block')[0].clientWidth-50){
           document.getElementById(event.target.id).style.pointerEvents='none'
           document.getElementById('resize-container').style.pointerEvents='none'
           document.getElementById(event.target.id).style.width=width+'px'
@@ -319,6 +326,7 @@ export class EditorContainerComponent
           document.getElementById('resize-container').style.height=resizerHeight+'px'
           document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
         }
+      }
 
         // console.log("IMAGE POS",document.getElementById(event.target.id).getBoundingClientRect().left)
         // console.log("Resize-container",document.getElementById('resize-container').style.left)
@@ -365,13 +373,15 @@ export class EditorContainerComponent
         document.getElementById('resize-container').style.height=resizerHeight+'px'
         if(document.getElementById(event.target.parentNode.id).classList[1]===undefined || document.getElementById(event.target.parentNode.id).classList[1]==='left')
         {
+          if(width<document.getElementsByClassName('editable-block')[0].clientWidth-20){
           document.getElementById(event.target.id).style.width=width+'px'
         document.getElementById(event.target.id).style.height=height+'px'
         document.getElementById('resize-container').style.width=resizerWidth+'px'
         document.getElementById('resize-container').style.height=resizerHeight+'px'
-
+          }
         }
         else if(document.getElementById(event.target.parentNode.id).classList[1]==='right'){
+          if(width<document.getElementsByClassName('editable-block')[0].clientWidth-50){
           document.getElementById(event.target.id).style.pointerEvents='none'
           document.getElementById('resize-container').style.pointerEvents='none'
           document.getElementById(event.target.id).style.width=width+'px'
@@ -380,7 +390,10 @@ export class EditorContainerComponent
           document.getElementById('resize-container').style.height=resizerHeight+'px'
           document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
         }
+      }
         else if(document.getElementById(event.target.parentNode.id).classList[1]==='center'){
+          console.log("HEY THIS IS CENTER RESIABLE FRO TOP LEFT")
+          if(width<document.getElementsByClassName('editable-block')[0].clientWidth-160){
           document.getElementById(event.target.id).style.pointerEvents='none'
           document.getElementById('resize-container').style.pointerEvents='none'
           document.getElementById(event.target.id).style.width=width+'px'
@@ -389,6 +402,7 @@ export class EditorContainerComponent
           document.getElementById('resize-container').style.height=resizerHeight+'px'
           document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
         }
+      }
         // if(document.getElementById(event.target))
 
 

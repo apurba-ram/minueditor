@@ -1,6 +1,6 @@
 <!-- <p>editor-container works!</p> -->
 <div class="editor-container" (blur)="blur()">
-    <div class="editable-block" contenteditable="true"
+    <div id="editable-block" class="editable-block" contenteditable="true"
         [class.bottom]="!editorConfig?.toolbarPlacement || editorConfig?.toolbarPlacement === 'bottom'"
         [class.top]="editorConfig?.toolbarPlacement === 'top'" [id]="id" (input)="setValue($event.target.innerText)"
         (paste)="onPaste($event)" [mentionConfig]="mentionConfig" (closed)="mentionClosed()"
