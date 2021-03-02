@@ -134,15 +134,28 @@ export class EditorContainerComponent
       return '_' + Math.random().toString(36).substr(2, 9);
     })();
 
+    const len=document.getElementsByClassName('editor-image').length
+    if(len>0)
+    {
+
+      console.log("PREVIOUS CONTAINER",document.getElementsByClassName('editor-image')[len-1].getBoundingClientRect().bottom,
+      document.getElementsByClassName('editor-image')[len-1].getBoundingClientRect().left)
+    }
+
+
     //create image container and img 
     const imageContainer=document.createElement('div')
     imageContainer.setAttribute('id','image-container'+id)
     imageContainer.setAttribute('class','image-container')
     imageContainer.setAttribute('contenteditable','false')
-
-
+    if(len>0)
+    {
+        imageContainer.style.clear='both'
+    }
+    
     const imgTag=document.createElement('img')
     imgTag.setAttribute('id','image'+id)
+    imgTag.setAttribute('class','editor-image')
     imgTag.setAttribute('src',event.url)
     imgTag.setAttribute('tabindex','0')
     imgTag.style.width = 300+'px';
@@ -174,6 +187,7 @@ export class EditorContainerComponent
 
   imgFoucs(event:any)
   {
+    // console.log("IMAGE HEIGHT",document.get)
     console.log("FOCUS",event.target.id)
 
     //create resizer div
@@ -185,6 +199,7 @@ export class EditorContainerComponent
       resizer.setAttribute('id','resize-container')
       resizer.style.width=document.getElementById(event.target.id).clientWidth+'px'
       resizer.style.height=document.getElementById(event.target.id).clientHeight+'px'
+      resizer.style.left=document.getElementById(event.target.id).getBoundingClientRect().left-25+'px'
   
       const topLeft=document.createElement('div')
       topLeft.setAttribute('class','resize-pointer top-left active')
@@ -321,13 +336,14 @@ export class EditorContainerComponent
         // }
         
         
-        console.log("THIS IS CALLED MANY TIMES")
+        console.log("THIS IS CALLED MANY TIMES",event.target)
         this.mouseover=false
         this.dragEvent=false
           
         window.removeEventListener('mousemove', resizeTopRight)
         if(this.countMouseUp===0)
         {
+          document.getElementById(event.target.id).style.pointerEvents='auto'
           this.imgBlur()
         }
 
@@ -514,16 +530,18 @@ export class EditorContainerComponent
         console.log("event parnet  id",event.target.parentNode.id)
           console.log("LALALLA")
           document.getElementById(event.target.parentNode.id).classList.remove('center')
-          document.getElementById(event.target.parentNode.id).classList.remove('left')
-          document.getElementById(event.target.parentNode.id).classList.add('right')
+          // document.getElementById(event.target.parentNode.id).classList.remove('left')
+          // document.getElementById(event.target.parentNode.id).classList.add('right')
+          document.getElementById(event.target.id).style.float='right'
           // document.getElementById('resize-container').remove();
           const imageRatio = document.getElementById(event.target.id).getBoundingClientRect();
           setTimeout(() => {
             console.log(imageRatio.left);
-            document.getElementsByClassName('resize-container')[0].classList.add('right')
+            // document.getElementsByClassName('resize-container')[0].classList.add('right')
             document.getElementById('resize-container').style.left=imageRatio.left-25 +'px';
+            console.log("FLOAT RIGHT COMPLETED")
             this.shouldAlign=false
-
+            this.imgBlur()
           }, 10);
           
          
@@ -558,24 +576,57 @@ export class EditorContainerComponent
       center_btn.addEventListener('click',()=>
       {
           console.log("LALALLA")
-          document.getElementById(event.target.parentNode.id).classList.remove('right')
-          document.getElementById(event.target.parentNode.id).classList.remove('left')
+          // document.getElementById(event.target.parentNode.id).classList.remove('right')
+          // document.getElementById(event.target.parentNode.id).classList.remove('left')
+          document.getElementById(event.target.id).style.float='none'
           document.getElementById(event.target.parentNode.id).classList.add('center')
           // document.getElementById('resize-container').remove();
           const imageRatio = document.getElementById(event.target.id).getBoundingClientRect();
           setTimeout(() => {
             console.log(imageRatio.left);
-            document.getElementsByClassName('resize-container')[0].classList.add('right')
+            // document.getElementsByClassName('resize-container')[0].classList.add('right')
             document.getElementById('resize-container').style.left=imageRatio.left-25 +'px';
+            this.shouldAlign=false
+            this.imgBlur()
 
           }, 10);
           
-         
-
       })
 
 
+      left_btn.addEventListener('mouseover',()=>
+      {
+        this.shouldAlign=true
+        console.log("TANTADA  1")
 
+      })
+
+      left_btn.addEventListener('mouseout',()=>
+      {
+        this.shouldAlign=false
+        console.log("TANTADA  2")
+      })
+
+
+      left_btn.addEventListener('click',()=>
+      {
+          console.log("LALALLA")
+          // document.getElementById(event.target.parentNode.id).classList.remove('right')
+          // document.getElementById(event.target.parentNode.id).classList.remove('left')
+          document.getElementById(event.target.id).style.float='left'
+          document.getElementById(event.target.parentNode.id).classList.add('center')
+          // document.getElementById('resize-container').remove();
+          const imageRatio = document.getElementById(event.target.id).getBoundingClientRect();
+          setTimeout(() => {
+            console.log(imageRatio.left);
+            // document.getElementsByClassName('resize-container')[0].classList.add('right')
+            document.getElementById('resize-container').style.left=imageRatio.left-25 +'px';
+            this.shouldAlign=false
+            this.imgBlur()
+
+          }, 10);
+          
+      })
     }
 
   }
