@@ -49,13 +49,13 @@ export class EditorMenuComponent {
 
 
   image: any;
-  fontStyles: string[];
+  fontType: string[];
 
   constructor() {
     this.filesArray = [];
     this.fillColor = Array(2).fill(false);
     this.image = null;
-    this.fontStyles = ['verdana', 'arial', 'georgia', 'impact', 'courier new', 'tahoma']
+    this.fontType = ['verdana', 'arial', 'georgia', 'impact', 'courier new', 'tahoma']
   }
 
   /**

@@ -1,11 +1,11 @@
 export interface EditorConfig {
     file?: boolean;
     id?: string;
-    disabledButton?: boolean;
     mentionedNames?: MentionedName[];
     mentionedDates?: string[];
     colorPalette?: boolean;
     buttonName?: string;
+    disabledButton?: boolean;
     toolbarPlacement?: 'top' | 'bottom';
     placeholder?: string;
     mode?: 'basic' | 'prime'

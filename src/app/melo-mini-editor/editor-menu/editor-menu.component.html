@@ -327,7 +327,7 @@
             </button>
             <div class="popover small" *ngIf="fontFamily">
                 <ul class="option-list" (click)="fontFamily = false;">
-                    <li *ngFor="let font of fontStyles" attr.data-id="font-{{font}}">
+                    <li *ngFor="let font of fontType" attr.data-id="font-{{font}}">
                         <button attr.data-id="font-{{font}}" [class.active]="toolbarConfig?.fontStyle === font">
                             {{font | titlecase}}
                         </button>
