@@ -201,6 +201,10 @@
                     line-height    : 24px;
                     height         : 28px;
                     position       : relative;
+                    &:disabled {
+                        cursor: not-allowed;
+                        filter: grayscale(1);
+                    }
 
                     &+button {
                         margin-left: 5px;
