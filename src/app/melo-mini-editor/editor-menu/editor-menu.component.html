@@ -334,7 +334,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div> 
         <!-- Fill Color -->
         <div class="col" clickOutside (clickOutside)="fillColor[0] = false;" *ngIf="editorConfig?.colorPalette && editorConfig?.mode === 'prime'">
             <button (click)="fillColor[0] = !fillColor[0]; fillColor[1] = false;" [class.active]="fillColor[0]"
