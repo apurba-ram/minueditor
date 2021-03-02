@@ -20,7 +20,7 @@ export class AppComponent  {
     mentionedDates: ['19-02-2020', '11-02-2020', '12-02-2020', '14-02-2020'],
     toolbarPlacement: 'bottom',
     buttonName: 'Submit',
-    disabledButton: false,
+    disabledButton: true,
     file: true
   };
 
