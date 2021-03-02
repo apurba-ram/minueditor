@@ -479,6 +479,74 @@ export class EditorContainerComponent
       }
 
 
+      
+      bottomRight.addEventListener('mouseover',()=>
+      {
+        console.log("OVER")
+       // console.log(this);
+        this.mousOver = true; 
+        console.log("MOUSEOVER VALUE IN LISTSNER",this.mousOver)
+      })
+
+      bottomRight.addEventListener('mouseout',()=>
+      {
+        console.log("OUT")
+        this.mousOver=false
+      })
+      
+      bottomRight.addEventListener('mousedown',(e:any)=>
+      {
+        this.countMouseUp=0
+        this.dragEvent=true
+        getOriginal(e,event.target.id);
+        console.log('holaaaa');
+        window.addEventListener('mousemove', resizsBottomRight)
+        // console.log("MOUSEUP COUNT IN MOUSEDON TOP RIGHT",this.countMouseUp)
+        window.addEventListener('mouseup', stopResize.bind(this))
+      })
+
+      function resizsBottomRight(e)
+      {
+        console.log("RESIZE FROM BOTTOM LEFT")
+        const width = original_width +(e.pageX - original_mouse_x)
+        const height = original_height + (e.pageY - original_mouse_y)
+        const resizerWidth=resizer_width+(e.pageX-original_mouse_x)
+        const resizerHeight=resizer_height+(e.pageY-original_mouse_y)
+        document.getElementById(event.target.id).style.width=width+'px'
+        document.getElementById(event.target.id).style.height=height+'px'
+        document.getElementById('resize-container').style.width=resizerWidth+'px'
+        document.getElementById('resize-container').style.height=resizerHeight+'px'
+        if(document.getElementById(event.target.parentNode.id).classList[1]===undefined || document.getElementById(event.target.parentNode.id).classList[1]==='left')
+        {
+          document.getElementById(event.target.id).style.width=width+'px'
+        document.getElementById(event.target.id).style.height=height+'px'
+        document.getElementById('resize-container').style.width=resizerWidth+'px'
+        document.getElementById('resize-container').style.height=resizerHeight+'px'
+        
+        }
+        else if(document.getElementById(event.target.parentNode.id).classList[1]==='right'){
+          document.getElementById(event.target.id).style.pointerEvents='none'
+          document.getElementById('resize-container').style.pointerEvents='none'
+          document.getElementById(event.target.id).style.width=width+'px'
+          document.getElementById(event.target.id).style.height=height+'px'
+          document.getElementById('resize-container').style.width=resizerWidth+'px'
+          document.getElementById('resize-container').style.height=resizerHeight+'px'
+          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
+        }
+        else if(document.getElementById(event.target.parentNode.id).classList[1]==='center'){
+          document.getElementById(event.target.id).style.pointerEvents='none'
+          document.getElementById('resize-container').style.pointerEvents='none'
+          document.getElementById(event.target.id).style.width=width+'px'
+          document.getElementById(event.target.id).style.height=height+'px'
+          document.getElementById('resize-container').style.width=resizerWidth+'px'
+          document.getElementById('resize-container').style.height=resizerHeight+'px'
+          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
+        }
+        // if(document.getElementById(event.target))
+
+
+      }
+
 
 
 
@@ -499,6 +567,9 @@ export class EditorContainerComponent
           
         window.removeEventListener('mousemove', resizeTopRight)
         window.removeEventListener('mousemove',resizsTopLeft)
+        window.removeEventListener('mousemove',resizsBottomRight)
+        window.removeEventListener('mousemove',resizsBottomLeft)
+
         if(this.countMouseUp===0)
         {
           document.getElementById(event.target.id).style.pointerEvents='auto'
