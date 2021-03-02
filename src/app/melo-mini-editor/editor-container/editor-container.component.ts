@@ -77,7 +77,6 @@ export class EditorContainerComponent
   * @param event - Event which stores the files that are emitted from the file popup
   */
   saveFiles(event: any): void {
-    this.editorConfig.buttonName = 'Upload';
     this.sendSavedFiles.emit(event);
   }
 
@@ -93,32 +92,6 @@ export class EditorContainerComponent
     range.setStartAfter(imgTag);
     range.collapse();
     this.sel.addRange(range);
-  }
-
-  /**
-  * @param event - Event which stores the link emitted from the link popup
-  */
-  insertLink(event: any): void {
-    const anchorTag = document.createElement('a');
-    anchorTag.innerHTML = event.linkText;
-    anchorTag.setAttribute('href', event.linkUrl);
-    anchorTag.setAttribute('title', event.linkTitle);
-    anchorTag.setAttribute('target', '_blank');
-    anchorTag.setAttribute('rel', 'noopener noreferrer');
-
-    let range: any;
-    if(!this.oldRange) {
-      range = this.sel.getRangeAt(0).cloneRange();
-    } else {
-      range = this.oldRange.cloneRange();
-    }   
-    this.sel.removeAllRanges(); 
-    range.insertNode(anchorTag);
-    range.setStartAfter(anchorTag);
-    range.collapse();
-    this.sel.addRange(range);
-
-    this.writeValue(document.getElementById(`${this.id}`).innerHTML, 'editor');
   }
 
   resetToolbar(): void {
@@ -716,6 +689,33 @@ export class EditorContainerComponent
       this.reachTextNode('sup');
     }
   }
+
+  /**
+  * @param event - Event which stores the link emitted from the link popup
+  */
+  insertLink(event: any): void {
+    const anchorTag = document.createElement('a');
+    anchorTag.innerHTML = event.linkText;
+    anchorTag.setAttribute('href', event.linkUrl);
+    anchorTag.setAttribute('title', event.linkTitle);
+    anchorTag.setAttribute('target', '_blank');
+    anchorTag.setAttribute('rel', 'noopener noreferrer');
+
+    let range: any;
+    if(!this.oldRange) {
+      range = this.sel.getRangeAt(0).cloneRange();
+    } else {
+      range = this.oldRange.cloneRange();
+    }   
+    this.sel.removeAllRanges(); 
+    range.insertNode(anchorTag);
+    range.setStartAfter(anchorTag);
+    range.collapse();
+    this.sel.addRange(range);
+
+    this.writeValue(document.getElementById(`${this.id}`).innerHTML, 'editor');
+  }
+
   
   /**
    * Function inserts sub tag inside the editor
@@ -746,7 +746,6 @@ export class EditorContainerComponent
     this.sel.getRangeAt(0).insertNode(space);
     this.sel.getRangeAt(0).setStartAfter(space);
   }
-
 
   /**
    * 
