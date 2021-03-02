@@ -136,7 +136,7 @@ export class EditorContainerComponent
 
     //create image container and img 
     const imageContainer=document.createElement('div')
-    imageContainer.setAttribute('id','image-container'+id)
+    imageContainer.setAttribute('id','image-container')
     imageContainer.setAttribute('class','image-container')
     imageContainer.setAttribute('contenteditable','false')
 
@@ -270,17 +270,39 @@ export class EditorContainerComponent
 
       function resizeTopRight(e)
       {
-        console.log("TARGET ID",event.target)
+
+        console.log("CSS FLAOT",document.getElementById('image-container').classList[1])
+        // console.log("TARGET ID",event.target)
         const width = original_width + (e.pageX - original_mouse_x)
         const height = original_height - (e.pageY - original_mouse_y)
         const resizerWidth=resizer_width+(e.pageX-original_mouse_x)
         const resizerHeight=resizer_height-(e.pageY-original_mouse_y)
-        document.getElementById(event.target.id).style.width=width+'px'
+        if(document.getElementById('image-container').classList[1]===undefined || document.getElementById('image-container').classList[1]==='left')
+        {
+          document.getElementById(event.target.id).style.width=width+'px'
         document.getElementById(event.target.id).style.height=height+'px'
         document.getElementById('resize-container').style.width=resizerWidth+'px'
         document.getElementById('resize-container').style.height=resizerHeight+'px'
+        }
+        else if(document.getElementById('image-container').classList[1]==='right'){
+          document.getElementById(event.target.id).style.pointerEvents='none'
+          document.getElementById('resize-container').style.pointerEvents='none'
+          document.getElementById(event.target.id).style.width=width+'px'
+          document.getElementById(event.target.id).style.height=height+'px'
+          document.getElementById('resize-container').style.width=resizerWidth+'px'
+          document.getElementById('resize-container').style.height=resizerHeight+'px'
+          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-25+'px'
+        }
+        else if(document.getElementById('image-container').classList[1]==='center'){
+          document.getElementById(event.target.id).style.pointerEvents='none'
+          document.getElementById('resize-container').style.pointerEvents='none'
+          document.getElementById(event.target.id).style.width=width+'px'
+          document.getElementById(event.target.id).style.height=height+'px'
+          document.getElementById('resize-container').style.width=resizerWidth+'px'
+          document.getElementById('resize-container').style.height=resizerHeight+'px'
+          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-25+'px'
+        }
 
-        document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-25+'px'
         // console.log("IMAGE POS",document.getElementById(event.target.id).getBoundingClientRect().left)
         // console.log("Resize-container",document.getElementById('resize-container').style.left)
         
@@ -464,6 +486,50 @@ export class EditorContainerComponent
           document.getElementsByClassName('image-container')[0].classList.remove('center')
           document.getElementsByClassName('image-container')[0].classList.remove('left')
           document.getElementsByClassName('image-container')[0].classList.add('right')
+          // document.getElementById('resize-container').remove();
+          const imageRatio = document.getElementById(event.target.id).getBoundingClientRect();
+          setTimeout(() => {
+            console.log(imageRatio.left);
+            document.getElementsByClassName('resize-container')[0].classList.add('right')
+            document.getElementById('resize-container').style.left=imageRatio.left-25 +'px';
+
+          }, 10);
+          
+         
+
+      })
+
+
+      //center alignment
+
+      right_align.appendChild(right_btn)
+
+      navigationTag.appendChild(right_align)
+      document.getElementById('resize-container').appendChild(navigationTag)
+      // console.log(navigationTag)
+      
+      //event listener on alignments
+      
+      center_btn.addEventListener('mouseover',()=>
+      {
+        this.shouldAlign=true
+        console.log("TANTADA  1")
+
+      })
+
+      center_btn.addEventListener('mouseout',()=>
+      {
+        this.shouldAlign=false
+        console.log("TANTADA  2")
+      })
+
+
+      center_btn.addEventListener('click',()=>
+      {
+          console.log("LALALLA")
+          document.getElementsByClassName('image-container')[0].classList.remove('right')
+          document.getElementsByClassName('image-container')[0].classList.remove('left')
+          document.getElementsByClassName('image-container')[0].classList.add('center')
           // document.getElementById('resize-container').remove();
           const imageRatio = document.getElementById(event.target.id).getBoundingClientRect();
           setTimeout(() => {
