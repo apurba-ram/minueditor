@@ -39,7 +39,7 @@ export class AppComponent  {
 
   constructor() {
     setTimeout(()=>{
-      this.modelvalue2 = Math.random().toString(36).replace('0.','MUJHE KYA PARWAH IS DUNIYA KI ?' || '');
+      this.modelvalue2 = Math.random().toString(36).replace('0.','Logging ?' || '');
     }, 3000);
   }
   
