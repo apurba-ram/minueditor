@@ -19,11 +19,7 @@
     "@angular/platform-browser": "~10.1.0",
     "@angular/platform-browser-dynamic": "~10.1.0",
     "@angular/router": "~10.1.0",
-<<<<<<< HEAD
     "marx-editor": "^1.0.13",
-=======
-    "marx-editor": "^1.0.7",
->>>>>>> 13e43905883fac7c0784b80e1816672986bf0a72
     "minieditor-vc": "^1.0.54",
     "rxjs": "~6.6.0",
     "sweetalert2": "^10.15.2",
