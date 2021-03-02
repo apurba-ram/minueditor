@@ -233,6 +233,11 @@
                         background  : #1e5dd3;
                         border-color: #1e5dd3;
                         color       : #FFFFFF;
+
+                        &.disabled {
+                            pointer-events: none;
+                            filter: grayscale(1);
+                        }
                     }
                 }
             }
@@ -382,6 +387,14 @@
     display        : flex;
     justify-content: center;
     align-items    : center;
+}
+
+.error {
+    font-size: 1px;
+    font-weight: 400;
+    color: #eb2424;
+    margin-top: 3px;
+    margin-bottom: 0;
 }
 
 .alert-box
