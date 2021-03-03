@@ -187,6 +187,16 @@ export class EditorContainerComponent
 
   imgFoucs(event:any)
   {
+    //delete image using delete button
+
+    event.target.addEventListener('keydown',(e)=>{
+      
+      if(e.keyCode===46){
+        // console.log("DELETE IMAGE")
+        document.getElementById(event.target.parentNode.id).remove()
+      }
+    })
+
     // console.log("IMAGE HEIGHT",document.get)
     console.log("FOCUS",event.target.id)
 
@@ -573,7 +583,7 @@ export class EditorContainerComponent
         if(this.countMouseUp===0)
         {
           document.getElementById(event.target.id).style.pointerEvents='auto'
-          this.imgBlur()
+          this.imgBlur(this)
         }
 
         this.countMouseUp=1;
@@ -770,7 +780,7 @@ export class EditorContainerComponent
             document.getElementById('resize-container').style.left=imageRatio.left-290 +'px';
             console.log("FLOAT RIGHT COMPLETED")
             this.shouldAlign=false
-            this.imgBlur()
+            this.imgBlur(this)
           }, 10);
           
          
@@ -816,7 +826,7 @@ export class EditorContainerComponent
             // document.getElementsByClassName('resize-container')[0].classList.add('right')
             document.getElementById('resize-container').style.left=imageRatio.left-290 +'px';
             this.shouldAlign=false
-            this.imgBlur()
+            this.imgBlur(this)
 
           }, 10);
           
@@ -851,11 +861,13 @@ export class EditorContainerComponent
             // document.getElementsByClassName('resize-container')[0].classList.add('right')
             document.getElementById('resize-container').style.left=imageRatio.left-290 +'px';
             this.shouldAlign=false
-            this.imgBlur()
+            this.imgBlur(event)
 
           }, 10);
           
       })
+
+      
     }
 
   }
