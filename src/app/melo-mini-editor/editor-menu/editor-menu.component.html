@@ -432,61 +432,14 @@
                         </div>
                     </div>
                     <div id="emoji-area"  class="people-emoji-area" *ngIf="peopleEmoji">
-                        <div (click)="showEmoji($event)" class="emoji-icon">😀</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😬</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😂</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🥳</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😆</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😉</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😊</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😋</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😍</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😗</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😙</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😜</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🤪</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🤨</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😉</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😊</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😋</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😝</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🤑</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🤓</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🤩</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🤡</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🤠</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😐</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😒</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🙄</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🤔</div>
-
-                        <div (click)="showEmoji($event)" class="emoji-icon">🤭</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🤫</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🤬</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🤯</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😡</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😞</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🤓</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🤩</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🤡</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😔</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">😕</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🧐</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🤢</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🤣</div>
-
+                        <div *ngFor="let ppl of peopleEmojiArray">
+                            <div (click)="showEmoji(ppl)">{{ppl}}</div>
+                        </div>
                     </div>
                     <div  id="emoji-area" class="animal-emoji-area" *ngIf="animalEmoji">
-                        <div (click)="showEmoji($event)" class="emoji-icon">🐶</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🐱</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🐭</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🐹</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🐰</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🦊</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🐻</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🐼</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🐨</div>
-                        <div (click)="showEmoji($event)" class="emoji-icon">🐯</div>
+                        <div *ngFor="let animal of animalEmojiArray">
+                            <div>{{animal}}</div>
+                        </div>
                     </div>
                     <div>
 

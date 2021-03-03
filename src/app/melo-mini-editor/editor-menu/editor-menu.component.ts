@@ -52,6 +52,8 @@ export class EditorMenuComponent implements OnInit {
   animalEmoji:boolean=false
   peopleEmoji:boolean=true
   recentlyUsed:boolean=false
+  peopleEmojiArray:Array<any>=['😀','😬','😁','😂']
+  animalEmojiArray:Array<any>=['🐶','🐱','🐻','🐼']
   recentlyUsedEmoji:Array<any>=[]
 
 
@@ -463,7 +465,7 @@ export class EditorMenuComponent implements OnInit {
   showEmoji(event)
   {
     // console.log(event.target.innerHTML)
-    this.emojiValue=event.target.innerHTML
+    this.emojiValue=event
     console.log("EMOJI",this.emojiValue)
     //store unique recently used emojies
     console.log(this.recentlyUsedEmoji.length)
