@@ -187,7 +187,7 @@ export class EditorContainerComponent
 
   imgFoucs(event:any)
   {
-    //delete image using delete button
+    //delete image using delete button from keyboard
 
     event.target.addEventListener('keydown',(e)=>{
       
@@ -196,6 +196,8 @@ export class EditorContainerComponent
         document.getElementById(event.target.parentNode.id).remove()
       }
     })
+
+    
 
     // console.log("IMAGE HEIGHT",document.get)
     console.log("FOCUS",event.target.id)
@@ -377,21 +379,24 @@ export class EditorContainerComponent
         const height = original_height - (e.pageY - original_mouse_y)
         const resizerWidth=resizer_width-(e.pageX-original_mouse_x)
         const resizerHeight=resizer_height-(e.pageY-original_mouse_y)
-        document.getElementById(event.target.id).style.width=width+'px'
-        document.getElementById(event.target.id).style.height=height+'px'
-        document.getElementById('resize-container').style.width=resizerWidth+'px'
-        document.getElementById('resize-container').style.height=resizerHeight+'px'
+        // document.getElementById(event.target.id).style.width=width+'px'
+        // document.getElementById(event.target.id).style.height=height+'px'
+        // document.getElementById('resize-container').style.width=resizerWidth+'px'
+        // document.getElementById('resize-container').style.height=resizerHeight+'px'
         if(document.getElementById(event.target.parentNode.id).classList[1]===undefined || document.getElementById(event.target.parentNode.id).classList[1]==='left')
         {
-          if(width<document.getElementsByClassName('editable-block')[0].clientWidth-20){
-          document.getElementById(event.target.id).style.width=width+'px'
-        document.getElementById(event.target.id).style.height=height+'px'
-        document.getElementById('resize-container').style.width=resizerWidth+'px'
-        document.getElementById('resize-container').style.height=resizerHeight+'px'
+          if(width<300){
+            console.log("width top left",width,document.getElementsByClassName('editable-block')[0].clientWidth-160)
+            document.getElementById(event.target.id).style.width=width+'px'
+            document.getElementById(event.target.id).style.height=height+'px'
+            document.getElementById('resize-container').style.width=resizerWidth+'px'
+            document.getElementById('resize-container').style.height=resizerHeight+'px'
           }
+         
         }
         else if(document.getElementById(event.target.parentNode.id).classList[1]==='right'){
-          if(width<document.getElementsByClassName('editable-block')[0].clientWidth-50){
+
+          if(width<document.getElementsByClassName('editable-block')[0].clientWidth-160){
           document.getElementById(event.target.id).style.pointerEvents='none'
           document.getElementById('resize-container').style.pointerEvents='none'
           document.getElementById(event.target.id).style.width=width+'px'
@@ -404,6 +409,7 @@ export class EditorContainerComponent
         else if(document.getElementById(event.target.parentNode.id).classList[1]==='center'){
           console.log("HEY THIS IS CENTER RESIABLE FRO TOP LEFT")
           if(width<document.getElementsByClassName('editable-block')[0].clientWidth-160){
+            console.log("CENTER",width,document.getElementsByClassName('editable-block')[0].clientWidth-160)
           document.getElementById(event.target.id).style.pointerEvents='none'
           document.getElementById('resize-container').style.pointerEvents='none'
           document.getElementById(event.target.id).style.width=width+'px'
@@ -452,20 +458,23 @@ export class EditorContainerComponent
         const height = original_height + (e.pageY - original_mouse_y)
         const resizerWidth=resizer_width-(e.pageX-original_mouse_x)
         const resizerHeight=resizer_height+(e.pageY-original_mouse_y)
-        document.getElementById(event.target.id).style.width=width+'px'
-        document.getElementById(event.target.id).style.height=height+'px'
-        document.getElementById('resize-container').style.width=resizerWidth+'px'
-        document.getElementById('resize-container').style.height=resizerHeight+'px'
+       
         if(document.getElementById(event.target.parentNode.id).classList[1]===undefined || document.getElementById(event.target.parentNode.id).classList[1]==='left')
         {
-          document.getElementById(event.target.id).style.width=width+'px'
-        // document.getElementById(event.target.id).style.height='auto'
-        document.getElementById('resize-container').style.width=resizerWidth+'px'
-        // document.getElementById('resize-container').style.height='auto'
-        document.getElementById(event.target.id).style.left= original_x + (e.pageX - original_mouse_x) + 'px'
-        document.getElementById(event.target.id).style.bottom= original_y + (e.pageY - original_mouse_y) + 'px'
+          if(width<document.getElementsByClassName('editable-block')[0].clientWidth-160)
+          {
+            document.getElementById(event.target.id).style.width=width+'px'
+            // document.getElementById(event.target.id).style.height='auto'
+            document.getElementById('resize-container').style.width=resizerWidth+'px'
+            // document.getElementById('resize-container').style.height='auto'
+            document.getElementById(event.target.id).style.left= original_x + (e.pageX - original_mouse_x) + 'px'
+            document.getElementById(event.target.id).style.bottom= original_y + (e.pageY - original_mouse_y) + 'px'
+          }
+
         }
         else if(document.getElementById(event.target.parentNode.id).classList[1]==='right'){
+          if(width<document.getElementsByClassName('editable-block')[0].clientWidth-160)
+          {
           document.getElementById(event.target.id).style.pointerEvents='none'
           document.getElementById('resize-container').style.pointerEvents='none'
           document.getElementById(event.target.id).style.width=width+'px'
@@ -473,8 +482,12 @@ export class EditorContainerComponent
           document.getElementById('resize-container').style.width=resizerWidth+'px'
           document.getElementById('resize-container').style.height=resizerHeight+'px'
           document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
+          }
         }
         else if(document.getElementById(event.target.parentNode.id).classList[1]==='center'){
+          if(width<document.getElementsByClassName('editable-block')[0].clientWidth-400)
+          {
+            console.log("CENTER")
           document.getElementById(event.target.id).style.pointerEvents='none'
           document.getElementById('resize-container').style.pointerEvents='none'
           document.getElementById(event.target.id).style.width=width+'px'
@@ -482,6 +495,7 @@ export class EditorContainerComponent
           document.getElementById('resize-container').style.width=resizerWidth+'px'
           document.getElementById('resize-container').style.height=resizerHeight+'px'
           document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
+          }
         }
         // if(document.getElementById(event.target))
 
@@ -522,10 +536,7 @@ export class EditorContainerComponent
         const height = original_height + (e.pageY - original_mouse_y)
         const resizerWidth=resizer_width+(e.pageX-original_mouse_x)
         const resizerHeight=resizer_height+(e.pageY-original_mouse_y)
-        document.getElementById(event.target.id).style.width=width+'px'
-        document.getElementById(event.target.id).style.height=height+'px'
-        document.getElementById('resize-container').style.width=resizerWidth+'px'
-        document.getElementById('resize-container').style.height=resizerHeight+'px'
+        
         if(document.getElementById(event.target.parentNode.id).classList[1]===undefined || document.getElementById(event.target.parentNode.id).classList[1]==='left')
         {
           document.getElementById(event.target.id).style.width=width+'px'
@@ -571,31 +582,24 @@ export class EditorContainerComponent
         // }
         
         
-        console.log("THIS IS CALLED MANY TIMES",event.target)
+        // console.log("THIS IS CALLED MANY TIMES",event.target)
         this.mouseover=false
         this.dragEvent=false
           
         window.removeEventListener('mousemove', resizeTopRight)
         window.removeEventListener('mousemove',resizsTopLeft)
-        window.removeEventListener('mousemove',resizsBottomRight)
         window.removeEventListener('mousemove',resizsBottomLeft)
-
+        window.removeEventListener('mousemove',resizsBottomRight)
+        document.getElementById(event.target.id).style.pointerEvents='auto'
         if(this.countMouseUp===0)
         {
-          document.getElementById(event.target.id).style.pointerEvents='auto'
+          console.log("BLUR BLUR BLUR JKBJHDBJHFVJHJKKjk")
+
           this.imgBlur(this)
         }
 
         this.countMouseUp=1;
 
-        window.addEventListener('click',()=>
-        {
-          console.log("IN STOP RESIZE WINDOW CLICK")
-        })
-        window.addEventListener('mouseup',()=>
-        {
-          console.log("IN STOP RESIZE WINDOW MOUSEUPP")
-        })
         removeListner()
         
         // window.removeEventListener('mousedown', stopResize.bind(this));

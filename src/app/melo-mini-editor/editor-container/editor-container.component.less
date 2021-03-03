@@ -92,6 +92,8 @@
                 height: inherit;
                 min-width: 100px;
                 min-height: 150px;
+                max-width: 800px;
+                max-height:600px;
             }
 
             &.left {
@@ -180,14 +182,16 @@
                 }
             }
             .resize-container {
+                min-width: 100px;
+                min-height: 150px;
+                max-width: 800px;
+                max-height: 600px;
                 position: absolute;
                 top: 0;
                 right: 0;
                 bottom: 0;
                 left: 0;
                 z-index: 3;
-                min-width: 100px;
-                min-height: 150px;
                 // width: 100%;
                 // height: auto;
                 border: 4px solid transparent;
