@@ -992,6 +992,7 @@ export class EditorContainerComponent
 
   ngOnInit(): void {
     
+    document.getElementById("editable-block").focus();
     this.sel = window.getSelection();
   }
 

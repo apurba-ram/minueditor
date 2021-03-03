@@ -24,6 +24,7 @@ export class EditorMenuComponent implements OnInit {
   uploadImage = false;
   alignment = false;
   addLink = false;
+  addEmoji=false
   listStyle = false;
   filesArray: any[];
   ShowFiles: boolean;
@@ -431,6 +432,11 @@ export class EditorMenuComponent implements OnInit {
     this.fontStyle = false;
     this.fillColor = Array(2).fill(false);
     this.setTextColor = false;
+  }
+  //emojies
+  showEmoji(event:any)
+  {
+    console.log(event)
   }
   hideAlert(): void {
     this.showAlert = false;
