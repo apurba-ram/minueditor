@@ -1136,6 +1136,20 @@ export class EditorContainerComponent
     }
   }
 
+  saveEmoji(event:any){
+    console.log("CONTAINER",event)
+    const emojiContainer=document.createElement('span')
+    emojiContainer.innerHTML=event
+    this.sel.removeAllRanges();
+    const range = this.oldRange.cloneRange();
+    range.insertNode(emojiContainer);
+    range.setStartAfter(emojiContainer);
+    range.collapse();
+    this.sel.removeAllRanges();
+    this.sel.addRange(range);
+    
+  }
+
   getPrecedingCharacter(container: any): string {
     if (this.sel) {
       const r = this.sel.getRangeAt(0).cloneRange();
