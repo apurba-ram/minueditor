@@ -475,7 +475,10 @@
         </div>
         <!-- Image -->
         <div class="col" clickOutside (clickOutside)="clickOutsideImage()">
-            <button (click)="uploadImage = true" [class.active]="uploadImage" [csTooltip]="'Add Image'"
+       
+            <input type="file" id="browse"  accept="image/x-png,image/gif,image/jpeg"
+            (change)="saveImage($event)">
+            <!-- <button (click)="uploadImage = true" [class.active]="uploadImage" [csTooltip]="'Add Image'"
                 placement="bottom" delay="0" type="black" [tooltipMandatory]="true">
 
                 <svg width="199" height="199" viewBox="0 0 199 199" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -491,7 +494,7 @@
                     </defs>
                 </svg>
 
-            </button>
+            </button> -->
             <div class="popup-mask" *ngIf="uploadImage">
                 <div class="popover attach">
                     <div class="head">
@@ -502,7 +505,7 @@
                         (dragend)="dragend($event)" (dragleave)="dragleave($event)" [class.enter]="enter"
                         (drop)="dropImage($event)">
                         <input type="file" id="browse" accept="image/x-png,image/gif,image/jpeg"
-                            (change)="changeImage($event)">
+                            (change)="saveImage($event)">
                         <div class="container">
                             <span>Drop image here or browse to upload</span>
                             <label for="browse">Browse</label>

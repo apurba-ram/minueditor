@@ -151,23 +151,38 @@ export class EditorMenuComponent implements OnInit {
   /**
    * Function is invoked after the final save button is clicked from the image popup
   */
-  saveImage(): void{
-    this.imageInEditor.emit(this.image);
-    this.clickOutsideImage();
+  saveImage(event:any): void{
+    console.log("SAVE IMG",event.target.files[0])
+    if(this.validImage(event?.target?.files[0])) {
+      this.showAlert = false;
+      this.readImageFile(event?.target?.files[0]);
+    } else {
+        this.alertMsg = 'Please choose image file only';
+        this.showAlert = true;
+    }
+    setTimeout(() => {
+      this.imageInEditor.emit(this.image);
+      this.clickOutsideImage();
+    }, 10);
+   
   }
 
   /**
    * @param file - Represents the image file that needs to be previewed
   */
   readImageFile(file: File): void {
+    console.log("read img",file)
     const fReader = new FileReader();
     fReader.readAsDataURL(file);
-    fReader.onloadend =  (event) => {
+    fReader.onloadend =  (event:any) => {
+      console.log("onload",event.currentTarget)
       this.image = {
-        url: event.target.result,
+        url: event.currentTarget.result,
         file
       };
+      console.log("IMG FILE",this.image)
     };
+    
   }
 
   /**

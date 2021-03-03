@@ -80,6 +80,11 @@
             max-height: 100%;
             // overflow: auto;
             margin-top: 30px;
+            &:after {
+                content: "";
+                display: block;
+                width: 100%;
+            }
 
             img {
                 float: left;
@@ -90,16 +95,20 @@
                 // height: 50%;
                 width: inherit;
                 height: inherit;
-                min-width: 100px;
+                min-width: 200px;
                 min-height: 150px;
                 max-width: 800px;
                 max-height:600px;
+                margin-right: 10px;
+                margin-bottom: 10px;
             }
 
             &.left {
                 img {
                     float: left;
                     display: block;
+                    margin-right: 10px;
+                    margin-bottom: 10px;
                 }                
             }
 
@@ -107,11 +116,13 @@
                 img {
                     float: right;
                      display: block;
+                     margin-left: 10px;
+                     margin-bottom: 10px;
                 }
             }
             &.center {
                 img {
-                    margin: 0 auto;
+                    margin: 0 auto 10px;
                 }
                 
             }
@@ -182,7 +193,7 @@
                 }
             }
             .resize-container {
-                min-width: 100px;
+                min-width: 200px;
                 min-height: 150px;
                 max-width: 800px;
                 max-height: 600px;

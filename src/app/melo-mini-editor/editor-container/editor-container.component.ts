@@ -147,16 +147,19 @@ export class EditorContainerComponent
     const imageContainer=document.createElement('div')
     imageContainer.setAttribute('id','image-container'+id)
     imageContainer.setAttribute('class','image-container')
-    imageContainer.setAttribute('contenteditable','false')
+    imageContainer.setAttribute('contenteditable','true')
     if(len>0)
     {
         imageContainer.style.clear='both'
+        imageContainer.style.textAlign='center'
+
     }
     
     const imgTag=document.createElement('img')
     imgTag.setAttribute('id','image'+id)
     imgTag.setAttribute('class','editor-image')
     imgTag.setAttribute('src',event.url)
+    imgTag.setAttribute('contenteditable','false')
     imgTag.setAttribute('tabindex','0')
     imgTag.style.width = 300+'px';
 
@@ -175,13 +178,17 @@ export class EditorContainerComponent
     //image blur
     imgTag.addEventListener('blur',this.imgBlur.bind(this))    
 
-
+    const seprator=document.createElement('div')
+    seprator.style.clear='both'
     this.sel.removeAllRanges();
     const range = this.oldRange.cloneRange();
     range.insertNode(imageContainer);
     range.setStartAfter(imageContainer);
+    range.insertNode(seprator);
+    range.setStartAfter(seprator);
     range.collapse();
     this.sel.addRange(range);
+    
 
   }
 
@@ -273,7 +280,7 @@ export class EditorContainerComponent
       topRight.addEventListener('mouseover',()=>
       {
         console.log("OVER")
-       // console.log(this);
+      //  console.log(this);
         this.mousOver = true; 
         console.log("MOUSEOVER VALUE IN LISTSNER",this.mousOver)
       })
@@ -350,7 +357,7 @@ export class EditorContainerComponent
       topLeft.addEventListener('mouseover',()=>
       {
         console.log("OVER")
-       // console.log(this);
+      //  console.log(this);
         this.mousOver = true; 
         console.log("MOUSEOVER VALUE IN LISTSNER",this.mousOver)
       })
@@ -385,8 +392,8 @@ export class EditorContainerComponent
         // document.getElementById('resize-container').style.height=resizerHeight+'px'
         if(document.getElementById(event.target.parentNode.id).classList[1]===undefined || document.getElementById(event.target.parentNode.id).classList[1]==='left')
         {
-          if(width<300){
-            console.log("width top left",width,document.getElementsByClassName('editable-block')[0].clientWidth-160)
+          if(width<document.getElementsByClassName('editable-block')[0].clientWidth){
+            console.log("width top left",width,document.getElementsByClassName('editable-block')[0].clientWidth)
             document.getElementById(event.target.id).style.width=width+'px'
             document.getElementById(event.target.id).style.height=height+'px'
             document.getElementById('resize-container').style.width=resizerWidth+'px'
@@ -429,7 +436,7 @@ export class EditorContainerComponent
       bottomLeft.addEventListener('mouseover',()=>
       {
         console.log("OVER")
-       // console.log(this);
+      //  console.log(this);
         this.mousOver = true; 
         console.log("MOUSEOVER VALUE IN LISTSNER",this.mousOver)
       })
@@ -454,9 +461,9 @@ export class EditorContainerComponent
       function resizsBottomLeft(e)
       {
         console.log("RESIZE FROM BOTTOM LEFT")
-        const width = original_width - (e.pageX - original_mouse_x)
+        const width = original_width +(e.pageX - original_mouse_x)
         const height = original_height + (e.pageY - original_mouse_y)
-        const resizerWidth=resizer_width-(e.pageX-original_mouse_x)
+        const resizerWidth=resizer_width+(e.pageX-original_mouse_x)
         const resizerHeight=resizer_height+(e.pageY-original_mouse_y)
        
         if(document.getElementById(event.target.parentNode.id).classList[1]===undefined || document.getElementById(event.target.parentNode.id).classList[1]==='left')
@@ -485,7 +492,7 @@ export class EditorContainerComponent
           }
         }
         else if(document.getElementById(event.target.parentNode.id).classList[1]==='center'){
-          if(width<document.getElementsByClassName('editable-block')[0].clientWidth-400)
+          if(width<document.getElementsByClassName('editable-block')[0].clientWidth-160)
           {
             console.log("CENTER")
           document.getElementById(event.target.id).style.pointerEvents='none'
@@ -507,7 +514,7 @@ export class EditorContainerComponent
       bottomRight.addEventListener('mouseover',()=>
       {
         console.log("OVER")
-       // console.log(this);
+      //  console.log(this);
         this.mousOver = true; 
         console.log("MOUSEOVER VALUE IN LISTSNER",this.mousOver)
       })
@@ -539,13 +546,18 @@ export class EditorContainerComponent
         
         if(document.getElementById(event.target.parentNode.id).classList[1]===undefined || document.getElementById(event.target.parentNode.id).classList[1]==='left')
         {
+          if(width<document.getElementsByClassName('editable-block')[0].clientWidth-160)
+          {
           document.getElementById(event.target.id).style.width=width+'px'
         document.getElementById(event.target.id).style.height=height+'px'
         document.getElementById('resize-container').style.width=resizerWidth+'px'
         document.getElementById('resize-container').style.height=resizerHeight+'px'
+          }
         
         }
         else if(document.getElementById(event.target.parentNode.id).classList[1]==='right'){
+          if(width<document.getElementsByClassName('editable-block')[0].clientWidth-160)
+          {
           document.getElementById(event.target.id).style.pointerEvents='none'
           document.getElementById('resize-container').style.pointerEvents='none'
           document.getElementById(event.target.id).style.width=width+'px'
@@ -553,8 +565,11 @@ export class EditorContainerComponent
           document.getElementById('resize-container').style.width=resizerWidth+'px'
           document.getElementById('resize-container').style.height=resizerHeight+'px'
           document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
+          }
         }
         else if(document.getElementById(event.target.parentNode.id).classList[1]==='center'){
+          if(width<document.getElementsByClassName('editable-block')[0].clientWidth-160)
+          {
           document.getElementById(event.target.id).style.pointerEvents='none'
           document.getElementById('resize-container').style.pointerEvents='none'
           document.getElementById(event.target.id).style.width=width+'px'
@@ -562,6 +577,7 @@ export class EditorContainerComponent
           document.getElementById('resize-container').style.width=resizerWidth+'px'
           document.getElementById('resize-container').style.height=resizerHeight+'px'
           document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
+          }
         }
         // if(document.getElementById(event.target))
 
@@ -577,7 +593,7 @@ export class EditorContainerComponent
         // console.log("event lisners are ")
         // if(this.countMouseUp>0)
         // {
-        //   console.log("COUNTE MOUSUP",this.countMouseUp)
+          // console.log("COUNTE MOUSUP",this.countMouseUp)
         //   window.removeEventListener('mouseup', stopResize,true);
         // }
         
@@ -593,7 +609,7 @@ export class EditorContainerComponent
         document.getElementById(event.target.id).style.pointerEvents='auto'
         if(this.countMouseUp===0)
         {
-          console.log("BLUR BLUR BLUR JKBJHDBJHFVJHJKKjk")
+          // console.log("BLUR BLUR BLUR JKBJHDBJHFVJHJKKjk")
 
           this.imgBlur(this)
         }
@@ -608,7 +624,7 @@ export class EditorContainerComponent
 
       function removeListner()
       {
-        console.log("LISTNER REMOVE")
+        // console.log("LISTNER REMOVE")
         window.removeEventListener('mouseup', stopResize.bind(this),true);
       }
      
