@@ -455,10 +455,13 @@ export class EditorMenuComponent implements OnInit {
     switch(e){
       case 'R':
         this.recentlyUsed=true
+        break;
       case 'P':
       this.peopleEmoji=true
+      break;
       case  'A':
         this.animalEmoji=true
+        break;
     }
   }
  
@@ -469,7 +472,7 @@ export class EditorMenuComponent implements OnInit {
     this.emojiValue=event
     console.log("EMOJI",this.emojiValue)
     //store unique recently used emojies
-    console.log(this.recentlyUsedEmoji.length)
+    console.log(this.recentlyUsedEmoji)
     console.log(this.recentlyUsedEmoji.includes(this.emojiValue))
     if(this.recentlyUsedEmoji.includes(this.emojiValue)==false)
     {
