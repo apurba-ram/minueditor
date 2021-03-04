@@ -20,6 +20,7 @@ export class EditorMenuComponent implements OnInit {
   @Output() imageInEditor: EventEmitter<any> = new EventEmitter();
   @Output() linkInEditor: EventEmitter<any> = new EventEmitter();
   @Output() emojiInEditor:EventEmitter<any>=new EventEmitter();
+  @Output() emojiShow:EventEmitter<any>=new EventEmitter();
   enter = false;
   upload = false;
   uploadImage = false;
@@ -52,10 +53,9 @@ export class EditorMenuComponent implements OnInit {
   animalEmoji:boolean=false
   peopleEmoji:boolean=true
   recentlyUsed:boolean=false
-  peopleEmojiArray:Array<any>=['😀','😬','😁','😂']
-  animalEmojiArray:Array<any>=['🐶','🐱','🐻','🐼']
-  natureEmojiArray:Array<any>=[]
-  recentlyUsedEmoji:Array<any>=[]
+  foodEmoji:boolean=false
+
+  
 
 
   image: any;
@@ -449,39 +449,16 @@ export class EditorMenuComponent implements OnInit {
   //emojies
   show_area(e:any)
   {
-    this.recentlyUsed=false
-    this.animalEmoji=false
-    this.peopleEmoji=false
-    switch(e){
-      case 'R':
-        this.recentlyUsed=true
-        break;
-      case 'P':
-      this.peopleEmoji=true
-      break;
-      case  'A':
-        this.animalEmoji=true
-        break;
-    }
+   
+
+
   }
  
 
   showEmoji(event)
   {
     // console.log(event.target.innerHTML)
-    this.emojiValue=event
-    console.log("EMOJI",this.emojiValue)
-    //store unique recently used emojies
-    console.log(this.recentlyUsedEmoji)
-    console.log(this.recentlyUsedEmoji.includes(this.emojiValue))
-    if(this.recentlyUsedEmoji.includes(this.emojiValue)==false)
-    {
-      this.recentlyUsedEmoji.push(this.emojiValue)
-    }
-   
-    console.log("RECENTLY USED",this.recentlyUsedEmoji)
-    this.emojiInEditor.emit(this.emojiValue)
-    this.addEmoji=!this.addEmoji
+
   }
   hideAlert(): void {
     this.showAlert = false;

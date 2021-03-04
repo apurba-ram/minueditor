@@ -5,15 +5,17 @@ import { ToolsModule } from './tools/tools.module';
 import { EditorMenuComponent } from './editor-menu/editor-menu.component';
 import { MentionModule } from 'angular-mentions';
 import { FormsModule } from '@angular/forms';
+import { EmojiComponent } from './emoji/emoji.component';
 
 
 @NgModule({
-  declarations: [EditorContainerComponent, EditorMenuComponent],
+  declarations: [EditorContainerComponent, EditorMenuComponent, EmojiComponent],
   imports: [
     CommonModule,
     ToolsModule,
     MentionModule,
-    FormsModule
+    FormsModule,
+    
   ],
   exports: [
     EditorContainerComponent,
