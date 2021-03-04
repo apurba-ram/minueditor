@@ -418,13 +418,17 @@
             </button>
             <div class="popup-mask" *ngIf="addEmoji">
                 <div  id="emoji-field" class="popover attach">
+                    <div class="head">
+                        <h3>Add Emojies</h3>
+                        <button class="close" (click)="closeAddEmojiPopover()">&times;</button>
+                    </div>
                     <div>
                         <input placeholder="search">
                     </div>
                     <div class="emoji-types">
-                        <button (click)="show_recently_used()" id="recently-used-emoji">Recently Used</button>
-                        <button (click)="show_people_area()" id="people-emoji">People</button>
-                        <button (click)="show_animal_area()" id="animal-emoji">Animals</button>
+                        <button (click)="show_area('R')" id="recently-used-emoji">Recently Used</button>
+                        <button (click)="show_area('P')" id="people-emoji">People</button>
+                        <button (click)="show_area('A')" id="animal-emoji">Animals</button>
                     </div>
                     <div id="emoji-area" class="recent_emoji_area" *ngIf="recentlyUsed">
                         <div *ngFor="let recentlyused of recentlyUsedEmoji">
@@ -438,7 +442,7 @@
                     </div>
                     <div  id="emoji-area" class="animal-emoji-area" *ngIf="animalEmoji">
                         <div *ngFor="let animal of animalEmojiArray">
-                            <div>{{animal}}</div>
+                            <div (click)="showEmoji(animal)">{{animal}}</div>
                         </div>
                     </div>
                     <div>

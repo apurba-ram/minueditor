@@ -54,6 +54,7 @@ export class EditorMenuComponent implements OnInit {
   recentlyUsed:boolean=false
   peopleEmojiArray:Array<any>=['😀','😬','😁','😂']
   animalEmojiArray:Array<any>=['🐶','🐱','🐻','🐼']
+  natureEmojiArray:Array<any>=[]
   recentlyUsedEmoji:Array<any>=[]
 
 
@@ -335,6 +336,10 @@ export class EditorMenuComponent implements OnInit {
     this.linkUrl = '';
     this.addLink = false;
   }
+  closeAddEmojiPopover():void
+  {
+    this.addEmoji=false
+  }
    
   // Add Link code ends
 
@@ -442,25 +447,21 @@ export class EditorMenuComponent implements OnInit {
     this.setTextColor = false;
   }
   //emojies
-  show_recently_used()
+  show_area(e:any)
   {
-
-    this.recentlyUsed=true
+    this.recentlyUsed=false
     this.animalEmoji=false
     this.peopleEmoji=false
+    switch(e){
+      case 'R':
+        this.recentlyUsed=true
+      case 'P':
+      this.peopleEmoji=true
+      case  'A':
+        this.animalEmoji=true
+    }
   }
-  show_animal_area()
-  {
-    this.animalEmoji=true
-    this.peopleEmoji=false
-    this.recentlyUsed=false
-  }
-  show_people_area()
-  {
-    this.animalEmoji=false
-    this.peopleEmoji=true
-    this.recentlyUsed=false
-  }
+ 
 
   showEmoji(event)
   {
