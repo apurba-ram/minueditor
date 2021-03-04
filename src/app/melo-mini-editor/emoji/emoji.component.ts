@@ -11,9 +11,9 @@ export class EmojiComponent implements OnInit {
   animalEmoji:boolean=false
   foodEmoji:boolean=false
   ppl:any=[
-    {name:'police',className:'p1' },
-    {name:'police',className:'p2' },
-    {name:'police',className:'p3' },
+    {name:'police',className:'p1',type:'people' },
+    {name:'happy-face',className:'p2' },
+    {name:'happy-face',className:'p3' },
     {name:'police',className:'p4' },
     {name:'police',className:'p5' },
     {name:'police',className:'p6' },
@@ -127,7 +127,45 @@ export class EmojiComponent implements OnInit {
     {name:'police',className:'p116' },
     {name:'police',className:'p117' },
   ]
-  
+
+  animals:any=[
+    {name:'',className:'a1'},
+    {name:'',className:'a2'},
+    {name:'',className:'a3'},
+    {name:'',className:'a4'},
+    {name:'',className:'a5'},
+    {name:'',className:'a6'},
+    {name:'',className:'a7'},
+    {name:'',className:'a8'},
+    {name:'',className:'a9'},
+    {name:'',className:'a10'},
+    {name:'',className:'a11'},
+    {name:'',className:'a12'},
+    {name:'',className:'a13'},
+    {name:'',className:'a14'},
+    {name:'',className:'a15'},
+    {name:'',className:'a16'},
+    {name:'',className:'a17'},
+    {name:'',className:'a18'},
+    {name:'',className:'a19'},
+    {name:'',className:'a20'},
+    {name:'',className:'a21'},
+    {name:'',className:'a22'},
+    {name:'',className:'a23'},
+    {name:'',className:'a24'},
+    {name:'',className:'a25'},
+    {name:'',className:'a26'},
+    {name:'',className:'a27'},
+    {name:'',className:'a28'},
+    {name:'',className:'a29'},
+    {name:'',className:'a30'},
+    {name:'',className:'a31'},
+    {name:'',className:'a32'},
+    {name:'',className:'a33'},
+    {name:'happy-cat',className:'a34'},
+
+  ]
+
   constructor() { }
 
 
