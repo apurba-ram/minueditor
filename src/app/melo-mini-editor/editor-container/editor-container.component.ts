@@ -35,6 +35,7 @@ export class EditorContainerComponent
   @Output() comment = new EventEmitter<string>();
   @Output() sendSavedFiles = new EventEmitter<any>();//coming from menu to container from container to ap
   @ViewChild('editorContainer') editorContainer: ElementRef;
+  @Output() popup = new EventEmitter<boolean>();//coming from menu to container from container to ap
   imageToBeShown: any
   filesFromChild: any
   html: string;
@@ -60,6 +61,7 @@ export class EditorContainerComponent
   backgroundColor: string;
   clicked = false;
   moreOptionsButton: boolean;
+  isCollapsible: boolean;
 
   constructor() {
     this.fontColor = 'black';
@@ -336,6 +338,7 @@ export class EditorContainerComponent
    */
   blur(): void {
     this.oldRange = this.sel.getRangeAt(0).cloneRange(); // to store the range when element is blurred
+    this.isCollapsible = false;
   }
 
   /**
@@ -345,6 +348,7 @@ export class EditorContainerComponent
     if (document.getElementById(`${this.id}`)) {
       document.getElementById(`${this.id}`).focus();
     }
+    this.isCollapsible = true;
   }
 
   /**

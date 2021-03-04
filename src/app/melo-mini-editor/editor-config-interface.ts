@@ -1,14 +1,15 @@
 export interface EditorConfig {
     file?: boolean;
     id?: string;
+    mode?: 'basic' | 'prime';
     mentionedNames?: MentionedName[];
     mentionedDates?: string[];
     colorPalette?: boolean;
-    buttonName?: string;
-    disabledButton?: boolean;
     toolbarPlacement?: 'top' | 'bottom';
     placeholder?: string;
-    mode?: 'basic' | 'prime'
+    buttonName?: string;
+    disabledButton?: boolean;
+    isCollapsible?: boolean;
 }
 
 export interface MentionedName {
