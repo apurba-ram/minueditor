@@ -126,11 +126,8 @@ export class EmojiComponent implements OnInit {
     {name:'police',className:'p115' },
     {name:'police',className:'p116' },
     {name:'police',className:'p117' },
-
-
-
-
   ]
+  
   constructor() { }
 
 
@@ -138,14 +135,13 @@ export class EmojiComponent implements OnInit {
 
     
   }
+  //scroll to particular category emojies
   
   show_area(e:any)
   {
     let el = document.getElementById(e);
-  el.scrollIntoView();
+    el.scrollIntoView();
 
   }
    
-  
-
 }
