@@ -15,12 +15,14 @@ import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 export class EditorMenuComponent implements OnInit {
   @Input() editorConfig: EditorConfig;
   @Input() toolbarConfig: ToolbarConfig;
+  @Output() emojiPosInContainer: EventEmitter<any> = new EventEmitter();
   @Output() buttonClick: EventEmitter<any> = new EventEmitter();
   @Output() sendSavedFiles: EventEmitter<any> = new EventEmitter();
   @Output() imageInEditor: EventEmitter<any> = new EventEmitter();
   @Output() linkInEditor: EventEmitter<any> = new EventEmitter();
   @Output() emojiInEditor:EventEmitter<any>=new EventEmitter();
   @Output() emojiShow:EventEmitter<any>=new EventEmitter();
+  emojiPos:object
   enter = false;
   upload = false;
   uploadImage = false;
@@ -454,10 +456,13 @@ export class EditorMenuComponent implements OnInit {
 
   }
  
-
-  showEmoji(event)
+  showEmoji(p:any)
   {
-    // console.log(event.target.innerHTML)
+
+    // console.log("pos MENU",p)
+    this.emojiPos=p;
+    // console.log("EMOJI POS",this.emojiPos)
+    this.emojiPosInContainer.emit(this.emojiPos)
 
   }
   hideAlert(): void {

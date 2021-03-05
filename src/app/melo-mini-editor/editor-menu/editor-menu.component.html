@@ -423,7 +423,9 @@
                         <button class="close" (click)="closeAddEmojiPopover()">&times;</button>
                     </div>
                     <div class="emoji-area">
-                        <app-emoji></app-emoji>
+                        <app-emoji
+                            (emojiPosInMenu)="showEmoji($event)"
+                        ></app-emoji>
                     </div>
                 </div>
             </div>

@@ -1521,6 +1521,30 @@ export class EditorContainerComponent
     }
   }
 
+  show_emoji(pos:any)
+  {
+    // console.log("POS CONTAINER",pos)
+    // console.log("POS",posx,posy);
+    const spParent = document.createElement('span');
+    spParent.setAttribute('contenteditable', 'true');
+    const sp = document.createElement('span');
+    // sp.setAttribute('id','emoji_data');
+    sp.setAttribute('contenteditable', 'false');
+    sp.style.backgroundImage="url('../../../assets/images/sprite-20.png')";
+    sp.style.width=20+"px";
+    sp.style.height=20+"px";
+    sp.style.display='inline-block';
+    sp.style.backgroundPositionX=pos.x;
+    sp.style.backgroundPositionY=pos.y;
+    spParent.appendChild(sp);
+    this.sel.removeAllRanges();
+    const range = this.oldRange.cloneRange();
+    range.insertNode(spParent);
+    range.setStartAfter(spParent);
+    range.collapse();
+    this.sel.addRange(range);
+
+  }
 
   clickedOnImage() {
     this.clicked = true;

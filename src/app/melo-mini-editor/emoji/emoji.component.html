@@ -7,12 +7,13 @@
     <button [class.active]="foodEmoji" (click)="show_area('food')" id="animal-emoji">Food and Drinks</button>
 </div>
 <div class="emoji-area">
-    <div class="recent" *ngIf="recentlyUsed">
-       
+    <div class="recent" *ngIf="recentEmojiPos.length>0">
+        <h4>Mostly Used</h4>
+        <div *ngFor="let recent of recentEmojiPos"   class="{{recent}}" (click)="show_emoji_in_editor($event)"></div>
     </div>
     <div id="ppl" class="people" >
         <h4>smileys & people</h4>
-        <div *ngFor="let p of ppl"   class="emoji-icon {{p.className}}"></div>
+        <div *ngFor="let p of ppl"   class="emoji-icon {{p.className}}" (click)="show_emoji_in_editor($event)"></div>
     </div>
     <div id="animals" class=animal >
        <h4>animals and nature</h4> 
@@ -21,5 +22,8 @@
     <div id="food" class="food_drinks">
         <h4>Food and Drinks</h4>
     </div>
+</div>
+<div id="showEmoji">
+
 </div>
 

@@ -11,7 +11,7 @@
         [class.top]="editorConfig?.toolbarPlacement === 'top'">
         <app-editor-menu (linkInEditor)="saveLink($event)" (imageInEditor)="saveImage($event)"  (emojiInEditor)="saveEmoji($event)"
             (sendSavedFiles)="saveFiles($event)" (buttonClick)="toolbarClicked($event)" [toolbarConfig]="toolbarConfig"
-            [editorConfig]="editorConfig"
+            [editorConfig]="editorConfig" (emojiPosInContainer)="show_emoji($event)"
             ></app-editor-menu>
     </div>
 </div>

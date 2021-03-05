@@ -1,4 +1,5 @@
 import { Component, OnInit,Input, Output ,EventEmitter} from '@angular/core';
+import { spawn } from 'child_process';
 
 @Component({
   selector: 'app-emoji',
@@ -6,19 +7,22 @@ import { Component, OnInit,Input, Output ,EventEmitter} from '@angular/core';
   styleUrls: ['./emoji.component.less']
 })
 export class EmojiComponent implements OnInit {
+  @Output() emojiPosInMenu: EventEmitter<any> = new EventEmitter();
+  emojiPos:object={}
   recentlyUsed:boolean=false
   peopleEmoji:boolean=true
   animalEmoji:boolean=false
   foodEmoji:boolean=false
+  recentEmojiPos:Array<object>=[]
   ppl:any=[
-    {name:'police',className:'p1',type:'people' },
-    {name:'happy-face',className:'p2' },
-    {name:'happy-face',className:'p3' },
-    {name:'police',className:'p4' },
-    {name:'police',className:'p5' },
-    {name:'police',className:'p6' },
-    {name:'police',className:'p7' },
-    {name:'police',className:'p8' },
+    {name:'police',className:'p1',type:'face' },
+    {name:'grining-face',className:'p2',type:'face' },
+    {name:'happy-face',className:'p3',type:'face' },
+    {name:'sneezing-face',className:'p4' },
+    {name:'face-with-tears-of-joy',className:'p5',type:'face' },
+    {name:'grining-face-with-big-eyes',className:'p6',type:'face' },
+    {name:'grining-squinting-face',className:'p7',type:'face' },
+    {name:'grining-face',className:'p8' },
     {name:'police',className:'p9' },
     {name:'police',className:'p10' },
     {name:'police',className:'p11' },
@@ -163,6 +167,45 @@ export class EmojiComponent implements OnInit {
     {name:'',className:'a32'},
     {name:'',className:'a33'},
     {name:'happy-cat',className:'a34'},
+    {name:'happy-cat',className:'a35'},
+    {name:'happy-cat',className:'a36'},
+    {name:'happy-cat',className:'a37'},
+    {name:'happy-cat',className:'a38'},
+    {name:'happy-cat',className:'a39'},
+    {name:'happy-cat',className:'a40'},
+    {name:'happy-cat',className:'a41'},
+    {name:'happy-cat',className:'a42'},
+    {name:'happy-cat',className:'a43'},
+    {name:'happy-cat',className:'a44'},
+    {name:'happy-cat',className:'a45'},
+    {name:'happy-cat',className:'a46'},
+    {name:'happy-cat',className:'a47'},
+    {name:'happy-cat',className:'a48'},
+    {name:'happy-cat',className:'a49'},
+    {name:'happy-cat',className:'a50'},
+    {name:'happy-cat',className:'a51'},
+    {name:'happy-cat',className:'a52'},
+    {name:'happy-cat',className:'a53'},
+    {name:'happy-cat',className:'a54'},
+    {name:'happy-cat',className:'a55'},
+    {name:'happy-cat',className:'a56'},
+    {name:'happy-cat',className:'a57'},
+    {name:'happy-cat',className:'a58'},
+    {name:'happy-cat',className:'a59'},
+    {name:'happy-cat',className:'a60'},
+    {name:'happy-cat',className:'a61'},
+    {name:'happy-cat',className:'a62'},
+    {name:'happy-cat',className:'a63'},
+    {name:'happy-cat',className:'a64'},
+    {name:'happy-cat',className:'a65'},
+    {name:'happy-cat',className:'a66'},
+    {name:'happy-cat',className:'a67'},
+    {name:'happy-cat',className:'a68'},
+    {name:'happy-cat',className:'a69'},
+    {name:'happy-cat',className:'a70'},
+    {name:'happy-cat',className:'a71'},
+    {name:'happy-cat',className:'a72'},
+    
 
   ]
 
@@ -173,12 +216,52 @@ export class EmojiComponent implements OnInit {
 
     
   }
-  //scroll to particular category emojies
+
   
   show_area(e:any)
   {
     let el = document.getElementById(e);
     el.scrollIntoView();
+
+  }
+
+  checkEmojiExists(o)
+  {
+    
+    for(let i=0; i < this.recentEmojiPos.length; i++){
+      if(JSON.stringify(this.recentEmojiPos[i]) === JSON.stringify(o)){
+        return true;
+      }
+    }
+    return false;
+  }
+  
+
+  show_emoji_in_editor(e:any)
+  {
+
+    const emoji=e.target;
+    const posx=getComputedStyle(emoji).backgroundPositionX;
+    const posy=getComputedStyle(emoji).backgroundPositionY;
+    this.emojiPos={
+      x:posx,
+      y:posy
+    }
+    
+    this.emojiPosInMenu.emit(this.emojiPos);
+    console.log("CLASSSSSS",e.target.className)
+    if(!this.recentEmojiPos.includes(e.target.className))
+    {
+      this.recentEmojiPos.push(e.target.className)
+    }
+      // if(this.checkEmojiExists(this.emojiPos)===false)
+      // {
+      //   this.recentEmojiPos.push(this.emojiPos)
+      // }
+    
+
+    console.log("RECENT",this.recentEmojiPos)
+
 
   }
    
