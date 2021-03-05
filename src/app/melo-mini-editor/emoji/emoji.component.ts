@@ -257,15 +257,15 @@ export class EmojiComponent implements OnInit {
     var a = [];
 
     a = JSON.parse(localStorage.getItem('marx_emoji')) || [];
-    if(!a.includes(e.target.classList[1]))
+    if(!a.includes(e.target.className))
     {
-      a.push(e.target.classList[1]);
+      a.push(e.target.className);
     }
     localStorage.setItem('marx_emoji', JSON.stringify(a));
     console.log("RECENT",this.recentEmojiPos)
-    if(!this.recentEmojiPos.includes(e.target.classList[1]))
+    if(!this.recentEmojiPos.includes(e.target.className))
     {
-      this.recentEmojiPos.push(e.target.classList[1])
+      this.recentEmojiPos.push(e.target.className)
     }
 
 
