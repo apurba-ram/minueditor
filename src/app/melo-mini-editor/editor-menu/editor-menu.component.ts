@@ -448,21 +448,12 @@ export class EditorMenuComponent implements OnInit {
     this.fillColor = Array(2).fill(false);
     this.setTextColor = false;
   }
-  //emojies
-  show_area(e:any)
-  {
-   
-
-
-  }
  
   showEmoji(p:any)
   {
-
-    // console.log("pos MENU",p)
     this.emojiPos=p;
-    // console.log("EMOJI POS",this.emojiPos)
     this.emojiPosInContainer.emit(this.emojiPos)
+    this.addEmoji=false
 
   }
   hideAlert(): void {
