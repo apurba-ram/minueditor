@@ -9,7 +9,7 @@
 <div class="emoji-area">
     <div class="recent" *ngIf="recentEmojiPos.length>0">
         <h4>Mostly Used</h4>
-        <div *ngFor="let recent of recentEmojiPos"   class="{{recent}}" (click)="show_emoji_in_editor($event)"></div>
+        <div *ngFor="let recent of recentEmojiPos"   class="emoji-icon {{recent}}" (click)="show_emoji_in_editor($event)"></div>
     </div>
     <div id="ppl" class="people" >
         <h4>smileys & people</h4>

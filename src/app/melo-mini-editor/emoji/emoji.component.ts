@@ -213,7 +213,11 @@ export class EmojiComponent implements OnInit {
 
 
   ngOnInit(): void {
-
+   
+    if(localStorage.getItem('marx_emoji'))
+    {
+      this.recentEmojiPos=JSON.parse(localStorage.getItem('marx_emoji'))
+    }
     
   }
 
@@ -249,18 +253,21 @@ export class EmojiComponent implements OnInit {
     }
     
     this.emojiPosInMenu.emit(this.emojiPos);
-    console.log("CLASSSSSS",e.target.className)
-    if(!this.recentEmojiPos.includes(e.target.className))
-    {
-      this.recentEmojiPos.push(e.target.className)
-    }
-      // if(this.checkEmojiExists(this.emojiPos)===false)
-      // {
-      //   this.recentEmojiPos.push(this.emojiPos)
-      // }
-    
+    console.log("CLASSSSSS",e.target.classList[1])
+    var a = [];
 
+    a = JSON.parse(localStorage.getItem('marx_emoji')) || [];
+    if(!a.includes(e.target.classList[1]))
+    {
+      a.push(e.target.classList[1]);
+    }
+    localStorage.setItem('marx_emoji', JSON.stringify(a));
     console.log("RECENT",this.recentEmojiPos)
+    if(!this.recentEmojiPos.includes(e.target.classList[1]))
+    {
+      this.recentEmojiPos.push(e.target.classList[1])
+    }
+
 
 
   }
