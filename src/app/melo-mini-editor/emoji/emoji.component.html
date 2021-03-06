@@ -6,21 +6,25 @@
     <button [class.active]="animalEmoji" (click)="show_area('animals')" id="animal-emoji">Animals</button>
     <button [class.active]="foodEmoji" (click)="show_area('food')" id="animal-emoji">Food and Drinks</button>
 </div>
+<div>
+    <input id="search-emoji" placeholder="Search Emoji"   [(ngModel)]="searchEmoji">
+</div>
 <div class="emoji-area">
-    <div class="recent" *ngIf="recentEmojiPos.length>0">
-        <h4>Mostly Used</h4>
+    <div class="recent" *ngIf="recentEmojiPos.length>0 && searchEmoji===''" >
+        <h4 >Mostly Used</h4>
         <div *ngFor="let recent of recentEmojiPos"   class=" {{recent}}" (click)="show_emoji_in_editor($event)"></div>
     </div>
     <div id="ppl" class="people" >
-        <h4>smileys & people</h4>
-        <div *ngFor="let p of ppl"   class="emoji-icon {{p.className}}" (click)="show_emoji_in_editor($event)"></div>
+        <h4 *ngIf="searchEmoji===''">smileys & people</h4>
+        <div *ngFor="let p of ppl | emoji:searchEmoji"   class="emoji-icon {{p.className}}" (click)="show_emoji_in_editor($event)"></div>
     </div>
     <div id="animals" class=animal  >
-       <h4>animals and nature</h4> 
-       <div *ngFor="let a of animals"   class="emoji-icon {{a.className}}"  (click)="show_emoji_in_editor($event)"></div>
+       <h4 *ngIf="searchEmoji===''">animals and nature</h4> 
+       <div *ngFor="let a of animals |  emoji:searchEmoji"   class="emoji-icon {{a.className}}"  (click)="show_emoji_in_editor($event)"></div>
     </div>
     <div id="food" class="food_drinks" >
-        <h4>Food and Drinks</h4>
+        <h4 *ngIf="searchEmoji===''">Food and Drinks</h4>
+        <div *ngFor="let f of food"   class="emoji-icon {{f.className}}"  (click)="show_emoji_in_editor($event)"></div>
     </div>
 </div>
 <div id="showEmoji">

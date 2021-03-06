@@ -6,10 +6,11 @@ import { EditorMenuComponent } from './editor-menu/editor-menu.component';
 import { MentionModule } from 'angular-mentions';
 import { FormsModule } from '@angular/forms';
 import { EmojiComponent } from './emoji/emoji.component';
+import { EmojiPipe } from './emoji/emoji.pipe';
 
 
 @NgModule({
-  declarations: [EditorContainerComponent, EditorMenuComponent, EmojiComponent],
+  declarations: [EditorContainerComponent, EditorMenuComponent, EmojiComponent, EmojiPipe],
   imports: [
     CommonModule,
     ToolsModule,

@@ -1544,6 +1544,18 @@ export class EditorContainerComponent
     range.collapse();
     this.sel.addRange(range);
 
+    spParent.addEventListener('click',(e)=>
+    {
+      
+      // var elem = document.createElement("textarea");
+      // document.body.appendChild(elem);
+      // elem.value = e.target;
+      // elem.select();
+      // document.execCommand("copy");
+      // document.body.removeChild(elem);
+  
+    })
+
   }
 
   clickedOnImage() {

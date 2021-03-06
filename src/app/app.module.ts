@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {MinieditorVcModule} from 'minieditor-vc';
 import { MeloMiniEditorModule } from './melo-mini-editor/melo-mini-editor.module';
+
 @NgModule({
   declarations: [
     AppComponent,
