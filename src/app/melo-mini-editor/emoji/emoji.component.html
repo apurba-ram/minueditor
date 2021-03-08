@@ -24,7 +24,7 @@
     </div>
     <div id="food" class="food_drinks" >
         <h4 *ngIf="searchEmoji===''">Food and Drinks</h4>
-        <div *ngFor="let f of food"   class="emoji-icon {{f.className}}"  (click)="show_emoji_in_editor($event)"></div>
+        <div *ngFor="let f of food |  emoji:searchEmoji"   class="emoji-icon {{f.className}}"  (click)="show_emoji_in_editor($event)"></div>
     </div>
 </div>
 <div id="showEmoji">
