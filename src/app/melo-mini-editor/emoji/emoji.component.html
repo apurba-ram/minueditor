@@ -1,7 +1,7 @@
 <!-- <p>emoji works!</p> -->
 
 <div class="emoji-types">
-    <button [class.active]="recentlyUsed" (click)="show_area('R')" id="recently-used-emoji">Recently Used</button>
+    <button [class.active]="recentlyUsed" *ngIf="recentEmojiPos.length>0" (click)="show_area('R')" id="recently-used-emoji">Recently Used</button>
     <button [class.active]="peopleEmoji" (click)="show_area('ppl')" id="people-emoji">People</button>
     <button [class.active]="animalEmoji" (click)="show_area('animals')" id="animal-emoji">Animals</button>
     <button [class.active]="foodEmoji" (click)="show_area('food')" id="animal-emoji">Food and Drinks</button>
