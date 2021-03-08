@@ -1224,7 +1224,6 @@ export class EditorContainerComponent
   */
   mentionClosed(): void {
     // insert mentions
-
     // console.log("MENTOOON",this.tribute)
     if (this.tribute && this.tribute !== '') {
       const input = document.createElement('input');
