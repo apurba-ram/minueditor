@@ -349,7 +349,31 @@ export class EmojiComponent implements OnInit {
   
   show_area(e:any)
   {
+    
+    this.animalEmoji=false
+    this.peopleEmoji=false
+    this.travelEmoji=false
+    this.foodEmoji=false
     let el = document.getElementById(e);
+    switch(e)
+    {
+       case 'ppl':
+          this.peopleEmoji=true
+        break;
+      case 'animals':
+        this.animalEmoji=true
+        break;
+      case 'food':
+        this.foodEmoji=true
+        break;
+      case 'travel':
+        this.travelEmoji=true
+        break;
+      case 'activity':
+        this.acitiviyEmoji=true
+        break;
+
+    }
     el.scrollIntoView();
 
   }
