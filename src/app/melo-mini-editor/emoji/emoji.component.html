@@ -33,7 +33,7 @@
         <div *ngFor="let t of travel |  emoji:searchEmoji"   class="emoji-icon {{t.className}}"  (click)="show_emoji_in_editor($event)"></div>
     </div>
     <div id="activity" class="activity" >
-        <h4 *ngIf="searchEmoji===''">activities</h4>
+        <h4 *ngIf="searchEmoji===''">sports and activities</h4>
         <div *ngFor="let a of activity |  emoji:searchEmoji"   class="emoji-icon {{a.className}}"  (click)="show_emoji_in_editor($event)"></div>
     </div>
 </div>

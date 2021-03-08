@@ -14,6 +14,8 @@ export class EmojiComponent implements OnInit {
   peopleEmoji:boolean=true
   animalEmoji:boolean=false
   foodEmoji:boolean=false
+  travelEmoji:boolean=false
+  acitiviyEmoji:boolean=false
   recentEmojiPos:Array<object>=[]
   ppl:any=[
     {name:'police',className:'p1',type:'face' },
@@ -297,8 +299,39 @@ export class EmojiComponent implements OnInit {
   ]
 
   activity:any=[
-    {name:'',className:'v1',type:''},
-
+    //activity
+    {name:'man-biking',className:'v1',type:' cycle'},
+    {name:'mountain-biking',className:'v2',type:'cycle'},
+    {name:'walk',className:'v3',type:'walk'},
+    {name:'shower',className:'v4',type:'bath'},
+    {name:'bath',className:'v5',type:'bath shower'},
+    {name:'cartwheeling',className:'v6',type:'gymnasitc'},
+    {name:'',className:'v7',type:''},
+    {name:'',className:'v8',type:''},
+    {name:'',className:'v9',type:''},
+    {name:'',className:'v10',type:''},
+    {name:'',className:'v11',type:''},
+    {name:'',className:'v12',type:''},
+    {name:'',className:'v13',type:''},
+    {name:'',className:'v14',type:''},
+    {name:'',className:'v15',type:''},
+    {name:'',className:'v16',type:''},
+    {name:'',className:'v17',type:''},
+    {name:'',className:'v18',type:''},
+    // sports
+    {name:'',className:'s1',type:''},
+    {name:'',className:'s2',type:''},
+    {name:'',className:'s3',type:''},
+    {name:'',className:'s4',type:''},
+    {name:'',className:'s5',type:''},
+    {name:'',className:'s6',type:''},
+    {name:'',className:'s7',type:''},
+    {name:'',className:'s8',type:''},
+    {name:'',className:'s9',type:''},
+    {name:'',className:'s10',type:''},
+    {name:'',className:'s11',type:''},
+    // {name:'',className:'s12',type:''},
+    // {name:'',className:'s13',type:''},
 ]
 
   constructor() { }
