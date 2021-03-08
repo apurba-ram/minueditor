@@ -19,7 +19,7 @@ export class EmojiComponent implements OnInit {
     {name:'police',className:'p1',type:'face' },
     {name:'grining-face',className:'p2',type:'face' },
     {name:'happy-face',className:'p3',type:'face' },
-    {name:'sneezing-face',className:'p4' },
+    {name:'sneezing-face',className:'p4' ,type:'face'},
     {name:'face-with-tears-of-joy',className:'p5',type:'face' },
     {name:'grining-face-with-big-eyes',className:'p6',type:'face' },
     {name:'grining-squinting-face',className:'p7',type:'face' },
@@ -113,7 +113,7 @@ export class EmojiComponent implements OnInit {
 
   animals:any=[
     {name:'rabbit',className:'a1',type:'animal'},
-    {name:'',className:'a2'},
+    {name:'',className:'a2',type:'animal'},
     {name:'snake',className:'a3',type:'animal'},
     {name:'crocodile',className:'a4',type:'animal'},
     {name:'whale',className:'a5',type:'animal'},
@@ -136,7 +136,7 @@ export class EmojiComponent implements OnInit {
     {name:'ant',className:'a22',type:'animal'},
     {name:'butterfly',className:'a23',type:'animal'},
     {name:'',className:'a24',type:'animal'},
-    {name:'fish',className:'a25'},
+    {name:'fish',className:'a25',type:'face'},
     {name:'',className:'a26',type:'animal'},
     {name:'frog',className:'a27',type:'animal'},
     {name:'pig',className:'a28',type:'animal'},
@@ -155,7 +155,7 @@ export class EmojiComponent implements OnInit {
     {name:'',className:'a41',type:'animal'},
     {name:'',className:'a42',type:'animal'},
     {name:'bear',className:'a43',type:'animal'},
-    {name:'penguin',className:'a44'},
+    {name:'penguin',className:'a44',type:'face'},
     {name:'fish',className:'a45',type:'animal'},
     {name:'hatched-chick',className:'a46',type:'animal'},
     {name:'baby-chick',className:'a47',type:'animal'},
@@ -227,6 +227,12 @@ export class EmojiComponent implements OnInit {
     {name:'clinking-glass',className:'f51',type:'food,drink'},
 
   ]
+
+  travel:any=[
+    
+
+  ]
+
 
   constructor() { }
 

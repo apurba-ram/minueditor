@@ -18,7 +18,7 @@ export class EmojiPipe implements PipeTransform {
     return items.filter(it => {
       // console.log("IOJURH",it)
       // console.log("TYPE",typeof(it.name,it.type))
-       return (it.name.includes(searchText) );
+       return (it.name.includes(searchText)  ||  it.type.includes(searchText));
     });
 
 
