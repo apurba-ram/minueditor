@@ -590,7 +590,7 @@
                         </button>
                     </li>
                     <!-- Subscript -->
-                    <li (click)="moreOptions = false;" data-id="subscript">
+                    <li (click)="moreOptions = false;callSome()" data-id="subscript">
                         <button [class.active]="toolbarConfig?.subscript" data-id="subscript">
                             <svg width="200" height="200" viewBox="0 0 200 200" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" data-id="subscript">

@@ -226,6 +226,7 @@ export class EditorContainerComponent
     }
   }
 
+
   getFontStyle(elem: any): string {
     if (elem) {
       if (elem?.nodeName === 'APP-TEXT-EDITOR') {
@@ -550,7 +551,9 @@ export class EditorContainerComponent
         break;
       case 'para': document.execCommand('formatBlock', false, 'p');
         break;
-      case 'superscript': this.insertSupTag();
+      case 'superscript':
+        console.log("CASE SUPER")
+         this.insertSupTag();
         break;
       case 'subscript': this.insertSubTag();
         break;
@@ -560,6 +563,7 @@ export class EditorContainerComponent
         document.execCommand('bold', false, '');
         break;
       case 'italic':
+        console.log("ITALIC CASE")
         document.execCommand('italic', false, '');
         break;
       case 'strikeThrough':
@@ -688,6 +692,7 @@ export class EditorContainerComponent
    * Function inserts sup tag inside the editor
    */
   insertSupTag(): void {
+    console.log("SUBSCRIPT")
     if (!this.toolbarConfig.superscript) {
       const sup = document.createElement('sup');
       sup.innerHTML = '&#8204;';
@@ -732,6 +737,7 @@ export class EditorContainerComponent
    * Function inserts sub tag inside the editor
    */
   insertSubTag(): void {
+    console.log("SUBSCRIPT")
     if (!this.toolbarConfig.subscript) {
       const sub = document.createElement('sub');
       sub.innerHTML = '&#8204;';
