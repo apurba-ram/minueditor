@@ -47,6 +47,8 @@ export class EditorMenuComponent {
   fontFamily = false;
   moreOptions = false;
 
+  popupZIndex: number;
+
 
   image: any;
   fontType: string[];

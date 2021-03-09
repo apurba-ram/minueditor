@@ -10,6 +10,7 @@ export interface EditorConfig {
     buttonName?: string;
     disabledButton?: boolean;
     isCollapsible?: boolean;
+    popupZIndex?: number;
 }
 
 export interface MentionedName {
