@@ -11,6 +11,7 @@ export interface EditorConfig {
     disabledButton?: boolean;
     isCollapsible?: boolean;
     popupZIndex?: number;
+    link?: boolean;
 }
 
 export interface MentionedName {
@@ -31,6 +32,5 @@ export interface ToolbarConfig {
     fontStyle?: string,
     fontColor: string;
     backgroundColor: string;
-    link?: boolean;
 }
 

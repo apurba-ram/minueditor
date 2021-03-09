@@ -109,7 +109,6 @@ export class EditorContainerComponent
       quote: false,
       fontColor: this.fontColor,
       backgroundColor: this.backgroundColor,
-      link: true
     };
   }
 

@@ -21,7 +21,7 @@ export class AppComponent  {
     toolbarPlacement: 'bottom',
     buttonName: 'Submit',
     file: true,
-    popupZIndex: 6
+    popupZIndex: 6,
   };
 
   editorConfig2: EditorConfig = {
