@@ -21,7 +21,7 @@ export class AppComponent  {
     toolbarPlacement: 'bottom',
     buttonName: 'Submit',
     disabledButton: true,
-    file: true
+    file: true,
   };
 
   editorConfig2: EditorConfig = {

@@ -30,5 +30,6 @@ export interface ToolbarConfig {
     fontStyle?: string,
     fontColor: string;
     backgroundColor: string;
+    link?: boolean;
 }
 

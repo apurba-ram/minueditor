@@ -88,7 +88,7 @@
             </button>
         </div>
         <!-- list -->
-        <div class="col" clickOutside (clickOutside)="closeListStylesPopover()">
+        <div class="col" clickOutside (clickOutside)="closeListStylesPopover(); listStyle = false;">
             <button class="lg" [class.active]="listStyle|| toolbarConfig?.orderedList || toolbarConfig?.unorderedList"
                 (click)="listStyles()" [csTooltip]="'List Option'" placement="bottom" delay="0" type="black"
                 [tooltipMandatory]="true">
@@ -384,7 +384,7 @@
             </div>
         </div>
         <!-- Link -->
-        <div class="col" clickOutside (clickOutside)="closeAddLinksPopover()">
+        <div class="col" clickOutside (clickOutside)="closeAddLinksPopover()" *ngIf="editorConfig?.link">
             <button (click)="addLink = true;" [class.active]="addLink" [csTooltip]="'Add Link'" placement="bottom"
                 delay="0" type="black" [tooltipMandatory]="true">
                 <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 426.667 426.667" xml:space="preserve">
