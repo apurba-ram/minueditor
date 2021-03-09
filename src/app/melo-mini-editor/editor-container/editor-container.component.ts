@@ -394,7 +394,7 @@ export class EditorContainerComponent
   */
   mentionClosed(): void {
 
-    if (this.tribute !== '') {
+    if ( this.tribute !== '') {
       const input = document.createElement('input');
       input.setAttribute('value', `${this.tribute}`);
       input.setAttribute('type', 'button');

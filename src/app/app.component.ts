@@ -38,9 +38,9 @@ export class AppComponent  {
 
 
   constructor() {
-    setTimeout(()=>{
-      this.modelvalue2 = Math.random().toString(36).replace('0.','Logging ?' || '');
-    }, 3000);
+    // setTimeout(()=>{
+    //   this.modelvalue2 = Math.random().toString(36).replace('0.','Logging ?' || '');
+    // }, 3000);
   }
   
   
