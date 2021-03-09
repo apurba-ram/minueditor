@@ -474,6 +474,17 @@ symbols:any=[
   {name:'',className:'m60',type:''},
   {name:'',className:'m61',type:''},
   {name:'',className:'m62',type:''},
+  {name:'',className:'m63',type:''},
+  {name:'',className:'m64',type:''},
+  {name:'',className:'m65',type:''},
+  {name:'',className:'m66',type:''},
+  {name:'',className:'m67',type:''},
+  {name:'',className:'m68',type:''},
+  {name:'',className:'m69',type:''},
+  {name:'',className:'m70',type:''},
+  {name:'',className:'m71',type:''},
+  // {name:'',className:'m72',type:''},
+  {name:'',className:'m73',type:''},
 
 ]
 
