@@ -9,6 +9,7 @@
     <button [class.active]="acitiviyEmoji" (click)="show_area('activity')" id="food-emoji">activity</button>
     <button [class.active]="acitiviyEmoji" (click)="show_area('objects')" id="object-emoji">objects</button>
     <button [class.active]="acitiviyEmoji" (click)="show_area('symbols')" id="object-emoji">symbols</button>
+    <button [class.active]="acitiviyEmoji" (click)="show_area('flags')" id="flag-emoji">flags</button>
 </div>
 <div>
     <input id="search-emoji" placeholder="Search Emoji"   [(ngModel)]="searchEmoji">
@@ -45,6 +46,10 @@
     <div id="symbols" class="symbols" >
         <h4 *ngIf="searchEmoji===''">objects</h4>
         <div *ngFor="let s of symbols |  emoji:searchEmoji"   class="emoji-icon {{s.className}}"  (click)="show_emoji_in_editor($event)"></div>
+    </div>
+    <div id="flags" class="flags" >
+        <h4 *ngIf="searchEmoji===''">objects</h4>
+        <div *ngFor="let f of flag |  emoji:searchEmoji"   class="emoji-icon {{f.className}}"  (click)="show_emoji_in_editor($event)"></div>
     </div>
 </div>
 <div id="showEmoji">

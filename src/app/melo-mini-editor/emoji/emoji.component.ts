@@ -490,6 +490,27 @@ symbols:any=[
 
 
 flag:any=[
+  {name:'',className:'c1',type:''},
+  {name:'',className:'c2',type:''},
+  {name:'',className:'c3',type:''},
+  {name:'',className:'c4',type:''},
+  {name:'',className:'c5',type:''},
+  {name:'',className:'c6',type:''},
+  {name:'',className:'c7',type:''},
+  {name:'',className:'c8',type:''},
+  {name:'',className:'c9',type:''},
+  {name:'',className:'c10',type:''},
+  {name:'',className:'c11',type:''},
+  {name:'',className:'c12',type:''},
+  {name:'',className:'c13',type:''},
+  {name:'',className:'c14',type:''},
+  {name:'',className:'c15',type:''},
+  {name:'',className:'c16',type:''},
+  {name:'',className:'c17',type:''},
+  {name:'',className:'c18',type:''},
+  {name:'',className:'c19',type:''},
+  {name:'',className:'c20',type:''},
+  {name:'',className:'c21',type:''},
 
 ]
 
