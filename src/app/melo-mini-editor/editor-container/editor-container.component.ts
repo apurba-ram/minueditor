@@ -680,10 +680,11 @@ export class EditorContainerComponent
    * Function inserts blockquote inside the editor
    */
   insertBlockQuote(): void {
+    console.log("HEY")
     if (!this.toolbarConfig.quote) {
       const blockquote = document.createElement('blockquote');
       blockquote.setAttribute('style', 'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px');
-      blockquote.innerHTML = '&#8204;';
+      // blockquote.innerHTML = '&#8204;';
       const div = document.createElement('div');
       div.appendChild(document.createElement('br'));
       const range = this.sel.getRangeAt(0);
@@ -701,19 +702,20 @@ export class EditorContainerComponent
    * Function inserts sup tag inside the editor
    */
   insertSupTag(): void {
-<<<<<<< HEAD
-    console.log("SUBSCRIPT")
-=======
     console.log('P');
->>>>>>> feac827a63f1bd819accafa60e7d2c5993c69706
     if (!this.toolbarConfig.superscript) {
+
       const sup = document.createElement('sup');
-      sup.innerHTML = '&#8204;';
+      sup.innerHTML = '&#8204;'
       const range = this.sel.getRangeAt(0);
+      sup.textContent=window.getSelection().toString();
+      range.deleteContents();
       range.insertNode(sup);
       range.setStart(sup, 1);
       range.setEnd(sup, 1);
       range.collapse();
+      // sup.innerHTML=window.getSelection().toString()
+
     } else {
       this.reachTextNode('sup');
     }
@@ -755,6 +757,8 @@ export class EditorContainerComponent
       const sub = document.createElement('sub');
       sub.innerHTML = '&#8204;';
       const range = this.sel.getRangeAt(0);
+      sub.textContent=window.getSelection().toString();
+      range.deleteContents();
       range.insertNode(sub);
       range.setStart(sub, 1);
       range.setEnd(sub, 1);
