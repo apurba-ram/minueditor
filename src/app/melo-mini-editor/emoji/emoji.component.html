@@ -44,7 +44,7 @@
         <div *ngFor="let o of objects |  emoji:searchEmoji"   class="emoji-icon {{o.className}}"  (click)="show_emoji_in_editor($event)"></div>
     </div>
     <div id="symbols" class="symbols" >
-        <h4 *ngIf="searchEmoji===''">objects</h4>
+        <h4 *ngIf="searchEmoji===''">symbols</h4>
         <div *ngFor="let s of symbols |  emoji:searchEmoji"   class="emoji-icon {{s.className}}"  (click)="show_emoji_in_editor($event)"></div>
     </div>
     <div id="flags" class="flags" >
