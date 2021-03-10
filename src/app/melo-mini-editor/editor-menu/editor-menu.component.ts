@@ -3,6 +3,8 @@ import {
   Input,
   Output,
   EventEmitter,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 @Component({
@@ -18,6 +20,8 @@ export class EditorMenuComponent {
   @Output() sendSavedFiles: EventEmitter<any> = new EventEmitter();
   @Output() imageInEditor: EventEmitter<any> = new EventEmitter();
   @Output() linkInEditor: EventEmitter<any> = new EventEmitter();
+  @Output() menuLeftWidth: EventEmitter<any> = new EventEmitter();
+  @ViewChild('menuLeft') menuLeft: ElementRef;
   enter = false;
   upload = false;
   uploadImage = false;
@@ -59,7 +63,13 @@ export class EditorMenuComponent {
     this.image = null;
     this.fontType = ['verdana', 'arial', 'georgia', 'impact', 'courier new', 'tahoma']
   }
-
+  ngOnInit() {
+    setTimeout(() => {
+      const leftMenu = this.menuLeft.nativeElement.offsetWidth;
+      this.menuLeftWidth.emit(leftMenu);
+    }, 100);
+    
+  }
   /**
    * 
    * @param event - Event triggered when the toolbar button is clicked

@@ -22,6 +22,9 @@ export class AppComponent  {
     buttonName: 'Submit',
     file: true,
     popupZIndex: 6,
+    link: true,
+    colorPalette: true,
+    mode: 'prime',
   };
 
   editorConfig2: EditorConfig = {

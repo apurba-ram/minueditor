@@ -62,6 +62,7 @@ export class EditorContainerComponent
   clicked = false;
   moreOptionsButton: boolean;
   isCollapsible: boolean;
+  menuLeftWidth: number = 600;
 
   constructor() {
     this.fontColor = 'black';
@@ -153,11 +154,19 @@ export class EditorContainerComponent
       this.selectionChange.bind(this),
       false
     );
-    // console.log(this.editorContainer.nativeElement.offsetWidth);
-    if (this.editorContainer.nativeElement.offsetWidth > 600) {
-      this.moreOptionsButton = false;
-    } else {
+    // setTimeout(() => {
+    //   console.log(this.editorContainer.nativeElement.offsetWidth, this.menuLeftWidth);
+      
+    // }, 20);
+  }
+  getmenuLeftWidth(event) {
+    this.menuLeftWidth = event;
+    console.log(this.editorContainer.nativeElement.offsetWidth, this.menuLeftWidth);
+    // this.ngAfterViewInit()
+    if (this.editorContainer.nativeElement.offsetWidth < this.menuLeftWidth) {
       this.moreOptionsButton = true;
+    } else {
+      this.moreOptionsButton = false;
     }
   }
   immageResize() {
@@ -688,6 +697,7 @@ export class EditorContainerComponent
    * Function inserts sup tag inside the editor
    */
   insertSupTag(): void {
+    console.log('P');
     if (!this.toolbarConfig.superscript) {
       const sup = document.createElement('sup');
       sup.innerHTML = '&#8204;';

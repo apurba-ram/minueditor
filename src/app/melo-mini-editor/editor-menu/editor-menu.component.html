@@ -1,6 +1,6 @@
 <!-- <p>editor-menu works!</p> -->
 <div class="editor-menu" (click)="buttonClicked($event)">
-    <div class="left">
+    <div class="left" #menuLeft>
         <!-- Bold -->
         <div class="col" data-id="bold">
             <button data-id="bold" [class.active]="toolbarConfig?.bold" [csTooltip]="'Bold'" placement="bottom"
@@ -89,6 +89,7 @@
         </div>
         <!-- list -->
         <div class="col" clickOutside (clickOutside)="closeListStylesPopover(); listStyle = false;">
+            <div class="popover-overlay" *ngIf="listStyle" (click)="listStyle = false"></div>
             <button class="lg" [class.active]="listStyle|| toolbarConfig?.orderedList || toolbarConfig?.unorderedList"
                 (click)="listStyles()" [csTooltip]="'List Option'" placement="bottom" delay="0" type="button"
                 [tooltipMandatory]="true">
@@ -105,6 +106,7 @@
                     <path d="M595 162L538 228L481 162H594.989H595Z" />
                 </svg>
             </button>
+
             <div class="popover small" *ngIf="listStyle" (click)="closeListStylesPopover()">
                 <ul class="option-list">
                     <li data-id="orderedList">
@@ -167,6 +169,7 @@
                     <path d="M595 178L529.5 252L464 178H594.987H595Z" />
                 </svg>
             </button>
+            <div class="popover-overlay" *ngIf="alignment" (click)="alignment = false"></div>
             <div class="popover small" *ngIf="alignment">
                 <ul class="option-list" (click)="alignment = false;">
                     <li data-id="left-align">
@@ -267,6 +270,7 @@
                     </g>
                 </svg>
             </button>
+            <div class="popover-overlay" *ngIf="fontStyle" (click)="fontStyle = false"></div>
             <div class="popover small" *ngIf="fontStyle">
                 <ul class="option-list">
                     <li data-id="h1">
@@ -307,6 +311,7 @@
                     <path d="M210.064 140.091L190 168.046L170.064 140.001L210.06 140.091L210.064 140.091Z" />
                 </svg>
             </button>
+            <div class="popover-overlay" *ngIf="fontSize" (click)="fontSize = false"></div>
             <div class="popover small" *ngIf="fontSize">
                 <ul class="option-list">
                     <li *ngFor="let size of [11,12,14,18,24,32,36,48]"  attr.data-id="fontsize-{{size}}" (click)="fontSize = false;">
@@ -317,7 +322,7 @@
         </div>
         <!-- Font Family-->
         <div class="col" clickOutside (clickOutside)="fontFamily = false;" *ngIf="editorConfig?.mode === 'prime'">
-            <button (click)="openfontFamily()" [class.active]="fontFamily" [csTooltip]="'Font Family'" [class.active]="fontStyles.includes(toolbarConfig?.fontStyle)"
+            <button (click)="openfontFamily()" [class.active]="fontFamily" [csTooltip]="'Font Family'" [class.active]="fontStyles?.includes(toolbarConfig?.fontStyle)"
                 placement="bottom" delay="0" type="button" [tooltipMandatory]="true">
                 <svg viewBox="0 0 20 20">
                     <path
@@ -325,6 +330,7 @@
                     </path>
                 </svg>
             </button>
+            <div class="popover-overlay" *ngIf="fontFamily" (click)="fontFamily = false"></div>
             <div class="popover small" *ngIf="fontFamily">
                 <ul class="option-list" (click)="fontFamily = false;">
                     <li *ngFor="let font of fontType" attr.data-id="font-{{font}}">
@@ -349,6 +355,7 @@
                     </g>
                 </svg>
             </button>
+            <div class="popover-overlay" *ngIf="fillColor[0]" (click)="fillColor[0] = false"></div>
             <div class="popover color-palette" *ngIf="fillColor[0]">
                 <app-color-palette [(color)]="toolbarConfig.backgroundColor"
                     (colorChange)="fillColor[0] = false; colorChange('fillColor');">
@@ -356,7 +363,7 @@
             </div>
         </div>
         <!-- Text Color -->
-        <div class="col" clickOutside (clickOutside)="fillColor[1] = false;" *ngIf="editorConfig?.colorPalette && editorConfig?.mode === 'prime'">
+        <div class="col" clickOutside *ngIf="editorConfig?.colorPalette && editorConfig?.mode === 'prime'">
             <button (click)="fillColor[1] = !fillColor[1]; fillColor[0] = false;" [class.active]="fillColor[1]"
                 [csTooltip]="'Text Color'" placement="bottom" delay="0" type="button" [tooltipMandatory]="true">
                 <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">
@@ -377,6 +384,7 @@
                     </g>
                 </svg>
             </button>
+            <div class="popover-overlay" *ngIf="fillColor[1]" (click)="fillColor[1] = false"></div>
             <div class="popover color-palette" *ngIf="fillColor[1]">
                 <app-color-palette [(color)]="toolbarConfig.fontColor"
                     (colorChange)="fillColor[1] = false;  colorChange('textColor');">
@@ -384,7 +392,7 @@
             </div>
         </div>
         <!-- Link -->
-        <div class="col" clickOutside (clickOutside)="closeAddLinksPopover()" *ngIf="editorConfig?.link">
+        <div class="col" clickOutside *ngIf="editorConfig?.link">
             <button (click)="addLink = true;" [class.active]="addLink" [csTooltip]="'Add Link'" placement="bottom"
                 delay="0" type="button" [tooltipMandatory]="true">
                 <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 426.667 426.667" xml:space="preserve">
@@ -408,8 +416,8 @@
                         <button class="close" (click)="closeAddLinksPopover()">&times;</button>
                     </div>
                     <div class="link">
-                        <label>Web Address</label>
-                        <input [(ngModel)]="linkUrl" type="text" placeholder="https://www.wikipedia.com">
+                        <label>Enter a URL</label>
+                        <input [(ngModel)]="linkUrl" type="text" placeholder="https://example.com">
                         <p class="error" *ngIf="invalidUrlMessage">{{invalidUrlMessage}}</p>
                     </div>
                     <div class="link">
@@ -429,7 +437,7 @@
             </div>
         </div>
         <!-- Attachment -->
-        <div class="col" clickOutside (clickOutside)="closeAttachPopover()" *ngIf="editorConfig?.file">
+        <div class="col" clickOutside *ngIf="editorConfig?.file">
             <button (click)="upload = true" [class.active]="upload" [csTooltip]="'Upload File'" placement="bottom"
                 delay="0" type="button" [tooltipMandatory]="true">
                 <svg width="199" height="199" viewBox="0 0 199 199" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -493,7 +501,7 @@
             </div>
         </div>
         <!-- Image -->
-        <div class="col" clickOutside (clickOutside)="clickOutsideImage()" *ngIf="editorConfig?.mode === 'prime' && false">
+        <div class="col" clickOutside *ngIf="editorConfig?.mode === 'prime' && false">
             <button (click)="uploadImage = true" [class.active]="uploadImage" [csTooltip]="'Add Image'"
                 placement="bottom" delay="0" type="button" [tooltipMandatory]="true">
 
@@ -552,7 +560,7 @@
             </div>
         </div>
         <!-- More options -->
-        <div class="col" clickOutside (clickOutside)="clickOutsideMoreOptions()" *ngIf="moreOptionsButton">
+        <div class="col" clickOutside *ngIf="moreOptionsButton">
             <button (click)="showMoreOptions()" [class.active]="moreOptions">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024"
                     viewBox="0 0 1024 1024">
@@ -562,7 +570,7 @@
                     </path>
                 </svg>
             </button>
-
+            <div class="popover-overlay" *ngIf="moreOptions" (click)="moreOptions = false"></div>
             <div class="popover small" *ngIf="moreOptions">
                 <ul class="option-list">
                     <!-- Quote -->
