@@ -16,6 +16,9 @@ export class EmojiComponent implements OnInit {
   foodEmoji:boolean=false
   travelEmoji:boolean=false
   acitiviyEmoji:boolean=false
+  objectEmoji:boolean=false
+  symbolEmoji:boolean=false
+  flagEmoji:boolean=false
   recentEmojiPos:Array<object>=[]
   ppl:any=[
     {name:'police',className:'p1',type:'face' },
@@ -390,98 +393,98 @@ objects:any=[
   {name:'movie-camera',className:'o34',type:''},
   {name:'mic',className:'o35',type:''},
   {name:'fishing_pole_and_fish',className:'o36',type:''},
-  {name:'',className:'o37',type:''},
-  {name:'',className:'o38',type:''},
+  {name:'slide',className:'o37',type:''},
+  {name:'merry-go-round',className:'o38',type:''},
   {name:'',className:'o39',type:''},
-  {name:'',className:'o40',type:''},
-  {name:'',className:'o41',type:''},
-  {name:'',className:'o42',type:''},
-  {name:'',className:'o43',type:''},
-  {name:'',className:'o44',type:''},
-  {name:'',className:'o45',type:''},
-  {name:'',className:'o46',type:''},
-  {name:'',className:'o47',type:''},
-  {name:'',className:'o48',type:''},
-  {name:'',className:'o49',type:''},
-  {name:'',className:'o50',type:''},
-  {name:'',className:'o51',type:''},
-  {name:'',className:'o52',type:''},
+  {name:'money',className:'o40',type:'movie'},
+  {name:'film-frames',className:'o41',type:''},
+  {name:'compass',className:'o42',type:''},
+  {name:'volume-scale',className:'o43',type:''},
+  {name:'studio-microphone',className:'o44',type:''},
+  {name:'ribbon',className:'o45',type:''},
+  {name:'medal',className:'o46',type:''},
+  {name:'mortal-board',className:'o47',type:''},
+  {name:'bag',className:'o48',type:''},
+  {name:'home',className:'o49',type:'night'},
+  {name:'bell',className:'o50',type:''},
+  {name:'fish',className:'o51',type:''},
+  {name:'mosque',className:'o52',type:''},
 ]
 
 symbols:any=[
-  {name:'',className:'m1',type:''},
-  {name:'',className:'m2',type:''},
-  {name:'',className:'m3',type:''},
-  {name:'',className:'m4',type:''},
-  {name:'',className:'m5',type:''},
-  {name:'',className:'m6',type:''},
-  {name:'',className:'m7',type:''},
-  {name:'',className:'m8',type:''},
-  {name:'',className:'m9',type:''},
-  {name:'',className:'m10',type:''},
-  {name:'',className:'m11',type:''},
-  {name:'',className:'m12',type:''},
-  {name:'',className:'m13',type:''},
-  {name:'',className:'m14',type:''},
-  {name:'',className:'m15',type:''},
-  {name:'',className:'m16',type:''},
-  {name:'',className:'m17',type:''},
-  {name:'',className:'m18',type:''},
-  {name:'',className:'m19',type:''},
-  {name:'',className:'m20',type:''},
-  {name:'',className:'m21',type:''},
-  {name:'',className:'m22',type:''},
-  {name:'',className:'m23',type:''},
-  {name:'',className:'m24',type:''},
-  {name:'',className:'m25',type:''},
-  {name:'',className:'m26',type:''},
-  {name:'',className:'m27',type:''},
-  {name:'',className:'m28',type:''},
-  {name:'',className:'m29',type:''},
-  {name:'',className:'m30',type:''},
-  {name:'',className:'m31',type:''},
-  {name:'',className:'m32',type:''},
-  {name:'',className:'m33',type:''},
-  {name:'',className:'m34',type:''},
-  {name:'',className:'m35',type:''},
-  {name:'',className:'m36',type:''},
-  {name:'',className:'m37',type:''},
-  {name:'',className:'m38',type:''},
-  {name:'',className:'m39',type:''},
-  {name:'',className:'m40',type:''},
-  {name:'',className:'m41',type:''},
-  {name:'',className:'m42',type:''},
-  {name:'',className:'m43',type:''},
-  {name:'',className:'m44',type:''},
-  {name:'',className:'m45',type:''},
-  {name:'',className:'m46',type:''},
-  {name:'',className:'m47',type:''},
-  {name:'',className:'m48',type:''},
-  {name:'',className:'m49',type:''},
-  {name:'',className:'m50',type:''},
-  {name:'',className:'m51',type:''},
-  {name:'',className:'m52',type:''},
-  {name:'',className:'m53',type:''},
-  {name:'',className:'m54',type:''},
-  {name:'',className:'m55',type:''},
-  {name:'',className:'m56',type:''},
-  {name:'',className:'m57',type:''},
-  {name:'',className:'m58',type:''},
-  {name:'',className:'m59',type:''},
-  {name:'',className:'m60',type:''},
-  {name:'',className:'m61',type:''},
-  {name:'',className:'m62',type:''},
-  {name:'',className:'m63',type:''},
-  {name:'',className:'m64',type:''},
-  {name:'',className:'m65',type:''},
-  {name:'',className:'m66',type:''},
-  {name:'',className:'m67',type:''},
-  {name:'',className:'m68',type:''},
-  {name:'',className:'m69',type:''},
-  {name:'',className:'m70',type:''},
-  {name:'',className:'m71',type:''},
+  {name:'zero',className:'m1',type:'counting'},
+  {name:'one',className:'m2',type:'counting'},
+  {name:'two',className:'m3',type:'counting'},
+  {name:'three',className:'m4',type:'counting'},
+  {name:'four',className:'m5',type:'counting'},
+  {name:'five',className:'m6',type:'counting'},
+  {name:'six',className:'m7',type:'counting'},
+  {name:'seven',className:'m8',type:'counting'},
+  {name:'eight',className:'m9',type:'counting'},
+  {name:'nine',className:'m10',type:'counting'},
+  {name:'star',className:'m11',type:'counting'},
+  {name:'hash',className:'m12',type:''},
+  {name:'ok',className:'m13',type:''},
+  {name:'sos',className:'m14',type:''},
+  {name:'up',className:'m15',type:'save_our_soul'},
+  {name:'arrow-up',className:'m16',type:''},
+  {name:'arrow-down',className:'m17',type:''},
+  {name:'arrow-left',className:'m18',type:''},
+  {name:'arrow-right',className:'m19',type:''},
+  {name:'back',className:'m20',type:''},
+  {name:'end',className:'m21',type:''},
+  {name:'on',className:'m22',type:''},
+  {name:'soon',className:'m23',type:''},
+  {name:'top',className:'m24',type:''},
+  {name:'underage',className:'m25',type:''},
+  {name:'ten',className:'m26',type:'counting'},
+  {name:'capital-abcd',className:'m27',type:'alphabets'},
+  {name:'abcd',className:'m28',type:'alphabets'},
+  {name:'1234',className:'m29',type:'counting'},
+  {name:'symbol',className:'m30',type:'abc'},
+  {name:'abc',className:'m31',type:'o'},
+  {name:'O',className:'m32',type:''},
+  {name:'P',className:'m33',type:''},
+  {name:'ab',className:'m34',type:''},
+  {name:'cl',className:'m35',type:''},
+  {name:'cool',className:'m36',type:''},
+  {name:'free',className:'m37',type:''},
+  // {name:'',className:'m38',type:''},
+  {name:'no-pedestrian',className:'m39',type:''},
+  {name:'children-crossing',className:'m40',type:''},
+  {name:'men',className:'m41',type:''},
+  {name:'women',className:'m42',type:''},
+  {name:'bangbang',className:'m43',type:''},
+  {name:'interobang',className:'m44',type:''},
+  {name:'trademark',className:'m45',type:''},
+  {name:'exclamation',className:'m46',type:''},
+  {name:'left-right-arrow',className:'m47',type:''},
+  {name:'top-down-arrow',className:'m48',type:''},
+  {name:'north-east-arrow',className:'m49',type:''},
+  {name:'north-west-arrow',className:'m50',type:''},
+  {name:'south-west-arrow',className:'m51',type:''},
+  {name:'south-east-arrow',className:'m52',type:''},
+  {name:'left-arrow-with-hooks',className:'m53',type:''},
+  {name:'right-arrow-with-hooks',className:'m54',type:''},
+  {name:'eject',className:'m55',type:''},
+  {name:'double-right-arrow',className:'m56',type:''},
+  {name:'double-left-arrow',className:'m57',type:''},
+  {name:'double-up-arrow',className:'m58',type:''},
+  {name:'double-down-arrow',className:'m59',type:''},
+  {name:'fast-forward',className:'m60',type:''},
+  {name:'fast-backkward',className:'m61',type:''},
+  {name:'double-vertical-bar',className:'m62',type:'pause'},
+  {name:'sqaure-for-stop',className:'m63',type:'stop'},
+  {name:'circle-for-record',className:'m64',type:''},
+  // {name:'',className:'m65',type:''},
+  // {name:'',className:'m66',type:''},
+  // {name:'',className:'m67',type:''},
+  {name:'put-litter-in-its-place',className:'m68',type:'dustbin'},
+  {name:'do-not-litter',className:'m69',type:''},
+  {name:'portable-water',className:'m70',type:''},
+  {name:'non-portable-water',className:'m71',type:''},
   // {name:'',className:'m72',type:''},
-  {name:'',className:'m73',type:''},
+  {name:'no-bicycles',className:'m73',type:''},
 
 ]
 
@@ -661,25 +664,31 @@ flag:any=[
   
   show_area(e:any)
   {
-    
     this.animalEmoji=false
     this.peopleEmoji=false
     this.travelEmoji=false
     this.foodEmoji=false
+    this.objectEmoji=false
+    this.symbolEmoji=false
+    this.flagEmoji=false
     let el = document.getElementById(e);
     switch(e)
     {
        case 'ppl':
           this.peopleEmoji=true
+          console.log("PPL",this.peopleEmoji)
         break;
       case 'animals':
         this.animalEmoji=true
+        console.log("ANIMAL",this.animalEmoji)
         break;
       case 'food':
         this.foodEmoji=true
+        console.log("FOOD EMOJI",this.foodEmoji)
         break;
       case 'travel':
         this.travelEmoji=true
+        console.log("TRAVLE",this.travelEmoji)
         break;
       case 'activity':
         this.acitiviyEmoji=true

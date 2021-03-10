@@ -7,9 +7,9 @@
     <button [class.active]="foodEmoji" (click)="show_area('food')" id="food-emoji">Food and Drinks</button>
     <button [class.active]="travelEmoji" (click)="show_area('travel')" id="food-emoji">Travel</button>
     <button [class.active]="acitiviyEmoji" (click)="show_area('activity')" id="food-emoji">activity</button>
-    <button [class.active]="acitiviyEmoji" (click)="show_area('objects')" id="object-emoji">objects</button>
-    <button [class.active]="acitiviyEmoji" (click)="show_area('symbols')" id="object-emoji">symbols</button>
-    <button [class.active]="acitiviyEmoji" (click)="show_area('flags')" id="flag-emoji">flags</button>
+    <button [class.active]="objectEmoji" (click)="show_area('objects')" id="object-emoji">objects</button>
+    <button [class.active]="symbolEmoji" (click)="show_area('symbols')" id="object-emoji">symbols</button>
+    <button [class.active]="flagEmoji" (click)="show_area('flags')" id="flag-emoji">flags</button>
 </div>
 <div>
     <input id="search-emoji" placeholder="Search Emoji"   [(ngModel)]="searchEmoji">
