@@ -1,20 +1,20 @@
 <!-- <p>emoji works!</p> -->
 
 <div class="emoji-types">
-    <button [class.active]="recentEmoji" *ngIf="recentEmojiPos.length>0" (click)="show_area('recent')" id="recently-used-emoji">Recently Used</button>
-    <button [class.active]="peopleEmoji" (click)="show_area('ppl')" id="people-emoji">People</button>
-    <button [class.active]="animalEmoji" (click)="show_area('animals')" id="animal-emoji">Animals</button>
-    <button [class.active]="foodEmoji" (click)="show_area('food')" id="food-emoji">Food and Drinks</button>
-    <button [class.active]="travelEmoji" (click)="show_area('travel')" id="food-emoji">Travel</button>
-    <button [class.active]="acitiviyEmoji" (click)="show_area('activity')" id="food-emoji">activity</button>
-    <button [class.active]="objectEmoji" (click)="show_area('objects')" id="object-emoji">objects</button>
-    <button [class.active]="symbolEmoji" (click)="show_area('symbols')" id="object-emoji">symbols</button>
-    <button [class.active]="flagEmoji" (click)="show_area('flags')" id="flag-emoji">flags</button>
+    <button  [class.active]="recentEmoji" *ngIf="recentEmojiPos.length>0" (click)="show_area('recent')" id="recently-used-emoji">Recently Used</button>
+    <button class="emoji-btn" [class.active]="peopleEmoji" (click)="show_area('ppl')" id="people-emoji">People</button>
+    <button class="emoji-btn" [class.active]="animalEmoji" (click)="show_area('animals')" id="animal-emoji">Animals</button>
+    <button class="emoji-btn" [class.active]="foodEmoji" (click)="show_area('food')" id="food-emoji">Food and Drinks</button>
+    <button class="emoji-btn" [class.active]="travelEmoji" (click)="show_area('travel')" id="food-emoji">Travel</button>
+    <button class="emoji-btn" [class.active]="acitiviyEmoji" (click)="show_area('activity')" id="food-emoji">activity</button>
+    <button class="emoji-btn" [class.active]="objectEmoji" (click)="show_area('objects')" id="object-emoji">objects</button>
+    <button class="emoji-btn" [class.active]="symbolEmoji" (click)="show_area('symbols')" id="object-emoji">symbols</button>
+    <button class="emoji-btn" [class.active]="flagEmoji" (click)="show_area('flags')" id="flag-emoji">flags</button>
 </div>
 <div>
     <input id="search-emoji" placeholder="Search Emoji"   [(ngModel)]="searchEmoji">
 </div>
-<div class="emoji-area" (scroll)="scroll($event)">
+<div class="emoji-area" (scroll)="scroll($event)" id="emoji-area">
     <div id="recent" class="recent  " *ngIf="recentEmojiPos.length>0 && searchEmoji===''" >
         <h4 >Mostly Used</h4>
         <div *ngFor="let recent of recentEmojiPos"   class=" {{recent}}" (click)="show_emoji_in_editor($event)"></div>
