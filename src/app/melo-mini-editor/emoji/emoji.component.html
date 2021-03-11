@@ -15,7 +15,7 @@
     <input id="search-emoji" placeholder="Search Emoji"   [(ngModel)]="searchEmoji">
 </div>
 <div class="emoji-area" (scroll)="scroll($event)" id="emoji-area">
-    <div id="recent" class="recent  " *ngIf="recentEmojiPos.length>0 && searchEmoji===''" >
+    <div id="recent" class="recent " *ngIf="recentEmojiPos.length>0 && searchEmoji===''" >
         <h4 >Mostly Used</h4>
         <div *ngFor="let recent of recentEmojiPos"   class=" {{recent}}" (click)="show_emoji_in_editor($event)"></div>
     </div>
