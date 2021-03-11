@@ -25,6 +25,7 @@ export class AppComponent  {
     link: true,
     colorPalette: true,
     mode: 'prime',
+    strikeThrough:false
   };
 
   editorConfig2: EditorConfig = {

@@ -12,6 +12,7 @@ export interface EditorConfig {
     isCollapsible?: boolean;
     popupZIndex?: number;
     link?: boolean;
+    strikeThrough?:boolean;
 }
 
 export interface MentionedName {
