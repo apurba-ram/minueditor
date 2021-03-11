@@ -54,6 +54,7 @@ export class EditorMenuComponent {
   savedLinks:object={ };
   fontFamily = false;
   moreOptions = false;
+  color = false;
 
   popupZIndex: number;
 
@@ -63,7 +64,7 @@ export class EditorMenuComponent {
 
   constructor() {
     this.filesArray = [];
-    this.fillColor = Array(2).fill(false);
+    this.fillColor = Array(2).fill(true);
     this.image = null;
     this.fontType = ['verdana', 'arial', 'georgia', 'impact', 'courier new', 'tahoma']
   }

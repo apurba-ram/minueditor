@@ -16,6 +16,7 @@ export interface EditorConfig {
     urlValue?:string;
     urlText?:string;
     urlTitle?:string;
+    configFontStyle?: boolean;
 
 }
 
