@@ -638,9 +638,6 @@ export class EditorContainerComponent
     {
       const navigationTag=document.createElement('ul')
       navigationTag.setAttribute('class','navigation')
-     
-
-
       const left_align=document.createElement('li')
       // left_align.setAttribute('')
       const left_btn=document.createElement('button')

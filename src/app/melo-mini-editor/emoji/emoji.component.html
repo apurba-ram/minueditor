@@ -1,7 +1,7 @@
 <!-- <p>emoji works!</p> -->
 
 <div class="emoji-types">
-    <button [class.active]="recentlyUsed" *ngIf="recentEmojiPos.length>0" (click)="show_area('R')" id="recently-used-emoji">Recently Used</button>
+    <button [class.active]="recentEmoji" *ngIf="recentEmojiPos.length>0" (click)="show_area('recent')" id="recently-used-emoji">Recently Used</button>
     <button [class.active]="peopleEmoji" (click)="show_area('ppl')" id="people-emoji">People</button>
     <button [class.active]="animalEmoji" (click)="show_area('animals')" id="animal-emoji">Animals</button>
     <button [class.active]="foodEmoji" (click)="show_area('food')" id="food-emoji">Food and Drinks</button>
@@ -15,7 +15,7 @@
     <input id="search-emoji" placeholder="Search Emoji"   [(ngModel)]="searchEmoji">
 </div>
 <div class="emoji-area">
-    <div class="recent" *ngIf="recentEmojiPos.length>0 && searchEmoji===''" >
+    <div id="recent" class="recent" *ngIf="recentEmojiPos.length>0 && searchEmoji===''" >
         <h4 >Mostly Used</h4>
         <div *ngFor="let recent of recentEmojiPos"   class=" {{recent}}" (click)="show_emoji_in_editor($event)"></div>
     </div>

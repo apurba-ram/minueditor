@@ -10,6 +10,7 @@ export class EmojiComponent implements OnInit {
   @Output() emojiPosInMenu: EventEmitter<any> = new EventEmitter();
   searchEmoji=''
   emojiPos:object={}
+  recentEmoji:boolean=false
   recentlyUsed:boolean=false
   peopleEmoji:boolean=true
   animalEmoji:boolean=false
@@ -663,57 +664,58 @@ flag:any=[
 
   
   show_area(e:any)
-  {
+  { 
+    // (<HTMLInputElement>document.getElementById('search-emoji')).value=''
+    this.recentEmoji=false
     this.animalEmoji=false
     this.peopleEmoji=false
     this.travelEmoji=false
     this.foodEmoji=false
+    this.acitiviyEmoji=false
     this.objectEmoji=false
     this.symbolEmoji=false
     this.flagEmoji=false
     let el = document.getElementById(e);
     switch(e)
     {
+       case 'recent':
+         this.recentEmoji=true
+         break;
        case 'ppl':
           this.peopleEmoji=true
-          console.log("PPL",this.peopleEmoji)
         break;
       case 'animals':
         this.animalEmoji=true
-        console.log("ANIMAL",this.animalEmoji)
         break;
       case 'food':
         this.foodEmoji=true
-        console.log("FOOD EMOJI",this.foodEmoji)
         break;
       case 'travel':
         this.travelEmoji=true
-        console.log("TRAVLE",this.travelEmoji)
         break;
       case 'activity':
         this.acitiviyEmoji=true
         break;
+      case 'objects':
+        this.objectEmoji=true
+        break;
+      case 'symbols':
+        this.symbolEmoji=true
+        break;
+      case 'flags':
+        this.flagEmoji=true
+        break;
+
 
     }
     el.scrollIntoView();
 
-  }
+    // document.getElementById('emoji-area').scroll()
 
-  checkEmojiExists(o)
-  {
-    
-    for(let i=0; i < this.recentEmojiPos.length; i++){
-      if(JSON.stringify(this.recentEmojiPos[i]) === JSON.stringify(o)){
-        return true;
-      }
-    }
-    return false;
   }
-  
 
   show_emoji_in_editor(e:any)
   {
-
     const emoji=e.target;
     const posx=getComputedStyle(emoji).backgroundPositionX;
     const posy=getComputedStyle(emoji).backgroundPositionY;
@@ -723,7 +725,6 @@ flag:any=[
     }
     
     this.emojiPosInMenu.emit(this.emojiPos);
-    console.log("CLASSSSSS",e.target.classList[1])
     var a = [];
 
     a = JSON.parse(localStorage.getItem('marx_emoji')) || [];

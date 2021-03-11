@@ -2482,16 +2482,35 @@
         display: inline-block;
         margin:0px 5px;
         white-space: nowrap;
-        // border-bottom: 2px solid transparent;
-        // padding: 10px 10px 10px 10px;
-        // outline: 0px solid white;
-        // background-color: none;
+        border-bottom: 2px solid transparent;
+        padding: 10px 10px 10px 10px;
+        background-color: none;
         outline: none;
         &.active {
             border-color: #1e5dd3;
         }
     }
 }
+
+#search-emoji
+{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    outline: none;
+    
+}
+
+#search-emoji:focus
+{
+    box-shadow: 0 0 0 4px rgba(21, 156, 228, 0.4);
+}
+
+
 
 .emoji-area
 {
