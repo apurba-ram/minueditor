@@ -21,7 +21,11 @@ export class EditorMenuComponent {
   @Output() imageInEditor: EventEmitter<any> = new EventEmitter();
   @Output() linkInEditor: EventEmitter<any> = new EventEmitter();
   @Output() menuLeftWidth: EventEmitter<any> = new EventEmitter();
+  @Output() menuRightWidth: EventEmitter<any> = new EventEmitter();
+
+  @Output() setWidth: EventEmitter<any> = new EventEmitter();
   @ViewChild('menuLeft') menuLeft: ElementRef;
+  @ViewChild('menuRight') menuRight: ElementRef;
   enter = false;
   upload = false;
   uploadImage = false;
@@ -66,7 +70,12 @@ export class EditorMenuComponent {
   ngOnInit() {
     setTimeout(() => {
       const leftMenu = this.menuLeft.nativeElement.offsetWidth;
-      this.menuLeftWidth.emit(leftMenu);
+      // console.log(leftMenu);
+      // this.menuLeftWidth.emit(leftMenu);
+      const rightMenu = this.menuRight.nativeElement.offsetWidth;
+      // console.log(rightMenu);
+      // this.menuRightWidth.emit(rightMenu);
+      this.setWidth.emit({left:leftMenu,right:rightMenu})
     }, 100);
     
   }
@@ -293,12 +302,13 @@ export class EditorMenuComponent {
    * Function is invoked when the user clicks on the save button from the add link popover
   */
   saveLink(): void { 
-    console.log("Link Data",this.linkText,this.linkTitle,this.linkUrl)
+    // console.log("Link Data",this.linkText,this.linkTitle,this.linkUrl)
     const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     if(!this.linkUrl || !this.linkUrl?.match(rex)) { //check url is valid or not
         this.invalidUrlMessage = 'Please provde a valid URL';
-    } else {    
-      const obj = {
+    }
+    else {    
+      const obj = {        
             value: {
               linkUrl:this.linkUrl,
               linkText:this.linkText?.trim() ?? '',
@@ -306,6 +316,9 @@ export class EditorMenuComponent {
             },
             id: 'link'
       };
+      // if (this.linkText === undefined || this.linkText === '') {
+      //   alert('Hi');
+      // }
       this.linkInEditor.emit(obj);
       this.closeAddLinksPopover();
     }

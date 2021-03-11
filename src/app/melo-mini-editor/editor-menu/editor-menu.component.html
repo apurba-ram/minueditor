@@ -393,7 +393,7 @@
         </div>
         <!-- Link -->
         <div class="col" clickOutside *ngIf="editorConfig?.link">
-            <button (click)="addLink = true;" [class.active]="addLink" [csTooltip]="'Add Link'" placement="bottom"
+            <button (click)="addLink = true;" [class.active]="addLink" [csTooltip]="'Add a Link'" placement="bottom"
                 delay="0" type="button" [tooltipMandatory]="true">
                 <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 426.667 426.667" xml:space="preserve">
                     <g>
@@ -416,16 +416,16 @@
                         <button class="close" (click)="closeAddLinksPopover()">&times;</button>
                     </div>
                     <div class="link">
-                        <label>Enter a URL</label>
+                        <label>{{editorConfig?.urlValue}}</label>
                         <input [(ngModel)]="linkUrl" type="text" placeholder="https://example.com">
                         <p class="error" *ngIf="invalidUrlMessage">{{invalidUrlMessage}}</p>
                     </div>
                     <div class="link">
-                        <label>Display Text</label>
+                        <label>{{editorConfig?.urlText}}</label>
                         <input [(ngModel)]="linkText" type="text" placeholder="Enter display text">
                     </div>
                     <div class="link">
-                        <label>Title</label>
+                        <label>{{editorConfig?.urlTitle}}</label>
                         <input [(ngModel)]="linkTitle" type="text" placeholder="Enter a title">
                     </div>
                     <div class="footer">
@@ -705,7 +705,7 @@
             </div>
         </div>
     </div>
-    <div class="right">
+    <div class="right" #menuRight>
         <!-- @ -->
         <div class="col" data-id="@" *ngIf="editorConfig?.mentionedNames?.length > 0">
             <button data-id="@">

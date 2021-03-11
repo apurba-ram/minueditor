@@ -25,7 +25,10 @@ export class AppComponent  {
     link: true,
     colorPalette: true,
     mode: 'prime',
-    strikeThrough:false
+    strikeThrough:false,
+    urlValue:"URL",
+    urlText:'Anchor tag innerHTML',
+    urlTitle:'anchor tag title'
   };
 
   editorConfig2: EditorConfig = {

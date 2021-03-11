@@ -13,6 +13,10 @@ export interface EditorConfig {
     popupZIndex?: number;
     link?: boolean;
     strikeThrough?:boolean;
+    urlValue?:string;
+    urlText?:string;
+    urlTitle?:string;
+
 }
 
 export interface MentionedName {

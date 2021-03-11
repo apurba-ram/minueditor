@@ -63,6 +63,7 @@ export class EditorContainerComponent
   moreOptionsButton: boolean;
   isCollapsible: boolean;
   menuLeftWidth: number = 600;
+  menuRightWidth: number;
 
   constructor() {
     this.fontColor = 'black';
@@ -159,16 +160,16 @@ export class EditorContainerComponent
       
     // }, 20);
   }
-  getmenuLeftWidth(event) {
-    this.menuLeftWidth = event;
-    console.log(this.editorContainer.nativeElement.offsetWidth, this.menuLeftWidth);
-    // this.ngAfterViewInit()
-    if (this.editorContainer.nativeElement.offsetWidth < this.menuLeftWidth) {
+  getmenuWidth(event) {
+    this.menuLeftWidth = event.left;
+    this.menuRightWidth = event.right;
+    if (this.editorContainer.nativeElement.offsetWidth < this.menuLeftWidth + this.menuRightWidth) {
       this.moreOptionsButton = true;
     } else {
       this.moreOptionsButton = false;
     }
   }
+
   immageResize() {
     const imageWidth = document.getElementById('contentimage').offsetWidth;
     const imageHeight = document.getElementById('contentimage').offsetWidth;
