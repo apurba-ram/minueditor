@@ -662,6 +662,34 @@ flag:any=[
     
   }
 
+  scroll(e:any)
+  {
+    // console.log(e)
+    // console.log(document.getElementsByClassName('emojibtn')[0])
+       var section =document.getElementsByClassName("scroll-element");
+    // console.log("SECTION",section,typeof(section))
+        var bScroll = document.documentElement.scrollTop;
+        for (var i = 0; i < 8; i++) {
+          // console.log("VALUE",i,section[i])
+          // HTMLElement
+          var a=section[i] as HTMLElement;
+          var b=section[i] as HTMLElement;
+          console.log("AB",a,b)
+          var sHeight = a.offsetHeight ;
+          var offsets = b.offsetTop;
+          console.log(bScroll,offsets,sHeight)
+          if (bScroll > offsets && bScroll < offsets + sHeight) {
+            console.log("HELLO")
+            section[i].classList.add('active')
+          } else {
+            console.log("BYE")
+            section[i].classList.remove('active')
+          }
+
+        }
+
+  }
+
   
   show_area(e:any)
   { 
@@ -709,6 +737,12 @@ flag:any=[
 
     }
     el.scrollIntoView();
+
+      // window.onscroll=function ()
+      // {
+      //   console.log("HY")
+      // }
+    
 
     // document.getElementById('emoji-area').scroll()
 

@@ -14,40 +14,40 @@
 <div>
     <input id="search-emoji" placeholder="Search Emoji"   [(ngModel)]="searchEmoji">
 </div>
-<div class="emoji-area">
-    <div id="recent" class="recent" *ngIf="recentEmojiPos.length>0 && searchEmoji===''" >
+<div class="emoji-area" (scroll)="scroll($event)">
+    <div id="recent" class="recent  " *ngIf="recentEmojiPos.length>0 && searchEmoji===''" >
         <h4 >Mostly Used</h4>
         <div *ngFor="let recent of recentEmojiPos"   class=" {{recent}}" (click)="show_emoji_in_editor($event)"></div>
     </div>
-    <div id="ppl" class="people" >
+    <div id="ppl" class="people scroll-element" >
         <h4 *ngIf="searchEmoji===''">smileys & people</h4>
         <div *ngFor="let p of ppl | emoji:searchEmoji"   class="emoji-icon {{p.className}}" (click)="show_emoji_in_editor($event)"></div>
     </div>
-    <div id="animals" class=animal  >
+    <div id="animals" class="animal scroll-element"  >
        <h4 *ngIf="searchEmoji===''">animals and nature</h4> 
        <div *ngFor="let a of animals |  emoji:searchEmoji"   class="emoji-icon {{a.className}}"  (click)="show_emoji_in_editor($event)"></div>
     </div>
-    <div id="food" class="food_drinks" >
+    <div id="food" class="food_drinks scroll-element" >
         <h4 *ngIf="searchEmoji===''">Food and Drinks</h4>
         <div *ngFor="let f of food |  emoji:searchEmoji"   class="emoji-icon {{f.className}}"  (click)="show_emoji_in_editor($event)"></div>
     </div>
-    <div id="travel" class="travel" >
+    <div id="travel" class="travel scroll-element" >
         <h4 *ngIf="searchEmoji===''">Travel and Places</h4>
         <div *ngFor="let t of travel |  emoji:searchEmoji"   class="emoji-icon {{t.className}}"  (click)="show_emoji_in_editor($event)"></div>
     </div>
-    <div id="activity" class="activity" >
+    <div id="activity" class="activity scroll-element" >
         <h4 *ngIf="searchEmoji===''">sports and activities</h4>
         <div *ngFor="let a of activity |  emoji:searchEmoji"   class="emoji-icon {{a.className}}"  (click)="show_emoji_in_editor($event)"></div>
     </div>
-    <div id="objects" class="objects" >
+    <div id="objects" class="objects scroll-element" >
         <h4 *ngIf="searchEmoji===''">objects</h4>
         <div *ngFor="let o of objects |  emoji:searchEmoji"   class="emoji-icon {{o.className}}"  (click)="show_emoji_in_editor($event)"></div>
     </div>
-    <div id="symbols" class="symbols" >
+    <div id="symbols" class="symbols scroll-element" >
         <h4 *ngIf="searchEmoji===''">symbols</h4>
         <div *ngFor="let s of symbols |  emoji:searchEmoji"   class="emoji-icon {{s.className}}"  (click)="show_emoji_in_editor($event)"></div>
     </div>
-    <div id="flags" class="flags" >
+    <div id="flags" class="flags scroll-element" >
         <h4 *ngIf="searchEmoji===''">objects</h4>
         <div *ngFor="let f of flag |  emoji:searchEmoji"   class="emoji-icon {{f.className}}"  (click)="show_emoji_in_editor($event)"></div>
     </div>
