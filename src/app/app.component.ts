@@ -28,7 +28,11 @@ export class AppComponent  {
     strikeThrough:false,
     urlValue:"URL",
     urlText:'Anchor tag innerHTML',
-    urlTitle:'anchor tag title'
+    urlTitle:'anchor tag title',
+    validUrlMsg:'Please provide a valid URL',
+    urlInputPlaceHolder:'https://example.com',
+    textInputPlaceHolder:'type display text',
+    titlePlaceholder:'type url title here'
   };
 
   editorConfig2: EditorConfig = {
