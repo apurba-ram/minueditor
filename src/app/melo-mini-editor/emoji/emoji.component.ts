@@ -665,29 +665,21 @@ flag:any=[
 
   scroll(e:any)
   {
-    // console.log("JHDCHGSVAJM")
-       var section =document.getElementsByClassName("scroll-element");
+        var section =document.getElementsByClassName("scroll-element");
         var bScroll = document.getElementById('emoji-area').scrollTop;
         var parentOffsetTop=document.getElementById('emoji-area').offsetTop;
-        for (var i = 0; i < 8; i++) {
+        for (var i = 0; i < section.length; i++) {
           var a=section[i] as HTMLElement;
-          // var b=section[i] as HTMLElement;
           var sHeight = a.offsetHeight ;
           var offsets = a.offsetTop-parentOffsetTop-41;
           if (bScroll > offsets && bScroll < offsets + sHeight) {
-            // console.log("if",bScroll,offsets,sHeight) 
-            // console.log("element", document.getElementsByClassName('scroll-element')[i])
             document.getElementsByClassName('emoji-btn')[i].classList.add('active')
           } else {
-            console.log("else",bScroll,offsets,sHeight) 
-            console.log("ELSE", document.getElementsByClassName('scroll-element')[i])
             document.getElementsByClassName('emoji-btn')[i].classList.remove('active')
           }
         }
   }
 
-
-  
   show_area(e:any)
   { 
     // (<HTMLInputElement>document.getElementById('search-emoji')).value=''
