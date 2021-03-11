@@ -48,7 +48,7 @@ export class EditorMenuComponent {
   linkText:string
   linkTitle:string
   inValidUrl:boolean
-  invalidUrlMessage:string
+  invalidUrlMessage:boolean
   inValidLinkTitle=''
   inValidLinkText=''
   savedLinks:object={ };
@@ -305,7 +305,7 @@ export class EditorMenuComponent {
     // console.log("Link Data",this.linkText,this.linkTitle,this.linkUrl)
     const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     if(!this.linkUrl || !this.linkUrl?.match(rex)) { //check url is valid or not
-        this.invalidUrlMessage = 'Please provde a valid URL';
+        this.invalidUrlMessage = true
     }
     else {    
       const obj = {        

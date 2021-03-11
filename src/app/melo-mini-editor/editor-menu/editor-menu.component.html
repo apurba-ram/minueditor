@@ -417,16 +417,16 @@
                     </div>
                     <div class="link">
                         <label>{{editorConfig?.urlValue}}</label>
-                        <input [(ngModel)]="linkUrl" type="text" placeholder="https://example.com">
-                        <p class="error" *ngIf="invalidUrlMessage">{{invalidUrlMessage}}</p>
+                        <input [(ngModel)]="linkUrl" type="text" placeholder="{{editorConfig?.urlInputPlaceHolder}}">
+                        <p class="error" *ngIf="invalidUrlMessage">{{editorConfig?.validUrlMsg}}</p>
                     </div>
                     <div class="link">
                         <label>{{editorConfig?.urlText}}</label>
-                        <input [(ngModel)]="linkText" type="text" placeholder="Enter display text">
+                        <input [(ngModel)]="linkText" type="text" placeholder="{{editorConfig?.textInputPlaceHolder}}">
                     </div>
                     <div class="link">
                         <label>{{editorConfig?.urlTitle}}</label>
-                        <input [(ngModel)]="linkTitle" type="text" placeholder="Enter a title">
+                        <input [(ngModel)]="linkTitle" type="text" placeholder="{{editorConfig?.titlePlaceholder}}">
                     </div>
                     <div class="footer">
                         <button class="cancel" (click)="closeAddLinksPopover()">Cancel</button><button

@@ -16,6 +16,10 @@ export interface EditorConfig {
     urlValue?:string;
     urlText?:string;
     urlTitle?:string;
+    validUrlMsg?:string;
+    urlInputPlaceHolder?:string;
+    textInputPlaceHolder?:string;
+    titlePlaceholder?:string;
 
 }
 
