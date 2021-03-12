@@ -284,15 +284,12 @@ export class EmojiComponent implements OnInit {
   ]
 
   food:any=[
-    {name:'corn',className:'f1',type:'food'},
-    // {name:'corn',className:'f2',type:'food'},
-    // {name:'corn',className:'f3',type:'food'},
-    // {name:'corn',className:'f4',type:'food'},
-    // {name:'corn',className:'f5',type:'food'},
-    // {name:'corn',className:'f6',type:'food'},
-    // {name:'corn',className:'f7',type:'food'},
-    // {name:'corn',className:'f8',type:'food'},
+    {name:'corn',className:'f1',type:'food vegitables'},
+    {name:'cucumber',className:'f2',type:'food vegitables'},
+    {name:'carrot',className:'f3',type:'food'},
+    {name:'potato',className:'f4',type:'food'},
     {name:'mashroom',className:'f9',type:'food'},
+    // {name:'peanut',className:'f72',type:'food'},
     {name:'tomato',className:'f10',type:'food,vegitables'},
     {name:'brinjal',className:'f11',type:'food,vegitables'},
     {name:'grapes',className:'f12',type:'food,fruits'},
@@ -316,6 +313,10 @@ export class EmojiComponent implements OnInit {
     {name:'ramen',className:'f30',type:'food'},
     {name:'',className:'f31',type:'food'},
     {name:'',className:'f32',type:'food'},
+    {name:'salad',className:'f5',type:'food'},
+    {name:'gravy',className:'f6',type:'food'},
+    {name:'sandwich',className:'f7',type:'food'},
+    {name:'egg',className:'f8',type:'food'},
     {name:'rice',className:'f33',type:'food,grain'},
     {name:'',className:'f34',type:'food,biscuit'},
     {name:'cookie',className:'f35',type:'food,sweet'},
@@ -353,7 +354,7 @@ export class EmojiComponent implements OnInit {
     {name:'milk',className:'f67',type:' drink'},
     {name:'wine',className:'f68',type:'drink'},
     {name:'juice',className:'f70',type:'drink'},
-    {name:'bear',className:'f71',type:'drink'},
+    {name:'beer',className:'f71',type:'drink'},
 
   ]
 
