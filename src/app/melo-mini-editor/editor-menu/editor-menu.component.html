@@ -492,17 +492,18 @@
                         <button class="close" (click)="closeAddLinksPopover()">&times;</button>
                     </div>
                     <div class="link">
-                        <label>{{editorConfig?.urlValue}}</label>
-                        <input [(ngModel)]="linkUrl" type="text" placeholder="{{editorConfig?.urlInputPlaceHolder}}">
+                        <label>{{editorConfig?.urlValue ? editorConfig?.urlValue : 'URL'}}</label>
+                        <input [(ngModel)]="linkUrl" type="text" placeholder="{{editorConfig?.urlInputPlaceHolder ? editorConfig?.urlInputPlaceHolder : 'Enter a URL (Example: https://example.com)'}}">
                         <p class="error" *ngIf="invalidUrlMessage">{{editorConfig?.validUrlMsg}}</p>
                     </div>
+
                     <div class="link">
-                        <label>{{editorConfig?.urlText}}</label>
-                        <input [(ngModel)]="linkText" type="text" placeholder="{{editorConfig?.textInputPlaceHolder}}">
+                        <label>{{editorConfig?.urlText ? editorConfig?.urlText : 'Display text'}}</label>
+                        <input [(ngModel)]="linkText" type="text" placeholder="{{editorConfig?.textInputPlaceHolder ? editorConfig?.textInputPlaceHolder : 'Enter a display text'}}">
                     </div>
                     <div class="link">
-                        <label>{{editorConfig?.urlTitle}}</label>
-                        <input [(ngModel)]="linkTitle" type="text" placeholder="{{editorConfig?.titlePlaceholder}}">
+                        <label>{{editorConfig?.urlTitle ? editorConfig?.urlTitle : 'Title'}}</label>
+                        <input [(ngModel)]="linkTitle" type="text" placeholder="{{editorConfig?.titlePlaceholder? editorConfig?.titlePlaceholder: 'Enter a display title'}}">
                     </div>
                     <div class="footer">
                         <button class="cancel" (click)="closeAddLinksPopover()">Cancel</button><button
@@ -675,7 +676,7 @@
                         </button>
                     </li>
                     <!-- Subscript -->
-                    <li (click)="moreOptions = false;callSome()" data-id="subscript">
+                    <li (click)="moreOptions = false" data-id="subscript">
                         <button [class.active]="toolbarConfig?.subscript" data-id="subscript">
                             <svg width="200" height="200" viewBox="0 0 200 200" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" data-id="subscript">
