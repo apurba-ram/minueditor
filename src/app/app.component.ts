@@ -34,6 +34,7 @@ export class AppComponent  {
     textInputPlaceHolder:'Enter a display text',
     titlePlaceholder:'Enter a title'
   };
+  
 
   editorConfig2: EditorConfig = {
     file: true,

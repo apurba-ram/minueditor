@@ -471,9 +471,4 @@ export class EditorMenuComponent {
   hideAlert(): void {
     this.showAlert = false;
   }
-
-  // Just try
-  callSome() {
-    console.log('this button is clicked')
-  }
 }
