@@ -216,8 +216,8 @@ export class EditorContainerComponent
   setFontAndbackgroundColor(): void {
     if (this.sel?.baseNode) {
       const node = this.sel.baseNode;
-      if (node?.parentNode?.nodeName === 'SPAN' && node?.parentNode?.attributes[0].name === 'style') {
-        let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
+      if (node?.parentNode?.nodeName === 'SPAN' && node?.parentNode?.attributes[0]?.name === 'style') {
+        let styleAttrib = node?.parentNode?.attributes[0]?.nodeValue;
         const styleArray: string[] = styleAttrib.split(';');
         for (const style of styleArray) {
           if (style.indexOf('background-color:') > -1) {
@@ -562,7 +562,7 @@ export class EditorContainerComponent
       case 'para': document.execCommand('formatBlock', false, 'p');
         break;
       case 'superscript':
-        console.log("CASE SUPER")
+        
          this.insertSupTag();
         break;
       case 'subscript': this.insertSubTag();
@@ -703,22 +703,71 @@ export class EditorContainerComponent
    * Function inserts sup tag inside the editor
    */
   insertSupTag(): void {
-    console.log('P');
-    if (!this.toolbarConfig.superscript) {
 
-      const sup = document.createElement('sup');
-      sup.innerHTML = '&#8204;'
-      const range = this.sel.getRangeAt(0);
-      sup.textContent=window.getSelection().toString();
-      range.deleteContents();
-      range.insertNode(sup);
-      range.setStart(sup, 1);
-      range.setEnd(sup, 1);
-      range.collapse();
-      // sup.innerHTML=window.getSelection().toString()
-
+    console.log("HEY NOT SELECTED OR SELETCET ====>",window.getSelection().toString().length, this.toolbarConfig)
+    if (!this.toolbarConfig?.superscript) {
+      if(window.getSelection().toString().length>0)
+      {
+        console.log("Hey it is true ......")
+        const selectedText=window.getSelection().toString() 
+        const sup = document.createElement('sup');
+        sup.setAttribute('id','sup'+ Math.floor((Math.random() * 1000) + 1))
+        sup.innerHTML = '&#8204;'
+        const range = this.sel.getRangeAt(0);
+        console.log("TAG",window.getSelection().anchorNode.parentNode)
+        console.log("RANGE  1",range.commonAncestorContainer.parentElement)
+        if(document.getElementsByTagName('sub')[0])
+        {
+          console.log("ALREDY SUBSCRIPT")
+          let sub = document.getElementsByTagName('sub')[0];
+          let sup = document.createElement('sup');
+          // sup.setAttribute('id','hey')
+          sup.innerHTML = selectedText
+          sub.parentNode.appendChild(sup);
+          sub.parentNode.removeChild(sub);
+        }
+        else
+        {   
+          console.log("TAG IF1",window.getSelection().anchorNode.parentNode)
+          console.log("RANGE  2",range.commonAncestorContainer.parentElement)
+          sup.textContent=window.getSelection()?.toString();
+          console.log("Supppp ===>", sup)
+          range.deleteContents();
+          range.insertNode(sup);
+          range.setStart(sup, 1);
+          range.setEnd(sup, 1);
+          range.collapse();
+        }
+      } 
+      else
+      {
+        console.log("HEY DESELCTE SUP TAG")
+        this.reachTextNode('sup');
+      }    
     } else {
-      this.reachTextNode('sup');
+      //remove superscript if already created  
+      console.log("HEY NOT SELECTED OR SELETCET", window.getSelection().toString())
+      if(window.getSelection)
+      {
+        const selectedText=window.getSelection().toString() 
+        const range = this.sel.getRangeAt(0);
+        if(document.getElementById(range.commonAncestorContainer.parentElement.id))
+        {
+          
+         console.log("TAG ELSE 1",window.getSelection().anchorNode.parentNode)
+         console.log("RANGE  1",range.commonAncestorContainer.parentElement)
+         let sup = document.getElementById(range.commonAncestorContainer.parentElement.id);
+         let div = document.createElement('span');
+         div.innerHTML = selectedText
+         sup.parentNode.appendChild(div);
+         sup.parentNode.removeChild(sup);
+        }
+      }
+      // else
+      // {
+      //   this.reachTextNode('sup');
+      // }
+  
     }
   }
 
@@ -771,6 +820,7 @@ export class EditorContainerComponent
   
   reachTextNode(tagName: string): void {
     const parent = this.getParent(this.sel.anchorNode, tagName);
+    console.log("parent ===>", parent, this.sel, tagName)
     const space = document.createElement('text');
     space.innerHTML = '&#8204;';
     if (parent?.nextSibling) {
@@ -788,6 +838,7 @@ export class EditorContainerComponent
    * @param tagName - Tag name to check if it is the parent node of elem
    */
   getParent(elem: any, tagName: string): any {
+    console.log("element node name ===>", elem)
     if (elem) {
       if (elem?.nodeName === 'APP-TEXT-EDITOR') {
         return null;
