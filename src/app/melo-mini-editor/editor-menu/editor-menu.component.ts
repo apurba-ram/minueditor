@@ -69,10 +69,10 @@ export class EditorMenuComponent {
   }
   ngOnInit() {
     setTimeout(() => {
-      const leftMenu = this.menuLeft.nativeElement.offsetWidth;
+      const leftMenu = this.menuLeft?.nativeElement?.offsetWidth;
       // console.log(leftMenu);
       // this.menuLeftWidth.emit(leftMenu);
-      const rightMenu = this.menuRight.nativeElement.offsetWidth;
+      const rightMenu = this.menuRight?.nativeElement?.offsetWidth;
       // console.log(rightMenu);
       // this.menuRightWidth.emit(rightMenu);
       this.setWidth.emit({left:leftMenu,right:rightMenu})
