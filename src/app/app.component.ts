@@ -27,12 +27,12 @@ export class AppComponent  {
     mode: 'prime',
     strikeThrough:false,
     urlValue:"URL",
-    urlText:'Anchor tag innerHTML',
-    urlTitle:'anchor tag title',
-    validUrlMsg:'Please provide a valid URL',
-    urlInputPlaceHolder:'https://example.com',
-    textInputPlaceHolder:'type display text',
-    titlePlaceholder:'type url title here'
+    urlText:'Display text',
+    urlTitle:'Title',
+    validUrlMsg:'Please provide a valid URL.',
+    urlInputPlaceHolder:'Enter a URL (Example: https://example.com)',
+    textInputPlaceHolder:'Enter a display text',
+    titlePlaceholder:'Enter a title'
   };
 
   editorConfig2: EditorConfig = {
