@@ -5,6 +5,7 @@ import {
   EventEmitter,
   ViewChild,
   ElementRef,
+  AfterViewInit,
 } from '@angular/core';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 @Component({
@@ -12,7 +13,7 @@ import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
   templateUrl: './editor-menu.component.html',
   styleUrls: ['./editor-menu.component.less', '../theme.less'],
 })
-export class EditorMenuComponent {
+export class EditorMenuComponent implements AfterViewInit {
   @Input() editorConfig: EditorConfig;
   @Input() toolbarConfig: ToolbarConfig;
   @Input() moreOptionsButton: boolean;
@@ -69,7 +70,7 @@ export class EditorMenuComponent {
     this.fontType = ['verdana', 'arial', 'georgia', 'impact', 'courier new', 'tahoma']
     // console.log("FILL ARRAY",this.fillColor)
   }
-  ngOnInit() {
+  ngAfterViewInit() {
     setTimeout(() => {
       const leftMenu = this.menuLeft?.nativeElement?.offsetWidth;
       // console.log(leftMenu);
@@ -78,8 +79,7 @@ export class EditorMenuComponent {
       // console.log(rightMenu);
       // this.menuRightWidth.emit(rightMenu);
       this.setWidth.emit({left:leftMenu,right:rightMenu})
-    }, 100);
-    
+    }, 90);
   }
   /**
    * 

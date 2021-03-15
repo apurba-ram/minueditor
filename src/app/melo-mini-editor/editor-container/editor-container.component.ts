@@ -163,10 +163,13 @@ export class EditorContainerComponent
   getmenuWidth(event) {
     this.menuLeftWidth = event.left;
     this.menuRightWidth = event.right;
+    // alert('1')
     if (this.editorContainer.nativeElement.offsetWidth < this.menuLeftWidth + this.menuRightWidth) {
+      // alert('2')
       this.moreOptionsButton = true;
     } else {
       this.moreOptionsButton = false;
+      // alert('3')
     }
   }
 
@@ -275,6 +278,7 @@ export class EditorContainerComponent
       this.mentionConfig = {
         mentions: []
       };
+      console.log(this.editorConfig);
       if (this.editorConfig?.mentionedNames && Array.isArray(this.editorConfig?.mentionedNames) && this.editorConfig?.mentionedNames.length > 0) {
         this.editorConfig.mentionedNames = this.editorConfig?.mentionedNames.filter((item: { id: number; name: string }) => {
             if (item.id !== 0 && item.name.trim() !== '') {
@@ -405,7 +409,7 @@ export class EditorContainerComponent
   */
   mentionClosed(): void {
 
-    if ( this.tribute && this.tribute !== '') {
+    if (this.tribute && this.tribute !== '') {
       const input = document.createElement('input');
       input.setAttribute('value', `${this.tribute}`);
       input.setAttribute('type', 'button');
@@ -561,19 +565,15 @@ export class EditorContainerComponent
         break;
       case 'para': document.execCommand('formatBlock', false, 'p');
         break;
-      case 'superscript':
-        console.log("CASE SUPER")
-         this.insertSupTag();
-        break;
+      case 'superscript': this.insertSupTag();
+                           break;
       case 'subscript': this.insertSubTag();
-        break;
+                        break;
       case 'link': this.insertLink(value);
                    break;
-      case 'bold':
-        document.execCommand('bold', false, '');
-        break;
+      case 'bold': document.execCommand('bold', false, '');
+                   break;
       case 'italic':
-        console.log("ITALIC CASE")
         document.execCommand('italic', false, '');
         break;
       case 'strikeThrough':
