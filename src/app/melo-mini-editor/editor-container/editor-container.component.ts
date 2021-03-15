@@ -769,6 +769,9 @@ export class EditorContainerComponent
     anchorTag.setAttribute('target', '_blank');
     anchorTag.setAttribute('rel', 'noopener noreferrer');
 
+
+    const textNode: Node = document.createTextNode('');
+
     let range: Range;
     if(!this.oldRange) {
       range = this.sel.getRangeAt(0).cloneRange();
@@ -777,7 +780,8 @@ export class EditorContainerComponent
     }   
     this.sel.removeAllRanges(); 
     range.insertNode(anchorTag);
-    range.setStartAfter(anchorTag);
+    range.insertNode(textNode);
+    range.setStartAfter(textNode);
     range.collapse();
     this.sel.addRange(range);
     this.writeValue(document.getElementById(`${this.id}`).innerHTML, 'editor');
