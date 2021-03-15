@@ -264,6 +264,7 @@ export class EditorContainerComponent
       this.mentionConfig = {
         mentions: []
       };
+      console.log(this.editorConfig);
       if (this.editorConfig?.mentionedNames && Array.isArray(this.editorConfig?.mentionedNames) && this.editorConfig?.mentionedNames.length > 0) {
         this.editorConfig.mentionedNames = this.editorConfig?.mentionedNames.filter((item: { id: number; name: string }) => {
             if (item.id !== 0 && item.name.trim() !== '') {
