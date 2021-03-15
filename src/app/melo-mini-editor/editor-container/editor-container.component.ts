@@ -64,6 +64,7 @@ export class EditorContainerComponent
   isCollapsible: boolean;
   menuLeftWidth: number = 600;
   menuRightWidth: number;
+  font_size:string;
 
   constructor() {
     this.fontColor = 'black';
@@ -217,9 +218,11 @@ export class EditorContainerComponent
    * Set the default font color and background color
    */
   setFontAndbackgroundColor(): void {
+    // console.log("NODE",this.sel?.baseNode)
     if (this.sel?.baseNode) {
       const node = this.sel.baseNode;
       if (node?.parentNode?.nodeName === 'SPAN' && node?.parentNode?.attributes[0].name === 'style') {
+        console.log("TEST SPAND AND STYLE",node?.parentNode?.nodeName,node?.parentNode?.attributes[0].name)
         let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
         const styleArray: string[] = styleAttrib.split(';');
         for (const style of styleArray) {
@@ -558,6 +561,8 @@ export class EditorContainerComponent
         this.toolbarConfig[id] = false;
       }
     }
+
+    // console.log("IDDDDD",id)
     switch (id) {
       case 'h1':
       case 'h2':
@@ -643,14 +648,14 @@ export class EditorContainerComponent
         break; //8,9,10,11,12,14,18,24,32,36,48
       case 'fontsize-arial': document.execCommand('fontName', false, 'arial');
         break;
-      case 'fontsize-11':      
-      case 'fontsize-12': 
-      case 'fontsize-14':       
-      case 'fontsize-18': 
-      case 'fontsize-24': 
-      case 'fontsize-32': 
-      case 'fontsize-36': 
-      case 'fontsize-48':  this.setFontSize(id);
+      case '11':      
+      case '12': 
+      case '14':       
+      case '18': 
+      case '24': 
+      case '32': 
+      case '36': 
+      case '48':  this.setFontSize(id);
       // console.log(" FONT SIZE",id)
                            break;
     }
@@ -661,21 +666,69 @@ export class EditorContainerComponent
    * @param size - Represents the size of the font 
    */
   setFontSize(size: string): void {
-    size = size.slice(size.lastIndexOf('-') + 1) + 'px';
-    const container = document.createElement('span');
-    container.setAttribute('style', `font-size: ${size};`);
-    if(!this.oldRange.collapsed) {
-      container.appendChild(this.oldRange.cloneContents());
-      const html = `<span style="font-size: ${size};">${container.innerHTML}</span>`;
-      document.execCommand('insertHTML', false, html);
-    } else {
-      container.setAttribute('style', `font-size: ${size};`);
-      container.innerHTML = '&#8204;';
-      this.oldRange.insertNode(container);
-      this.oldRange.setStart(container, 1);
-      this.oldRange.setEnd(container, 1);
-      this.oldRange.collapse();
-    }
+    // size = size.slice(size.lastIndexOf('-') + 1) + 'px';
+    // const container = document.createElement('span');
+    // container.setAttribute('style', `font-size: ${size};`);
+    // if(!this.oldRange.collapsed) {
+    //   console.log("COLLAPSE RANGE")
+    //   container.appendChild(this.oldRange.cloneContents());
+    //   const html = `<span style="font-size: ${size};">${container.innerHTML}</span>`;
+    //   document.execCommand('insertHTML', false, html);
+    // } else {
+    //   console.log("NOT COLLAPSED")
+    //   container.setAttribute('style', `font-size: ${size};`);
+    //   container.innerHTML = '&#8204;';
+    //   this.oldRange.insertNode(container);
+    //   this.oldRange.setStart(container, 1);
+    //   this.oldRange.setEnd(container, 1);
+    //   this.oldRange.collapse();
+    // }
+      console.log('SELELELLE', size);
+      if (this.sel?.baseNode) {
+        const node = this.sel.baseNode;
+        if (node?.parentNode?.nodeName === 'SPAN' && node?.parentNode?.attributes[0].name === 'style') {
+          console.log("HEY 0")
+          let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
+          console.log("STYLE ATTR",styleAttrib)
+          const styleArray: string[] = styleAttrib.split(';');
+          let flag = 0;
+          for (const style of styleArray) {
+            console.log("CHECLK ",style.indexOf('font-size'))
+            if (style.indexOf('font-size:') > -1) {
+              flag = 1;
+              this.font_size =style.substring(style.indexOf(':') + 1).trim();
+              // console.log("STYLE ARRAY 2",node?.parentNode);
+              // node?.parentNode?.attributes.push()
+              break;
+            }
+          }
+          if(!flag) {
+            // Add the font size
+            console.log("ADD")
+            console.log("STYLE ATTR",node?.parentNode,"type",typeof(node?.parentNode?.attributes))
+            // console.log("size into int",parseInt(size),typeof(size))
+            let v=size+'px'
+            console.log("STRING",v)
+            node.parentNode.style.fontSize=v
+          } else {
+            // Change font size to font_size
+            let v=size+'px'
+            node.parentNode.style.fontSize=v
+          }
+        } else {
+          console.log("HEY 1")
+          let v=size+'px'
+          const container = document.createElement('span');
+          container.setAttribute('style', `font-size: ${size};`);
+          container.appendChild(this.oldRange.cloneContents());
+          const html = `<span style="font-size: ${v};">${container.innerHTML}</span>`;
+          document.execCommand('insertHTML', false, html);
+        }
+      } else {
+        console.log("HEY 2")
+        this.font_size=11+"px"
+      }
+  
   }
 
   /**
