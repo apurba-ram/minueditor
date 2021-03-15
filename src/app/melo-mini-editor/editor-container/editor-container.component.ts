@@ -215,6 +215,7 @@ export class EditorContainerComponent
     if (this.sel?.baseNode) {
       const node = this.sel.baseNode;
       if (node?.parentNode?.nodeName === 'SPAN' && node?.parentNode?.attributes[0].name === 'style') {
+        console.log("STYLE AND SPAN BACKGROUND")
         let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
         const styleArray: string[] = styleAttrib.split(';');
         for (const style of styleArray) {
@@ -225,10 +226,12 @@ export class EditorContainerComponent
           }
         }
       } else {
+        console.log("NO STYLE NO SPAN")
         this.fontColor = 'black';
         this.backgroundColor = 'white';
       }
     } else {
+      console.log("LAST")
       this.fontColor = 'black';
       this.backgroundColor = 'white';
     }
@@ -677,8 +680,11 @@ export class EditorContainerComponent
     // }
       // console.log('SELELELLE', size);
       if (this.sel?.baseNode) {
+        console.log("SELCTED TEXT")
         const node = this.sel.baseNode;
-        if (node?.parentNode?.nodeName === 'SPAN' && node?.parentNode?.attributes[0].name === 'style') {
+        if (node?.parentNode?.attributes[0].name === 'style') {
+          //check is there any tag or style on selected text
+          console.log("HEY HEY HEY there is style or parent tag")
           let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
           const styleArray: string[] = styleAttrib.split(';');
           let flag = 0;
@@ -707,17 +713,20 @@ export class EditorContainerComponent
             node.parentNode.style.fontSize=v
           }
         } else {
+          console.log("NO DEFAULT STYLE")
           //if there is not style on the selected text
           let v=size+'px'
           const container = document.createElement('span');
           container.setAttribute('style', `font-size: ${v};`);
           if(!this.oldRange.collapsed) {
+            console.log("COLLAPSED")
             //if text is not selected then for new coming text chnage font size 
             container.appendChild(this.oldRange.cloneContents());
             const html = `<span style="font-size: ${v};">${container.innerHTML}</span>`;
             document.execCommand('insertHTML', false, html);
           } 
           else {
+            console.log("NOT COLLAPSED")
             //if text is selected then chnage font size of that and new coming texts 
             container.setAttribute('style', `font-size: ${v};`);
             container.innerHTML = '&#8204;';
@@ -727,7 +736,7 @@ export class EditorContainerComponent
             }  this.oldRange.collapse();
         }
       } else {
-        console.log("HEY 2")
+        console.log("THIS IS LOGGED IN FIREFOX")
         // this.font_size=11+"px"
       }
   
