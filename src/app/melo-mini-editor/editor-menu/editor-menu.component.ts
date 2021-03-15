@@ -65,9 +65,10 @@ export class EditorMenuComponent implements AfterViewInit {
 
   constructor() {
     this.filesArray = [];
-    this.fillColor = Array(2).fill(true);
+    this.fillColor = Array(2).fill(false);
     this.image = null;
     this.fontType = ['verdana', 'arial', 'georgia', 'impact', 'courier new', 'tahoma']
+    // console.log("FILL ARRAY",this.fillColor)
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -309,7 +310,7 @@ export class EditorMenuComponent implements AfterViewInit {
         this.invalidUrlMessage = true
     }
     else {  
-      if(this.linkText===undefined)
+      if(this.linkText===undefined || this.linkText==='')
       {
         console.log("TEXT UNDEFINED")
         this.linkText=this.linkUrl

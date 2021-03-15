@@ -12,7 +12,6 @@ export interface EditorConfig {
     isCollapsible?: boolean;
     popupZIndex?: number;
     link?: boolean;
-    strikeThrough?:boolean;
     urlValue?:string;
     urlText?:string;
     urlTitle?:string;
@@ -21,7 +20,6 @@ export interface EditorConfig {
     urlInputPlaceHolder?:string;
     textInputPlaceHolder?:string;
     titlePlaceholder?:string;
-
 }
 
 export interface MentionedName {

@@ -54,7 +54,7 @@ export class EditorContainerComponent
   mentionedNames: { id: number; name: string }[];
   mentionedDates: string[];
   toolbarPlacement: 'top' | 'bottom';
-  oldRange: any;
+  oldRange: Range;
   savedLinks: any = []
   toolbarConfig: ToolbarConfig;
   fontColor: string;
@@ -91,7 +91,7 @@ export class EditorContainerComponent
     const imgTag = document.createElement('img')
     imgTag.setAttribute('src', event.url);
     this.sel.removeAllRanges();
-    const range = this.oldRange.cloneRange();
+    const range: Range = this.oldRange.cloneRange();
     range.insertNode(imgTag);
     range.setStartAfter(imgTag);
     range.collapse();
@@ -176,7 +176,6 @@ export class EditorContainerComponent
   immageResize() {
     const imageWidth = document.getElementById('contentimage').offsetWidth;
     const imageHeight = document.getElementById('contentimage').offsetWidth;
-    console.log('Hi');
   }
 
   ngOnDestroy(): void {
@@ -278,6 +277,7 @@ export class EditorContainerComponent
       this.mentionConfig = {
         mentions: []
       };
+      console.log(this.editorConfig);
       if (this.editorConfig?.mentionedNames && Array.isArray(this.editorConfig?.mentionedNames) && this.editorConfig?.mentionedNames.length > 0) {
         this.editorConfig.mentionedNames = this.editorConfig?.mentionedNames.filter((item: { id: number; name: string }) => {
             if (item.id !== 0 && item.name.trim() !== '') {
@@ -387,7 +387,7 @@ export class EditorContainerComponent
       this.format = false;
       this.endOffset = this.sel.getRangeAt(0).endOffset;
 
-      const range = document.createRange();
+      const range: Range = document.createRange();
       range.setStart(this.node, this.startOffset - 1);
       range.setEnd(this.node, this.endOffset);
       range.deleteContents(); // deleting previous set contents
@@ -408,7 +408,7 @@ export class EditorContainerComponent
   */
   mentionClosed(): void {
 
-    if ( this.tribute && this.tribute !== '') {
+    if (this.tribute && this.tribute !== '') {
       const input = document.createElement('input');
       input.setAttribute('value', `${this.tribute}`);
       input.setAttribute('type', 'button');
@@ -422,7 +422,7 @@ export class EditorContainerComponent
       input.style.color = '#4681ef';
       input.style.fontWeight = 'inherit';
       input.style.fontSize = 'inherit';
-      const range = this.sel.getRangeAt(0).cloneRange();
+      const range: Range = this.sel.getRangeAt(0).cloneRange();
       this.sel.removeAllRanges();
       const sp = document.createTextNode(' ');
       range.insertNode(input);
@@ -524,7 +524,7 @@ export class EditorContainerComponent
           if (this.oldRange.collapsed) {
 
             this.sel.removeAllRanges();
-            const range = this.oldRange.cloneRange();
+            const range: Range = this.oldRange.cloneRange();
             const t = document.createTextNode('');
             range.insertNode(t);
             range.setStartAfter(t);
@@ -564,19 +564,15 @@ export class EditorContainerComponent
         break;
       case 'para': document.execCommand('formatBlock', false, 'p');
         break;
-      case 'superscript':
-        console.log("CASE SUPER")
-         this.insertSupTag();
-        break;
+      case 'superscript': this.insertSupTag();
+                           break;
       case 'subscript': this.insertSubTag();
-        break;
+                        break;
       case 'link': this.insertLink(value);
                    break;
-      case 'bold':
-        document.execCommand('bold', false, '');
-        break;
+      case 'bold': document.execCommand('bold', false, '');
+                   break;
       case 'italic':
-        console.log("ITALIC CASE")
         document.execCommand('italic', false, '');
         break;
       case 'strikeThrough':
@@ -684,14 +680,13 @@ export class EditorContainerComponent
    * Function inserts blockquote inside the editor
    */
   insertBlockQuote(): void {
-    console.log("HEY")
     if (!this.toolbarConfig.quote) {
       const blockquote = document.createElement('blockquote');
       blockquote.setAttribute('style', 'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px');
       // blockquote.innerHTML = '&#8204;';
       const div = document.createElement('div');
       div.appendChild(document.createElement('br'));
-      const range = this.sel.getRangeAt(0);
+      const range: Range = this.sel.getRangeAt(0);
       range.insertNode(div);
       range.insertNode(blockquote);
       range.setStart(blockquote, 0);
@@ -706,22 +701,59 @@ export class EditorContainerComponent
    * Function inserts sup tag inside the editor
    */
   insertSupTag(): void {
-    console.log('P');
+    let flag = 0;
+    if (this.toolbarConfig.subscript) {
+      this.reachTextNode('sub');
+      flag = 1;
+    }
     if (!this.toolbarConfig.superscript) {
-
       const sup = document.createElement('sup');
-      sup.innerHTML = '&#8204;'
-      const range = this.sel.getRangeAt(0);
-      sup.textContent=window.getSelection().toString();
+      sup.innerHTML = this.sel.toString() || '&#8204;';
+      let range: Range;
+      if(flag) {
+        range = this.sel.getRangeAt(0).cloneRange();
+      } else {
+        range = this.oldRange.cloneRange() ?? this.sel.getRangeAt(0).cloneRange();
+      }
       range.deleteContents();
       range.insertNode(sup);
       range.setStart(sup, 1);
       range.setEnd(sup, 1);
       range.collapse();
-      // sup.innerHTML=window.getSelection().toString()
-
+      this.sel.removeAllRanges();
+      this.sel.addRange(range);
     } else {
       this.reachTextNode('sup');
+    }
+  }
+
+  /**
+   * Function inserts sub tag inside the editor
+   */
+  insertSubTag(): void {
+    let flag = 0;
+    if (this.toolbarConfig.superscript) {
+      this.reachTextNode('sup');
+      flag = 1;
+    }
+    if (!this.toolbarConfig.subscript) {
+      const sub = document.createElement('sub');
+      sub.innerHTML = this.sel.toString() || '&#8204;';
+      let range: Range;
+      if(flag) {
+        range = this.sel.getRangeAt(0).cloneRange();
+      } else {
+        range = this.oldRange.cloneRange() ?? this.sel.getRangeAt(0).cloneRange();
+      }
+      range.deleteContents();
+      range.insertNode(sub);
+      range.setStart(sub, 1);
+      range.setEnd(sub, 1);
+      range.collapse();
+      this.sel.removeAllRanges();
+      this.sel.addRange(range);
+    } else {
+      this.reachTextNode('sub');
     }
   }
 
@@ -736,7 +768,10 @@ export class EditorContainerComponent
     anchorTag.setAttribute('target', '_blank');
     anchorTag.setAttribute('rel', 'noopener noreferrer');
 
-    let range: any;
+
+    const textNode: Node = document.createTextNode('');
+
+    let range: Range;
     if(!this.oldRange) {
       range = this.sel.getRangeAt(0).cloneRange();
     } else {
@@ -744,34 +779,13 @@ export class EditorContainerComponent
     }   
     this.sel.removeAllRanges(); 
     range.insertNode(anchorTag);
-    range.setStartAfter(anchorTag);
+    range.insertNode(textNode);
+    range.setStartAfter(textNode);
     range.collapse();
     this.sel.addRange(range);
-
     this.writeValue(document.getElementById(`${this.id}`).innerHTML, 'editor');
   }
 
-  
-  /**
-   * Function inserts sub tag inside the editor
-   */
-  insertSubTag(): void {
-    console.log("SUBSCRIPT")
-    if (!this.toolbarConfig.subscript) {
-      const sub = document.createElement('sub');
-      sub.innerHTML = '&#8204;';
-      const range = this.sel.getRangeAt(0);
-      sub.textContent=window.getSelection().toString();
-      range.deleteContents();
-      range.insertNode(sub);
-      range.setStart(sub, 1);
-      range.setEnd(sub, 1);
-      range.collapse();
-    } else {
-      this.reachTextNode('sub');
-    }
-  }
-  
   reachTextNode(tagName: string): void {
     const parent = this.getParent(this.sel.anchorNode, tagName);
     const space = document.createElement('text');
