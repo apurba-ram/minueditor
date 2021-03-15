@@ -12,7 +12,6 @@ export interface EditorConfig {
     isCollapsible?: boolean;
     popupZIndex?: number;
     link?: boolean;
-    strikeThrough?:boolean;
     urlValue?:string;
     urlText?:string;
     urlTitle?:string;
