@@ -26,14 +26,14 @@ export class AppComponent  {
     link: true,
     colorPalette: true,
     mode: 'prime',
-    strikeThrough:false,
-    urlValue:"URL",
-    urlText:'Display text',
-    urlTitle:'Title',
-    validUrlMsg:'Please provide a valid URL.',
-    urlInputPlaceHolder:'Enter a URL (Example: https://example.com)',
-    textInputPlaceHolder:'Enter a display text',
-    titlePlaceholder:'Enter a title'
+    configFontStyle: true
+    // urlValue:"URL",
+    // urlText:'Display text',
+    // urlTitle:'Title',
+    // validUrlMsg:'Please provide a valid URL.',
+    // urlInputPlaceHolder:'Enter a URL (Example: https://example.com)',
+    // textInputPlaceHolder:'Enter a display text',
+    // titlePlaceholder:'Enter a title'
   };
   
 

@@ -56,7 +56,7 @@
             </button>
         </div>
         <!-- Line through -->
-        <div class="col" data-id="strikeThrough" *ngIf="editorConfig?.strikeThrough">
+        <div class="col" data-id="strikeThrough">
             <button data-id="strikeThrough" [class.active]="toolbarConfig?.strikeThrough" [csTooltip]="'Strike Through'"
                 placement="bottom" delay="0" type="button" [tooltipMandatory]="true">
                 <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve"
@@ -491,14 +491,14 @@
                         <button class="close" (click)="closeAddLinksPopover()">&times;</button>
                     </div>
                     <div class="link">
-                        <label>{{editorConfig?.urlValue ? editorConfig?.urlValue : 'Web Address'}}</label>
+                        <label>{{editorConfig?.urlValue ? editorConfig?.urlValue : 'URL'}}</label>
                         <input [(ngModel)]="linkUrl" type="text" placeholder="{{editorConfig?.urlInputPlaceHolder ? editorConfig?.urlInputPlaceHolder : 'Enter a URL (Example: https://example.com)'}}">
-                        <p class="error" *ngIf="invalidUrlMessage">{{editorConfig?.validUrlMsg}}</p>
+                        <p class="error" *ngIf="invalidUrlMessage">{{editorConfig?.validUrlMsg ? editorConfig?.validUrlMsg : 'Please provide a valid URL.'}}</p>
                     </div>
 
                     <div class="link">
                         <label>{{editorConfig?.urlText ? editorConfig?.urlText : 'Display Text'}}</label>
-                        <input [(ngModel)]="linkText" type="text" placeholder="{{editorConfig?.textInputPlaceHolder ? editorConfig?.textInputPlaceHolder : 'Enter Text'}}">
+                        <input [(ngModel)]="linkText" type="text" placeholder="{{editorConfig?.textInputPlaceHolder ? editorConfig?.textInputPlaceHolder : 'Enter a display text'}}">
                     </div>
                     <div class="link">
                         <label>{{editorConfig?.urlTitle ? editorConfig?.urlTitle : 'Title'}}</label>
@@ -514,7 +514,7 @@
         </div>
         <!-- Attachment -->
         <div class="col" clickOutside *ngIf="editorConfig?.file">
-            <button (click)="upload = true" [class.active]="upload" [csTooltip]="'Upload File'" placement="bottom"
+            <button (click)="upload = true" [class.active]="upload" [csTooltip]="'Upload Files'" placement="bottom"
                 delay="0" type="button" [tooltipMandatory]="true">
                 <svg width="199" height="199" viewBox="0 0 199 199" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0)">
@@ -531,7 +531,7 @@
             <div class="popup-mask" *ngIf="upload" [style.zIndex]="editorConfig.popupZIndex | pzIndex:3">
                 <div class="popover attach">
                     <div class="head">
-                        <h3>Attach File</h3>
+                        <h3>Attach Files</h3>
                         <button class="close" (click)="closeAttachPopover()">&times;</button>
                     </div>
                     <div class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragover($event)"
@@ -539,7 +539,7 @@
                         [class.enter]="enter">
                         <input type="file" id="browse" (change)="filesFromInput($event)" multiple>
                         <div class="container">
-                            <span>Drop file here or browse to upload</span>
+                            <span>Drop files here or browse to upload</span>
                             <label for="browse">Browse</label>
                         </div>
                     </div>
