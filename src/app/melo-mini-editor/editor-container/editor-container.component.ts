@@ -155,21 +155,15 @@ export class EditorContainerComponent
       this.selectionChange.bind(this),
       false
     );
-    // setTimeout(() => {
-    //   console.log(this.editorContainer.nativeElement.offsetWidth, this.menuLeftWidth);
-      
-    // }, 20);
   }
+
   getmenuWidth(event) {
     this.menuLeftWidth = event.left;
     this.menuRightWidth = event.right;
-    // alert('1')
     if (this.editorContainer.nativeElement.offsetWidth < this.menuLeftWidth + this.menuRightWidth) {
-      // alert('2')
       this.moreOptionsButton = true;
     } else {
       this.moreOptionsButton = false;
-      // alert('3')
     }
   }
 
