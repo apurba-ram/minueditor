@@ -54,7 +54,7 @@ export class EditorContainerComponent
   mentionedNames: { id: number; name: string }[];
   mentionedDates: string[];
   toolbarPlacement: 'top' | 'bottom';
-  oldRange: any;
+  oldRange: Range;
   savedLinks: any = []
   toolbarConfig: ToolbarConfig;
   fontColor: string;
@@ -91,7 +91,7 @@ export class EditorContainerComponent
     const imgTag = document.createElement('img')
     imgTag.setAttribute('src', event.url);
     this.sel.removeAllRanges();
-    const range = this.oldRange.cloneRange();
+    const range: Range = this.oldRange.cloneRange();
     range.insertNode(imgTag);
     range.setStartAfter(imgTag);
     range.collapse();
@@ -388,7 +388,7 @@ export class EditorContainerComponent
       this.format = false;
       this.endOffset = this.sel.getRangeAt(0).endOffset;
 
-      const range = document.createRange();
+      const range: Range = document.createRange();
       range.setStart(this.node, this.startOffset - 1);
       range.setEnd(this.node, this.endOffset);
       range.deleteContents(); // deleting previous set contents
@@ -423,7 +423,7 @@ export class EditorContainerComponent
       input.style.color = '#4681ef';
       input.style.fontWeight = 'inherit';
       input.style.fontSize = 'inherit';
-      const range = this.sel.getRangeAt(0).cloneRange();
+      const range: Range = this.sel.getRangeAt(0).cloneRange();
       this.sel.removeAllRanges();
       const sp = document.createTextNode(' ');
       range.insertNode(input);
@@ -525,7 +525,7 @@ export class EditorContainerComponent
           if (this.oldRange.collapsed) {
 
             this.sel.removeAllRanges();
-            const range = this.oldRange.cloneRange();
+            const range: Range = this.oldRange.cloneRange();
             const t = document.createTextNode('');
             range.insertNode(t);
             range.setStartAfter(t);
@@ -688,7 +688,7 @@ export class EditorContainerComponent
       // blockquote.innerHTML = '&#8204;';
       const div = document.createElement('div');
       div.appendChild(document.createElement('br'));
-      const range = this.sel.getRangeAt(0);
+      const range: Range = this.sel.getRangeAt(0);
       range.insertNode(div);
       range.insertNode(blockquote);
       range.setStart(blockquote, 0);
@@ -751,7 +751,6 @@ export class EditorContainerComponent
       range.setStart(sub, 1);
       range.setEnd(sub, 1);
       range.collapse();
-      console.log(range);
     } else {
       this.reachTextNode('sub');
     }
@@ -761,7 +760,6 @@ export class EditorContainerComponent
   * @param event - Event which stores the link emitted from the link popup
   */
   insertLink(event: any): void {
-    console.log("LINK HYSJH",event)
     const anchorTag = document.createElement('a');
     anchorTag.innerHTML = event.linkText;
     anchorTag.setAttribute('href', event.linkUrl);
@@ -769,7 +767,7 @@ export class EditorContainerComponent
     anchorTag.setAttribute('target', '_blank');
     anchorTag.setAttribute('rel', 'noopener noreferrer');
 
-    let range: any;
+    let range: Range;
     if(!this.oldRange) {
       range = this.sel.getRangeAt(0).cloneRange();
     } else {
@@ -780,13 +778,9 @@ export class EditorContainerComponent
     range.setStartAfter(anchorTag);
     range.collapse();
     this.sel.addRange(range);
-
     this.writeValue(document.getElementById(`${this.id}`).innerHTML, 'editor');
   }
 
-  
-  
-  
   reachTextNode(tagName: string): void {
     const parent = this.getParent(this.sel.anchorNode, tagName);
     const space = document.createElement('text');
