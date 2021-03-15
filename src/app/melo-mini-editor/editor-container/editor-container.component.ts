@@ -650,7 +650,6 @@ export class EditorContainerComponent
       case 'fontsize-32': 
       case 'fontsize-36': 
       case 'fontsize-48':  this.setFontSize(id);
-      // console.log(" FONT SIZE",id)
                            break;
     }
   }
