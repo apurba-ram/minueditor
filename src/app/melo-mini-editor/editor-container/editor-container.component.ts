@@ -738,7 +738,6 @@ export class EditorContainerComponent
       flag = 1;
     }
     if (!this.toolbarConfig.subscript) {
-      console.log(this.oldRange, );
       const sub = document.createElement('sub');
       sub.innerHTML = this.sel.toString() || '&#8204;';
       let range: Range;
