@@ -215,7 +215,6 @@ export class EditorContainerComponent
     if (this.sel?.baseNode) {
       const node = this.sel.baseNode;
       if (node?.parentNode?.nodeName === 'SPAN' && node?.parentNode?.attributes[0].name === 'style') {
-        console.log("STYLE AND SPAN BACKGROUND")
         let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
         const styleArray: string[] = styleAttrib.split(';');
         for (const style of styleArray) {
@@ -226,12 +225,10 @@ export class EditorContainerComponent
           }
         }
       } else {
-        console.log("NO STYLE NO SPAN")
         this.fontColor = 'black';
         this.backgroundColor = 'white';
       }
     } else {
-      console.log("LAST")
       this.fontColor = 'black';
       this.backgroundColor = 'white';
     }
@@ -680,11 +677,9 @@ export class EditorContainerComponent
     // }
       // console.log('SELELELLE', size);
       if (this.sel?.baseNode) {
-        console.log("SELCTED TEXT")
         const node = this.sel.baseNode;
         if (node?.parentNode?.attributes[0].name === 'style') {
           //check is there any tag or style on selected text
-          console.log("HEY HEY HEY there is style or parent tag")
           let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
           const styleArray: string[] = styleAttrib.split(';');
           let flag = 0;
