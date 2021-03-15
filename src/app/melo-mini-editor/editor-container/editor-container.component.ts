@@ -409,7 +409,7 @@ export class EditorContainerComponent
   */
   mentionClosed(): void {
 
-    if ( this.tribute && this.tribute !== '') {
+    if (this.tribute && this.tribute !== '') {
       const input = document.createElement('input');
       input.setAttribute('value', `${this.tribute}`);
       input.setAttribute('type', 'button');
@@ -565,19 +565,15 @@ export class EditorContainerComponent
         break;
       case 'para': document.execCommand('formatBlock', false, 'p');
         break;
-      case 'superscript':
-        console.log("CASE SUPER")
-         this.insertSupTag();
-        break;
+      case 'superscript': this.insertSupTag();
+                           break;
       case 'subscript': this.insertSubTag();
-        break;
+                        break;
       case 'link': this.insertLink(value);
                    break;
-      case 'bold':
-        document.execCommand('bold', false, '');
-        break;
+      case 'bold': document.execCommand('bold', false, '');
+                   break;
       case 'italic':
-        console.log("ITALIC CASE")
         document.execCommand('italic', false, '');
         break;
       case 'strikeThrough':
