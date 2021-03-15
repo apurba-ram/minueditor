@@ -176,7 +176,6 @@ export class EditorContainerComponent
   immageResize() {
     const imageWidth = document.getElementById('contentimage').offsetWidth;
     const imageHeight = document.getElementById('contentimage').offsetWidth;
-    console.log('Hi');
   }
 
   ngOnDestroy(): void {
@@ -713,15 +712,17 @@ export class EditorContainerComponent
       sup.innerHTML = this.sel.toString() || '&#8204;';
       let range: Range;
       if(flag) {
-        range = this.sel.getRangeAt(0);
+        range = this.sel.getRangeAt(0).cloneRange();
       } else {
-        range = this.oldRange ?? this.sel.getRangeAt(0);
+        range = this.oldRange.cloneRange() ?? this.sel.getRangeAt(0).cloneRange();
       }
       range.deleteContents();
       range.insertNode(sup);
       range.setStart(sup, 1);
       range.setEnd(sup, 1);
       range.collapse();
+      this.sel.removeAllRanges();
+      this.sel.addRange(range);
     } else {
       this.reachTextNode('sup');
     }
@@ -742,15 +743,17 @@ export class EditorContainerComponent
       sub.innerHTML = this.sel.toString() || '&#8204;';
       let range: Range;
       if(flag) {
-        range = this.sel.getRangeAt(0);
+        range = this.sel.getRangeAt(0).cloneRange();
       } else {
-        range = this.oldRange ?? this.sel.getRangeAt(0);
+        range = this.oldRange.cloneRange() ?? this.sel.getRangeAt(0).cloneRange();
       }
       range.deleteContents();
       range.insertNode(sub);
       range.setStart(sub, 1);
       range.setEnd(sub, 1);
       range.collapse();
+      this.sel.removeAllRanges();
+      this.sel.addRange(range);
     } else {
       this.reachTextNode('sub');
     }

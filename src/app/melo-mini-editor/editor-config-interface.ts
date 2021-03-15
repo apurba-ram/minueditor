@@ -21,7 +21,6 @@ export interface EditorConfig {
     urlInputPlaceHolder?:string;
     textInputPlaceHolder?:string;
     titlePlaceholder?:string;
-
 }
 
 export interface MentionedName {
