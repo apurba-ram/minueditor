@@ -62,6 +62,8 @@ export class EditorContainerComponent
   clicked = false;
   moreOptionsButton: boolean;
   isCollapsible: boolean;
+  menuLeftWidth: number = 600;
+  menuRightWidth: number;
 
   constructor() {
     this.fontColor = 'black';
@@ -153,13 +155,24 @@ export class EditorContainerComponent
       this.selectionChange.bind(this),
       false
     );
-    // console.log(this.editorContainer.nativeElement.offsetWidth);
-    if (this.editorContainer.nativeElement.offsetWidth > 600) {
-      this.moreOptionsButton = false;
-    } else {
+    // setTimeout(() => {
+    //   console.log(this.editorContainer.nativeElement.offsetWidth, this.menuLeftWidth);
+      
+    // }, 20);
+  }
+  getmenuWidth(event) {
+    this.menuLeftWidth = event.left;
+    this.menuRightWidth = event.right;
+    // alert('1')
+    if (this.editorContainer.nativeElement.offsetWidth < this.menuLeftWidth + this.menuRightWidth) {
+      // alert('2')
       this.moreOptionsButton = true;
+    } else {
+      this.moreOptionsButton = false;
+      // alert('3')
     }
   }
+
   immageResize() {
     const imageWidth = document.getElementById('contentimage').offsetWidth;
     const imageHeight = document.getElementById('contentimage').offsetWidth;
@@ -225,6 +238,7 @@ export class EditorContainerComponent
       this.backgroundColor = 'white';
     }
   }
+
 
   getFontStyle(elem: any): string {
     if (elem) {
@@ -395,7 +409,7 @@ export class EditorContainerComponent
   */
   mentionClosed(): void {
 
-    if (this.tribute !== '') {
+    if ( this.tribute && this.tribute !== '') {
       const input = document.createElement('input');
       input.setAttribute('value', `${this.tribute}`);
       input.setAttribute('type', 'button');
@@ -551,7 +565,9 @@ export class EditorContainerComponent
         break;
       case 'para': document.execCommand('formatBlock', false, 'p');
         break;
-      case 'superscript': this.insertSupTag();
+      case 'superscript':
+        console.log("CASE SUPER")
+         this.insertSupTag();
         break;
       case 'subscript': this.insertSubTag();
         break;
@@ -561,6 +577,7 @@ export class EditorContainerComponent
         document.execCommand('bold', false, '');
         break;
       case 'italic':
+        console.log("ITALIC CASE")
         document.execCommand('italic', false, '');
         break;
       case 'strikeThrough':
@@ -668,10 +685,11 @@ export class EditorContainerComponent
    * Function inserts blockquote inside the editor
    */
   insertBlockQuote(): void {
+    console.log("HEY")
     if (!this.toolbarConfig.quote) {
       const blockquote = document.createElement('blockquote');
       blockquote.setAttribute('style', 'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px');
-      blockquote.innerHTML = '&#8204;';
+      // blockquote.innerHTML = '&#8204;';
       const div = document.createElement('div');
       div.appendChild(document.createElement('br'));
       const range = this.sel.getRangeAt(0);
@@ -689,14 +707,20 @@ export class EditorContainerComponent
    * Function inserts sup tag inside the editor
    */
   insertSupTag(): void {
+    console.log('P');
     if (!this.toolbarConfig.superscript) {
+
       const sup = document.createElement('sup');
-      sup.innerHTML = '&#8204;';
+      sup.innerHTML = '&#8204;'
       const range = this.sel.getRangeAt(0);
+      sup.textContent=window.getSelection().toString();
+      range.deleteContents();
       range.insertNode(sup);
       range.setStart(sup, 1);
       range.setEnd(sup, 1);
       range.collapse();
+      // sup.innerHTML=window.getSelection().toString()
+
     } else {
       this.reachTextNode('sup');
     }
@@ -733,10 +757,13 @@ export class EditorContainerComponent
    * Function inserts sub tag inside the editor
    */
   insertSubTag(): void {
+    console.log("SUBSCRIPT")
     if (!this.toolbarConfig.subscript) {
       const sub = document.createElement('sub');
       sub.innerHTML = '&#8204;';
       const range = this.sel.getRangeAt(0);
+      sub.textContent=window.getSelection().toString();
+      range.deleteContents();
       range.insertNode(sub);
       range.setStart(sub, 1);
       range.setEnd(sub, 1);

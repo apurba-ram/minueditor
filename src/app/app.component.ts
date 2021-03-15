@@ -22,8 +22,20 @@ export class AppComponent  {
     toolbarPlacement: 'bottom',
     buttonName: 'Submit',
     file: true,
-    popupZIndex: 6
+    popupZIndex: 6,
+    link: true,
+    colorPalette: true,
+    mode: 'prime',
+    strikeThrough:false,
+    urlValue:"URL",
+    urlText:'Display text',
+    urlTitle:'Title',
+    validUrlMsg:'Please provide a valid URL.',
+    urlInputPlaceHolder:'Enter a URL (Example: https://example.com)',
+    textInputPlaceHolder:'Enter a display text',
+    titlePlaceholder:'Enter a title'
   };
+  
 
   editorConfig2: EditorConfig = {
     file: true,
@@ -39,6 +51,7 @@ export class AppComponent  {
 
 
   constructor() {
+<<<<<<< HEAD
     setTimeout(()=>{
       this.modelvalue2 = Math.random().toString(36).replace('0.','Logging ?' || '');
     });
@@ -47,6 +60,11 @@ export class AppComponent  {
       this.editorConfig1.mentionedNames = this.namesA;
       this.editorConfig1 = {...this.editorConfig1};
     }, 7000);
+=======
+    // setTimeout(()=>{
+    //   this.modelvalue2 = Math.random().toString(36).replace('0.','Logging ?' || '');
+    // }, 3000);
+>>>>>>> b1a83319120af63ce22dc9b16274a9931b2f4ca2
   }
   
   

@@ -3,6 +3,9 @@ import {
   Input,
   Output,
   EventEmitter,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
 } from '@angular/core';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 @Component({
@@ -10,7 +13,7 @@ import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
   templateUrl: './editor-menu.component.html',
   styleUrls: ['./editor-menu.component.less', '../theme.less'],
 })
-export class EditorMenuComponent {
+export class EditorMenuComponent implements AfterViewInit {
   @Input() editorConfig: EditorConfig;
   @Input() toolbarConfig: ToolbarConfig;
   @Input() moreOptionsButton: boolean;
@@ -18,6 +21,12 @@ export class EditorMenuComponent {
   @Output() sendSavedFiles: EventEmitter<any> = new EventEmitter();
   @Output() imageInEditor: EventEmitter<any> = new EventEmitter();
   @Output() linkInEditor: EventEmitter<any> = new EventEmitter();
+  @Output() menuLeftWidth: EventEmitter<any> = new EventEmitter();
+  @Output() menuRightWidth: EventEmitter<any> = new EventEmitter();
+
+  @Output() setWidth: EventEmitter<any> = new EventEmitter();
+  @ViewChild('menuLeft') menuLeft: ElementRef;
+  @ViewChild('menuRight') menuRight: ElementRef;
   enter = false;
   upload = false;
   uploadImage = false;
@@ -40,12 +49,13 @@ export class EditorMenuComponent {
   linkText:string
   linkTitle:string
   inValidUrl:boolean
-  invalidUrlMessage:string
+  invalidUrlMessage:boolean
   inValidLinkTitle=''
   inValidLinkText=''
   savedLinks:object={ };
   fontFamily = false;
   moreOptions = false;
+  color = false;
 
   popupZIndex: number;
 
@@ -55,11 +65,21 @@ export class EditorMenuComponent {
 
   constructor() {
     this.filesArray = [];
-    this.fillColor = Array(2).fill(false);
+    this.fillColor = Array(2).fill(true);
     this.image = null;
     this.fontType = ['verdana', 'arial', 'georgia', 'impact', 'courier new', 'tahoma']
   }
-
+  ngAfterViewInit() {
+    setTimeout(() => {
+      const leftMenu = this.menuLeft?.nativeElement?.offsetWidth;
+      // console.log(leftMenu);
+      // this.menuLeftWidth.emit(leftMenu);
+      const rightMenu = this.menuRight?.nativeElement?.offsetWidth;
+      // console.log(rightMenu);
+      // this.menuRightWidth.emit(rightMenu);
+      this.setWidth.emit({left:leftMenu,right:rightMenu})
+    }, 90);
+  }
   /**
    * 
    * @param event - Event triggered when the toolbar button is clicked
@@ -286,9 +306,15 @@ export class EditorMenuComponent {
     console.log("Link Data",this.linkText,this.linkTitle,this.linkUrl)
     const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     if(!this.linkUrl || !this.linkUrl?.match(rex)) { //check url is valid or not
-        this.invalidUrlMessage = 'Please provde a valid URL';
-    } else {    
-      const obj = {
+        this.invalidUrlMessage = true
+    }
+    else {  
+      if(this.linkText===undefined)
+      {
+        console.log("TEXT UNDEFINED")
+        this.linkText=this.linkUrl
+      }
+      const obj = {        
             value: {
               linkUrl:this.linkUrl,
               linkText:this.linkText?.trim() ?? '',
@@ -296,6 +322,9 @@ export class EditorMenuComponent {
             },
             id: 'link'
       };
+      // if (this.linkText === undefined || this.linkText === '') {
+      //   alert('Hi');
+      // }
       this.linkInEditor.emit(obj);
       this.closeAddLinksPopover();
     }
@@ -309,6 +338,7 @@ export class EditorMenuComponent {
     this.linkTitle = '';
     this.linkUrl = '';
     this.addLink = false;
+    this.invalidUrlMessage=false;
   }
    
   // Add Link code ends

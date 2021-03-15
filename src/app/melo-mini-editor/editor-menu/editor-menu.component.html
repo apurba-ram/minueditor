@@ -1,6 +1,6 @@
 <!-- <p>editor-menu works!</p> -->
 <div class="editor-menu" (click)="buttonClicked($event)">
-    <div class="left">
+    <div class="left" #menuLeft>
         <!-- Bold -->
         <div class="col" data-id="bold">
             <button data-id="bold" [class.active]="toolbarConfig?.bold" [csTooltip]="'Bold'" placement="bottom"
@@ -56,7 +56,7 @@
             </button>
         </div>
         <!-- Line through -->
-        <div class="col" data-id="strikeThrough">
+        <div class="col" data-id="strikeThrough" *ngIf="editorConfig?.strikeThrough">
             <button data-id="strikeThrough" [class.active]="toolbarConfig?.strikeThrough" [csTooltip]="'Strike Through'"
                 placement="bottom" delay="0" type="button" [tooltipMandatory]="true">
                 <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 384 384" xml:space="preserve"
@@ -88,7 +88,8 @@
             </button>
         </div>
         <!-- list -->
-        <div class="col" clickOutside (clickOutside)="closeListStylesPopover()">
+        <div class="col" clickOutside (clickOutside)="closeListStylesPopover(); listStyle = false;">
+            <div class="popover-overlay" *ngIf="listStyle" (click)="listStyle = false"></div>
             <button class="lg" [class.active]="listStyle|| toolbarConfig?.orderedList || toolbarConfig?.unorderedList"
                 (click)="listStyles()" [csTooltip]="'List Option'" placement="bottom" delay="0" type="button"
                 [tooltipMandatory]="true">
@@ -105,6 +106,7 @@
                     <path d="M595 162L538 228L481 162H594.989H595Z" />
                 </svg>
             </button>
+
             <div class="popover small" *ngIf="listStyle" (click)="closeListStylesPopover()">
                 <ul class="option-list">
                     <li data-id="orderedList">
@@ -167,6 +169,7 @@
                     <path d="M595 178L529.5 252L464 178H594.987H595Z" />
                 </svg>
             </button>
+            <div class="popover-overlay" *ngIf="alignment" (click)="alignment = false"></div>
             <div class="popover small" *ngIf="alignment">
                 <ul class="option-list" (click)="alignment = false;">
                     <li data-id="left-align">
@@ -251,7 +254,8 @@
             </div>
         </div>
         <!-- Font-Style -->
-        <div class="col" clickOutside (clickOutside)="closeFontStylePopover()" *ngIf="editorConfig?.mode === 'prime'">
+        <div class="col" clickOutside (clickOutside)="closeFontStylePopover()"
+            *ngIf="editorConfig?.mode === 'prime' && editorConfig?.configFontStyle">
             <button (click)="fontStylePopover()" [csTooltip]="'Font Style'" placement="bottom" delay="0" type="button"
                 [tooltipMandatory]="true">
                 <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 405.333 405.333" xml:space="preserve">
@@ -267,6 +271,7 @@
                     </g>
                 </svg>
             </button>
+            <div class="popover-overlay" *ngIf="fontStyle" (click)="fontStyle = false"></div>
             <div class="popover small" *ngIf="fontStyle">
                 <ul class="option-list">
                     <li data-id="h1">
@@ -298,18 +303,22 @@
         </div>
         <!-- Font-Size -->
         <div class="col" clickOutside (clickOutside)="closeFontSizePopover()" *ngIf="editorConfig?.mode === 'prime'">
-            <button class="lg" (click)="fontSizePopover()" [csTooltip]="'Font Size'" placement="bottom" delay="0" type="button"
-                [tooltipMandatory]="true">
+            <button class="lg" (click)="fontSizePopover()" [csTooltip]="'Font Size'" placement="bottom" delay="0"
+                type="button" [tooltipMandatory]="true">
                 <svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M55.6363 235.199H148.364L165.055 275.999H204L115.909 72H88.0905L0 276H38.9454L55.6363 235.199ZM102 108.72L136.679 201.818H67.319L102 108.72Z" />
-                    <path d="M212 246.4H277L288.7 274.999H316L254.25 132H234.75L173 275H200.3L212 246.4ZM244.5 157.74L268.809 223H220.189L244.5 157.74Z" />
+                    <path
+                        d="M55.6363 235.199H148.364L165.055 275.999H204L115.909 72H88.0905L0 276H38.9454L55.6363 235.199ZM102 108.72L136.679 201.818H67.319L102 108.72Z" />
+                    <path
+                        d="M212 246.4H277L288.7 274.999H316L254.25 132H234.75L173 275H200.3L212 246.4ZM244.5 157.74L268.809 223H220.189L244.5 157.74Z" />
                     <path d="M170 135L190.064 107.046L210 135.092L170.004 135L170 135Z" />
                     <path d="M210.064 140.091L190 168.046L170.064 140.001L210.06 140.091L210.064 140.091Z" />
                 </svg>
             </button>
+            <div class="popover-overlay" *ngIf="fontSize" (click)="fontSize = false"></div>
             <div class="popover small" *ngIf="fontSize">
                 <ul class="option-list">
-                    <li *ngFor="let size of [11,12,14,18,24,32,36,48]"  attr.data-id="fontsize-{{size}}" (click)="fontSize = false;">
+                    <li *ngFor="let size of [11,12,14,18,24,32,36,48]" attr.data-id="fontsize-{{size}}"
+                        (click)="fontSize = false;">
                         <button attr.data-id="fontsize-{{size}}">{{size}}</button>
                     </li>
                 </ul>
@@ -317,14 +326,16 @@
         </div>
         <!-- Font Family-->
         <div class="col" clickOutside (clickOutside)="fontFamily = false;" *ngIf="editorConfig?.mode === 'prime'">
-            <button (click)="openfontFamily()" [class.active]="fontFamily" [csTooltip]="'Font Family'" [class.active]="fontStyles.includes(toolbarConfig?.fontStyle)"
-                placement="bottom" delay="0" type="button" [tooltipMandatory]="true">
+            <button (click)="openfontFamily()" [class.active]="fontFamily" [csTooltip]="'Font Name'"
+                [class.active]="fontStyles?.includes(toolbarConfig?.fontStyle)" placement="bottom" delay="0"
+                type="button" [tooltipMandatory]="true">
                 <svg viewBox="0 0 20 20">
                     <path
                         d="M11.03 3h6.149a.75.75 0 1 1 0 1.5h-5.514L11.03 3zm1.27 3h4.879a.75.75 0 1 1 0 1.5h-4.244L12.3 6zm1.27 3h3.609a.75.75 0 1 1 0 1.5h-2.973L13.57 9zm-2.754 2.5L8.038 4.785 5.261 11.5h5.555zm.62 1.5H4.641l-1.666 4.028H1.312l5.789-14h1.875l5.789 14h-1.663L11.436 13z">
                     </path>
                 </svg>
             </button>
+            <div class="popover-overlay" *ngIf="fontFamily" (click)="fontFamily = false"></div>
             <div class="popover small" *ngIf="fontFamily">
                 <ul class="option-list" (click)="fontFamily = false;">
                     <li *ngFor="let font of fontType" attr.data-id="font-{{font}}">
@@ -334,9 +345,80 @@
                     </li>
                 </ul>
             </div>
-        </div> 
+        </div>
+        <!-- Color -->
+        <div class="col" clickOutside (clickOutside)="color = false;"
+            *ngIf="editorConfig?.colorPalette && editorConfig?.mode === 'prime'">
+            <button (click)="color = !color; fillColor[0] = true" [class.active]="color" [csTooltip]="'Color'" placement="bottom" delay="0" type="button" [tooltipMandatory]="true">
+                <svg version="1.1" x="0px" y="0px" viewBox="0 0 248.151 248.151" style="enable-background:new 0 0 248.151 248.151;" xml:space="preserve">
+                    <g>
+                        <g>
+                            <path
+                                d="M134.475,8.551c-6.8-11.6-14-11.2-20.8,0c-31.2,46.4-78.4,116-78.4,150.8c0,24.4,10,46.8,26,62.8s38.4,26,62.8,26
+                                c24.4,0,46.8-10,62.8-26s26-38.4,26-62.8C212.875,124.151,165.675,54.951,134.475,8.551z M188.075,198.951
+                                c-6.4,10.4-15.6,19.6-26.8,26c-5.2,2.8-11.6,1.2-14.4-4c-3.2-5.6-1.2-12,4-14.8c8-4.4,14.4-10.8,19.2-18.4
+                                c4.8-7.6,7.6-16.4,8-25.6c0.4-6,5.2-10.4,11.2-10c6,0.4,10.4,5.2,10,11.2C198.475,176.151,194.475,188.151,188.075,198.951z" />
+                        </g>
+                    </g>
+                </svg>
+            </button>
+            <div class="popover-overlay" *ngIf="color" (click)="color = false"></div>
+            <div class="popover color-palette" *ngIf="color">
+                <div class="tab">
+                    <div class="tab-head">
+                        <button (click)="fillColor[0] = !fillColor[0]; fillColor[1] = false;"
+                            [class.active]="fillColor[0]" [csTooltip]="'Background Color'" placement="bottom" delay="0"
+                            type="button" [tooltipMandatory]="true">
+                            <svg width="298" height="298" viewBox="0 0 298 298" fill="none">
+                                <path
+                                    d="M235.917 142.791C235.917 142.791 211.083 169.674 211.083 186.25C211.083 199.97 222.196 211.084 235.917 211.084C249.637 211.084 260.75 199.97 260.75 186.25C260.75 169.674 235.917 142.791 235.917 142.791Z" />
+                                <path
+                                    d="M94.615 0L77.0453 17.5698L106.597 47.1212L42.7136 111.005C35.4498 118.269 35.4498 130.065 42.7136 137.329L111.005 205.62C114.606 209.283 119.386 211.084 124.167 211.084C128.947 211.084 133.728 209.283 137.328 205.62L205.62 137.329C212.884 130.065 212.884 118.269 205.62 111.005L94.615 0ZM64.6288 124.166L124.167 64.6904L183.704 124.166H64.6288Z" />
+                                <g>
+                                    <path d="M298 248.333H0V298H298V248.333Z"
+                                        [attr.fill]="toolbarConfig.backgroundColor" />
+                                </g>
+                            </svg>
+                        </button>
+                        <button (click)="fillColor[1] = !fillColor[1]; fillColor[0] = false;"
+                            [class.active]="fillColor[1]" [csTooltip]="'Text Color'" placement="bottom" delay="0"
+                            type="button" [tooltipMandatory]="true">
+                            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">
+                                <g>
+                                    <g>
+                                        <g>
+                                            <polygon
+                                                points="85.333,282.64 85.333,362.64 165.333,362.64 378.667,149.307 298.667,69.307 			" />
+                                            <path d="M441.707,56.08L391.893,6.267c-8.32-8.32-21.867-8.32-30.187,0L320,47.973l80,80l41.707-41.707
+                                C450.027,77.947,450.027,64.4,441.707,56.08z" />
+                                        </g>
+                                    </g>
+                                </g>
+                                <g>
+                                    <g>
+                                        <rect y="426.64" width="512" height="85.333"
+                                            [attr.fill]="toolbarConfig.fontColor" />
+                                    </g>
+                                </g>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="tab-body">
+                        <app-color-palette [(color)]="toolbarConfig.backgroundColor"
+                            (colorChange)="colorChange('fillColor'); color = false" *ngIf="fillColor[0]">
+                        </app-color-palette>
+
+                        <app-color-palette [(color)]="toolbarConfig.fontColor"
+                            (colorChange)="colorChange('textColor'); color = false" *ngIf="fillColor[1]">
+                        </app-color-palette>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
         <!-- Fill Color -->
-        <div class="col" clickOutside (clickOutside)="fillColor[0] = false;" *ngIf="editorConfig?.colorPalette && editorConfig?.mode === 'prime'">
+        <!-- <div class="col" clickOutside (clickOutside)="fillColor[0] = false;"
+            *ngIf="editorConfig?.colorPalette && editorConfig?.mode === 'prime'">
             <button (click)="fillColor[0] = !fillColor[0]; fillColor[1] = false;" [class.active]="fillColor[0]"
                 [csTooltip]="'Background Color'" placement="bottom" delay="0" type="button" [tooltipMandatory]="true">
                 <svg width="298" height="298" viewBox="0 0 298 298" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -349,14 +431,15 @@
                     </g>
                 </svg>
             </button>
+            <div class="popover-overlay" *ngIf="fillColor[0]" (click)="fillColor[0] = false"></div>
             <div class="popover color-palette" *ngIf="fillColor[0]">
                 <app-color-palette [(color)]="toolbarConfig.backgroundColor"
                     (colorChange)="fillColor[0] = false; colorChange('fillColor');">
                 </app-color-palette>
             </div>
-        </div>
+        </div> -->
         <!-- Text Color -->
-        <div class="col" clickOutside (clickOutside)="fillColor[1] = false;" *ngIf="editorConfig?.colorPalette && editorConfig?.mode === 'prime'">
+        <!-- <div class="col" clickOutside *ngIf="editorConfig?.colorPalette && editorConfig?.mode === 'prime'">
             <button (click)="fillColor[1] = !fillColor[1]; fillColor[0] = false;" [class.active]="fillColor[1]"
                 [csTooltip]="'Text Color'" placement="bottom" delay="0" type="button" [tooltipMandatory]="true">
                 <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">
@@ -377,15 +460,16 @@
                     </g>
                 </svg>
             </button>
+            <div class="popover-overlay" *ngIf="fillColor[1]" (click)="fillColor[1] = false"></div>
             <div class="popover color-palette" *ngIf="fillColor[1]">
                 <app-color-palette [(color)]="toolbarConfig.fontColor"
                     (colorChange)="fillColor[1] = false;  colorChange('textColor');">
                 </app-color-palette>
             </div>
-        </div>
+        </div> -->
         <!-- Link -->
-        <div class="col" clickOutside (clickOutside)="closeAddLinksPopover()">
-            <button (click)="addLink = true;" [class.active]="addLink" [csTooltip]="'Add Link'" placement="bottom"
+        <div class="col" clickOutside *ngIf="editorConfig?.link">
+            <button (click)="addLink = true;" [class.active]="addLink" [csTooltip]="'Add a Link'" placement="bottom"
                 delay="0" type="button" [tooltipMandatory]="true">
                 <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 426.667 426.667" xml:space="preserve">
                     <g>
@@ -408,17 +492,18 @@
                         <button class="close" (click)="closeAddLinksPopover()">&times;</button>
                     </div>
                     <div class="link">
-                        <label>Web Address</label>
-                        <input [(ngModel)]="linkUrl" type="text" placeholder="https://www.wikipedia.com">
-                        <p class="error" *ngIf="invalidUrlMessage">{{invalidUrlMessage}}</p>
+                        <label>{{editorConfig?.urlValue ? editorConfig?.urlValue : 'URL'}}</label>
+                        <input [(ngModel)]="linkUrl" type="text" placeholder="{{editorConfig?.urlInputPlaceHolder ? editorConfig?.urlInputPlaceHolder : 'Enter a URL (Example: https://example.com)'}}">
+                        <p class="error" *ngIf="invalidUrlMessage">{{editorConfig?.validUrlMsg}}</p>
+                    </div>
+
+                    <div class="link">
+                        <label>{{editorConfig?.urlText ? editorConfig?.urlText : 'Display text'}}</label>
+                        <input [(ngModel)]="linkText" type="text" placeholder="{{editorConfig?.textInputPlaceHolder ? editorConfig?.textInputPlaceHolder : 'Enter a display text'}}">
                     </div>
                     <div class="link">
-                        <label>Display Text</label>
-                        <input [(ngModel)]="linkText" type="text" placeholder="Enter display text">
-                    </div>
-                    <div class="link">
-                        <label>Title</label>
-                        <input [(ngModel)]="linkTitle" type="text" placeholder="Enter a title">
+                        <label>{{editorConfig?.urlTitle ? editorConfig?.urlTitle : 'Title'}}</label>
+                        <input [(ngModel)]="linkTitle" type="text" placeholder="{{editorConfig?.titlePlaceholder? editorConfig?.titlePlaceholder: 'Enter a display title'}}">
                     </div>
                     <div class="footer">
                         <button class="cancel" (click)="closeAddLinksPopover()">Cancel</button><button
@@ -429,7 +514,7 @@
             </div>
         </div>
         <!-- Attachment -->
-        <div class="col" clickOutside (clickOutside)="closeAttachPopover()" *ngIf="editorConfig?.file">
+        <div class="col" clickOutside *ngIf="editorConfig?.file">
             <button (click)="upload = true" [class.active]="upload" [csTooltip]="'Upload File'" placement="bottom"
                 delay="0" type="button" [tooltipMandatory]="true">
                 <svg width="199" height="199" viewBox="0 0 199 199" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -480,20 +565,21 @@
                                         </span>
                                     </span>
                                 </div>
-                                <p class="file-title" [csTooltip]="fileObj.file.name" placement="bottom"
-                                delay="0" type="black" [tooltipMandatory]="true">{{fileObj.file.name}}</p>
+                                <p class="file-title" [csTooltip]="fileObj.file.name" placement="bottom" delay="0"
+                                    type="black" [tooltipMandatory]="true">{{fileObj.file.name}}</p>
                             </div>
                         </div>
                     </div>
                     <div class="footer">
                         <button class="cancel" (click)="closeAttachPopover()">Cancel</button><button
-                            (click)="saveFiles()" class="upload" [class.disabled]="filesArray.length === 0">Save</button>
+                            (click)="saveFiles()" class="upload"
+                            [class.disabled]="filesArray.length === 0">Save</button>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Image -->
-        <div class="col" clickOutside (clickOutside)="clickOutsideImage()" *ngIf="editorConfig?.mode === 'prime' && false">
+        <div class="col" clickOutside *ngIf="editorConfig?.mode === 'prime' && false">
             <button (click)="uploadImage = true" [class.active]="uploadImage" [csTooltip]="'Add Image'"
                 placement="bottom" delay="0" type="button" [tooltipMandatory]="true">
 
@@ -552,7 +638,7 @@
             </div>
         </div>
         <!-- More options -->
-        <div class="col" clickOutside (clickOutside)="clickOutsideMoreOptions()" *ngIf="moreOptionsButton">
+        <div class="col" clickOutside *ngIf="moreOptionsButton">
             <button (click)="showMoreOptions()" [class.active]="moreOptions">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024"
                     viewBox="0 0 1024 1024">
@@ -562,7 +648,7 @@
                     </path>
                 </svg>
             </button>
-
+            <div class="popover-overlay" *ngIf="moreOptions" (click)="moreOptions = false"></div>
             <div class="popover small" *ngIf="moreOptions">
                 <ul class="option-list">
                     <!-- Quote -->
@@ -590,7 +676,7 @@
                         </button>
                     </li>
                     <!-- Subscript -->
-                    <li (click)="moreOptions = false;" data-id="subscript">
+                    <li (click)="moreOptions = false" data-id="subscript">
                         <button [class.active]="toolbarConfig?.subscript" data-id="subscript">
                             <svg width="200" height="200" viewBox="0 0 200 200" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" data-id="subscript">
@@ -636,8 +722,8 @@
         <div class="child-row" *ngIf="!moreOptionsButton">
             <!-- Quote -->
             <div class="col" data-id="quote">
-                <button data-id="quote" [csTooltip]="'Quote'" placement="bottom" delay="0" type="button" [class.active]="toolbarConfig?.quote"
-                    [tooltipMandatory]="true">
+                <button data-id="quote" [csTooltip]="'Quote'" placement="bottom" delay="0" type="button"
+                    [class.active]="toolbarConfig?.quote" [tooltipMandatory]="true">
                     <svg width="299" height="299" viewBox="0 0 299 299" fill="none" xmlns="http://www.w3.org/2000/svg"
                         data-id="quote">
                         <path data-id="quote" d="M0 169.4H64.0714L21.3568 299H85.4281L128.143 169.4V0H0V169.4Z" />
@@ -697,7 +783,7 @@
             </div>
         </div>
     </div>
-    <div class="right">
+    <div class="right" #menuRight>
         <!-- @ -->
         <div class="col" data-id="@" *ngIf="editorConfig?.mentionedNames?.length > 0">
             <button data-id="@">
@@ -732,7 +818,8 @@
         </div>
         <!-- Button Name -->
         <div class="col" *ngIf="editorConfig?.buttonName">
-            <button class="submit" data-id="submit" [class.disabled]="editorConfig?.disabledButton">{{editorConfig?.buttonName}}</button>
+            <button class="submit" data-id="submit"
+                [class.disabled]="editorConfig?.disabledButton">{{editorConfig?.buttonName}}</button>
         </div>
     </div>
 </div>
