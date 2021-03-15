@@ -366,7 +366,7 @@
             <div class="popover color-palette" *ngIf="color">
                 <div class="tab">
                     <div class="tab-head">
-                        <button (click)="fillColor[0] = !fillColor[0]; fillColor[1] = false;"
+                        <button (click)="fillColor[0] = true; fillColor[1] = false;"
                             [class.active]="fillColor[0]" [csTooltip]="'Background Color'" placement="bottom" delay="0"
                             type="button" [tooltipMandatory]="true">
                             <svg width="298" height="298" viewBox="0 0 298 298" fill="none">
@@ -380,7 +380,7 @@
                                 </g>
                             </svg>
                         </button>
-                        <button (click)="fillColor[1] = !fillColor[1]; fillColor[0] = false;"
+                        <button (click)="fillColor[1] = true; fillColor[0] = false;"
                             [class.active]="fillColor[1]" [csTooltip]="'Text Color'" placement="bottom" delay="0"
                             type="button" [tooltipMandatory]="true">
                             <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">
