@@ -703,10 +703,20 @@ export class EditorContainerComponent
    * Function inserts sup tag inside the editor
    */
   insertSupTag(): void {
+    let flag = 0;
+    if (this.toolbarConfig.subscript) {
+      this.reachTextNode('sub');
+      flag = 1;
+    }
     if (!this.toolbarConfig.superscript) {
       const sup = document.createElement('sup');
       sup.innerHTML = this.sel.toString() || '&#8204;';
-      const range = this.oldRange ?? this.sel.getRangeAt(0);
+      let range: Range;
+      if(flag) {
+        range = this.sel.getRangeAt(0);
+      } else {
+        range = this.oldRange ?? this.sel.getRangeAt(0);
+      }
       range.deleteContents();
       range.insertNode(sup);
       range.setStart(sup, 1);
@@ -721,15 +731,27 @@ export class EditorContainerComponent
    * Function inserts sub tag inside the editor
    */
   insertSubTag(): void {
+    let flag = 0;
+    if (this.toolbarConfig.superscript) {
+      this.reachTextNode('sup');
+      flag = 1;
+    }
     if (!this.toolbarConfig.subscript) {
+      console.log(this.oldRange, );
       const sub = document.createElement('sub');
       sub.innerHTML = this.sel.toString() || '&#8204;';
-      const range = this.oldRange ?? this.sel.getRangeAt(0);
+      let range: Range;
+      if(flag) {
+        range = this.sel.getRangeAt(0);
+      } else {
+        range = this.oldRange ?? this.sel.getRangeAt(0);
+      }
       range.deleteContents();
       range.insertNode(sub);
       range.setStart(sub, 1);
       range.setEnd(sub, 1);
       range.collapse();
+      console.log(range);
     } else {
       this.reachTextNode('sub');
     }
