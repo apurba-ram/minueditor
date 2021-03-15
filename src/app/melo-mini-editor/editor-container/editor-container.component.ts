@@ -681,7 +681,6 @@ export class EditorContainerComponent
    * Function inserts blockquote inside the editor
    */
   insertBlockQuote(): void {
-    console.log("HEY")
     if (!this.toolbarConfig.quote) {
       const blockquote = document.createElement('blockquote');
       blockquote.setAttribute('style', 'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px');
@@ -703,22 +702,35 @@ export class EditorContainerComponent
    * Function inserts sup tag inside the editor
    */
   insertSupTag(): void {
-    console.log('P');
     if (!this.toolbarConfig.superscript) {
-
       const sup = document.createElement('sup');
-      sup.innerHTML = '&#8204;'
-      const range = this.sel.getRangeAt(0);
-      sup.textContent=window.getSelection().toString();
+      sup.innerHTML = this.sel.toString() || '&#8204;';
+      const range = this.oldRange ?? this.sel.getRangeAt(0);
       range.deleteContents();
       range.insertNode(sup);
       range.setStart(sup, 1);
       range.setEnd(sup, 1);
       range.collapse();
-      // sup.innerHTML=window.getSelection().toString()
-
     } else {
       this.reachTextNode('sup');
+    }
+  }
+
+  /**
+   * Function inserts sub tag inside the editor
+   */
+  insertSubTag(): void {
+    if (!this.toolbarConfig.subscript) {
+      const sub = document.createElement('sub');
+      sub.innerHTML = this.sel.toString() || '&#8204;';
+      const range = this.oldRange ?? this.sel.getRangeAt(0);
+      range.deleteContents();
+      range.insertNode(sub);
+      range.setStart(sub, 1);
+      range.setEnd(sub, 1);
+      range.collapse();
+    } else {
+      this.reachTextNode('sub');
     }
   }
 
@@ -749,25 +761,7 @@ export class EditorContainerComponent
   }
 
   
-  /**
-   * Function inserts sub tag inside the editor
-   */
-  insertSubTag(): void {
-    console.log("SUBSCRIPT")
-    if (!this.toolbarConfig.subscript) {
-      const sub = document.createElement('sub');
-      sub.innerHTML = '&#8204;';
-      const range = this.sel.getRangeAt(0);
-      sub.textContent=window.getSelection().toString();
-      range.deleteContents();
-      range.insertNode(sub);
-      range.setStart(sub, 1);
-      range.setEnd(sub, 1);
-      range.collapse();
-    } else {
-      this.reachTextNode('sub');
-    }
-  }
+  
   
   reachTextNode(tagName: string): void {
     const parent = this.getParent(this.sel.anchorNode, tagName);
