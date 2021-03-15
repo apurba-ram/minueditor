@@ -492,18 +492,18 @@
                         <button class="close" (click)="closeAddLinksPopover()">&times;</button>
                     </div>
                     <div class="link">
-                        <label>{{editorConfig?.urlValue ? editorConfig?.urlValue : 'URL'}}</label>
+                        <label>{{editorConfig?.urlValue ? editorConfig?.urlValue : 'Web Address'}}</label>
                         <input [(ngModel)]="linkUrl" type="text" placeholder="{{editorConfig?.urlInputPlaceHolder ? editorConfig?.urlInputPlaceHolder : 'Enter a URL (Example: https://example.com)'}}">
                         <p class="error" *ngIf="invalidUrlMessage">{{editorConfig?.validUrlMsg}}</p>
                     </div>
 
                     <div class="link">
-                        <label>{{editorConfig?.urlText ? editorConfig?.urlText : 'Display text'}}</label>
-                        <input [(ngModel)]="linkText" type="text" placeholder="{{editorConfig?.textInputPlaceHolder ? editorConfig?.textInputPlaceHolder : 'Enter a display text'}}">
+                        <label>{{editorConfig?.urlText ? editorConfig?.urlText : 'Display Text'}}</label>
+                        <input [(ngModel)]="linkText" type="text" placeholder="{{editorConfig?.textInputPlaceHolder ? editorConfig?.textInputPlaceHolder : 'Enter Text'}}">
                     </div>
                     <div class="link">
                         <label>{{editorConfig?.urlTitle ? editorConfig?.urlTitle : 'Title'}}</label>
-                        <input [(ngModel)]="linkTitle" type="text" placeholder="{{editorConfig?.titlePlaceholder? editorConfig?.titlePlaceholder: 'Enter a display title'}}">
+                        <input [(ngModel)]="linkTitle" type="text" placeholder="{{editorConfig?.titlePlaceholder? editorConfig?.titlePlaceholder: 'Enter a title'}}">
                     </div>
                     <div class="footer">
                         <button class="cancel" (click)="closeAddLinksPopover()">Cancel</button><button
