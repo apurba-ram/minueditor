@@ -51,7 +51,6 @@ export class AppComponent  {
 
 
   constructor() {
-<<<<<<< HEAD
     setTimeout(()=>{
       this.modelvalue2 = Math.random().toString(36).replace('0.','Logging ?' || '');
     });
@@ -60,11 +59,9 @@ export class AppComponent  {
       this.editorConfig1.mentionedNames = this.namesA;
       this.editorConfig1 = {...this.editorConfig1};
     }, 7000);
-=======
     // setTimeout(()=>{
     //   this.modelvalue2 = Math.random().toString(36).replace('0.','Logging ?' || '');
     // }, 3000);
->>>>>>> b1a83319120af63ce22dc9b16274a9931b2f4ca2
   }
   
   
