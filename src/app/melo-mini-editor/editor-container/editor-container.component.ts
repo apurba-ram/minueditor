@@ -651,6 +651,7 @@ export class EditorContainerComponent
       case 'fontsize-32': 
       case 'fontsize-36': 
       case 'fontsize-48':  this.setFontSize(id);
+      // console.log(" FONT SIZE",id)
                            break;
     }
   }
@@ -738,6 +739,7 @@ export class EditorContainerComponent
   * @param event - Event which stores the link emitted from the link popup
   */
   insertLink(event: any): void {
+    console.log("LINK HYSJH",event)
     const anchorTag = document.createElement('a');
     anchorTag.innerHTML = event.linkText;
     anchorTag.setAttribute('href', event.linkUrl);
