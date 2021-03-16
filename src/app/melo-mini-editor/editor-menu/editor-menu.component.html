@@ -299,7 +299,7 @@
             <div class="popover-overlay" *ngIf="fontSize" (click)="fontSize = false"></div>
             <div class="popover small" *ngIf="fontSize">
                 <ul class="option-list">
-                    <li *ngFor="let size of [11,12,14,18,24,32,36,48]" attr.data-id="fontsize-{{size}}"
+                    <li *ngFor="let size of [12,14,18,24,32,36,48]" attr.data-id="fontsize-{{size}}"
                         (click)="fontSize = false;">
                         <button attr.data-id="{{size}}">{{size}}</button>
                     </li>
