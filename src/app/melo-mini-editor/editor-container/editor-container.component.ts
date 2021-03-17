@@ -381,9 +381,7 @@ export class EditorContainerComponent
       this.toolbarOperations('textColor', 'black');
       this.toolbarOperations('fillColor', 'white');
     }
-    this.lastChar = this.getPrecedingCharacter(
-      window.getSelection().anchorNode
-    ); // gets the last input character
+    this.lastChar = this.getPrecedingCharacter(this.sel?.anchorNode); // gets the last input character
 
     if (this.format && this.startOffset && this.tribute) {
       this.format = false;
