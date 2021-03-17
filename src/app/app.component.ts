@@ -17,7 +17,6 @@ export class AppComponent  {
   namesA = [{id: 12,  name: 'Step'},{id: 11,  name: 'Run'},{id: 13,  name: 'Touch'},{id: 14,  name: 'Feel'}]
   namesB = [{id: 1,  name: 'Coming'},{id: 3,  name: 'Maniac'},{id: 43,  name: 'Gross'},{id: 6,  name: 'Delivery'}]
   editorConfig1: EditorConfig = {
-    id: 'alleluiah',
     mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],
     toolbarPlacement: 'bottom',
     buttonName: 'Submit',
@@ -27,13 +26,6 @@ export class AppComponent  {
     colorPalette: true,
     mode: 'prime',
     configFontStyle: true
-    // urlValue:"URL",
-    // urlText:'Display text',
-    // urlTitle:'Title',
-    // validUrlMsg:'Please provide a valid URL.',
-    // urlInputPlaceHolder:'Enter a URL (Example: https://example.com)',
-    // textInputPlaceHolder:'Enter a display text',
-    // titlePlaceholder:'Enter a title'
   };
   
 

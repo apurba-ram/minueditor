@@ -88,9 +88,8 @@ export class EditorMenuComponent implements AfterViewInit {
    */
   buttonClicked(event: any): void {
     event.stopPropagation();
-    // console.log(event);
     if (event?.target?.dataset?.id) {
-          this.buttonClick.emit(event?.target?.dataset);
+        this.buttonClick.emit(event?.target?.dataset);
     }
   }
 
@@ -309,12 +308,9 @@ export class EditorMenuComponent implements AfterViewInit {
     const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     if(!this.linkUrl || !this.linkUrl?.match(rex)) { //check url is valid or not
         this.invalidUrlMessage = true
-    }
-    else {  
-      if(this.linkText===undefined || this.linkText==='')
-      {
-        console.log("TEXT UNDEFINED")
-        this.linkText=this.linkUrl
+    } else {
+      if(!this.linkText) {
+        this.linkText = this.linkUrl;
       }
       const obj = {        
             value: {
@@ -324,9 +320,6 @@ export class EditorMenuComponent implements AfterViewInit {
             },
             id: 'link'
       };
-      // if (this.linkText === undefined || this.linkText === '') {
-      //   alert('Hi');
-      // }
       this.linkInEditor.emit(obj);
       this.closeAddLinksPopover();
     }
