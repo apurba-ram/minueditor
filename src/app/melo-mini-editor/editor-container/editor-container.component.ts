@@ -572,16 +572,12 @@ export class EditorContainerComponent
       case 'link': this.insertLink(value);
                    break;
       case 'bold': document.execCommand('bold', false, '');
-                   this.focusSelection();
                    break;
       case 'italic': document.execCommand('italic', false, '');
-                     this.focusSelection();
                      break;
       case 'strikeThrough': document.execCommand('strikeThrough', false, '');
-                            this.focusSelection();
                             break;
       case 'underline': document.execCommand('underline', false, '');
-                        this.focusSelection();
                         break;
       case 'orderedList': document.execCommand('insertOrderedList', false, '');
                           break;
@@ -667,11 +663,6 @@ export class EditorContainerComponent
     }
   }
 
-  focusSelection(): void {
-    console.log('PHOKO', this.sel);
-    // this.sel.removeAllRanges();
-    // this.sel.addRange(this.oldRange);
-  }
 
   /**
    * 
