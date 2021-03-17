@@ -211,7 +211,6 @@ export class EditorContainerComponent
    * Set the default font color and background color
    */
   setFontAndbackgroundColor(): void {
-    // console.log("NODE",this.sel?.baseNode)
     if (this.sel?.baseNode) {
       const node = this.sel.baseNode;
       if (node?.parentNode?.nodeName === 'SPAN' && node?.parentNode?.attributes[0].name === 'style') {
@@ -609,9 +608,11 @@ export class EditorContainerComponent
       case 'fillColor':
         document.execCommand('styleWithCSS', false, '');
         document.execCommand('hiliteColor', false, value);
+        // document.querySelector('span').style.padding='inherit';
         if (!this.sel.getRangeAt(0).collapsed) {
           this.sel.getRangeAt(0).collapse();
         }
+
         break;
       case 'textColor':
         document.execCommand('styleWithCSS', false, '');
@@ -640,15 +641,28 @@ export class EditorContainerComponent
         break; //8,9,10,11,12,14,18,24,32,36,48
       case 'fontsize-arial': document.execCommand('fontName', false, 'arial');
         break;
-      case '11':      
-      case '12': 
-      case '14':       
-      case '18': 
+      case '12':
+        this.setFontSize('1');   
+        break;   
+      case '14': 
+      this.setFontSize('2');
+      break;
+      case '18':    
+      this.setFontSize('3');  
+      break; 
       case '24': 
+      this.setFontSize('4');
+      break;
       case '32': 
+      this.setFontSize('5');
+      break;
       case '36': 
-      case '48':  this.setFontSize(id);
-                           break;
+      this.setFontSize('6');
+      break;
+      case '48': 
+      this.setFontSize('7');
+      break;
+
     }
   }
 
@@ -675,66 +689,101 @@ export class EditorContainerComponent
     //   this.oldRange.setEnd(container, 1);
     //   this.oldRange.collapse();
     // }
+
+
+
+    
       // console.log('SELELELLE', size);
-      if (this.sel?.baseNode) {
-        const node = this.sel.baseNode;
-        if (node?.parentNode?.attributes[0].name === 'style') {
-          //check is there any tag or style on selected text
-          let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
-          const styleArray: string[] = styleAttrib.split(';');
-          let flag = 0;
-          for (const style of styleArray) {
-            //if already some style is there on the text
-            // console.log("CHECLK ",style.indexOf('font-size'))
-            if (style.indexOf('font-size:') > -1) {
-              flag = 1;
-              this.font_size =style.substring(style.indexOf(':') + 1).trim();
-              // console.log("STYLE ARRAY 2",node?.parentNode);
-              // node?.parentNode?.attributes.push()
-              break;
-            }
-          }
-          if(!flag) {
-            // Add the font size
-            console.log("ADD")
-            console.log("STYLE ATTR",node?.parentNode,"type",typeof(node?.parentNode?.attributes))
-            // console.log("size into int",parseInt(size),typeof(size))
-            let v=size+'px'
-            console.log("STRING",v)
-            node.parentNode.style.fontSize=v
-          } else {
-            // Change font size to font_size
-            let v=size+'px'
-            node.parentNode.style.fontSize=v
-          }
-        } else {
-          console.log("NO DEFAULT STYLE")
-          //if there is not style on the selected text
-          let v=size+'px'
-          const container = document.createElement('span');
-          container.setAttribute('style', `font-size: ${v};`);
-          if(!this.oldRange.collapsed) {
-            console.log("COLLAPSED")
-            //if text is not selected then for new coming text chnage font size 
-            container.appendChild(this.oldRange.cloneContents());
-            const html = `<span style="font-size: ${v};">${container.innerHTML}</span>`;
-            document.execCommand('insertHTML', false, html);
-          } 
-          else {
-            console.log("NOT COLLAPSED")
-            //if text is selected then chnage font size of that and new coming texts 
-            container.setAttribute('style', `font-size: ${v};`);
-            container.innerHTML = '&#8204;';
-            this.oldRange.insertNode(container);
-            this.oldRange.setStart(container, 1);
-            this.oldRange.setEnd(container, 1);
-            }  this.oldRange.collapse();
-        }
-      } else {
-        console.log("THIS IS LOGGED IN FIREFOX")
-        // this.font_size=11+"px"
-      }
+      // console.log("FIREFOX font ",this.sel?.baseNode)
+      // if (this.sel?.baseNode) {
+      //   console.log("SELCTED TEXT")
+      //   const node = this.sel.baseNode;
+      //   if (node?.parentNode?.attributes[0].name === 'style') {
+      //     //check is there any tag or style on selected text
+      //     console.log("HEY HEY HEY there is style or parent tag")
+      //     let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
+      //     const styleArray: string[] = styleAttrib.split(';');
+      //     let flag = 0;
+      //     for (const style of styleArray) {
+      //       //if already some style is there on the text
+      //       // console.log("CHECLK ",style.indexOf('font-size'))
+      //       if (style.indexOf('font-size:') > -1) {
+      //         flag = 1;
+      //         this.font_size =style.substring(style.indexOf(':') + 1).trim();
+      //         // console.log("STYLE ARRAY 2",node?.parentNode);
+      //         // node?.parentNode?.attributes.push()
+      //         break;
+      //       }
+      //     }
+      //     if(!flag) {
+      //       // Add the font size
+      //       console.log("ADD")
+      //       console.log("STYLE ATTR",node?.parentNode,"type",typeof(node?.parentNode?.attributes))
+      //       // console.log("size into int",parseInt(size),typeof(size))
+      //       let v=size+'px'
+      //       console.log("STRING",v)
+      //       node.parentNode.style.fontSize=v
+      //     } else {
+      //       // Change font size to font_size
+      //       let v=size+'px'
+      //       node.parentNode.style.fontSize=v
+      //     }
+      //   } else {
+      //     console.log("NO DEFAULT STYLE")
+      //     //if there is not style on the selected text
+      //     let v=size+'px'
+      //     const container = document.createElement('span');
+      //     container.setAttribute('style', `font-size: ${v};`);
+      //     if(!this.oldRange.collapsed) {
+      //       console.log("COLLAPSED")
+      //       //if text is not selected then for new coming text chnage font size 
+      //       container.appendChild(this.oldRange.cloneContents());
+      //       const html = `<span style="font-size: ${v};">${container.innerHTML}</span>`;
+      //       document.execCommand('insertHTML', false, html);
+      //     } 
+      //     else {
+      //       console.log("NOT COLLAPSED")
+      //       //if text is selected then chnage font size of that and new coming texts 
+      //       container.setAttribute('style', `font-size: ${v};`);
+      //       container.innerHTML = '&#8204;';
+      //       this.oldRange.insertNode(container);
+      //       this.oldRange.setStart(container, 1);
+      //       this.oldRange.setEnd(container, 1);
+      //       }  this.oldRange.collapse();
+      //   }
+      // } else {
+      //   console.log("THIS IS LOGGED IN FIREFOX")
+      //   // this.font_size=11+"px"
+      // }
   
+
+    console.log("STRING",window.getSelection().toString())
+    if(window.getSelection().toString().length>0)
+    {
+      //TEXT IS SELECTED 
+      console.log("SIZE",size)
+      document.execCommand("fontSize", false, size);
+      
+      // var fontElements = window.getSelection().anchorNode.parentNode as HTMLElement
+      // fontElements.removeAttribute("size");
+      // fontElements.style.fontSize = size+'px';
+    }
+    else
+    {
+      console.log("TEXT NOT SELECTED")
+      // document.execCommand("fontSize", false, size);
+      console.log("SIZE NOT SELECTED ",size)
+      let v=size;
+      const container = document.createElement('font');
+      container.setAttribute('size', size);
+      container.innerHTML = '&#8204;';
+        this.oldRange.insertNode(container);
+        this.oldRange.setStart(container, 1);
+        this.oldRange.setEnd(container, 1);
+        this.oldRange.collapse();
+    }
+
+
   }
 
   /**
