@@ -163,8 +163,8 @@
                     <path fill="#000" d="M927.051 248.412h-2.357l-129.068 69.544-19.449-76.616 162.072-86.635h85.751v741.995h-96.948v-648.288z"></path>
                 </svg>
             </button>
-            <div class="popover-overlay" *ngIf="fontStyle" (click)="fontStyle = false"></div>
-            <div class="popover small" *ngIf="fontStyle">
+            <div class="popover-overlay" *ngIf="fontStyle" (click)="fontStyle = false;"></div>
+            <div class="popover small" *ngIf="fontStyle" (click)="fontStyle = false;">
                 <ul class="option-list">
                     <li data-id="h1">
                         <button data-id="h1">

@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   Input,
   Output,
   EventEmitter,
@@ -62,7 +61,7 @@ export class EditorContainerComponent
   clicked = false;
   moreOptionsButton: boolean;
   isCollapsible: boolean;
-  menuLeftWidth: number = 600;
+  menuLeftWidth: number;
   menuRightWidth: number;
   font_size:string;
 
@@ -157,7 +156,7 @@ export class EditorContainerComponent
   getMenuWidth({left, right}) {
     this.menuLeftWidth = left;
     this.menuRightWidth = right;
-    if (this.editorContainer.nativeElement.offsetWidth < this.menuLeftWidth + this.menuRightWidth) {
+    if (this.editorContainer.nativeElement.offsetWidth < (this.menuLeftWidth + this.menuRightWidth)) {
       this.moreOptionsButton = true;
     } else {
       this.moreOptionsButton = false;
@@ -373,14 +372,14 @@ export class EditorContainerComponent
   */
   setValue(innerText: string): void {
     this.innerText = innerText;
-
     if (this.innerText === '') {
       document.execCommand('removeFormat', false, ''); // remove previous format once the editor is clear
       this.toolbarConfig.fontColor = 'black';
       this.toolbarConfig.backgroundColor = 'white';
-      this.toolbarOperations('textColor', 'black');
-      this.toolbarOperations('fillColor', 'white');
+      // this.toolbarOperations('textColor', 'black');
+      // this.toolbarOperations('fillColor', 'white');
     }
+
     this.lastChar = this.getPrecedingCharacter(this.sel?.anchorNode); // gets the last input character
 
     if (this.format && this.startOffset && this.tribute) {
@@ -515,8 +514,6 @@ export class EditorContainerComponent
   * @param event - Event triggered when one of the options in the toolbar is clicked
   */
   toolbarClicked(event: any): void {
-    
-    console.log('EVVVAAA');
     try {
       const { startContainer } = this.sel.getRangeAt(0);
       if (this.checkValidOperation(startContainer)) {
@@ -541,10 +538,9 @@ export class EditorContainerComponent
         this.focus();
       }
     } catch (err) {
-      console.log('ERR', err);
       this.focus();
     }
-    //this.toolbarOperations(event?.id, event?.value);
+    this.toolbarOperations(event?.id, event?.value);
   }
 
   /**
@@ -559,8 +555,9 @@ export class EditorContainerComponent
       } else {
         this.toolbarConfig[id] = false;
       }
+      this.toolbarConfig = {...this.toolbarConfig};
     }
-    // console.log("IDDDDD",id)
+
     switch (id) {
       case 'h1':
       case 'h2':
@@ -610,16 +607,16 @@ export class EditorContainerComponent
       case 'fillColor':
                         document.execCommand('styleWithCSS', false, '');
                         document.execCommand('hiliteColor', false, value);
-                        if (!this.sel.getRangeAt(0).collapsed) {
-                          this.sel.getRangeAt(0).collapse();
-                        }
+                        // if (this.sel && this.sel.rangeCount > 0 && !this.sel.getRangeAt(0).collapsed) {
+                        //   this.sel.getRangeAt(0).collapse();
+                        // }
                         break;
       case 'textColor':
                         document.execCommand('styleWithCSS', false, '');
                         document.execCommand('foreColor', false, value);
-                        if (!this.sel.getRangeAt(0).collapsed) {
-                          this.sel.getRangeAt(0).collapse();
-                        }
+                        // if (this.sel && this.sel.rangeCount > 0 && !this.sel.getRangeAt(0).collapsed) {
+                        //   this.sel.getRangeAt(0).collapse();
+                        // }
                         break;
       case '@': this.insertTribute('@');
         break;
@@ -672,17 +669,21 @@ export class EditorContainerComponent
    * @param size - Represents the size of the font 
    */
   setFontSize(size: string): void {
-    if(this.sel.toString().length>0) {
-      document.execCommand("fontSize", false, size);
-    } else {
-      const container = document.createElement('font');
-      container.setAttribute('size', size);
-      container.innerHTML = '&#8204;';
-      this.oldRange.insertNode(container);
-      this.oldRange.setStart(container, 1);
-      this.oldRange.setEnd(container, 1);
-      this.oldRange.collapse();
-    }
+    document.execCommand("fontSize", false, size);
+    // return;
+    // if(this.sel.toString().length > 0) {
+    //   document.execCommand("fontSize", false, size);
+    // } else {
+    //   const container = document.createElement('font');
+    //   container.setAttribute('size', size);
+    //   container.innerHTML = '&#8204;';
+    //   this.oldRange = this.oldRange ?? this.sel?.getRangeAt(0);
+    //   this.oldRange.insertNode(container);
+    //   this.oldRange.setStart(container, 0);
+    //   this.oldRange.setEnd(container, 0);
+    //   this.oldRange.collapse();
+    //   console.log('RUNGE', this.oldRange);
+    // }
   }
 
   /**
@@ -781,9 +782,7 @@ export class EditorContainerComponent
     const textNode: Node = document.createTextNode('');
 
     let range: Range;
-    console.log('RARAAA', this.oldRange);
     if(!this.oldRange) {
-      // console.log('HAHHAA');
       range = this.sel.getRangeAt(0).cloneRange();
     } else {
       range = this.oldRange.cloneRange();
@@ -864,7 +863,6 @@ export class EditorContainerComponent
       }
     }
   }
-
 
   clickedOnImage() {
     this.clicked = true;
