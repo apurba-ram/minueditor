@@ -607,16 +607,10 @@ export class EditorContainerComponent
       case 'fillColor':
                         document.execCommand('styleWithCSS', false, '');
                         document.execCommand('hiliteColor', false, value);
-                        // if (this.sel && this.sel.rangeCount > 0 && !this.sel.getRangeAt(0).collapsed) {
-                        //   this.sel.getRangeAt(0).collapse();
-                        // }
                         break;
       case 'textColor':
                         document.execCommand('styleWithCSS', false, '');
                         document.execCommand('foreColor', false, value);
-                        // if (this.sel && this.sel.rangeCount > 0 && !this.sel.getRangeAt(0).collapsed) {
-                        //   this.sel.getRangeAt(0).collapse();
-                        // }
                         break;
       case '@': this.insertTribute('@');
         break;
@@ -659,6 +653,12 @@ export class EditorContainerComponent
       case '48': 
       this.setFontSize('7');
       break;
+
+    }
+  }
+
+  setBackgroundColorDisplay(node: Node) {
+    if(node?.parentElement?.nodeName === 'SPAN' && node?.parentElement?.style?.backgroundColor) {
 
     }
   }
