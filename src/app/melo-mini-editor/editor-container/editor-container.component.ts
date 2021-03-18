@@ -353,7 +353,7 @@ export class EditorContainerComponent
   blurContentEditable(): void {
     if(this.sel && this.sel.rangeCount > 0) {
       this.oldRange = this.sel.getRangeAt(0).cloneRange(); // to store the range when element is blurred
-      console.log('BLURRED', this.id, this.oldRange);
+      // console.log('BLURRED', this.id, this.oldRange);
     }
   }
 
@@ -373,11 +373,12 @@ export class EditorContainerComponent
   setValue(innerText: string): void {
     this.innerText = innerText;
     if (this.innerText === '') {
-      document.execCommand('removeFormat', false, ''); // remove previous format once the editor is clear
-      this.toolbarConfig.fontColor = 'black';
-      this.toolbarConfig.backgroundColor = 'white';
-      // this.toolbarOperations('textColor', 'black');
-      // this.toolbarOperations('fillColor', 'white');
+      // document.execCommand('removeFormat', false, ''); // remove previous format once the editor is clear
+      // document.execCommand('styleWithCSS', false, '');
+      // document.execCommand('hiliteColor', false, 'white');
+      // document.execCommand('foreColor', false, 'black');
+      // this.toolbarConfig.fontColor = 'black';
+      // this.toolbarConfig.backgroundColor = 'white';
     }
 
     this.lastChar = this.getPrecedingCharacter(this.sel?.anchorNode); // gets the last input character
@@ -671,24 +672,26 @@ export class EditorContainerComponent
   insertBlockQuote(): void {
     if (!this.toolbarConfig.quote) {
 
-      // document.execCommand('formatBlock', false, 'blockquote');
-      // console.log(this.sel);
-      // const node: any = this.sel?.focusNode;
-      // node.setAttribute('style', 'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px');
+      document.execCommand('formatBlock', false, 'blockquote');
+      const focusNode: any = this.sel?.focusNode;
+      const node: any = focusNode?.tagName !== 'BLOCKQUOTE' ? this.sel?.focusNode?.parentNode : focusNode;
+      node.setAttribute('style', 'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px');
+      node.parentNode?.appendChild(document.createElement('br'));
       // this.sel?.focusNode?.parentNode?.appendChild(document.createElement('br'));
       // return;
-      const blockquote = document.createElement('blockquote');
-      blockquote.setAttribute('style', 'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px');
-      blockquote.innerHTML = '&#8204;';
-      const div = document.createElement('div');
-      div.appendChild(document.createElement('br'));
-      const range: Range = this.sel.getRangeAt(0);
-      range.insertNode(div);
-      range.insertNode(blockquote);
-      range.setStart(blockquote, 0);
-      range.setEnd(blockquote, 1);
-      range.collapse();
+      // const blockquote = document.createElement('blockquote');
+      // blockquote.setAttribute('style', 'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px');
+      // blockquote.innerHTML = '&#8204;';
+      // const div = document.createElement('div');
+      // div.appendChild(document.createElement('br'));
+      // const range: Range = this.sel.getRangeAt(0);
+      // range.insertNode(div);
+      // range.insertNode(blockquote);
+      // range.setStart(blockquote, 0);
+      // range.setEnd(blockquote, 1);
+      // range.collapse();
     } else {
+      // document.execCommand('formatBlock', true, 'blockquote');
       this.reachTextNode('blockquote');
     }
   }
@@ -785,7 +788,7 @@ export class EditorContainerComponent
 
   reachTextNode(tagName: string): void {
     const parent = this.getParent(this.sel.anchorNode, tagName);
-    console.log(parent, parent?.nextSibling);
+    console.dir(parent, parent?.nextSibling);
     const space = document.createTextNode('');
     // space.innerHTML = '&#8204;';
     this.sel.getRangeAt(0).setStartAfter(parent);
@@ -848,7 +851,7 @@ export class EditorContainerComponent
         const a = document.createTextNode(`${char}`);
         this.oldRange.insertNode(a);
         this.oldRange.setStartAfter(a);
-        this.setValue(document.getElementById(this.id).innerText);
+        this.setValue(document.getElementById(this.id).innerHTML);
       } else {
         this.focus();
         this.oldRange = this.sel.getRangeAt(0).cloneRange();
