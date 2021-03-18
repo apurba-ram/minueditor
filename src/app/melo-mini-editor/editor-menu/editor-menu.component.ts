@@ -22,9 +22,6 @@ export class EditorMenuComponent implements AfterViewInit {
   @Output() sendSavedFiles: EventEmitter<any> = new EventEmitter();
   @Output() imageInEditor: EventEmitter<any> = new EventEmitter();
   @Output() linkInEditor: EventEmitter<any> = new EventEmitter();
-  @Output() menuLeftWidth: EventEmitter<any> = new EventEmitter();
-  @Output() menuRightWidth: EventEmitter<any> = new EventEmitter();
-
   @Output() setWidth: EventEmitter<any> = new EventEmitter();
   @ViewChild('menuLeft') menuLeft: ElementRef;
   @ViewChild('menuRight') menuRight: ElementRef;
@@ -71,17 +68,14 @@ export class EditorMenuComponent implements AfterViewInit {
     this.fontType = ['verdana', 'arial', 'georgia', 'impact', 'courier new', 'tahoma']
     // console.log("FILL ARRAY",this.fillColor)
   }
+
   ngAfterViewInit() {
-    setTimeout(() => {
-      const leftMenu = this.menuLeft?.nativeElement?.offsetWidth;
-      // console.log(leftMenu);
-      // this.menuLeftWidth.emit(leftMenu);
-      const rightMenu = this.menuRight?.nativeElement?.offsetWidth;
-      // console.log(rightMenu);
-      // this.menuRightWidth.emit(rightMenu);
-      this.setWidth.emit({left:leftMenu,right:rightMenu})
-    }, 90);
+      const left: number = this.menuLeft?.nativeElement?.offsetWidth;
+      const right: number = this.menuRight?.nativeElement?.offsetWidth;
+      console.log(' LEFT ',left,' & RIGHT ', right);
+      this.setWidth.emit({left,right});
   }
+
   /**
    * 
    * @param event - Event triggered when the toolbar button is clicked
@@ -131,7 +125,7 @@ export class EditorMenuComponent implements AfterViewInit {
     this.uploadImage = false;
   }
 
-   /**
+  /**
    * @param event - Dropped event triggered
   */
   dropImage(event: any) {

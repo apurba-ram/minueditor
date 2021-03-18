@@ -29,7 +29,7 @@ import { nanoid } from 'nanoid';
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditorContainerComponent
-  implements OnInit, OnChanges, AfterViewInit, OnDestroy {
+  implements OnChanges, AfterViewInit, OnDestroy {
   @Input() editorConfig: EditorConfig;
   @Output() comment = new EventEmitter<string>();
   @Output() sendSavedFiles = new EventEmitter<any>();//coming from menu to container from container to ap
@@ -40,7 +40,7 @@ export class EditorContainerComponent
   html: string;
   innerText: string;
   lastChar: string;
-  sel: any;
+  sel: Selection;
   startOffset: number;
   endOffset: number;
   id: string;
@@ -99,6 +99,9 @@ export class EditorContainerComponent
     this.sel.addRange(range);
   }
 
+  /**
+   * Reset the toolbar options 
+   */
   resetToolbar(): void {
     this.toolbarConfig = {
       bold: false,
@@ -142,11 +145,8 @@ export class EditorContainerComponent
     this.onTouch = fn;
   }
 
-  ngOnInit(): void {
-    this.sel = window.getSelection();
-  }
-
   ngAfterViewInit(): void {
+    this.sel = window.getSelection();
     document.addEventListener(
       'selectionchange',
       this.selectionChange.bind(this),
@@ -154,9 +154,9 @@ export class EditorContainerComponent
     );
   }
 
-  getmenuWidth(event) {
-    this.menuLeftWidth = event.left;
-    this.menuRightWidth = event.right;
+  getMenuWidth({left, right}) {
+    this.menuLeftWidth = left;
+    this.menuRightWidth = right;
     if (this.editorContainer.nativeElement.offsetWidth < this.menuLeftWidth + this.menuRightWidth) {
       this.moreOptionsButton = true;
     } else {
@@ -181,8 +181,7 @@ export class EditorContainerComponent
   * @param event - Event fired whenever there is a selection change
   */
   selectionChange(event: any): void {
-    // console.log(this.sel);
-    // console.log(event.target?.activeElement);
+
     if (event.target?.activeElement?.id === this.id) {
       this.oldRange = this.sel.getRangeAt(0).cloneRange();
       this.setFontAndbackgroundColor();
@@ -201,7 +200,6 @@ export class EditorContainerComponent
         subscript: this.checkParent(this.sel?.anchorNode, 'sub')
       };
     } else {
-      // this.focus();
       this.resetToolbar();
     }
   }
@@ -210,26 +208,26 @@ export class EditorContainerComponent
    * Set the default font color and background color
    */
   setFontAndbackgroundColor(): void {
-    if (this.sel?.baseNode) {
-      const node = this.sel.baseNode;
-      if (node?.parentNode?.nodeName === 'SPAN' && node?.parentNode?.attributes[0].name === 'style') {
-        let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
-        const styleArray: string[] = styleAttrib.split(';');
-        for (const style of styleArray) {
-          if (style.indexOf('background-color:') > -1) {
-            this.backgroundColor = style.substring(style.indexOf(':') + 1).trim();
-          } else if (style.indexOf('color:') > -1) {
-            this.fontColor = style.substring(style.indexOf(':') + 1).trim();
-          }
-        }
-      } else {
-        this.fontColor = 'black';
-        this.backgroundColor = 'white';
-      }
-    } else {
-      this.fontColor = 'black';
-      this.backgroundColor = 'white';
-    }
+    // if (this.sel?.baseNode) {
+    //   const node = this.sel.baseNode;
+    //   if (node?.parentNode?.nodeName === 'SPAN' && node?.parentNode?.attributes[0].name === 'style') {
+    //     let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
+    //     const styleArray: string[] = styleAttrib.split(';');
+    //     for (const style of styleArray) {
+    //       if (style.indexOf('background-color:') > -1) {
+    //         this.backgroundColor = style.substring(style.indexOf(':') + 1).trim();
+    //       } else if (style.indexOf('color:') > -1) {
+    //         this.fontColor = style.substring(style.indexOf(':') + 1).trim();
+    //       }
+    //     }
+    //   } else {
+    //     this.fontColor = 'black';
+    //     this.backgroundColor = 'white';
+    //   }
+    // } else {
+    //   this.fontColor = 'black';
+    //   this.backgroundColor = 'white';
+    // }
   }
 
 
@@ -354,8 +352,10 @@ export class EditorContainerComponent
   * When contenteditable is blurred
   */
   blurContentEditable(): void {
-    this.oldRange = this.sel.getRangeAt(0).cloneRange(); // to store the range when element is blurred
-    console.log('BLURRED', this.id, this.oldRange);
+    if(this.sel && this.sel.rangeCount > 0) {
+      this.oldRange = this.sel.getRangeAt(0).cloneRange(); // to store the range when element is blurred
+      console.log('BLURRED', this.id, this.oldRange);
+    }
   }
 
   /**
@@ -515,6 +515,8 @@ export class EditorContainerComponent
   * @param event - Event triggered when one of the options in the toolbar is clicked
   */
   toolbarClicked(event: any): void {
+    
+    console.log('EVVVAAA');
     try {
       const { startContainer } = this.sel.getRangeAt(0);
       if (this.checkValidOperation(startContainer)) {
@@ -539,9 +541,10 @@ export class EditorContainerComponent
         this.focus();
       }
     } catch (err) {
+      console.log('ERR', err);
       this.focus();
     }
-    this.toolbarOperations(event?.id, event?.value);
+    //this.toolbarOperations(event?.id, event?.value);
   }
 
   /**
