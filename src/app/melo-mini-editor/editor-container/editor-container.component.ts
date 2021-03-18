@@ -207,26 +207,26 @@ export class EditorContainerComponent
    * Set the default font color and background color
    */
   setFontAndbackgroundColor(): void {
-    // if (this.sel?.baseNode) {
-    //   const node = this.sel.baseNode;
-    //   if (node?.parentNode?.nodeName === 'SPAN' && node?.parentNode?.attributes[0].name === 'style') {
-    //     let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
-    //     const styleArray: string[] = styleAttrib.split(';');
-    //     for (const style of styleArray) {
-    //       if (style.indexOf('background-color:') > -1) {
-    //         this.backgroundColor = style.substring(style.indexOf(':') + 1).trim();
-    //       } else if (style.indexOf('color:') > -1) {
-    //         this.fontColor = style.substring(style.indexOf(':') + 1).trim();
-    //       }
-    //     }
-    //   } else {
-    //     this.fontColor = 'black';
-    //     this.backgroundColor = 'white';
-    //   }
-    // } else {
-    //   this.fontColor = 'black';
-    //   this.backgroundColor = 'white';
-    // }
+    if (this.sel?.focusNode) {
+      const node: any = this.sel.focusNode;
+      if (node?.parentNode?.nodeName === 'SPAN' && node?.parentNode?.attributes[0].name === 'style') {
+        const styleAttrib = node?.parentNode?.attributes[0].nodeValue;
+        const styleArray: string[] = styleAttrib.split(';');
+        for (const style of styleArray) {
+          if (style.indexOf('background-color:') > -1) {
+            this.backgroundColor = style.substring(style.indexOf(':') + 1).trim();
+          } else if (style.indexOf('color:') > -1) {
+            this.fontColor = style.substring(style.indexOf(':') + 1).trim();
+          }
+        }
+      } else {
+        this.fontColor = 'black';
+        this.backgroundColor = 'white';
+      }
+    } else {
+      this.fontColor = 'black';
+      this.backgroundColor = 'white';
+    }
   }
 
 
@@ -657,33 +657,12 @@ export class EditorContainerComponent
     }
   }
 
-  setBackgroundColorDisplay(node: Node) {
-    if(node?.parentElement?.nodeName === 'SPAN' && node?.parentElement?.style?.backgroundColor) {
-
-    }
-  }
-
-
   /**
    * 
    * @param size - Represents the size of the font 
    */
   setFontSize(size: string): void {
     document.execCommand("fontSize", false, size);
-    // return;
-    // if(this.sel.toString().length > 0) {
-    //   document.execCommand("fontSize", false, size);
-    // } else {
-    //   const container = document.createElement('font');
-    //   container.setAttribute('size', size);
-    //   container.innerHTML = '&#8204;';
-    //   this.oldRange = this.oldRange ?? this.sel?.getRangeAt(0);
-    //   this.oldRange.insertNode(container);
-    //   this.oldRange.setStart(container, 0);
-    //   this.oldRange.setEnd(container, 0);
-    //   this.oldRange.collapse();
-    //   console.log('RUNGE', this.oldRange);
-    // }
   }
 
   /**
@@ -691,16 +670,23 @@ export class EditorContainerComponent
    */
   insertBlockQuote(): void {
     if (!this.toolbarConfig.quote) {
+
+      // document.execCommand('formatBlock', false, 'blockquote');
+      // console.log(this.sel);
+      // const node: any = this.sel?.focusNode;
+      // node.setAttribute('style', 'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px');
+      // this.sel?.focusNode?.parentNode?.appendChild(document.createElement('br'));
+      // return;
       const blockquote = document.createElement('blockquote');
       blockquote.setAttribute('style', 'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px');
-      // blockquote.innerHTML = '&#8204;';
+      blockquote.innerHTML = '&#8204;';
       const div = document.createElement('div');
       div.appendChild(document.createElement('br'));
       const range: Range = this.sel.getRangeAt(0);
       range.insertNode(div);
       range.insertNode(blockquote);
       range.setStart(blockquote, 0);
-      range.setEnd(blockquote, 0);
+      range.setEnd(blockquote, 1);
       range.collapse();
     } else {
       this.reachTextNode('blockquote');
@@ -799,13 +785,20 @@ export class EditorContainerComponent
 
   reachTextNode(tagName: string): void {
     const parent = this.getParent(this.sel.anchorNode, tagName);
-    const space = document.createElement('text');
-    space.innerHTML = '&#8204;';
-    if (parent?.nextSibling) {
-      this.sel.getRangeAt(0).setStartAfter(parent.nextSibling);
-    } else {
-      this.sel.getRangeAt(0).setStartAfter(parent);
-    }
+    console.log(parent, parent?.nextSibling);
+    const space = document.createTextNode('');
+    // space.innerHTML = '&#8204;';
+    this.sel.getRangeAt(0).setStartAfter(parent);
+    // if (parent?.nextSibling) {
+    //   console.log('HERE 1');
+    //   this.sel.getRangeAt(0).setStartAfter(parent.nextSibling);
+    // } else {
+    //   console.log('HERE2');
+    //   this.sel.getRangeAt(0).setStartAfter(parent);
+    // }
+    const range: Range = this.sel.getRangeAt(0).cloneRange();
+    console.log(range);
+    return;
     this.sel.getRangeAt(0).insertNode(space);
     this.sel.getRangeAt(0).setStartAfter(space);
   }

@@ -163,7 +163,7 @@
                     <path fill="#000" d="M927.051 248.412h-2.357l-129.068 69.544-19.449-76.616 162.072-86.635h85.751v741.995h-96.948v-648.288z"></path>
                 </svg>
             </button>
-            <div class="popover-overlay" *ngIf="fontStyle" (click)="fontStyle = false;"></div>
+            <div class="popover-overlay" *ngIf="fontStyle" (click)="fontStyle = false"></div>
             <div class="popover small" *ngIf="fontStyle" (click)="fontStyle = false;">
                 <ul class="option-list">
                     <li data-id="h1">
@@ -248,7 +248,7 @@
         <!-- Color -->
         <div class="col" clickOutside (clickOutside)="color = false;"
             *ngIf="editorConfig?.colorPalette && editorConfig?.mode === 'prime'">
-            <button (click)="color = !color; fillColor[0] = true" [class.active]="color" [csTooltip]="'Color'"
+            <button (click)="openColorTab()" [class.active]="color" [csTooltip]="'Color'"
                 placement="bottom" delay="0" type="button" [tooltipMandatory]="true">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
                     <path d="M0 932h1024v92h-1024v-92zM383.4 916.4c0 0 0 0 0 0 8.8 8.8 20.2 13.6 32.6 13.6 12.2 0 23.8-4.8 32.4-13.6l384-384c8.6-8.6 13.4-20.2 13.4-32.4s-4.8-23.8-13.4-32.4l-466.8-467.6-65 65.4 114.4 114.4-351.4 351.6c-18 18-18 47 0 65l319.8 320zM689 545.8l-273 273-255-255 18-18h510zM689 453.8h-418l209-209 209 209zM842.2 593c-27 39-72.2 111-72.2 154.2 0 60.6 49.4 110 110 110s110-49.4 110-110c0-40.4-39.2-106-72-154.2-8.2-12-22.4-19.2-37.8-19.2-15.6 0.2-29.6 7.4-38 19.2zM880 765.2c-9.8 0-17.8-8-18-17.8 0.4-4 5.6-17.8 18-40.6 12.4 23 17.6 36.6 18 40.6-0.2 9.8-8.2 17.8-18 17.8z"></path>
@@ -275,67 +275,17 @@
                     </div>
                     <div class="tab-body">
                         <app-color-palette [(color)]="toolbarConfig.backgroundColor"
-                            (colorChange)="colorChange('fillColor'); color = false" *ngIf="fillColor[0]">
+                            (colorChange)="colorChange('fillColor')" *ngIf="fillColor[0]">
                         </app-color-palette>
 
                         <app-color-palette [(color)]="toolbarConfig.fontColor"
-                            (colorChange)="colorChange('textColor'); color = false" *ngIf="fillColor[1]">
+                            (colorChange)="colorChange('textColor')" *ngIf="fillColor[1]">
                         </app-color-palette>
                     </div>
                 </div>
 
             </div>
         </div>
-        <!-- Fill Color -->
-        <!-- <div class="col" clickOutside (clickOutside)="fillColor[0] = false;" *ngIf="editorConfig?.colorPalette && editorConfig?.mode === 'prime'">
-            <button (click)="fillColor[0] = !fillColor[0]; fillColor[1] = false;" [class.active]="fillColor[0]"
-                [csTooltip]="'Background Color'" placement="bottom" delay="0" type="button" [tooltipMandatory]="true">
-                <svg width="298" height="298" viewBox="0 0 298 298" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M235.917 142.791C235.917 142.791 211.083 169.674 211.083 186.25C211.083 199.97 222.196 211.084 235.917 211.084C249.637 211.084 260.75 199.97 260.75 186.25C260.75 169.674 235.917 142.791 235.917 142.791Z" />
-                    <path
-                        d="M94.615 0L77.0453 17.5698L106.597 47.1212L42.7136 111.005C35.4498 118.269 35.4498 130.065 42.7136 137.329L111.005 205.62C114.606 209.283 119.386 211.084 124.167 211.084C128.947 211.084 133.728 209.283 137.328 205.62L205.62 137.329C212.884 130.065 212.884 118.269 205.62 111.005L94.615 0ZM64.6288 124.166L124.167 64.6904L183.704 124.166H64.6288Z" />
-                    <g>
-                        <path d="M298 248.333H0V298H298V248.333Z" [attr.fill]="toolbarConfig.backgroundColor" />
-                    </g>
-                </svg>
-            </button>
-            <div class="popover-overlay" *ngIf="fillColor[0]" (click)="fillColor[0] = false"></div>
-            <div class="popover color-palette" *ngIf="fillColor[0]">
-                <app-color-palette [(color)]="toolbarConfig.backgroundColor"
-                    (colorChange)="fillColor[0] = false; colorChange('fillColor');">
-                </app-color-palette>
-            </div>
-        </div> -->
-        <!-- Text Color -->
-        <!-- <div class="col" clickOutside *ngIf="editorConfig?.colorPalette && editorConfig?.mode === 'prime'">
-            <button (click)="fillColor[1] = !fillColor[1]; fillColor[0] = false;" [class.active]="fillColor[1]"
-                [csTooltip]="'Text Color'" placement="bottom" delay="0" type="button" [tooltipMandatory]="true">
-                <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">
-                    <g>
-                        <g>
-                            <g>
-                                <polygon
-                                    points="85.333,282.64 85.333,362.64 165.333,362.64 378.667,149.307 298.667,69.307 			" />
-                                <path d="M441.707,56.08L391.893,6.267c-8.32-8.32-21.867-8.32-30.187,0L320,47.973l80,80l41.707-41.707
-                                C450.027,77.947,450.027,64.4,441.707,56.08z" />
-                            </g>
-                        </g>
-                    </g>
-                    <g>
-                        <g>
-                            <rect y="426.64" width="512" height="85.333" [attr.fill]="toolbarConfig.fontColor" />
-                        </g>
-                    </g>
-                </svg>
-            </button>
-            <div class="popover-overlay" *ngIf="fillColor[1]" (click)="fillColor[1] = false"></div>
-            <div class="popover color-palette" *ngIf="fillColor[1]">
-                <app-color-palette [(color)]="toolbarConfig.fontColor"
-                    (colorChange)="fillColor[1] = false;  colorChange('textColor');">
-                </app-color-palette>
-            </div>
-        </div> -->
         <!-- Link -->
         <div class="col" clickOutside *ngIf="editorConfig?.link">
             <button (click)="addLink = true;" [class.active]="addLink" [csTooltip]="'Add a Link'" placement="bottom"

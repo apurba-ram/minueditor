@@ -96,6 +96,17 @@ export class EditorMenuComponent implements AfterViewInit {
       id: type,
       value: type === 'textColor' ? this.toolbarConfig?.fontColor : this.toolbarConfig?.backgroundColor
     });
+    this.color = false;
+  }
+
+  /**
+   * Opens the color tab
+   */
+  openColorTab(): void {
+    this.color = !this.color;
+    if(this.fillColor.every(item => item === false)) {
+      this.fillColor[0] = true;
+    }
   }
 
   /**
