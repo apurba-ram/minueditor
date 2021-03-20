@@ -451,7 +451,7 @@ export class EditorContainerComponent
         this.dragEvent=true
         getOriginal(e,event.target.id);
         console.log('holaaaa');
-        window.addEventListener('mousemove', resizsTopLeft)
+        window.addEventListener('mousemove', resizsBottomLeft)
         // console.log("MOUSEUP COUNT IN MOUSEDON TOP RIGHT",this.countMouseUp)
         window.addEventListener('mouseup', stopResize.bind(this))
       })
@@ -459,21 +459,21 @@ export class EditorContainerComponent
       function resizsBottomLeft(e)
       {
         console.log("RESIZE FROM BOTTOM LEFT")
-        const width = original_width +(e.pageX - original_mouse_x)
+        const width = original_width -(e.pageX - original_mouse_x)
         const height = original_height + (e.pageY - original_mouse_y)
-        const resizerWidth=resizer_width+(e.pageX-original_mouse_x)
+        const resizerWidth=resizer_width-(e.pageX-original_mouse_x)
         const resizerHeight=resizer_height+(e.pageY-original_mouse_y)
        
         if(document.getElementById(event.target.parentNode.id).classList[1]===undefined || document.getElementById(event.target.parentNode.id).classList[1]==='left')
         {
           if(width<document.getElementsByClassName('editable-block')[0].clientWidth-160)
           {
+            console.log("HEY BOTTOM LEFT")
             document.getElementById(event.target.id).style.width=width+'px'
-            // document.getElementById(event.target.id).style.height='auto'
+            document.getElementById(event.target.id).style.height=height+'px'
             document.getElementById('resize-container').style.width=resizerWidth+'px'
-            // document.getElementById('resize-container').style.height='auto'
-            document.getElementById(event.target.id).style.left= original_x + (e.pageX - original_mouse_x) + 'px'
-            document.getElementById(event.target.id).style.bottom= original_y + (e.pageY - original_mouse_y) + 'px'
+            document.getElementById('resize-container').style.height=resizerHeight+'px'
+            
           }
 
         }
