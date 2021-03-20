@@ -72,7 +72,6 @@ export class EditorMenuComponent implements AfterViewInit {
   ngAfterViewInit() {
       const left: number = this.menuLeft?.nativeElement?.offsetWidth;
       const right: number = this.menuRight?.nativeElement?.offsetWidth;
-      console.log(' LEFT ',left,' & RIGHT ', right);
       this.setWidth.emit({left,right});
   }
 
