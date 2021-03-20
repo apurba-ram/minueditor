@@ -52,7 +52,7 @@
         <!-- list -->
         <div class="col" clickOutside (clickOutside)="closeListStylesPopover(); listStyle = false;">
             <div class="popover-overlay" *ngIf="listStyle" (click)="listStyle = false"></div>
-            <button class="lg" [class.active]="listStyle|| toolbarConfig?.orderedList || toolbarConfig?.unorderedList"
+            <button [class.active]="listStyle|| toolbarConfig?.orderedList || toolbarConfig?.unorderedList"
                 (click)="listStyles()" [csTooltip]="'List Option'" placement="bottom" delay="0" type="button"
                 [tooltipMandatory]="true">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024"
@@ -94,7 +94,7 @@
         </div>
         <!-- Text Align -->
         <div class="col" clickOutside (clickOutside)="closeAlignPopover()" *ngIf="editorConfig?.mode === 'prime'">
-            <button (click)="alignPopover()" [class.active]="alignment" class="lg" [csTooltip]="'Text Alignment'"
+            <button (click)="alignPopover()" [class.active]="alignment" [csTooltip]="'Text Alignment'"
                 placement="bottom" delay="0" type="button" [tooltipMandatory]="true">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024"
                     viewBox="0 0 1024 1024">
@@ -195,7 +195,7 @@
         </div>
         <!-- Font-Size -->
         <div class="col" clickOutside (clickOutside)="closeFontSizePopover()" *ngIf="editorConfig?.mode === 'prime'">
-            <button class="lg" (click)="fontSizePopover()" [csTooltip]="'Font Size'" placement="bottom" delay="0"
+            <button (click)="fontSizePopover()" [csTooltip]="'Font Size'" placement="bottom" delay="0"
                 type="button" [tooltipMandatory]="true">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                         viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
