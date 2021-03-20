@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   Input,
   Output,
   EventEmitter,
@@ -29,7 +28,7 @@ import { nanoid } from 'nanoid';
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditorContainerComponent
-  implements OnInit, OnChanges, AfterViewInit, OnDestroy {
+  implements OnChanges, AfterViewInit, OnDestroy {
   @Input() editorConfig: EditorConfig;
   @Output() comment = new EventEmitter<string>();
   @Output() sendSavedFiles = new EventEmitter<any>();//coming from menu to container from container to ap
@@ -40,7 +39,7 @@ export class EditorContainerComponent
   html: string;
   innerText: string;
   lastChar: string;
-  sel: any;
+  sel: Selection;
   startOffset: number;
   endOffset: number;
   id: string;
@@ -62,7 +61,7 @@ export class EditorContainerComponent
   clicked = false;
   moreOptionsButton: boolean;
   isCollapsible: boolean;
-  menuLeftWidth: number = 600;
+  menuLeftWidth: number;
   menuRightWidth: number;
   font_size:string;
 
@@ -99,6 +98,9 @@ export class EditorContainerComponent
     this.sel.addRange(range);
   }
 
+  /**
+   * Reset the toolbar options 
+   */
   resetToolbar(): void {
     this.toolbarConfig = {
       bold: false,
@@ -142,11 +144,8 @@ export class EditorContainerComponent
     this.onTouch = fn;
   }
 
-  ngOnInit(): void {
-    this.sel = window.getSelection();
-  }
-
   ngAfterViewInit(): void {
+    this.sel = window.getSelection();
     document.addEventListener(
       'selectionchange',
       this.selectionChange.bind(this),
@@ -154,10 +153,10 @@ export class EditorContainerComponent
     );
   }
 
-  getmenuWidth(event) {
-    this.menuLeftWidth = event.left;
-    this.menuRightWidth = event.right;
-    if (this.editorContainer.nativeElement.offsetWidth < this.menuLeftWidth + this.menuRightWidth) {
+  getMenuWidth({left, right}) {
+    this.menuLeftWidth = left;
+    this.menuRightWidth = right;
+    if (this.editorContainer.nativeElement.offsetWidth < (this.menuLeftWidth + this.menuRightWidth)) {
       this.moreOptionsButton = true;
     } else {
       this.moreOptionsButton = false;
@@ -181,8 +180,7 @@ export class EditorContainerComponent
   * @param event - Event fired whenever there is a selection change
   */
   selectionChange(event: any): void {
-    // console.log(this.sel);
-    // console.log(event.target?.activeElement);
+
     if (event.target?.activeElement?.id === this.id) {
       this.oldRange = this.sel.getRangeAt(0).cloneRange();
       this.setFontAndbackgroundColor();
@@ -201,7 +199,6 @@ export class EditorContainerComponent
         subscript: this.checkParent(this.sel?.anchorNode, 'sub')
       };
     } else {
-      // this.focus();
       this.resetToolbar();
     }
   }
@@ -210,10 +207,10 @@ export class EditorContainerComponent
    * Set the default font color and background color
    */
   setFontAndbackgroundColor(): void {
-    if (this.sel?.baseNode) {
-      const node = this.sel.baseNode;
+    if (this.sel?.focusNode) {
+      const node: any = this.sel.focusNode;
       if (node?.parentNode?.nodeName === 'SPAN' && node?.parentNode?.attributes[0].name === 'style') {
-        let styleAttrib = node?.parentNode?.attributes[0].nodeValue;
+        const styleAttrib = node?.parentNode?.attributes[0].nodeValue;
         const styleArray: string[] = styleAttrib.split(';');
         for (const style of styleArray) {
           if (style.indexOf('background-color:') > -1) {
@@ -354,8 +351,10 @@ export class EditorContainerComponent
   * When contenteditable is blurred
   */
   blurContentEditable(): void {
-    this.oldRange = this.sel.getRangeAt(0).cloneRange(); // to store the range when element is blurred
-    console.log('BLURRED', this.id, this.oldRange);
+    if(this.sel && this.sel.rangeCount > 0) {
+      this.oldRange = this.sel.getRangeAt(0).cloneRange(); // to store the range when element is blurred
+      // console.log('BLURRED', this.id, this.oldRange);
+    }
   }
 
   /**
@@ -373,14 +372,15 @@ export class EditorContainerComponent
   */
   setValue(innerText: string): void {
     this.innerText = innerText;
-
     if (this.innerText === '') {
-      document.execCommand('removeFormat', false, ''); // remove previous format once the editor is clear
-      this.toolbarConfig.fontColor = 'black';
-      this.toolbarConfig.backgroundColor = 'white';
-      this.toolbarOperations('textColor', 'black');
-      this.toolbarOperations('fillColor', 'white');
+      // document.execCommand('removeFormat', false, ''); // remove previous format once the editor is clear
+      // document.execCommand('styleWithCSS', false, '');
+      // document.execCommand('hiliteColor', false, 'white');
+      // document.execCommand('foreColor', false, 'black');
+      // this.toolbarConfig.fontColor = 'black';
+      // this.toolbarConfig.backgroundColor = 'white';
     }
+
     this.lastChar = this.getPrecedingCharacter(this.sel?.anchorNode); // gets the last input character
 
     if (this.format && this.startOffset && this.tribute) {
@@ -556,8 +556,9 @@ export class EditorContainerComponent
       } else {
         this.toolbarConfig[id] = false;
       }
+      this.toolbarConfig = {...this.toolbarConfig};
     }
-    // console.log("IDDDDD",id)
+
     switch (id) {
       case 'h1':
       case 'h2':
@@ -607,16 +608,10 @@ export class EditorContainerComponent
       case 'fillColor':
                         document.execCommand('styleWithCSS', false, '');
                         document.execCommand('hiliteColor', false, value);
-                        if (!this.sel.getRangeAt(0).collapsed) {
-                          this.sel.getRangeAt(0).collapse();
-                        }
                         break;
       case 'textColor':
                         document.execCommand('styleWithCSS', false, '');
                         document.execCommand('foreColor', false, value);
-                        if (!this.sel.getRangeAt(0).collapsed) {
-                          this.sel.getRangeAt(0).collapse();
-                        }
                         break;
       case '@': this.insertTribute('@');
         break;
@@ -663,23 +658,12 @@ export class EditorContainerComponent
     }
   }
 
-
   /**
    * 
    * @param size - Represents the size of the font 
    */
   setFontSize(size: string): void {
-    if(this.sel.toString().length>0) {
-      document.execCommand("fontSize", false, size);
-    } else {
-      const container = document.createElement('font');
-      container.setAttribute('size', size);
-      container.innerHTML = '&#8204;';
-      this.oldRange.insertNode(container);
-      this.oldRange.setStart(container, 1);
-      this.oldRange.setEnd(container, 1);
-      this.oldRange.collapse();
-    }
+    document.execCommand("fontSize", false, size);
   }
 
   /**
@@ -687,18 +671,27 @@ export class EditorContainerComponent
    */
   insertBlockQuote(): void {
     if (!this.toolbarConfig.quote) {
-      const blockquote = document.createElement('blockquote');
-      blockquote.setAttribute('style', 'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px');
+
+      document.execCommand('formatBlock', false, 'blockquote');
+      const focusNode: any = this.sel?.focusNode;
+      const node: any = focusNode?.tagName !== 'BLOCKQUOTE' ? this.sel?.focusNode?.parentNode : focusNode;
+      node.setAttribute('style', 'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px');
+      node.parentNode?.appendChild(document.createElement('br'));
+      // this.sel?.focusNode?.parentNode?.appendChild(document.createElement('br'));
+      // return;
+      // const blockquote = document.createElement('blockquote');
+      // blockquote.setAttribute('style', 'box-sizing: border-box; padding-left:16px; padding-bottom: 10px; border-left: 2px solid rgb(223, 225, 230); margin: 1.143rem 5px 0px');
       // blockquote.innerHTML = '&#8204;';
-      const div = document.createElement('div');
-      div.appendChild(document.createElement('br'));
-      const range: Range = this.sel.getRangeAt(0);
-      range.insertNode(div);
-      range.insertNode(blockquote);
-      range.setStart(blockquote, 0);
-      range.setEnd(blockquote, 0);
-      range.collapse();
+      // const div = document.createElement('div');
+      // div.appendChild(document.createElement('br'));
+      // const range: Range = this.sel.getRangeAt(0);
+      // range.insertNode(div);
+      // range.insertNode(blockquote);
+      // range.setStart(blockquote, 0);
+      // range.setEnd(blockquote, 1);
+      // range.collapse();
     } else {
+      // document.execCommand('formatBlock', true, 'blockquote');
       this.reachTextNode('blockquote');
     }
   }
@@ -778,9 +771,7 @@ export class EditorContainerComponent
     const textNode: Node = document.createTextNode('');
 
     let range: Range;
-    console.log('RARAAA', this.oldRange);
     if(!this.oldRange) {
-      // console.log('HAHHAA');
       range = this.sel.getRangeAt(0).cloneRange();
     } else {
       range = this.oldRange.cloneRange();
@@ -797,13 +788,20 @@ export class EditorContainerComponent
 
   reachTextNode(tagName: string): void {
     const parent = this.getParent(this.sel.anchorNode, tagName);
-    const space = document.createElement('text');
-    space.innerHTML = '&#8204;';
-    if (parent?.nextSibling) {
-      this.sel.getRangeAt(0).setStartAfter(parent.nextSibling);
-    } else {
-      this.sel.getRangeAt(0).setStartAfter(parent);
-    }
+    console.dir(parent, parent?.nextSibling);
+    const space = document.createTextNode('');
+    // space.innerHTML = '&#8204;';
+    this.sel.getRangeAt(0).setStartAfter(parent);
+    // if (parent?.nextSibling) {
+    //   console.log('HERE 1');
+    //   this.sel.getRangeAt(0).setStartAfter(parent.nextSibling);
+    // } else {
+    //   console.log('HERE2');
+    //   this.sel.getRangeAt(0).setStartAfter(parent);
+    // }
+    const range: Range = this.sel.getRangeAt(0).cloneRange();
+    console.log(range);
+    return;
     this.sel.getRangeAt(0).insertNode(space);
     this.sel.getRangeAt(0).setStartAfter(space);
   }
@@ -853,7 +851,7 @@ export class EditorContainerComponent
         const a = document.createTextNode(`${char}`);
         this.oldRange.insertNode(a);
         this.oldRange.setStartAfter(a);
-        this.setValue(document.getElementById(this.id).innerText);
+        this.setValue(document.getElementById(this.id).innerHTML);
       } else {
         this.focus();
         this.oldRange = this.sel.getRangeAt(0).cloneRange();
@@ -861,7 +859,6 @@ export class EditorContainerComponent
       }
     }
   }
-
 
   clickedOnImage() {
     this.clicked = true;
