@@ -569,7 +569,7 @@ export class EditorContainerComponent
       case 'superscript': document.execCommand("superscript", false, null);
       // this.insertSupTag();
                            break;
-      case 'subscript': document.execCommand("superscript", false, null);
+      case 'subscript': document.execCommand("subscript", false, null);
       // this.insertSubTag();
                         break;
       case 'link': this.insertLink(value);
