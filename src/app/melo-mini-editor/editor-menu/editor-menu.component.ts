@@ -61,6 +61,7 @@ export class EditorMenuComponent implements OnInit {
 
 
   image: any;
+  blob:any;
 
   constructor() {
     this.editorConfig = {
@@ -173,7 +174,8 @@ export class EditorMenuComponent implements OnInit {
         this.showAlert = true;
     }
     setTimeout(() => {
-      this.imageInEditor.emit(this.image);
+      console.log("BLOB URL SAAVE    ",this.blob)
+      this.imageInEditor.emit(this.blob);
       this.clickOutsideImage();
     }, 10);
    
@@ -186,6 +188,7 @@ export class EditorMenuComponent implements OnInit {
     console.log("read img",file)
     const fReader = new FileReader();
     fReader.readAsDataURL(file);
+    // console.log("BEFORE LOAD",event.currentTarget)
     fReader.onloadend =  (event:any) => {
       console.log("onload",event.currentTarget)
       this.image = {
@@ -193,6 +196,18 @@ export class EditorMenuComponent implements OnInit {
         file
       };
       console.log("IMG FILE",this.image)
+           const b64=btoa(this.image.url);
+			      // console.log("IMG FILE BASE64",this.image.url)
+            // console.log("ENCODED BASE64",b64)
+			      const byteCharacters = atob(this.image.url.split(',')[1]);
+					const byteNumbers = new Array(byteCharacters.length);
+					for (let i = 0; i < byteCharacters.length; i++) {
+					  byteNumbers[i] = byteCharacters.charCodeAt(i);
+					}
+					const byteArray = new Uint8Array(byteNumbers);
+					const blob = new Blob([byteArray], {type: 'image/jpg'});
+          this.blob=URL.createObjectURL(blob);
+					console.log("BLOB URLLLLLLLLLLLLRRRRR",this.blob)
     };
     
   }

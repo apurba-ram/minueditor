@@ -141,8 +141,6 @@ export class EditorContainerComponent
       console.log("PREVIOUS CONTAINER",document.getElementsByClassName('editor-image')[len-1].getBoundingClientRect().bottom,
       document.getElementsByClassName('editor-image')[len-1].getBoundingClientRect().left)
     }
-
-
     //create image container and img 
     const imageContainer=document.createElement('div')
     imageContainer.setAttribute('id','image-container'+id)
@@ -158,7 +156,7 @@ export class EditorContainerComponent
     const imgTag=document.createElement('img')
     imgTag.setAttribute('id','image'+id)
     imgTag.setAttribute('class','editor-image')
-    imgTag.setAttribute('src',event.url)
+    imgTag.setAttribute('src',event)
     imgTag.setAttribute('contenteditable','false')
     imgTag.setAttribute('tabindex','0')
     imgTag.style.width = 300+'px';
