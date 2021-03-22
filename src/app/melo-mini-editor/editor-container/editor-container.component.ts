@@ -1296,7 +1296,9 @@ export class EditorContainerComponent
           const html = dT.getData('text/html') || "";
             
             // console.log("IMAGE after add class",img)
-            const rexsrc = /src=".*?"/g; // match all src
+            // const rexsrc = /src=".*?"/g; // match all src
+
+            // const rexsrc=/<img src=".*?".*? class=".*?";
            
             pastedHtml = pastedHtml.replace(rexsrc, (match: any) => {
               const id = (() => {
@@ -1305,9 +1307,9 @@ export class EditorContainerComponent
               console.log("MATCH SRC",match)
               const str = `id="image"+${id}`;
               return match + str;
+             
             });
-
-            
+ 
             const imgRex = /<img.*?src="(.*?)"[^>]+>/g;
               pastedHtml = pastedHtml.replace(imgRex, (match: any) => {
                 // console.log(match);
@@ -1320,10 +1322,7 @@ export class EditorContainerComponent
               console.log(pastedHtml);
         }
       }
-      document.execCommand('insertHtml', false, pastedHtml);
-
-      
-      
+      document.execCommand('insertHtml', false, pastedHtml);  
     }
   }
 
