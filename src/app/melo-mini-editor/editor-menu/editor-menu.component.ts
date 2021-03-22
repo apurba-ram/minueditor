@@ -308,7 +308,6 @@ export class EditorMenuComponent implements AfterViewInit {
    * Function is invoked when the user clicks on the save button from the add link popover
   */
   saveLink(): void { 
-    console.log("Link Data",this.linkText,this.linkTitle,this.linkUrl)
     const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     if(!this.linkUrl || !this.linkUrl?.match(rex)) { //check url is valid or not
         this.invalidUrlMessage = true
