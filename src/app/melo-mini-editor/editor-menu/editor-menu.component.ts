@@ -175,7 +175,7 @@ export class EditorMenuComponent implements OnInit {
     }
     setTimeout(() => {
       console.log("BLOB URL SAAVE    ",this.blob)
-      this.imageInEditor.emit(this.blob);
+      this.imageInEditor.emit(this.image);
       this.clickOutsideImage();
     }, 10);
    

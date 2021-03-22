@@ -49,4 +49,10 @@ comment(event: string): void {
   hello(): void {
     // console.log('HELLO3');
   }
+
+  save(d:any)
+  {
+  console.log("dddd",d)
+  }
+
 }

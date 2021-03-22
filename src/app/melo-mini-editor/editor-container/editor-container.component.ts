@@ -128,6 +128,7 @@ export class EditorContainerComponent
   * @param event - Event which stores the image emitted from the image popup
   */
   saveImage(event:any): void{
+    //todo image is supporting left and right inline text but cursor does not show up so need to fix it
 
     //generate random ids for images
     const id = (() => {
@@ -143,7 +144,7 @@ export class EditorContainerComponent
     }
     //create image container and img 
     const imageContainer=document.createElement('div')
-    imageContainer.setAttribute('id','image-container'+id)
+    imageContainer.setAttribute('id','image-container')//todo id removed can be added  add $id if not works
     imageContainer.setAttribute('class','image-container')
     imageContainer.setAttribute('contenteditable','true')
     if(len>0)
@@ -156,7 +157,7 @@ export class EditorContainerComponent
     const imgTag=document.createElement('img')
     imgTag.setAttribute('id','image'+id)
     imgTag.setAttribute('class','editor-image')
-    imgTag.setAttribute('src',event)
+    imgTag.setAttribute('src',event.url)
     imgTag.setAttribute('contenteditable','false')
     imgTag.setAttribute('tabindex','0')
     imgTag.style.width = 300+'px';
@@ -194,6 +195,7 @@ export class EditorContainerComponent
   {
     //delete image using delete button from keyboard
 
+    console.log("HEY FOCUS")
     event.target.addEventListener('keydown',(e)=>{
       
       if(e.keyCode===46){
@@ -1250,10 +1252,13 @@ export class EditorContainerComponent
   * @param event - This parameter is an event that is occurred whenever we paste things inside the div contenteditable
   */
   onPaste(event: any): void {
+    console.log("PASTING",event.clipboardData.items[1])
     event.preventDefault();
     const clipboardData = event.clipboardData;
     let pastedHtml = clipboardData.getData('text/html');
+    // console.log("PASTED HTML",pastedHtml,pastedHtml.slice(36,40),typeof(pastedHtml))
     let pastedText = clipboardData.getData('text');
+    // console.log("TEXT",pastedText)
     const regexStyle = /style=".+?"/g; // matching all inline styles
     // const regexComment = /<!--.+?-->/g; // matching all inline styles
     if (pastedHtml === '' && pastedText !== '') {
@@ -1263,14 +1268,62 @@ export class EditorContainerComponent
       });
       document.execCommand('insertHtml', false, pastedText);
     } else {
-      // console.log('HERE', pastedHtml);
+      console.log('HERE TEXT EMPTY BUT NOT HTML', pastedHtml);
       pastedHtml = pastedHtml.replace(regexStyle, (match: any) =>  '');
       const rexa = /href=".*?"/g; // match all a href
       pastedHtml = pastedHtml.replace(rexa, (match: any) => {
         const str = ' target="_blank" rel="noopener noreferrer"';
         return match + str;
       });
+      if(pastedHtml.match(/<img/g))
+      {
+        console.log("IMAGE FOUND",pastedText)
+        if(pastedText==='')
+        {
+          var srcWithQuotes = pastedHtml.match(/src\=([^\s]*)\s/)[1],
+          src = srcWithQuotes.substring(1,srcWithQuotes.length - 1);
+          const imgRex = /<img.*?src="(.*?)"[^>]+>/g;
+          console.log(src);​     
+          let o={
+            url:src
+          }
+          this.saveImage(o)
+        }
+        else
+        {
+          console.log("IMAGED FOLLEEE",event.clipboardData.items[0].type)
+          const dT = event.clipboardData 
+          const html = dT.getData('text/html') || "";
+            
+            // console.log("IMAGE after add class",img)
+            const rexsrc = /src=".*?"/g; // match all src
+           
+            pastedHtml = pastedHtml.replace(rexsrc, (match: any) => {
+              const id = (() => {
+                return '_' + Math.random().toString(36).substr(2, 9);
+              })();
+              console.log("MATCH SRC",match)
+              const str = `id="image"+${id}`;
+              return match + str;
+            });
+
+            
+            const imgRex = /<img.*?src="(.*?)"[^>]+>/g;
+              pastedHtml = pastedHtml.replace(imgRex, (match: any) => {
+                // console.log(match);
+                const id = (() => {
+                  return '_' + Math.random().toString(36).substr(2, 9);
+                })();
+                match = match.trim();
+                return `<div class="image-container" contenteditable="true" id="image-container">` + match + `</div>`;
+              });
+              console.log(pastedHtml);
+        }
+      }
       document.execCommand('insertHtml', false, pastedHtml);
+
+      
+      
     }
   }
 
