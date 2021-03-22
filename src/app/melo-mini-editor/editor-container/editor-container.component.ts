@@ -567,11 +567,7 @@ export class EditorContainerComponent
       case 'para': document.execCommand('formatBlock', false, 'p');
                    break;
       case 'superscript': document.execCommand("superscript", false, null);
-<<<<<<< HEAD
                            break;
-=======
-                          break;
->>>>>>> 2efc07e914a2aaea09af1fc1e2db6837cf0abb24
       case 'subscript': document.execCommand("subscript", false, null);
                         break;
       case 'link': this.insertLink(value);
