@@ -159,8 +159,8 @@
             <button (click)="fontStylePopover()" [csTooltip]="'Font Style'" placement="bottom" delay="0" type="button"
                 [tooltipMandatory]="true">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
-                    <path fill="#000" d="M99.306 127.3v321.786h372.176v-321.786h100.485v769.4h-100.485v-360.684h-372.176v360.684h-99.306v-769.4h99.306z"></path>
-                    <path fill="#000" d="M927.051 248.412h-2.357l-129.068 69.544-19.449-76.616 162.072-86.635h85.751v741.995h-96.948v-648.288z"></path>
+                    <path d="M99.306 127.3v321.786h372.176v-321.786h100.485v769.4h-100.485v-360.684h-372.176v360.684h-99.306v-769.4h99.306z"></path>
+                    <path d="M927.051 248.412h-2.357l-129.068 69.544-19.449-76.616 162.072-86.635h85.751v741.995h-96.948v-648.288z"></path>
                 </svg>
             </button>
             <div class="popover-overlay" *ngIf="fontStyle" (click)="fontStyle = false"></div>
@@ -197,20 +197,9 @@
         <div class="col" clickOutside (clickOutside)="closeFontSizePopover()" *ngIf="editorConfig?.mode === 'prime'">
             <button (click)="fontSizePopover()" [csTooltip]="'Font Size'" placement="bottom" delay="0"
                 type="button" [tooltipMandatory]="true">
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                        viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
-                    <g>
-                        <g>
-                            <path d="M449.1,240.6v14c-15.3-12.3-34.6-19.6-55.7-19.6c-49.1,0-89,39.9-89,89c0,49.1,39.9,89,89,89c21,0,40.4-7.4,55.7-19.6v14
-                                h33.4v-167H449.1z M393.5,379.7c-30.7,0-55.7-25-55.7-55.7c0-30.7,25-55.7,55.7-55.7s55.7,25,55.7,55.7
-                                C449.1,354.7,424.1,379.7,393.5,379.7z"/>
-                        </g>
-                    </g>
-                    <g>
-                        <g>
-                            <path d="M165.3,98.9L29.5,407.5H66l46.5-105.7h105.5l46.5,105.7h36.5L165.3,98.9z M127.2,268.4l38.1-86.5l38.1,86.5H127.2z"/>
-                        </g>
-                    </g>
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">                   
+                    <path d="M948.5 477.302v31.647c-34.585-27.804-78.213-44.306-125.909-44.306-110.99 0-201.183 90.193-201.183 201.183s90.193 201.183 201.183 201.183c47.47 0 91.324-16.728 125.909-44.306v31.647h75.5v-377.501h-75.5zM822.817 791.735c-69.397 0-125.909-56.512-125.909-125.909s56.512-125.909 125.909-125.909 125.909 56.512 125.909 125.909c-0.226 69.397-56.738 125.909-125.909 125.909z"></path>
+                    <path d="M306.974 156.991l-306.974 697.586h82.508l105.113-238.933h238.481l105.113 238.933h82.508l-306.748-697.586zM220.849 540.143l86.125-195.532 86.125 195.532h-172.249z"></path>
                 </svg>
             </button>
             <div class="popover-overlay" *ngIf="fontSize" (click)="fontSize = false"></div>
@@ -466,7 +455,7 @@
                         </button>
                     </li>
                     <!-- Superscript -->
-                    <li (click)="moreOptions = false;" data-id="superscript" *ngIf="false">
+                    <li (click)="moreOptions = false;" data-id="superscript">
                         <button [class.active]="toolbarConfig?.superscript" data-id="superscript">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
                                 <path d="M576 114l-223.4 367.8-240.2-367.8h-112.4l296.6 448-296.6 462h112.4l240.4-381.8 223.2 381.8h112.4l-279.6-462 279.6-448zM965.4 283.8v0c37.2-37.4 58.6-89 58.6-141.8 0-78.2-63.8-142-142-142s-142 63.8-142 142v46h92v-46c0-27.6 22.4-50 50-50s50 22.4 50 50c0 28.6-11.6 56.6-31.8 76.6l-160.2 160.4v97h284v-92h-159l100.4-100.2z"></path>
@@ -475,7 +464,7 @@
                         </button>
                     </li>
                     <!-- Subscript -->
-                    <li (click)="moreOptions = false" data-id="subscript" *ngIf="false">
+                    <li (click)="moreOptions = false" data-id="subscript">
                         <button [class.active]="toolbarConfig?.subscript" data-id="subscript">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
                                 <path d="M576 0l-223.4 367.8-240.2-367.8h-112.4l296.6 448-296.6 462h112.4l240.4-381.8 223.2 381.8h112.4l-279.6-462 279.6-448zM965.4 831.8v0c37.4-37.4 58.6-89 58.6-141.8 0-78.2-63.8-142-142-142s-142 63.8-142 142v46h92v-46c0-27.6 22.4-50 50-50s50 22.4 50 50c0 28.6-11.6 56.6-31.8 76.6l-160.2 160.4v97h284v-92h-159l100.4-100.2z"></path>
@@ -517,7 +506,7 @@
                 </button>
             </div>
             <!-- Superscript -->
-            <div class="col" data-id="superscript" *ngIf="true">
+            <div class="col" data-id="superscript">
                 <button [class.active]="toolbarConfig?.superscript" data-id="superscript" [csTooltip]="'Superscript'"
                     placement="bottom" delay="0" type="button" [tooltipMandatory]="true">
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
@@ -526,7 +515,7 @@
                 </button>
             </div>
             <!-- Subscript -->
-            <div class="col" data-id="subscript" *ngIf="true">
+            <div class="col" data-id="subscript">
                 <button [class.active]="toolbarConfig?.subscript" data-id="subscript" [csTooltip]="'Subscript'"
                     placement="bottom" delay="0" type="button" [tooltipMandatory]="true">
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
