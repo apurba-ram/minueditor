@@ -192,6 +192,7 @@ export class EditorContainerComponent
   {
     //delete image using delete button from keyboard
 
+    console.log("PARENT OF PARENT NODE ",event.target.parentNode.parentNode)
     event.target.addEventListener('keydown',(e)=>{
       
       if(e.keyCode===46){
@@ -1310,6 +1311,11 @@ export class EditorContainerComponent
         else
         {
           console.log("MULTIPLE IMAGE")
+          //first mathc all li and find if it contains img then remove img 
+          const litag=/(<li)([^<]*|[^>]*)/g //match all li
+
+
+
             // console.log("IMAGE after add class",img)
             const rexsrc = /src=".*?"/g; // match all src
             // const rexsrc=/<img src=".*?".*? class=".*?";
