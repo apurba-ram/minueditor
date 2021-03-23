@@ -186,8 +186,6 @@ export class EditorContainerComponent
     range.setStartAfter(seprator);
     range.collapse();
     this.sel.addRange(range);
-    
-
   }
 
   imgFoucs(event:any)
@@ -201,12 +199,9 @@ export class EditorContainerComponent
         document.getElementById(event.target.parentNode.id).remove()
       }
     })
-
-    
-
     // console.log("IMAGE HEIGHT",document.get)
     console.log("FOCUS",event.target.id)
-
+    console.log("PARENNT",document.getElementById(event.target.parentNode.id))
     //create resizer div
     const resizerContainer=document.getElementById('resize-container')
     if(resizerContainer===null)
@@ -221,7 +216,6 @@ export class EditorContainerComponent
       const topLeft=document.createElement('div')
       topLeft.setAttribute('class','resize-pointer top-left active')
       topLeft.setAttribute('id','top-left')
-  
   
       const topRight=document.createElement('div')
       topRight.setAttribute('class','resize-pointer top-right active')
@@ -890,8 +884,6 @@ export class EditorContainerComponent
 
   imgBlur(event:any)
   {
-    
-
     console.log("BLURRRRRRRRRRRRRRRRRRRRR")
     // console.log("BLUR",event.target.id)
     console.log("DRAGEVENT",this.dragEvent)
@@ -1250,10 +1242,13 @@ export class EditorContainerComponent
   * @param event - This parameter is an event that is occurred whenever we paste things inside the div contenteditable
   */
   onPaste(event: any): void {
+    console.log("PASTING",event.clipboardData.items[1])
     event.preventDefault();
     const clipboardData = event.clipboardData;
     let pastedHtml = clipboardData.getData('text/html');
+    // console.log("PASTED HTML",pastedHtml,pastedHtml.slice(36,40),typeof(pastedHtml))
     let pastedText = clipboardData.getData('text');
+    // console.log("TEXT",pastedText)
     const regexStyle = /style=".+?"/g; // matching all inline styles
     // const regexComment = /<!--.+?-->/g; // matching all inline styles
     if (pastedHtml === '' && pastedText !== '') {
@@ -1263,14 +1258,91 @@ export class EditorContainerComponent
       });
       document.execCommand('insertHtml', false, pastedText);
     } else {
-      // console.log('HERE', pastedHtml);
+      console.log('HERE TEXT EMPTY BUT NOT HTML', pastedHtml);
       pastedHtml = pastedHtml.replace(regexStyle, (match: any) =>  '');
       const rexa = /href=".*?"/g; // match all a href
       pastedHtml = pastedHtml.replace(rexa, (match: any) => {
         const str = ' target="_blank" rel="noopener noreferrer"';
         return match + str;
       });
-      document.execCommand('insertHtml', false, pastedHtml);
+      const bId = /id=".*?"/g; //match all id
+      const bClass = /class=".*?"/g; // match all class
+      const svg=/(<svg)([^<]*|[^>]*)/ //match all svg
+      const bT = ['style', 'script', 'applet', 'embed', 'noframes', 'noscript', 'button', 'meta', 'iframe', 'nav', 'input','svg'];
+      
+      pastedHtml = pastedHtml.replace(bClass, (match: any) => {
+          return '';
+      });
+      pastedHtml = pastedHtml.replace(bId, (match: any) => {
+        return '';
+      });
+
+      pastedHtml = pastedHtml.replace(svg, (match: any) => {
+        return '';
+      });
+      for (let i = 0; i < bT.length; i++) {
+        var tS = new RegExp('<' + bT[i] + '\\b.*>.*</' + bT[i] + '>', 'gi');
+        pastedHtml = pastedHtml.replace(tS, '');
+      }
+      const bA = ['start', 'class', 'id'];
+      for (let ii = 0; ii < bA.length; ii++ ) {
+        let aS = new RegExp(' ' + bA[ii] + '=[\'|"](.*?)[\'|"]', 'gi');
+        pastedHtml = pastedHtml.replace(aS, '');
+        aS = new RegExp(' ' + bA[ii] + '[=0-9a-z]', 'gi');
+        pastedHtml = pastedHtml.replace(aS, '');
+      }
+
+      if(pastedHtml.match(/<img/g))
+      {
+        console.log("IMAGE FOUND",pastedText)
+        if(pastedText==='')
+        {
+          console.log("HEY HYE HYE")
+          var srcWithQuotes = pastedHtml.match(/src\=([^\s]*)\s/)[1],
+          src = srcWithQuotes.substring(1,srcWithQuotes.length - 1);
+          const imgRex = /<img.*?src="(.*?)"[^>]+>/g;
+          console.log(src);​     
+          let o={
+            url:src
+          }
+          this.saveImage(o)
+        }
+        else
+        {
+          console.log("MULTIPLE IMAGE")
+            // console.log("IMAGE after add class",img)
+            const rexsrc = /src=".*?"/g; // match all src
+            // const rexsrc=/<img src=".*?".*? class=".*?";
+            let idArray: string[] = []; 
+            pastedHtml = pastedHtml.replace(rexsrc, (match: any) => {
+              const id = (() => {
+                return '_' + Math.random().toString(36).substr(2, 9);
+              })();
+              idArray.push(id);
+              return match + `class="editor-image" id="image${id}" tabindex="0" contenteditable="false"`;
+            });  
+ 
+            const imgRex = /<img.*?src="(.*?)"[^>]+>/g;
+            pastedHtml = pastedHtml.replace(imgRex, (match: any) => {
+              const id = (() => {
+                return '_' + Math.random().toString(36).substr(2, 9);
+              })();
+              match = match.trim();
+              return `<div class="image-container" contenteditable="true" id="image-container${id}">` + match + `</div><div style="clear:both"></div>`;
+            });
+            console.log(pastedHtml);
+        }
+      }
+      document.execCommand('insertHtml', false, pastedHtml); 
+      console.log(document.getElementsByClassName('editor-image'));
+      for(let i=0;i<document.getElementsByClassName('editor-image').length;i++)
+      {
+        document.getElementsByClassName('editor-image')[i].addEventListener('focus',this.imgFoucs.bind(this));
+      }
+      for(let i=0;i<document.getElementsByClassName('editor-image').length;i++)
+      {
+        document.getElementsByClassName('editor-image')[i].addEventListener('blur',this.imgBlur.bind(this));
+      }
     }
   }
 
