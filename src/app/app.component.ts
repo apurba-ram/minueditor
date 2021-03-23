@@ -22,12 +22,16 @@ export class AppComponent  {
     toolbarPlacement: 'bottom',
     buttonName: 'Submit',
     file: true,
-    popupZIndex: 6,
     link: true,
     colorPalette: true,
     mode: 'prime',
     id: 'PLAGIARISM',
-    configFontStyle: true
+    configFontStyle: true,
+    urlInputPlaceHolder: 'PLESS',
+    urlText: 'adsasdsad',
+    urlTitle: 'adsfeqgegwegwge',
+    urlValue: 'PIVOA',
+    validUrlMessage: 'asadsadqwdw ad',
   };
   
 
