@@ -1,4 +1,3 @@
-import { ViewEncapsulation } from '@angular/core';
 import {
   Component,
   Input,
@@ -7,12 +6,15 @@ import {
   ViewChild,
   ElementRef,
   AfterViewInit,
+  ViewEncapsulation,
 } from '@angular/core';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
+import {ModalService} from '../modal.service';
 @Component({
   selector: 'app-editor-menu',
   templateUrl: './editor-menu.component.html',
   styleUrls: ['./editor-menu.component.less', '../theme.less'],
+  encapsulation: ViewEncapsulation.None
 })
 export class EditorMenuComponent implements AfterViewInit {
   @Input() editorConfig: EditorConfig;
@@ -61,7 +63,7 @@ export class EditorMenuComponent implements AfterViewInit {
   image: any;
   fontType: string[];
 
-  constructor() {
+  constructor(private modal: ModalService) {
     this.filesArray = [];
     this.fillColor = Array(2).fill(false);
     this.image = null;
@@ -468,5 +470,13 @@ export class EditorMenuComponent implements AfterViewInit {
   }
   hideAlert(): void {
     this.showAlert = false;
+  }
+
+  openModal(id: string) {
+    this.modal.open(id);
+  }
+
+  closeModal(id: string) {
+      this.modal.close(id);
   }
 }

@@ -5,10 +5,11 @@ import { ToolsModule } from './tools/tools.module';
 import { EditorMenuComponent } from './editor-menu/editor-menu.component';
 import { MentionModule } from 'angular-mentions';
 import { FormsModule } from '@angular/forms';
+import { MarxModalComponent } from './modal/modal.component';
 
 
 @NgModule({
-  declarations: [EditorContainerComponent, EditorMenuComponent],
+  declarations: [EditorContainerComponent, EditorMenuComponent, MarxModalComponent],
   imports: [
     CommonModule,
     ToolsModule,
