@@ -432,7 +432,7 @@ export class EditorLinkComponent {
 @Component({
   selector: 'marx-files',
   templateUrl: './marx-files.component.html',
-  styleUrls: [],
+  styleUrls: ['./editor-menu.component.less', '../theme.less'],
 })
 export class EditorFilesComponent {
   @Input() editorConfig: EditorConfig;

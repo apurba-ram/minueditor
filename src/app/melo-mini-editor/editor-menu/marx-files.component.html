@@ -1,12 +1,11 @@
-<div class="popup-mask">
-    <div class="popover attach">
-        <div class="head">
-            <h3>Attach Files</h3>
-            <button class="close" (click)="close()" type="button">&times;</button>
-        </div>
-        <div class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragover($event)"
-            (dragend)="dragend($event)" (dragleave)="dragleave($event)" (drop)="dropFiles($event)"
-            [class.enter]="enter">
+<div class="popup-container">
+    <div class="head">
+        <h3>Attach Files</h3>
+        <button class="close" (click)="close()" type="button">&times;</button>
+    </div>
+    <div class="body">
+        <div class="drag-drop" (dragenter)="dragenter($event)" (dragover)="dragover($event)" (dragend)="dragend($event)"
+            (dragleave)="dragleave($event)" (drop)="dropFiles($event)" [class.enter]="enter">
             <input type="file" id="browse" (change)="filesFromInput($event)" multiple>
             <div class="container">
                 <span>Drop files here or browse to upload</span>
@@ -34,14 +33,15 @@
                             </span>
                         </span>
                     </div>
-                    <p class="file-title" [csTooltip]="fileObj.file.name" placement="bottom" delay="0"
-                        type="black" [tooltipMandatory]="true">{{fileObj.file.name}}</p>
+                    <p class="file-title" [csTooltip]="fileObj.file.name" placement="bottom" delay="0" type="black"
+                        [tooltipMandatory]="true">{{fileObj.file.name}}</p>
                 </div>
             </div>
         </div>
-        <div class="footer">
-            <button class="cancel" (click)="close()" type="button">Cancel</button>
-            <button (click)="save()" class="upload" type="button" [class.disabled]="filesArray.length === 0">Save</button>
-        </div>
+    </div>
+
+    <div class="footer">
+        <button class="cancel" (click)="close()" type="button">Cancel</button>
+        <button (click)="save()" class="upload" type="button" [class.disabled]="filesArray.length === 0">Save</button>
     </div>
 </div>
