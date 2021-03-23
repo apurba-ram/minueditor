@@ -190,64 +190,18 @@ export class EditorMenuComponent implements AfterViewInit {
 
   // Image popup code ends
 
-  // File code begins
-
+  /**
+   * Function is invoked when the user clicks on the save button from the add files popover
+  */
   saveFiles(event: any[]): void {
     this.sendSavedFiles.emit(event);
-    this.closeAttachPopover();
   }
-
-  /**
-   *  Function is triggered to close the file popover
-   */
-  closeAttachPopover(): void {
-    this.filesArray = [];
-    this.upload = false;
-  }
-
-
-
-
-  // File Upload code ends
-
-
-  // Add Link code starts
 
   /**
    * Function is invoked when the user clicks on the save button from the add link popover
   */
   saveLink(event: any): void { 
-    console.log(event);
     this.linkInEditor.emit({value: event, id: 'link'});
-    // const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
-    // if(!this.linkUrl || !this.linkUrl?.match(rex)) { //check url is valid or not
-    //     this.invalidUrlMessage = true
-    // } else {
-    //   if(!this.linkText) {
-    //     this.linkText = this.linkUrl;
-    //   }
-    //   const obj = {        
-    //         value: {
-    //           linkUrl:this.linkUrl,
-    //           linkText:this.linkText?.trim() ?? '',
-    //           linkTitle:this.linkTitle?.trim() ?? ''
-    //         },
-    //         id: 'link'
-    //   };
-    //   this.linkInEditor.emit(obj);
-    //   this.closeAddLinksPopover();
-    // }
-  }
-
-  /**
-   * Function is invoked when the user clicks on the cancel button from the add link popover
-   */
-  closeAddLinksPopover(): void {
-    this.linkText = '';
-    this.linkTitle = '';
-    this.linkUrl = '';
-    this.addLink = false;
-    this.invalidUrlMessage=false;
   }
    
   // Add Link code ends
@@ -260,6 +214,7 @@ export class EditorMenuComponent implements AfterViewInit {
     this.moreOptions = false;
     this.fontFamily = false;
   }
+
   listStyles(): void {
     this.listStyle = !this.listStyle;
     this.alignment = false;
@@ -267,6 +222,7 @@ export class EditorMenuComponent implements AfterViewInit {
     this.moreOptions = false;
     this.fontFamily = false;
   }
+
   fontStylePopover(): void {
     this.fontStyle = !this.fontStyle;
     this.listStyle = false;
@@ -274,6 +230,7 @@ export class EditorMenuComponent implements AfterViewInit {
     this.moreOptions = false;
     this.fontFamily = false;
   }
+
   fontSizePopover() {
     this.fontStyle = false;
     this.listStyle = false;
@@ -282,6 +239,7 @@ export class EditorMenuComponent implements AfterViewInit {
     this.fontFamily = false;
     this.fontSize = !this.fontSize;
   }
+
   openfontFamily() {
     this.fontFamily = !this.fontFamily;
     this.fontStyle = false;
@@ -289,6 +247,7 @@ export class EditorMenuComponent implements AfterViewInit {
     this.alignment = false;
     this.moreOptions = false;
   }
+
   showMoreOptions() {
     this.moreOptions = !this.moreOptions;
     this.fontFamily = false;
@@ -296,6 +255,7 @@ export class EditorMenuComponent implements AfterViewInit {
     this.listStyle = false;
     this.alignment = false;
   }
+
   clickOutsideMoreOptions() {
     this.moreOptions = false;
     this.filesArray = [];
@@ -309,6 +269,7 @@ export class EditorMenuComponent implements AfterViewInit {
     this.fillColor = Array(2).fill(false);
     this.setTextColor = false;
   }
+
   closePopover(): void {
     this.filesArray = [];
     this.alignment = false;
@@ -349,6 +310,7 @@ export class EditorMenuComponent implements AfterViewInit {
     this.fillColor = Array(2).fill(false);
     this.setTextColor = false;
   }
+
   closeFontSizePopover(): void {
     this.moreOptions = false;
     this.filesArray = [];
@@ -377,6 +339,7 @@ export class EditorMenuComponent implements AfterViewInit {
     this.fillColor = Array(2).fill(false);
     this.setTextColor = false;
   }
+  
   hideAlert(): void {
     this.showAlert = false;
   }
@@ -387,6 +350,8 @@ export class EditorMenuComponent implements AfterViewInit {
 
   closeModal(id: string) {
       this.modal.close(id + '-' + this.editorConfig?.id);
+      this.addLink = false;
+      this.upload = false;
   }
 }
 
@@ -501,7 +466,7 @@ export class EditorFilesComponent {
  * 
  * @param event - Triggered when a file is dropped in the drag & drop area
  */
-    dropFiles(event: DragEvent): void {
+  dropFiles(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
 
