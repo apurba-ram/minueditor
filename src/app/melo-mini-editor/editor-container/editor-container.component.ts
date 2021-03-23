@@ -90,6 +90,8 @@ export class EditorContainerComponent
     this.placeholder = '';
     this.id = nanoid();
     this.resetToolbar();
+
+
    
   }
 
@@ -206,19 +208,23 @@ export class EditorContainerComponent
 
     
 
+    
     // console.log("IMAGE HEIGHT",document.get)
     console.log("FOCUS",event.target.id)
 
     //create resizer div
     const resizerContainer=document.getElementById('resize-container')
+    console.log("RESIZERContainer",resizerContainer)
     if(resizerContainer===null)
     {
+      console.log("HEY")
       const resizer=document.createElement('div')
       resizer.setAttribute('class','resize-container active')
       resizer.setAttribute('id','resize-container')
       resizer.style.width=document.getElementById(event.target.id).clientWidth+'px'
       resizer.style.height=document.getElementById(event.target.id).clientHeight+'px'
       resizer.style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
+      resizer.style.top=document.getElementById(event.target.id).getBoundingClientRect().top-50+'px'
   
       const topLeft=document.createElement('div')
       topLeft.setAttribute('class','resize-pointer top-left active')
@@ -1275,6 +1281,16 @@ export class EditorContainerComponent
         const str = ' target="_blank" rel="noopener noreferrer"';
         return match + str;
       });
+      const bId = /id=".*?"/g; //match all id
+      const bClass = /class=".*?"/g; // match all class
+      pastedHtml = pastedHtml.replace(bClass, (match: any) => {
+          return '';
+      });
+      pastedHtml = pastedHtml.replace(bId, (match: any) => {
+        return '';
+      });
+
+
       if(pastedHtml.match(/<img/g))
       {
         console.log("IMAGE FOUND",pastedText)
@@ -1291,40 +1307,44 @@ export class EditorContainerComponent
         }
         else
         {
-          console.log("IMAGED FOLLEEE",event.clipboardData.items[0].type)
-          const dT = event.clipboardData 
-          const html = dT.getData('text/html') || "";
-            
             // console.log("IMAGE after add class",img)
-            // const rexsrc = /src=".*?"/g; // match all src
+            const rexsrc = /src=".*?"/g; // match all src
 
             // const rexsrc=/<img src=".*?".*? class=".*?";
-           
+            let idArray: string[] = []; 
             pastedHtml = pastedHtml.replace(rexsrc, (match: any) => {
               const id = (() => {
                 return '_' + Math.random().toString(36).substr(2, 9);
               })();
-              console.log("MATCH SRC",match)
-              const str = `id="image"+${id}`;
-              return match + str;
-             
-            });
+              idArray.push(id);
+              return match + `class="editor-image" id="image${id}" tabindex="0"`;
+            });  
  
             const imgRex = /<img.*?src="(.*?)"[^>]+>/g;
-              pastedHtml = pastedHtml.replace(imgRex, (match: any) => {
-                // console.log(match);
-                const id = (() => {
-                  return '_' + Math.random().toString(36).substr(2, 9);
-                })();
-                match = match.trim();
-                return `<div class="image-container" contenteditable="true" id="image-container">` + match + `</div>`;
-              });
-              console.log(pastedHtml);
+            pastedHtml = pastedHtml.replace(imgRex, (match: any) => {
+              match = match.trim();
+              return `<div class="image-container" contenteditable="true" id="image-container">` + match + `</div>`;
+            });
+            console.log(pastedHtml);
         }
       }
-      document.execCommand('insertHtml', false, pastedHtml);  
+      document.execCommand('insertHtml', false, pastedHtml); 
+      console.log(document.getElementsByClassName('editor-image'));
+      for(let i=0;i<document.getElementsByClassName('editor-image').length;i++)
+      {
+        document.getElementsByClassName('editor-image')[i].addEventListener('focus',this.imgFoucs.bind(this));
+      }
+      for(let i=0;i<document.getElementsByClassName('editor-image').length;i++)
+      {
+        document.getElementsByClassName('editor-image')[i].addEventListener('blur',this.imgBlur.bind(this));
+      }
     }
   }
+
+
+  
+
+  
 
   toolbarClicked(event: any): void {
     try {
