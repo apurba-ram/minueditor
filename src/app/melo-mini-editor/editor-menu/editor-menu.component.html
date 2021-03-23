@@ -284,7 +284,8 @@
                 </svg>
             </button>
             <marx-modal id="marx-modal-1">
-                <div class="popup-mask link" *ngIf="addLink" [style.zIndex]="editorConfig.popupZIndex | pzIndex:3" role="dialog">
+                <!-- [style.zIndex]="editorConfig.popupZIndex | pzIndex:3" -->
+                <div class="popup-mask link" *ngIf="addLink" role="dialog">
                     <div class="popover attach">
                         <div class="head">
                             <h3>Insert Link</h3>
