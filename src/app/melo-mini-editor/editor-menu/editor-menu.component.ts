@@ -472,11 +472,11 @@ export class EditorMenuComponent implements AfterViewInit {
   }
 
   openModal(id: string) {
-    this.modal.open(id);
+    this.modal.open(id + '-' + this.editorConfig?.id);
   }
 
   closeModal(id: string) {
-      this.modal.close(id);
+      this.modal.close(id + '-' + this.editorConfig?.id);
   }
 }
 
