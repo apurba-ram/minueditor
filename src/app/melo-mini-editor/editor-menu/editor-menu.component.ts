@@ -107,23 +107,6 @@ export class EditorMenuComponent implements AfterViewInit {
       this.fillColor[0] = true;
     }
   }
-
-  /**
-   * 
-   * @param file - Represents a file whose extension needs to be returned
-   * @returns a string value which represents an extension
-   */
-  getFileExtension(file: File): string {
-    if(file) {
-      const index = file?.name.lastIndexOf('.');
-      if(index === -1) {
-        return 'file';
-      } else {
-        return file?.name?.slice(index + 1);
-      }
-    }
-    return '';
-  }
   
   // Image popup code begins
 
@@ -158,15 +141,16 @@ export class EditorMenuComponent implements AfterViewInit {
    * @returns true or false based on if the file is an image file or not
   */
   validImage(file: File): boolean {
-    const fileExtension = this.getFileExtension(file);
-    switch(fileExtension) {
-      case 'jpg':
-      case 'jpeg':
-      case 'png':
-      case 'gif': return true; 
+    return false;
+    // const fileExtension = this.getFileExtension(file);
+    // switch(fileExtension) {
+    //   case 'jpg':
+    //   case 'jpeg':
+    //   case 'png':
+    //   case 'gif': return true; 
 
-      default: return false;
-    }
+    //   default: return false;
+    // }
   }
 
   /**
@@ -208,8 +192,8 @@ export class EditorMenuComponent implements AfterViewInit {
 
   // File code begins
 
-  saveFiles(): void {
-    this.sendSavedFiles.emit(this.filesArray);
+  saveFiles(event: any[]): void {
+    this.sendSavedFiles.emit(event);
     this.closeAttachPopover();
   }
 
@@ -222,85 +206,10 @@ export class EditorMenuComponent implements AfterViewInit {
   }
 
 
-  /**
-   * 
-   * @param event - Triggered when a file is dropped in the drag & drop area
-   */
-  dropFiles(event: DragEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
 
-    if(event?.dataTransfer?.files && event?.dataTransfer?.files.length > 0) {
-      for (let i = 0; i <  event.dataTransfer.files.length; i++) {
-        this.filesArray.push({file: event.dataTransfer.files[i], extension: this.getFileExtension(event.dataTransfer.files[i])});
-      }
-    }
-    this.enter = false;
-  }
-
-  /**
-   * 
-   * @param fileIndex - Index from where file needs to be removed
-   */
-  removeFile(fileIndex: number): void {
-    this.filesArray.splice(fileIndex, 1);
-  }
-
-  /**
-   * 
-   * @param event - Event triggered when user clicks on browse button of the file popup
-   */
-  filesFromInput(event: any): void {
-    for (let i = 0; i <  event.target.files.length; i++) {
-      this.filesArray.push({file: event.target.files[i], extension: this.getFileExtension(event.target.files[i])});
-    }
-    event.target.value = ''
-  }
 
   // File Upload code ends
-  // Drag event code starts
 
-  /**
-   * 
-   * @param event - Represents a dragenter event
-   */
-  dragenter(event: DragEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-    this.enter = true;
-  }
-
-  /**
-   * 
-   * @param event - Represents a dragover event
-   */
-  dragover(event: DragEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-    this.enter = true;
-  }
-
-  /**
-   * 
-   * @param event - Represents a dragend event
-   */
-  dragend(event: DragEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-    this.enter = false;
-  }
-
-  /**
-   * 
-   * @param event - Represents a dragleave event
-   */
-  dragleave(event: DragEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-    this.enter = false;
-  }
-
-  // Drag Event code ends
 
   // Add Link code starts
 
@@ -309,6 +218,7 @@ export class EditorMenuComponent implements AfterViewInit {
   */
   saveLink(event: any): void { 
     console.log(event);
+    this.linkInEditor.emit(event);
     // const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     // if(!this.linkUrl || !this.linkUrl?.match(rex)) { //check url is valid or not
     //     this.invalidUrlMessage = true
@@ -522,8 +432,118 @@ export class EditorLinkComponent {
 @Component({
   selector: 'marx-files',
   templateUrl: './marx-files.component.html',
-  styleUrls: ['./editor-menu.component.less', '../theme.less'],
+  styleUrls: [],
 })
 export class EditorFilesComponent {
   @Input() editorConfig: EditorConfig;
+  @Output() filesEmitter: EventEmitter<any[]> = new EventEmitter();
+  @Output() closeEmitter: EventEmitter<any> = new EventEmitter();
+  enter: boolean;
+  filesArray: any[];
+
+  constructor() {
+    this.filesArray = [];
+  }
+
+  save(): void {
+    this.filesEmitter.emit(this.filesArray);
+  }
+
+  close(): void {
+    this.closeEmitter.emit();
+  }
+
+  /**
+   * 
+   * @param event - Represents a dragenter event
+   */
+   dragenter(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.enter = true;
+  }
+
+  /**
+   * 
+   * @param event - Represents a dragover event
+   */
+  dragover(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.enter = true;
+  }
+
+  /**
+   * 
+   * @param event - Represents a dragend event
+   */
+  dragend(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.enter = false;
+  }
+
+  /**
+   * 
+   * @param event - Represents a dragleave event
+   */
+  dragleave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.enter = false;
+  }
+
+  // Drag Event code ends
+
+  /**
+ * 
+ * @param event - Triggered when a file is dropped in the drag & drop area
+ */
+    dropFiles(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if(event?.dataTransfer?.files && event?.dataTransfer?.files.length > 0) {
+      for (let i = 0; i <  event.dataTransfer.files.length; i++) {
+        this.filesArray.push({file: event.dataTransfer.files[i], extension: this.getFileExtension(event.dataTransfer.files[i])});
+      }
+    }
+    this.enter = false;
+  }
+  
+  /**
+   * 
+   * @param fileIndex - Index from where file needs to be removed
+   */
+  removeFile(fileIndex: number): void {
+    this.filesArray.splice(fileIndex, 1);
+  }
+  
+  /**
+   * 
+   * @param event - Event triggered when user clicks on browse button of the file popup
+   */
+  filesFromInput(event: any): void {
+    for (let i = 0; i <  event.target.files.length; i++) {
+      this.filesArray.push({file: event.target.files[i], extension: this.getFileExtension(event.target.files[i])});
+    }
+    event.target.value = ''
+  }
+
+  /**
+   * 
+   * @param file - Represents a file whose extension needs to be returned
+   * @returns a string value which represents an extension
+   */
+   getFileExtension(file: File): string {
+    if(file) {
+      const index = file?.name.lastIndexOf('.');
+      if(index === -1) {
+        return 'file';
+      } else {
+        return file?.name?.slice(index + 1);
+      }
+    }
+    return '';
+  }
 }
