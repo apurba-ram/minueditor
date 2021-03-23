@@ -301,7 +301,11 @@
             </button>
 
             <marx-modal id="file-modal-{{editorConfig?.id}}" role="dialog">
-                
+                <marx-files 
+                (filesEmitter)="saveFiles($event)" 
+                (closeEmitter)="closeModal('file-modal')">
+
+                </marx-files>
             </marx-modal>
            
         </div>
