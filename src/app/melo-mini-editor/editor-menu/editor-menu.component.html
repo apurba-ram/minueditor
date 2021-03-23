@@ -284,7 +284,7 @@
             <marx-modal id="link-modal-{{editorConfig?.id}}" role="dialog">
                 <marx-link 
                     [editorConfig]="editorConfig" 
-                    (linkEmitter)="saveLink()" 
+                    (linkEmitter)="saveLink($event)" 
                     (closeEmitter)="closeModal('link-modal')">
                 </marx-link>
             </marx-modal>
@@ -300,9 +300,8 @@
 
             <marx-modal id="file-modal-{{editorConfig?.id}}" role="dialog">
                 <marx-files 
-                (filesEmitter)="saveFiles($event)" 
-                (closeEmitter)="closeModal('file-modal')">
-
+                    (filesEmitter)="saveFiles($event)" 
+                    (closeEmitter)="closeModal('file-modal')">
                 </marx-files>
             </marx-modal>
            

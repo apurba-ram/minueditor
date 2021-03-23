@@ -26,6 +26,7 @@ export class AppComponent  {
     link: true,
     colorPalette: true,
     mode: 'prime',
+    id: 'PLAGIARISM',
     configFontStyle: true
   };
   

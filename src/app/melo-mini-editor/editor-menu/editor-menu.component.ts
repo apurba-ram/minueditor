@@ -218,7 +218,7 @@ export class EditorMenuComponent implements AfterViewInit {
   */
   saveLink(event: any): void { 
     console.log(event);
-    this.linkInEditor.emit(event);
+    this.linkInEditor.emit({value: event, id: 'link'});
     // const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     // if(!this.linkUrl || !this.linkUrl?.match(rex)) { //check url is valid or not
     //     this.invalidUrlMessage = true
@@ -417,9 +417,10 @@ export class EditorLinkComponent {
         this.linkText = this.linkUrl;
       }
       if(!this.linkTitle || this.linkTitle.trim() === '') {
-        this.linkTitle = this.linkUrl;
+        this.linkTitle = this.linkText;
       }
       this.linkEmitter.emit({linkTitle: this.linkTitle, linkText: this.linkText, linkUrl: this.linkUrl});
+      this.close();
     }
   }
 
@@ -447,6 +448,7 @@ export class EditorFilesComponent {
 
   save(): void {
     this.filesEmitter.emit(this.filesArray);
+    this.close();
   }
 
   close(): void {
