@@ -5,8 +5,7 @@ import {
   EventEmitter,
   ViewChild,
   ElementRef,
-  AfterViewInit,
-  ViewEncapsulation,
+  AfterViewInit
 } from '@angular/core';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 import {ModalService} from '../modal.service';
@@ -14,12 +13,11 @@ import {ModalService} from '../modal.service';
   selector: 'app-editor-menu',
   templateUrl: './editor-menu.component.html',
   styleUrls: ['./editor-menu.component.less', '../theme.less'],
-  encapsulation: ViewEncapsulation.None
 })
 export class EditorMenuComponent implements AfterViewInit {
-  @Input() editorConfig: EditorConfig;
-  @Input() toolbarConfig: ToolbarConfig;
-  @Input() moreOptionsButton: boolean;
+  @Input()  editorConfig: EditorConfig;
+  @Input()  toolbarConfig: ToolbarConfig;
+  @Input()  moreOptionsButton: boolean;
   @Output() buttonClick: EventEmitter<any> = new EventEmitter();
   @Output() sendSavedFiles: EventEmitter<any> = new EventEmitter();
   @Output() imageInEditor: EventEmitter<any> = new EventEmitter();
@@ -309,25 +307,26 @@ export class EditorMenuComponent implements AfterViewInit {
   /**
    * Function is invoked when the user clicks on the save button from the add link popover
   */
-  saveLink(): void { 
-    const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
-    if(!this.linkUrl || !this.linkUrl?.match(rex)) { //check url is valid or not
-        this.invalidUrlMessage = true
-    } else {
-      if(!this.linkText) {
-        this.linkText = this.linkUrl;
-      }
-      const obj = {        
-            value: {
-              linkUrl:this.linkUrl,
-              linkText:this.linkText?.trim() ?? '',
-              linkTitle:this.linkTitle?.trim() ?? ''
-            },
-            id: 'link'
-      };
-      this.linkInEditor.emit(obj);
-      this.closeAddLinksPopover();
-    }
+  saveLink(event: any): void { 
+    console.log(event);
+    // const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+    // if(!this.linkUrl || !this.linkUrl?.match(rex)) { //check url is valid or not
+    //     this.invalidUrlMessage = true
+    // } else {
+    //   if(!this.linkText) {
+    //     this.linkText = this.linkUrl;
+    //   }
+    //   const obj = {        
+    //         value: {
+    //           linkUrl:this.linkUrl,
+    //           linkText:this.linkText?.trim() ?? '',
+    //           linkTitle:this.linkTitle?.trim() ?? ''
+    //         },
+    //         id: 'link'
+    //   };
+    //   this.linkInEditor.emit(obj);
+    //   this.closeAddLinksPopover();
+    // }
   }
 
   /**
@@ -479,4 +478,52 @@ export class EditorMenuComponent implements AfterViewInit {
   closeModal(id: string) {
       this.modal.close(id);
   }
+}
+
+
+@Component({
+  selector: 'marx-link',
+  templateUrl: './marx-link.component.html',
+  styleUrls: ['./editor-menu.component.less', '../theme.less'],
+})
+export class EditorLinkComponent {
+  @Input() editorConfig: EditorConfig;
+  @Output() linkEmitter: EventEmitter<{linkUrl: string, linkTitle: string, linkText: string}> = new EventEmitter();
+  @Output() closeEmitter: EventEmitter<any> = new EventEmitter();
+  linkTitle: string;
+  linkText: string;
+  linkUrl: string;
+  rex: RegExp;
+  invalid: boolean;
+  constructor() {
+    this.rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+  }
+
+  save(): void {
+    if(!this.linkUrl || !this.linkUrl?.match(this.rex)) { //check url is valid or not
+        this.invalid = true;
+    } else {
+      if(!this.linkText || this.linkText.trim() === '') {
+        this.linkText = this.linkUrl;
+      }
+      if(!this.linkTitle || this.linkTitle.trim() === '') {
+        this.linkTitle = this.linkUrl;
+      }
+      this.linkEmitter.emit({linkTitle: this.linkTitle, linkText: this.linkText, linkUrl: this.linkUrl});
+    }
+  }
+
+  close(): void {
+    this.closeEmitter.emit(null);
+  }
+}
+
+
+@Component({
+  selector: 'marx-files',
+  templateUrl: './marx-files.component.html',
+  styleUrls: ['./editor-menu.component.less', '../theme.less'],
+})
+export class EditorFilesComponent {
+  @Input() editorConfig: EditorConfig;
 }
