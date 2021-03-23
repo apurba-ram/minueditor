@@ -442,39 +442,20 @@ export class EditorContainerComponent
     const clipboardData = event.clipboardData;
     let pastedHtml = clipboardData.getData('text/html');
     let pastedText = clipboardData.getData('text');
-    const rexa = /href=".*?"/g; // match all a href
-
+    
     if(event.clipboardData.types.indexOf('text/rtf') > -1) {
       // Paste from word
       pastedHtml = this.cleanPaste(pastedHtml);
-      pastedHtml = pastedHtml.replace(rexa, (match: any) => {
-        const str = ' target="_blank" rel="noopener noreferrer"';
-        return match + str;
-      });
-     //  pastedHtml = this.cleanPaste(pastedHtml);
       document.execCommand('insertHtml', false, pastedHtml);
     } else if (event.clipboardData.types.indexOf('text/html') === -1) {
-
-      // Text Paste
       const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
       pastedText = pastedText.replace(rex, (match: any) => {
         return `<a href="${match}" target="_blank" rel="noopener noreferrer">${match}</a>`;
       });
       document.execCommand('insertHtml', false, pastedText);
     } else {
-      // HTML Paste
-      pastedHtml = pastedHtml.replace(rexa, (match: any) => {
-        const str = ' target="_blank" rel="noopener noreferrer"';
-        return match + str;
-      });
-
-      const bT = ['nav', 'script', 'applet', 'embed', 'noframes', 'noscript', 'form', 'meta', 'iframe'];
-
-      for (let i = 0; i < bT.length; i++) {
-        let tS = new RegExp('<' + bT[i] + '\\b.*>.*</' + bT[i] + '>', 'gi');
-        pastedHtml = pastedHtml.replace(tS, '');
-      }
-     //  pastedHtml = this.cleanPaste(pastedHtml);
+      // Paste from browser
+      pastedHtml = this.cleanPaste(pastedHtml);
       document.execCommand('insertHtml', false, pastedHtml);
     }
   }
@@ -492,20 +473,26 @@ export class EditorContainerComponent
     output = output.replace(cS, '');
     let tS = new RegExp('<(/)*(meta|link|\\?xml:|st1:|o:|font)(.*?)>', 'gi');
     output = output.replace(tS, '');
-    const bT = ['style', 'script', 'applet', 'embed', 'noframes', 'noscript'];
+    const bT = ['style', 'script', 'applet', 'embed', 'noframes', 'noscript', 'button', 'meta', 'iframe', 'input', 'form'];
 
     for (let i = 0; i < bT.length; i++) {
       tS = new RegExp('<' + bT[i] + '\\b.*>.*</' + bT[i] + '>', 'gi');
       output = output.replace(tS, '');
     }
 
-    const bA = ['style', 'start'];
+    const bA = ['start', 'class', 'id', 'onclick'];
     for (let ii = 0; ii < bA.length; ii++ ) {
       let aS = new RegExp(' ' + bA[ii] + '=[\'|"](.*?)[\'|"]', 'gi');
       output = output.replace(aS, '');
       aS = new RegExp(' ' + bA[ii] + '[=0-9a-z]', 'gi');
       output = output.replace(aS, '');
     }
+
+    const rexa = /href=".*?"/g; // match all a href
+    output = output.replace(rexa, (match: any) => {
+      const str = ' target="_blank" rel="noopener noreferrer"';
+      return match + str;
+    });
     return output;
   }
 
