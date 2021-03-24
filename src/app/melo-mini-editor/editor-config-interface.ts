@@ -10,13 +10,12 @@ export interface EditorConfig {
     buttonName?: string;
     disabledButton?: boolean;
     isCollapsible?: boolean;
-    popupZIndex?: number;
     link?: boolean;
     urlValue?:string;
     urlText?:string;
     urlTitle?:string;
     configFontStyle?: boolean;
-    validUrlMsg?:string;
+    validUrlMessage?:string;
     urlInputPlaceHolder?:string;
     textInputPlaceHolder?:string;
     titlePlaceholder?:string;

@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
-import { nanoid } from 'nanoid';
+import { nanoid } from '../nanoid';
 @Component({
   selector: 'app-editor-container',
   templateUrl: './editor-container.component.html',
@@ -42,7 +42,6 @@ export class EditorContainerComponent
   sel: Selection;
   startOffset: number;
   endOffset: number;
-  id: string;
   format: boolean;
   node: any;
   tribute: string;
@@ -69,7 +68,6 @@ export class EditorContainerComponent
     this.fontColor = 'black';
     this.backgroundColor = 'white';
     this.toolbarPlacement = 'bottom';
-    this.id = nanoid();
     this.resetToolbar();
     this.mentionConfig = {
       mentions: []
@@ -129,8 +127,8 @@ export class EditorContainerComponent
   }
 
   writeValue(value: string, source?: string): void {
-    if(document.getElementById(this.id) && !source) {
-        document.getElementById(this.id).innerHTML = value ?? '';
+    if(document.getElementById(this.editorConfig.id) && !source) {
+        document.getElementById(this.editorConfig.id).innerHTML = value ?? '';
     }
     this.htmlVal = value;
     
@@ -181,7 +179,7 @@ export class EditorContainerComponent
   */
   selectionChange(event: any): void {
 
-    if (event.target?.activeElement?.id === this.id) {
+    if (event.target?.activeElement?.id === this.editorConfig.id) {
       this.oldRange = this.sel.getRangeAt(0).cloneRange();
       this.setFontAndbackgroundColor();
       this.toolbarConfig = {
@@ -263,7 +261,8 @@ export class EditorContainerComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.editorConfig && this.editorConfig) {
-      this.id = this.editorConfig?.id ?? this.id;
+
+      this.editorConfig.id = this.editorConfig.id || nanoid();
 
       this.mentionConfig = {
         mentions: []
@@ -329,7 +328,7 @@ export class EditorContainerComponent
    */
   checkValidOperation(elem: any): boolean {
     if (elem) {
-      if (elem === document.getElementById(this.id)) {
+      if (elem === document.getElementById(this.editorConfig.id)) {
         return true;
       } else {
         return this.checkValidOperation(elem?.parentNode);
@@ -342,7 +341,7 @@ export class EditorContainerComponent
    * When editor is blurred
    */
   blur(): void {  
-    console.log('VISION BLURRRY', this.id);
+    console.log('VISION BLURRRY', this.editorConfig.id);
     this.isCollapsible = false;
     this.focused = false;
   }
@@ -353,7 +352,7 @@ export class EditorContainerComponent
   blurContentEditable(): void {
     if(this.sel && this.sel.rangeCount > 0) {
       this.oldRange = this.sel.getRangeAt(0).cloneRange(); // to store the range when element is blurred
-      // console.log('BLURRED', this.id, this.oldRange);
+      // console.log('BLURRED', this.editorConfig.id, this.oldRange);
     }
   }
 
@@ -361,8 +360,8 @@ export class EditorContainerComponent
    * Focus on the editor
    */
   focus(): void {
-    if (document.getElementById(`${this.id}`)) {
-      document.getElementById(`${this.id}`).focus();
+    if (document.getElementById(`${this.editorConfig.id}`)) {
+      document.getElementById(`${this.editorConfig.id}`).focus();
     }
     this.isCollapsible = true;
   }
@@ -400,7 +399,7 @@ export class EditorContainerComponent
       this.startOffset = this.sel.getRangeAt(0).startOffset;
     }
 
-    this.writeValue(document.getElementById(`${this.id}`).innerHTML, 'editor');
+    this.writeValue(document.getElementById(`${this.editorConfig.id}`).innerHTML, 'editor');
   }
 
   /**
@@ -430,7 +429,7 @@ export class EditorContainerComponent
       range.setStartAfter(input);
       this.sel.addRange(range);
       this.tribute = '';
-      this.writeValue(document.getElementById(`${this.id}`).innerHTML, 'editor');
+      this.writeValue(document.getElementById(`${this.editorConfig.id}`).innerHTML, 'editor');
     }
   }
 
@@ -443,39 +442,22 @@ export class EditorContainerComponent
     const clipboardData = event.clipboardData;
     let pastedHtml = clipboardData.getData('text/html');
     let pastedText = clipboardData.getData('text');
-    const rexa = /href=".*?"/g; // match all a href
-
+    
     if(event.clipboardData.types.indexOf('text/rtf') > -1) {
       // Paste from word
       pastedHtml = this.cleanPaste(pastedHtml);
-      pastedHtml = pastedHtml.replace(rexa, (match: any) => {
-        const str = ' target="_blank" rel="noopener noreferrer"';
-        return match + str;
-      });
-     //  pastedHtml = this.cleanPaste(pastedHtml);
       document.execCommand('insertHtml', false, pastedHtml);
     } else if (event.clipboardData.types.indexOf('text/html') === -1) {
-
-      // Text Paste
       const rex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
       pastedText = pastedText.replace(rex, (match: any) => {
         return `<a href="${match}" target="_blank" rel="noopener noreferrer">${match}</a>`;
       });
       document.execCommand('insertHtml', false, pastedText);
     } else {
-      // HTML Paste
-      pastedHtml = pastedHtml.replace(rexa, (match: any) => {
-        const str = ' target="_blank" rel="noopener noreferrer"';
-        return match + str;
-      });
-
-      const bT = ['nav', 'script', 'applet', 'embed', 'noframes', 'noscript', 'form', 'meta', 'iframe'];
-
-      for (let i = 0; i < bT.length; i++) {
-        let tS = new RegExp('<' + bT[i] + '\\b.*>.*</' + bT[i] + '>', 'gi');
-        pastedHtml = pastedHtml.replace(tS, '');
-      }
-     //  pastedHtml = this.cleanPaste(pastedHtml);
+      // Paste from browser
+      console.log(pastedHtml, '<br><br><br><br><br><br>');
+      pastedHtml = this.cleanPaste(pastedHtml);
+      console.log(pastedHtml, '<br><br><br><br><br><br>');
       document.execCommand('insertHtml', false, pastedHtml);
     }
   }
@@ -493,20 +475,29 @@ export class EditorContainerComponent
     output = output.replace(cS, '');
     let tS = new RegExp('<(/)*(meta|link|\\?xml:|st1:|o:|font)(.*?)>', 'gi');
     output = output.replace(tS, '');
-    const bT = ['style', 'script', 'applet', 'embed', 'noframes', 'noscript'];
+    const bT = ['style', 'script', 'applet', 'embed', 'noframes', 'noscript', 'button', 'meta', 'iframe', 'form', 'select'];
 
     for (let i = 0; i < bT.length; i++) {
       tS = new RegExp('<' + bT[i] + '\\b.*>.*</' + bT[i] + '>', 'gi');
       output = output.replace(tS, '');
     }
 
-    const bA = ['style', 'start'];
+    const bA = ['start', 'class', 'id', 'onkeydown', 'onkeyup', 'onkeypress',
+      'onclick', 'onerror', 'onload', 'oncontextmenu', 'ondblclick', 'onmousedown', 'onmouseenter', 
+      'onmouseleave', 'onmousemove', 'onmouseout', 'onmouseover', 
+      'onmouseup', 'onchange', 'oncut'];
     for (let ii = 0; ii < bA.length; ii++ ) {
       let aS = new RegExp(' ' + bA[ii] + '=[\'|"](.*?)[\'|"]', 'gi');
       output = output.replace(aS, '');
       aS = new RegExp(' ' + bA[ii] + '[=0-9a-z]', 'gi');
       output = output.replace(aS, '');
     }
+
+    const rexa = /href=".*?"/g; // match all a href
+    output = output.replace(rexa, (match: any) => {
+      const str = ' target="_blank" rel="noopener noreferrer"';
+      return match + str;
+    });
     return output;
   }
 
@@ -723,7 +714,7 @@ export class EditorContainerComponent
     range.setStartAfter(textNode);
     range.collapse();
     this.sel.addRange(range);
-    this.writeValue(document.getElementById(`${this.id}`).innerHTML, 'editor');
+    this.writeValue(document.getElementById(`${this.editorConfig.id}`).innerHTML, 'editor');
   }
 
   reachTextNode(tagName: string): void {
@@ -771,9 +762,9 @@ export class EditorContainerComponent
    *  Output event to export comment data and cleanup the editor
    */
   commentAction(): void {
-    const event = document.getElementById(`${this.id}`).innerHTML;
+    const event = document.getElementById(`${this.editorConfig.id}`).innerHTML;
     this.comment.emit(event);
-    document.getElementById(`${this.id}`).innerHTML = '';
+    document.getElementById(`${this.editorConfig.id}`).innerHTML = '';
   }
 
   /**
@@ -787,11 +778,11 @@ export class EditorContainerComponent
         const event = new KeyboardEvent('keydown', { key: `${char}`, code: `${code}` });
         this.sel.removeAllRanges();
         this.sel.addRange(this.oldRange);
-        document.getElementById(this.id).dispatchEvent(event);
+        document.getElementById(this.editorConfig.id).dispatchEvent(event);
         const a = document.createTextNode(`${char}`);
         this.oldRange.insertNode(a);
         this.oldRange.setStartAfter(a);
-        this.setValue(document.getElementById(this.id).innerHTML);
+        this.setValue(document.getElementById(this.editorConfig.id).innerHTML);
       } else {
         this.focus();
         this.oldRange = this.sel.getRangeAt(0).cloneRange();

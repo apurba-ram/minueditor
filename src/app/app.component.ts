@@ -1,4 +1,5 @@
 import { Component,OnChanges,SimpleChanges } from '@angular/core';
+import { nanoid } from './melo-mini-editor/nanoid';
 // ChangeDetectionStrategy
 import { EditorConfig } from './melo-mini-editor/editor-config-interface';
 @Component({
@@ -24,7 +25,13 @@ export class AppComponent  {
     link: true,
     colorPalette: true,
     mode: 'prime',
-    configFontStyle: true
+    id: 'PLAGIARISM',
+    configFontStyle: true,
+    urlInputPlaceHolder: 'PLESS',
+    urlText: 'adsasdsad',
+    urlTitle: 'adsfeqgegwegwge',
+    urlValue: 'PIVOA',
+    validUrlMessage: 'asadsadqwdw ad',
   };
   
 
@@ -45,8 +52,13 @@ export class AppComponent  {
 
   constructor() {
     setTimeout(()=>{
-      this.modelvalue2 = Math.random().toString(36).replace('0.','Logging ?' || '');
+      this.modelvalue1 = Math.random().toString(36).replace('0.','Logging ?' || '');
     });
+
+    // setInterval(()=>{
+    //   this.editorConfig1.id = nanoid();
+    // }, 2000);
+
 
     setTimeout(()=>{
       this.editorConfig1.mentionedNames = this.namesA;
