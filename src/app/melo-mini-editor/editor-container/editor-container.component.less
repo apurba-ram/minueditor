@@ -43,19 +43,28 @@
         figure{
             margin: 0;
         }
-        ul{
-            padding: 0;
-            // list-style-type: none;
-            
-            li {
-                margin-left: 30px;
-                .image-container {
-                    img {
-                        margin-left: 30px;
-                    }
+        table {
+            td
+            {
+                img
+                {
+
                 }
             }
         }
+        // ul{
+        //     padding: 0;
+        //     // list-style-type: none;
+            
+        //     // li {
+        //     //     margin-left: 30px;
+        //     //     .image-container {
+        //     //         img {
+        //     //             margin-left: 30px;
+        //     //         }
+        //     //     }
+        //     // }
+        // }
 
         &.top {
             order: 2;
@@ -95,7 +104,7 @@
         }
 
         .image-container {
-            display : block;
+            display : inline-block;
             position: relative;
             border  : 4px solid transparent;
             outline      : none;
@@ -110,14 +119,14 @@
             }
 
             img {
-                float: left;
+                // float: left;
                 cursor: pointer;
                 display: block;
                 z-index: 2;
                 position: relative;
                 // height: 50%;
-                width: inherit;
-                height: inherit;
+                width: 100%;
+                // height: inherit;
                 min-width: 200px;
                 min-height: 150px;
                 max-width: 800px;
@@ -127,26 +136,28 @@
             }
 
             &.left {
-                img {
+                
                     float: left;
                     display: block;
                     margin-right: 10px;
                     margin-bottom: 10px;
-                }                
+                             
             }
 
             &.right {
-                img {
+                
                     float: right;
                      display: block;
                      margin-left: 10px;
                      margin-bottom: 10px;
-                }
+            
             }
             &.center {
-                img {
-                    margin: 0 auto 10px;
-                }
+                margin: auto;
+                display: table;
+                // img {
+                //     margin: 0 auto 10px;
+                // }
                 
             }
 
@@ -224,7 +235,7 @@
                 top: 0;
                 right: 0;
                 bottom: 0;
-                left: 0;
+                // left: 0;
                 z-index: 3;
                 // width: 100%;
                 // height: auto;

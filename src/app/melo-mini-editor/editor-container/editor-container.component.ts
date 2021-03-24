@@ -145,7 +145,7 @@ export class EditorContainerComponent
     const imageContainer=document.createElement('div')
     imageContainer.setAttribute('id','image-container'+id)
     imageContainer.setAttribute('class','image-container')
-    imageContainer.setAttribute('contenteditable','true')
+    imageContainer.setAttribute('contenteditable','false')
     if(len>0)
     {
         imageContainer.style.clear='both'
@@ -207,13 +207,15 @@ export class EditorContainerComponent
     const resizerContainer=document.getElementById('resize-container')
     if(resizerContainer===null)
     {
+     
       const resizer=document.createElement('div')
       resizer.setAttribute('class','resize-container active')
       resizer.setAttribute('id','resize-container')
       resizer.style.width=document.getElementById(event.target.id).clientWidth+'px'
       resizer.style.height=document.getElementById(event.target.id).clientHeight+'px'
-      resizer.style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
-  
+      // resizer.style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
+      console.log("LEFT OF IMAGE",document.getElementById(event.target.id).getBoundingClientRect().left,"RESIZER", resizer.style.left)
+
       const topLeft=document.createElement('div')
       topLeft.setAttribute('class','resize-pointer top-left active')
       topLeft.setAttribute('id','top-left')
@@ -325,7 +327,7 @@ export class EditorContainerComponent
           document.getElementById(event.target.id).style.height=height+'px'
           document.getElementById('resize-container').style.width=resizerWidth+'px'
           document.getElementById('resize-container').style.height=resizerHeight+'px'
-          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
+          // document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
         }
       }
         else if(document.getElementById(event.target.parentNode.id).classList[1]==='center'){
@@ -336,7 +338,7 @@ export class EditorContainerComponent
           document.getElementById(event.target.id).style.height=height+'px'
           document.getElementById('resize-container').style.width=resizerWidth+'px'
           document.getElementById('resize-container').style.height=resizerHeight+'px'
-          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
+          // document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
         }
       }
 
@@ -403,7 +405,7 @@ export class EditorContainerComponent
           document.getElementById(event.target.id).style.height=height+'px'
           document.getElementById('resize-container').style.width=resizerWidth+'px'
           document.getElementById('resize-container').style.height=resizerHeight+'px'
-          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
+          // document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
         }
       }
         else if(document.getElementById(event.target.parentNode.id).classList[1]==='center'){
@@ -416,7 +418,7 @@ export class EditorContainerComponent
           document.getElementById(event.target.id).style.height=height+'px'
           document.getElementById('resize-container').style.width=resizerWidth+'px'
           document.getElementById('resize-container').style.height=resizerHeight+'px'
-          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
+          // document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
         }
       }
         // if(document.getElementById(event.target))
@@ -446,7 +448,7 @@ export class EditorContainerComponent
         this.dragEvent=true
         getOriginal(e,event.target.id);
         console.log('holaaaa');
-        window.addEventListener('mousemove', resizsTopLeft)
+        window.addEventListener('mousemove', resizsBottomLeft)
         // console.log("MOUSEUP COUNT IN MOUSEDON TOP RIGHT",this.countMouseUp)
         window.addEventListener('mouseup', stopResize.bind(this))
       })
@@ -454,21 +456,21 @@ export class EditorContainerComponent
       function resizsBottomLeft(e)
       {
         console.log("RESIZE FROM BOTTOM LEFT")
-        const width = original_width +(e.pageX - original_mouse_x)
+        const width = original_width -(e.pageX - original_mouse_x)
         const height = original_height + (e.pageY - original_mouse_y)
-        const resizerWidth=resizer_width+(e.pageX-original_mouse_x)
+        const resizerWidth=resizer_width-(e.pageX-original_mouse_x)
         const resizerHeight=resizer_height+(e.pageY-original_mouse_y)
        
         if(document.getElementById(event.target.parentNode.id).classList[1]===undefined || document.getElementById(event.target.parentNode.id).classList[1]==='left')
         {
           if(width<document.getElementsByClassName('editable-block')[0].clientWidth-160)
           {
-            document.getElementById(event.target.id).style.width=width+'px'
-            // document.getElementById(event.target.id).style.height='auto'
-            document.getElementById('resize-container').style.width=resizerWidth+'px'
-            // document.getElementById('resize-container').style.height='auto'
-            document.getElementById(event.target.id).style.left= original_x + (e.pageX - original_mouse_x) + 'px'
-            document.getElementById(event.target.id).style.bottom= original_y + (e.pageY - original_mouse_y) + 'px'
+            document.getElementById(event.target.id).style.pointerEvents='none'
+          document.getElementById('resize-container').style.pointerEvents='none'
+          document.getElementById(event.target.id).style.width=width+'px'
+          document.getElementById(event.target.id).style.height=height+'px'
+          document.getElementById('resize-container').style.width=resizerWidth+'px'
+          document.getElementById('resize-container').style.height=resizerHeight+'px'
           }
 
         }
@@ -481,7 +483,7 @@ export class EditorContainerComponent
           document.getElementById(event.target.id).style.height=height+'px'
           document.getElementById('resize-container').style.width=resizerWidth+'px'
           document.getElementById('resize-container').style.height=resizerHeight+'px'
-          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
+          // document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
           }
         }
         else if(document.getElementById(event.target.parentNode.id).classList[1]==='center'){
@@ -494,7 +496,7 @@ export class EditorContainerComponent
           document.getElementById(event.target.id).style.height=height+'px'
           document.getElementById('resize-container').style.width=resizerWidth+'px'
           document.getElementById('resize-container').style.height=resizerHeight+'px'
-          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
+          // document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
           }
         }
         // if(document.getElementById(event.target))
@@ -557,7 +559,7 @@ export class EditorContainerComponent
           document.getElementById(event.target.id).style.height=height+'px'
           document.getElementById('resize-container').style.width=resizerWidth+'px'
           document.getElementById('resize-container').style.height=resizerHeight+'px'
-          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
+          // document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
           }
         }
         else if(document.getElementById(event.target.parentNode.id).classList[1]==='center'){
@@ -569,7 +571,7 @@ export class EditorContainerComponent
           document.getElementById(event.target.id).style.height=height+'px'
           document.getElementById('resize-container').style.width=resizerWidth+'px'
           document.getElementById('resize-container').style.height=resizerHeight+'px'
-          document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
+          // document.getElementById('resize-container').style.left=document.getElementById(event.target.id).getBoundingClientRect().left-290+'px'
           }
         }
         // if(document.getElementById(event.target))
@@ -781,7 +783,7 @@ export class EditorContainerComponent
           document.getElementById(event.target.parentNode.id).classList.remove('center')
           document.getElementById(event.target.parentNode.id).classList.remove('left')
           document.getElementById(event.target.parentNode.id).classList.add('right')
-          document.getElementById(event.target.id).style.float='right'
+          document.getElementById(event.target.parentNode.id).style.float='right'
           // document.getElementById('resize-container').remove();
           const imageRatio = document.getElementById(event.target.id).getBoundingClientRect();
           setTimeout(() => {
@@ -827,7 +829,7 @@ export class EditorContainerComponent
           console.log("LALALLA")
           document.getElementById(event.target.parentNode.id).classList.remove('right')
           document.getElementById(event.target.parentNode.id).classList.remove('left')
-          document.getElementById(event.target.id).style.float='none'
+          document.getElementById(event.target.parentNode.id).style.float='none'
           document.getElementById(event.target.parentNode.id).classList.add('center')
           // document.getElementById('resize-container').remove();
           const imageRatio = document.getElementById(event.target.id).getBoundingClientRect();
@@ -862,7 +864,7 @@ export class EditorContainerComponent
           console.log("LALALLA")
           document.getElementById(event.target.parentNode.id).classList.remove('right')
           document.getElementById(event.target.parentNode.id).classList.remove('left')
-          document.getElementById(event.target.id).style.float='left'
+          document.getElementById(event.target.parentNode.id).style.float='left'
           document.getElementById(event.target.parentNode.id).classList.add('center')
           // document.getElementById('resize-container').remove();
           const imageRatio = document.getElementById(event.target.id).getBoundingClientRect();
