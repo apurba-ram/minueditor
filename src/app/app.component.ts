@@ -21,7 +21,6 @@ export class AppComponent  {
     toolbarPlacement: 'bottom',
     buttonName: 'Submit',
     file: true,
-    popupZIndex: 6,
     link: true,
     colorPalette: true,
     mode: 'prime',
