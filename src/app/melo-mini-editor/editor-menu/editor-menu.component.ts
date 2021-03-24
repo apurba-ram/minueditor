@@ -5,7 +5,7 @@ import {
   EventEmitter,
   ViewChild,
   ElementRef,
-  AfterViewInit
+  AfterViewInit,
 } from '@angular/core';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 import {ModalService} from '../modal.service';
@@ -55,8 +55,6 @@ export class EditorMenuComponent implements AfterViewInit {
   moreOptions = false;
   color = false;
 
-  popupZIndex: number;
-
 
   image: any;
   fontType: string[];
@@ -66,7 +64,6 @@ export class EditorMenuComponent implements AfterViewInit {
     this.fillColor = Array(2).fill(false);
     this.image = null;
     this.fontType = ['verdana', 'arial', 'georgia', 'impact', 'courier new', 'tahoma']
-    // console.log("FILL ARRAY",this.fillColor)
   }
 
   ngAfterViewInit() {
@@ -383,6 +380,7 @@ export class EditorLinkComponent {
     this.linkText = '';
     this.linkTitle = '';
     this.linkUrl = '';
+    this.invalid = false;
   }
 
    /**

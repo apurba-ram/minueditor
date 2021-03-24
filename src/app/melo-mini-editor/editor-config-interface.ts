@@ -19,6 +19,8 @@ export interface EditorConfig {
     urlInputPlaceHolder?:string;
     textInputPlaceHolder?:string;
     titlePlaceholder?:string;
+    maxHeight?: string,
+    zIndex?: number;
 }
 
 export interface MentionedName {
