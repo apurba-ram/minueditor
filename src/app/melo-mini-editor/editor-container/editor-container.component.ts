@@ -63,7 +63,7 @@ export class EditorContainerComponent
   menuLeftWidth: number;
   menuRightWidth: number;
   font_size:string;
-  height: string;
+  maxHeight: string;
 
   constructor() {
     this.fontColor = 'black';
@@ -73,7 +73,7 @@ export class EditorContainerComponent
     this.mentionConfig = {
       mentions: []
     };
-    this.height = '600px';
+    this.maxHeight = '200px';
   }
 
 
@@ -265,6 +265,7 @@ export class EditorContainerComponent
     if (changes.editorConfig && this.editorConfig) {
 
       this.editorConfig.id = this.editorConfig.id || nanoid();
+      this.editorConfig.maxHeight =  this.editorConfig.maxHeight || '300px';
 
       this.mentionConfig = {
         mentions: []

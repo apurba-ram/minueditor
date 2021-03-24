@@ -6,8 +6,6 @@ import {
   ViewChild,
   ElementRef,
   AfterViewInit,
-  OnChanges,
-  SimpleChanges
 } from '@angular/core';
 import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 import {ModalService} from '../modal.service';
@@ -16,7 +14,7 @@ import {ModalService} from '../modal.service';
   templateUrl: './editor-menu.component.html',
   styleUrls: ['./editor-menu.component.less', '../theme.less'],
 })
-export class EditorMenuComponent implements AfterViewInit, OnChanges {
+export class EditorMenuComponent implements AfterViewInit {
   @Input()  editorConfig: EditorConfig;
   @Input()  toolbarConfig: ToolbarConfig;
   @Input()  moreOptionsButton: boolean;
@@ -72,17 +70,6 @@ export class EditorMenuComponent implements AfterViewInit, OnChanges {
       const left: number = this.menuLeft?.nativeElement?.offsetWidth;
       const right: number = this.menuRight?.nativeElement?.offsetWidth;
       this.setWidth.emit({left,right});
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if(changes.editorConfig) {
-      this.editorConfig.zIndex = this.editorConfig.zIndex ?? 100000;
-      if(this.editorConfig.zIndex > 2147483647) {
-        this.editorConfig.zIndex = 2147483647;
-      } else if (this.editorConfig.zIndex < -2147483647) {
-        this.editorConfig.zIndex = -2147483647;
-      }
-    }
   }
 
   /**
