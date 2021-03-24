@@ -475,7 +475,7 @@ export class EditorContainerComponent
     output = output.replace(cS, '');
     let tS = new RegExp('<(/)*(meta|link|\\?xml:|st1:|o:|font)(.*?)>', 'gi');
     output = output.replace(tS, '');
-    const bT = ['style', 'script', 'applet', 'embed', 'noframes', 'noscript', 'button', 'meta', 'iframe', 'form' , 'select'];
+    const bT = ['style', 'script', 'applet', 'embed', 'noframes', 'noscript', 'button', 'meta', 'iframe', 'form', 'select'];
 
     for (let i = 0; i < bT.length; i++) {
       tS = new RegExp('<' + bT[i] + '\\b.*>.*</' + bT[i] + '>', 'gi');
