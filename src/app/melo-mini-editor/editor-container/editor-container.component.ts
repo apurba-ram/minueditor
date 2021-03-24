@@ -63,6 +63,7 @@ export class EditorContainerComponent
   menuLeftWidth: number;
   menuRightWidth: number;
   font_size:string;
+  height: string;
 
   constructor() {
     this.fontColor = 'black';
@@ -72,6 +73,7 @@ export class EditorContainerComponent
     this.mentionConfig = {
       mentions: []
     };
+    this.height = '600px';
   }
 
 

@@ -42,6 +42,7 @@ export class AppComponent  {
     configFontStyle: true,
     mode: 'prime',
     id:'khwaab',
+    zIndex: 8999,
     link: true,
     placeholder: 'Please Add Some Text',
     buttonName: 'Upload',
@@ -56,7 +57,7 @@ export class AppComponent  {
     });
 
     // setInterval(()=>{
-    //   this.editorConfig1.id = nanoid();
+    //   this.editorConfig1.zIndex++;
     // }, 2000);
 
 
@@ -79,6 +80,14 @@ comment(event: string): void {
   console.log('COMMENT');
   console.log(event);
 }
+
+  modelChange1(event) {
+    console.log('EVENT1', event);
+  }
+
+  modelChange2(event) {
+    console.log('EVENT2', event);
+  }
 
 
   

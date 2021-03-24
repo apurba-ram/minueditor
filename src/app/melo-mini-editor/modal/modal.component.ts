@@ -10,6 +10,7 @@ import { ModalService } from '../modal.service';
 export class MarxModalComponent implements OnInit {
 
   @Input() id: string;
+  @Input() zIndexValue: number;
   private element: any;
 
   constructor(private modalService: ModalService, private el: ElementRef) {
