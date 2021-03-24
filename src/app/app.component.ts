@@ -26,6 +26,7 @@ export class AppComponent  {
     colorPalette: true,
     mode: 'prime',
     zIndex: 6666666,
+    maxHeight: '500px',
     id: 'PLAGIARISM',
     configFontStyle: true,
     urlInputPlaceHolder: 'PLESS',

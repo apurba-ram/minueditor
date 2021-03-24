@@ -63,17 +63,18 @@ export class EditorContainerComponent
   menuLeftWidth: number;
   menuRightWidth: number;
   font_size:string;
-  maxHeight: string;
 
   constructor() {
     this.fontColor = 'black';
     this.backgroundColor = 'white';
     this.toolbarPlacement = 'bottom';
     this.resetToolbar();
+    this.editorConfig = {
+      id: nanoid()
+    };
     this.mentionConfig = {
       mentions: []
     };
-    this.maxHeight = '200px';
   }
 
 
@@ -262,10 +263,10 @@ export class EditorContainerComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.editorConfig && this.editorConfig) {
+    if (changes.editorConfig) {
 
       this.editorConfig.id = this.editorConfig.id || nanoid();
-      this.editorConfig.maxHeight =  this.editorConfig.maxHeight || '300px';
+     // this.editorConfig.maxHeight =  this.editorConfig.maxHeight || '300px';
 
       this.mentionConfig = {
         mentions: []
