@@ -480,7 +480,10 @@ export class EditorContainerComponent
       output = output.replace(tS, '');
     }
 
-    const bA = ['start', 'class', 'id', 'onclick'];
+    const bA = ['start', 'class', 'id', 'onkeydown', 'onkeyup', 'onkeypress',
+      'onclick', 'onerror', 'onload', 'oncontextmenu', 'ondblclick', 'onmousedown', 'onmouseenter', 
+      'onmouseleave', 'onmousemove', 'onmouseout', 'onmouseover', 
+      'onmouseup'];
     for (let ii = 0; ii < bA.length; ii++ ) {
       let aS = new RegExp(' ' + bA[ii] + '=[\'|"](.*?)[\'|"]', 'gi');
       output = output.replace(aS, '');
