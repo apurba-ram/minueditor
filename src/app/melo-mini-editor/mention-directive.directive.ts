@@ -69,7 +69,10 @@ export class MentionDirectiveDirective {
                     id:this.config[i].items[j].id,
                     name:this.config[i].items[j].name
                   }
+                 
+                  
                 ) 
+                document.getElementById('mentiion-item-list').innerHTML=' '
                 
               })
               // document.getElementById('mentiion-item-list').innerHTML+=`<li id='itemli'${j}>`+this.config[i].items[j]+`</li>`
