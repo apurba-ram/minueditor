@@ -1,4 +1,4 @@
-import { Component,OnChanges,SimpleChanges } from '@angular/core';
+import { Component,OnChanges,SimpleChanges,Output,EventEmitter } from '@angular/core';
 import { nanoid } from './melo-mini-editor/nanoid';
 // ChangeDetectionStrategy
 import { EditorConfig } from './melo-mini-editor/editor-config-interface';
@@ -9,7 +9,7 @@ import { EditorConfig } from './melo-mini-editor/editor-config-interface';
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent  {
-  
+  @Output() myopen1 = new EventEmitter();
   filesFromChild:any[] = [];
   title = 'minieditor';
   defValue = 'jdi';
@@ -32,8 +32,31 @@ export class AppComponent  {
     urlTitle: 'adsfeqgegwegwge',
     urlValue: 'PIVOA',
     validUrlMessage: 'asadsadqwdw ad',
+    mentions:[
+      {
+        triggerChar:'$',
+        items:[
+          {id:1,name:'prerna1'},
+          {id:2,name:'prerna2'},
+          {id:3,name:'prerna3'}
+        ]
+      },
+      {
+        triggerChar:'*',
+        items:[
+          {id:11,name:'prerna4'},
+          {id:22,name:'prerna5'},
+          {id:33,name:'prerna6'}
+        ]
+      }
+    ]
   };
-  
+
+  myopen(e:any)
+  {
+    console.log("OPEN EMIT ",e)
+    this.myopen1.emit(e)
+  }
 
   editorConfig2: EditorConfig = {
     file: true,
@@ -66,6 +89,8 @@ export class AppComponent  {
     }, 7000);
   }
   
+  
+
   
 
 //from menu to container

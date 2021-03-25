@@ -5,9 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MeloMiniEditorModule } from './melo-mini-editor/melo-mini-editor.module';
 import { MarxEditorModule } from 'marx-editor';
+import { MydirectiveDirective } from './mydirective.directive';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MydirectiveDirective
   ],
   imports: [
     BrowserModule,

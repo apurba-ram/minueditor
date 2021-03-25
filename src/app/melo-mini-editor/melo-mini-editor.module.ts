@@ -6,10 +6,11 @@ import { EditorMenuComponent, EditorFilesComponent, EditorLinkComponent } from '
 import { MentionModule } from 'angular-mentions';
 import { FormsModule } from '@angular/forms';
 import { MarxModalComponent } from './modal/modal.component';
+import { MentionDirectiveDirective } from './mention-directive.directive';
 
 
 @NgModule({
-  declarations: [EditorContainerComponent, EditorMenuComponent, MarxModalComponent, EditorFilesComponent, EditorLinkComponent],
+  declarations: [EditorContainerComponent, EditorMenuComponent, MarxModalComponent, EditorFilesComponent, EditorLinkComponent, MentionDirectiveDirective],
   imports: [
     CommonModule,
     ToolsModule,

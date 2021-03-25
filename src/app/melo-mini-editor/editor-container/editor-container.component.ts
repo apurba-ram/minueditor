@@ -12,7 +12,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
+import { EditorConfig, ToolbarConfig, MyMentionConfig } from '../editor-config-interface';
 import { nanoid } from '../nanoid';
 @Component({
   selector: 'app-editor-container',
@@ -30,6 +30,7 @@ import { nanoid } from '../nanoid';
 export class EditorContainerComponent
   implements OnChanges, AfterViewInit, OnDestroy {
   @Input() editorConfig: EditorConfig;
+  // @Input() mymentionconfig:MyMentionConfig;
   @Output() comment = new EventEmitter<string>();
   @Output() sendSavedFiles = new EventEmitter<any>();//coming from menu to container from container to ap
   @ViewChild('editorContainer') editorContainer: ElementRef;
@@ -63,6 +64,32 @@ export class EditorContainerComponent
   menuLeftWidth: number;
   menuRightWidth: number;
   font_size:string;
+
+  // mymentionconfig:MyMentionConfig={
+  //   mentions:[
+  //     {
+  //       triggerChar:'$',
+  //       items:[1,2,3,4,5,6,7,8]
+  //     },
+  //     {
+  //       triggerChar:'#',
+  //       items:[9,8,65,7,899]
+  //     }
+
+  //   ],
+  //   disableStyle:false
+  // }
+
+  myclose()
+  {
+
+  }
+
+  myopen(e:any)
+  {
+
+    console.log("OPEN EMIT in editor",e)
+  }
 
   constructor() {
     this.fontColor = 'black';

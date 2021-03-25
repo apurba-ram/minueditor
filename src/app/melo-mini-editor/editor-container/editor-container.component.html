@@ -1,9 +1,16 @@
+<div id="mention-div">
+<ul id="mentiion-item-list">
+
+</ul>
+</div>
 <div class="editor-container" (blur)="blur()" #editorContainer>
     <div class="editable-block" contenteditable="true"
         [class.bottom]="!editorConfig?.toolbarPlacement || editorConfig?.toolbarPlacement === 'bottom'"
         [class.top]="editorConfig?.toolbarPlacement === 'top'" [id]="editorConfig?.id" (input)="setValue($event.target.innerText)"
-        (paste)="onPaste($event)" [mentionConfig]="mentionConfig" (closed)="mentionClosed()" (blur)="blurContentEditable()"
-        [attr.placeholder]="editorConfig?.placeholder" [class.collapsible]="editorConfig?.isCollapsible" [class.active]="isCollapsible">
+        (paste)="onPaste($event)" (myopen)="myopen($event)" [mentionConfig]="mentionConfig"  (closed)="mentionClosed()" (blur)="blurContentEditable()"
+        [attr.placeholder]="editorConfig?.placeholder" [class.collapsible]="editorConfig?.isCollapsible" [class.active]="isCollapsible"
+        appMentionDirective [config]="editorConfig?.mentions"
+        >
     </div>
     <div class="editor-tools"
         [class.bottom]="!editorConfig?.toolbarPlacement || editorConfig?.toolbarPlacement === 'bottom'"
