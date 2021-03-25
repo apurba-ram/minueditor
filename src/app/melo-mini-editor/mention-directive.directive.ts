@@ -16,7 +16,7 @@ const KEY_DOWN = 40;
 const KEY_BUFFERED = 229;
 
 @Directive({
-  selector: '[appMentionDirective],[config]',
+  selector: '[config]',
   host: {
     '(keydown)': 'keyHandler($event)',
     // '(input)': 'inputHandler($event)',
@@ -47,6 +47,7 @@ export class MentionDirectiveDirective {
           const c=e.key;
           console.log("KEY FOUND",i,"ITEMS",this.config[i].items)
           const div1=document.getElementById('mention-div')
+          
           // console.log("LENGHTH",this.config[i].items)
           if(this.config[i].items.length>0)
           {
