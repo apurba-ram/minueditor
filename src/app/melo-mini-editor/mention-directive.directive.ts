@@ -199,24 +199,28 @@ export class MentionDirectiveDirective {
         const lis=document.getElementsByClassName('mention-item');
         if(lis.length>0)
         {
-          console.log("ALL LIS",lis)
-          this.nodes=lis;
-          // console.log("TYPE",typeof(this.nodes),this.nodes);
-          console.log("SELECTED",this.selcted)
-          const newactive=document.getElementsByClassName('mention-item')[this.selcted+1] as HTMLElement;
-          newactive.style.background='#87CEFA';
-          console.log("NEW ACTIVE",newactive);
-          const oldactive=document.getElementsByClassName('mention-item')[this.selcted] as HTMLElement;
-          oldactive.style.background='transparent';
-          console.log("OLD ACTIVE",oldactive)
-          this.activeItem=this.mentionedItems[this.selcted+1];
-          this.selcted=this.selcted+1;
+            if(this.selcted<lis.length-1)
+            {
+              console.log("ALL LIS",lis)
+              this.nodes=lis;
+              // console.log("TYPE",typeof(this.nodes),this.nodes);
+              console.log("SELECTED",this.selcted)
+              const newactive=document.getElementsByClassName('mention-item')[this.selcted+1] as HTMLElement;
+              newactive.style.background='#87CEFA';
+              console.log("NEW ACTIVE",newactive);
+              const oldactive=document.getElementsByClassName('mention-item')[this.selcted] as HTMLElement;
+              oldactive.style.background='transparent';
+              console.log("OLD ACTIVE",oldactive)
+              this.activeItem=this.mentionedItems[this.selcted+1];
+              this.selcted=this.selcted+1;
+            }
         }
       }
 
 
       if(e.key==='ArrowUp')
       {
+        if (this.selcted === -1) return;
         console.log("ARROW UP PRESSED")
         const lis=document.getElementsByClassName('mention-item');
         if(lis.length>0)
@@ -225,8 +229,9 @@ export class MentionDirectiveDirective {
           this.nodes=lis;
           // console.log("TYPE",typeof(this.nodes),this.nodes);
           console.log("SELECTED",this.selcted)
-          if(this.selcted!=-1)
+          if(this.selcted!=0)
           {
+            console.log("move up ");
             const newactive=document.getElementsByClassName('mention-item')[this.selcted-1] as HTMLElement;
             newactive.style.background='#87CEFA';
             console.log("NEW ACTIVE",newactive);
