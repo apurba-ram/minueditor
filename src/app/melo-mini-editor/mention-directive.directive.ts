@@ -30,7 +30,10 @@ export class MentionDirectiveDirective {
   // private searchList: MentionListComponent;
   private searching: boolean;
   private lastKeyCode: number;
-
+  nodes:any;
+  selcted:number=0;
+  activeItem:any;
+  searchingString:string=' ';
   constructor(
     private _element: ElementRef,
     private _componentResolver: ComponentFactoryResolver,
@@ -47,19 +50,96 @@ export class MentionDirectiveDirective {
 
     console.log("KEYCODE",e.keyCode)
    
-    if(e.keyCode>=65 && e.keyCode<=90 || e.keyCode >= 97 && e.keyCode <= 122 || e.key==='ArrowDown' || e.key==='ArrowUp')
+    if( e.key==='ArrowDown' || e.key==='ArrowUp' || e.key==='Enter' || e.key==='Backspace')
       {
         console.log("SEARCHING IF DIV EXISTS or scrolling by arrows")
-
-          
-
-      }
-      else{
-        console.log("DELETE MENTION LIST IF EXISTS")
-        const mention_div =document.getElementById('mention-list-div');
+        if(e.keyCode===8)
+        {
+          // console.log("LNGHT",this.searchString.length);
+          if(this.searchString.length>0)
+          {
+            this.searchString=this.searchString.substr(0,this.searchString.length-1);
+            console.log("SEARCHING backspace ",this.searchString)
+          }
+          else
+          {
+          const mention_div =document.getElementById('mention-list-div');
+          if(mention_div!==null)
+          {
+            mention_div.remove()
+          }
+          }
+        }  
+       else  if(e.key==='Enter')
+        { 
+          // console.log("ACTIVE ITEM",this.activeItem)
+          this.searchString=''
+          const mention_div =document.getElementById('mention-list-div');
         if(mention_div!==null)
         {
+          console.log("ACTIVE ITEM",this.activeItem)
           mention_div.remove()
+        }
+        }
+      }
+      else{
+        console.log("ELSSSEEEEEE")
+       
+         if(e.keyCode>=65 && e.keyCode<=90 || e.keyCode >= 97 && e.keyCode <= 122 )
+        {
+        // console.log("Searchinstring SAGAR",this.searchString)
+        const mention_div1 =document.getElementById('mention-list-div');
+        if(mention_div1!==null)
+        {
+          this.searchString+=e.key;
+          console.log(this.searchString.slice(9))
+          let ss=' '
+          if(this.searchString.includes('undefined'))
+          {
+             ss=this.searchString.slice(9)
+          }
+          else{
+             ss=this.searchString;
+          }
+          console.log("SEARCHING STRING",this.searchString);
+          console.log("LIST",this.mentionedItems);
+          const matches = this.mentionedItems.filter(s => s.name.includes(ss));
+          console.log("FILTERED ",matches);
+          mention_div1.remove();
+          const mention_div2=document.createElement('div');
+          mention_div2.setAttribute('id','mention-list-div');
+          mention_div2.style.height=100+'px';
+          mention_div2.style.width=200+'px';
+          mention_div2.style.overflow='auto';
+          mention_div2.contentEditable='false';
+          const ul=document.createElement('ul');
+          for(let i=0;i<matches.length;i++)
+          {
+            const li=document.createElement('li');
+              li.innerHTML= matches[i].name;
+              li.setAttribute('class',`mention-item`)
+              ul.appendChild(li)    
+          }
+          mention_div2.appendChild(ul)
+          document.getElementsByClassName('editable-block')[0].appendChild(mention_div2);
+          
+          this.activeItem=matches[0];
+          if(document.getElementsByClassName('mention-item')[0]!==null)
+          {
+            const v=document.getElementsByClassName('mention-item')[0] as HTMLElement;
+            v.style.background='#87CEFA';
+            // this.activeItem=this.mentionedItems[0];
+            // console.log("ACTIVE ITEM",this.activeItem);
+          }
+
+        }
+        }
+        else{
+          const mention_div =document.getElementById('mention-list-div');
+          if(mention_div!==null)
+          {
+            mention_div.remove();
+          }
         }
       }
 
@@ -70,36 +150,85 @@ export class MentionDirectiveDirective {
         if(e.key===this.config[i].triggerChar)
         {
           const c=e.key;
-          console.log("KEY FOUND",i,"ITEMS",this.config[i].items)
+          // console.log("KEY FOUND",i,"ITEMS",this.config[i].items)
           this.mentionedItems=this.config[i].items;
-          console.log("NEW MENTION LIST ITEM",this.mentionedItems)
+          // console.log("NEW MENTION LIST ITEM",this.mentionedItems)
           const mention_div=document.createElement('div');
           mention_div.setAttribute('id','mention-list-div');
           mention_div.style.height=100+'px';
+          mention_div.style.width=200+'px';
+          mention_div.style.overflow='auto';
+          // mention_div.style.boxShadow='20 px solid black';
+          mention_div.contentEditable='false';
+          // mention_div.style.background="#87CEFA"
           const ul=document.createElement('ul');
           for(let j=0;j<this.config[i].items.length;j++)
           {
               const li=document.createElement('li');
               li.innerHTML= this.mentionedItems[j].name;
-              ul.appendChild(li)
+              li.setAttribute('class',`mention-item`)
+              ul.appendChild(li)    
           }
           mention_div.appendChild(ul)
           document.getElementsByClassName('editable-block')[0].appendChild(mention_div);
+
+
+          if(document.getElementsByClassName('mention-item')[0]!==null)
+          {
+            const v=document.getElementsByClassName('mention-item')[0] as HTMLElement;
+            v.style.background='#87CEFA';
+            this.activeItem=this.mentionedItems[0];
+            console.log("ACTIVE ITEM",this.activeItem);
+          }
           }
       }
 
 
-      
-
       if(e.key==='ArrowDown')
       {
         console.log("ARROW DOWN PRESSED")
+        const lis=document.getElementsByClassName('mention-item');
+        if(lis.length>0)
+        {
+          console.log("ALL LIS",lis)
+          this.nodes=lis;
+          // console.log("TYPE",typeof(this.nodes),this.nodes);
+          console.log("SELECTED",this.selcted)
+          const newactive=document.getElementsByClassName('mention-item')[this.selcted+1] as HTMLElement;
+          newactive.style.background='#87CEFA';
+          console.log("NEW ACTIVE",newactive);
+          const oldactive=document.getElementsByClassName('mention-item')[this.selcted] as HTMLElement;
+          oldactive.style.background='transparent';
+          console.log("OLD ACTIVE",oldactive)
+          this.activeItem=this.mentionedItems[this.selcted+1];
+          this.selcted=this.selcted+1;
+        }
       }
 
 
       if(e.key==='ArrowUp')
       {
-        console.log("KEY UP PRESSED")
+        console.log("ARROW UP PRESSED")
+        const lis=document.getElementsByClassName('mention-item');
+        if(lis.length>0)
+        {
+          console.log("ALL LIS",lis)
+          this.nodes=lis;
+          // console.log("TYPE",typeof(this.nodes),this.nodes);
+          console.log("SELECTED",this.selcted)
+          if(this.selcted!=-1)
+          {
+            const newactive=document.getElementsByClassName('mention-item')[this.selcted-1] as HTMLElement;
+            newactive.style.background='#87CEFA';
+            console.log("NEW ACTIVE",newactive);
+            const oldactive=document.getElementsByClassName('mention-item')[this.selcted] as HTMLElement;
+            oldactive.style.background='transparent';
+            console.log("OLD ACTIVE",oldactive);
+            this.activeItem=this.mentionedItems[this.selcted-1];
+            this.selcted=this.selcted-1;
+          }
+         
+        }
       }
       
    }

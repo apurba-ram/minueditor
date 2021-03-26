@@ -38,7 +38,17 @@ export class AppComponent  {
         items:[
           {id:1,name:'prerna1'},
           {id:2,name:'prerna2'},
-          {id:3,name:'prerna3'}
+          {id:3,name:'prerna3'},
+          {id:4,name:'megha'},
+          {id:5,name:'chandi'},
+          {id:6,name:'alec'},
+          {id:7,name:'pravin'},
+          {id:8,name:'satyendra'},
+          {id:9,name:'gazia'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'}
         ]
       },
       {
@@ -46,6 +56,19 @@ export class AppComponent  {
         items:[
           {id:11,name:'prerna4'},
           {id:22,name:'prerna5'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
           {id:33,name:'prerna6'}
         ]
       }
