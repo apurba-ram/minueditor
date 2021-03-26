@@ -171,6 +171,7 @@ export class MentionDirectiveDirective {
           mention_div.contentEditable='false';
           // mention_div.style.background="#87CEFA"
           const ul=document.createElement('ul');
+          ul.setAttribute('id','mention-ul')
           for(let j=0;j<this.config[i].items.length;j++)
           {
               const li=document.createElement('li');
@@ -201,6 +202,15 @@ export class MentionDirectiveDirective {
         {
             if(this.selcted<lis.length-1)
             {
+              // var elHeight = parseInt(document.getElementById('mention-list-div').style.height);
+              // var scrollTop =document.getElementById('mention-ul').scrollTop;
+              // var viewport = scrollTop + document.getElementById('mention-ul').style.height;
+              // console.log("HEIGHT",elHeight,"SCROLLTOP",scrollTop,"ViewPosrt",viewport)
+              // var elOffset = elHeight * this.selcted;
+              // console.log('select', this.selcted, ' viewport', viewport, ' elOffset', elOffset);
+              // if (elOffset < scrollTop )
+              // document.getElementById('mention-ul').scrollTop;
+
               console.log("ALL LIS",lis)
               this.nodes=lis;
               // console.log("TYPE",typeof(this.nodes),this.nodes);
