@@ -77,7 +77,9 @@ export class MentionDirectiveDirective {
           const mention_div =document.getElementById('mention-list-div');
         if(mention_div!==null)
         {
+          this.myopen.emit(this.activeItem);
           console.log("ACTIVE ITEM",this.activeItem)
+          e.preventDefault();
           mention_div.remove()
         }
         }
