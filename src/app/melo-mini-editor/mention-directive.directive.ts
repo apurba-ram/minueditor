@@ -34,6 +34,7 @@ export class MentionDirectiveDirective {
   selcted:number=0;
   activeItem:any;
   searchingString:string=' ';
+  character:any;
   constructor(
     private _element: ElementRef,
     private _componentResolver: ComponentFactoryResolver,
@@ -78,7 +79,10 @@ export class MentionDirectiveDirective {
         if(mention_div!==null)
         {
           this.selcted=0;
-          this.myopen.emit(this.activeItem);
+          this.myopen.emit({
+            char:this.character,
+            data:this.activeItem
+          });
           console.log("ACTIVE ITEM",this.activeItem)
           e.preventDefault();
           mention_div.remove()
@@ -94,6 +98,7 @@ export class MentionDirectiveDirective {
         const mention_div1 =document.getElementById('mention-list-div');
         if(mention_div1!==null)
         {
+
           this.searchString+=e.key;
           console.log(this.searchString.slice(9))
           let ss=' '
@@ -152,6 +157,7 @@ export class MentionDirectiveDirective {
       {
         if(e.key===this.config[i].triggerChar)
         {
+          this.character=e.key;
           const c=e.key;
           // console.log("KEY FOUND",i,"ITEMS",this.config[i].items)
           this.mentionedItems=this.config[i].items;
