@@ -1,4 +1,4 @@
-import { Directive ,Input,Output,EventEmitter} from '@angular/core';
+import { Directive ,Input,Output,EventEmitter,ComponentFactoryResolver, ElementRef, TemplateRef, ViewContainerRef} from '@angular/core';
 import {  EditorConfig,MyMentionConfig } from './editor-config-interface';
 
 
@@ -31,62 +31,79 @@ export class MentionDirectiveDirective {
   private searching: boolean;
   private lastKeyCode: number;
 
-  constructor() { }
+  constructor(
+    private _element: ElementRef,
+    private _componentResolver: ComponentFactoryResolver,
+    private _viewContainerRef: ViewContainerRef
+  ) { }
+
+  
   @Input() config:any ;
   @Output() myclose = new EventEmitter();
   @Output() myopen = new EventEmitter();
 
   keyHandler(e:any)
   {
-      // console.log(e.key)
-      // console.log("HEY",this.config)
+
+    console.log("KEYCODE",e.keyCode)
+   
+    if(e.keyCode>=65 && e.keyCode<=90 || e.keyCode >= 97 && e.keyCode <= 122 || e.key==='ArrowDown' || e.key==='ArrowUp')
+      {
+        console.log("SEARCHING IF DIV EXISTS or scrolling by arrows")
+
+          
+
+      }
+      else{
+        console.log("DELETE MENTION LIST IF EXISTS")
+        const mention_div =document.getElementById('mention-list-div');
+        if(mention_div!==null)
+        {
+          mention_div.remove()
+        }
+      }
+
+      console.log(e.key)
+      console.log("HEY",this.config)
       for(let i=0;i<this.config.length;i++)
       {
         if(e.key===this.config[i].triggerChar)
         {
           const c=e.key;
           console.log("KEY FOUND",i,"ITEMS",this.config[i].items)
-          const div1=document.getElementById('mention-div')
-          
-          // console.log("LENGHTH",this.config[i].items)
-          if(this.config[i].items.length>0)
+          this.mentionedItems=this.config[i].items;
+          console.log("NEW MENTION LIST ITEM",this.mentionedItems)
+          const mention_div=document.createElement('div');
+          mention_div.setAttribute('id','mention-list-div');
+          mention_div.style.height=100+'px';
+          const ul=document.createElement('ul');
+          for(let j=0;j<this.config[i].items.length;j++)
           {
-            console.log("HEY 1")
-            document.getElementById('mentiion-item-list').innerHTML=' '
-            // div1.innerHTML=this.config[i].items;
-            for(let j=0;j<this.config[i].items.length-1;j++)
-            {
-              console.log("HELLO ",j)
-              const li=document.createElement('li')
-              li.setAttribute('id',`${this.config[i].items[j].id}`)
-              li.innerHTML=this.config[i].items[j].name;
-              document.getElementById('mentiion-item-list').appendChild(li)
-              li.addEventListener('click',(e:any)=>
-              {
-                console.log("IDDDDD",e.target.id)
-                this.myopen.emit(
-                  {
-                    char:c,
-                    id:this.config[i].items[j].id,
-                    name:this.config[i].items[j].name
-                  }
-                 
-                  
-                ) 
-                document.getElementById('mentiion-item-list').innerHTML=' '
-                
-              })
-              // document.getElementById('mentiion-item-list').innerHTML+=`<li id='itemli'${j}>`+this.config[i].items[j]+`</li>`
-            }
+              const li=document.createElement('li');
+              li.innerHTML= this.mentionedItems[j].name;
+              ul.appendChild(li)
           }
-         
-        }
-        else{
-          // document.getElementById('mention-div').innerHTML=' '
-        }
+          mention_div.appendChild(ul)
+          document.getElementsByClassName('editable-block')[0].appendChild(mention_div);
+          }
       }
-  }
 
+
+      
+
+      if(e.key==='ArrowDown')
+      {
+        console.log("ARROW DOWN PRESSED")
+      }
+
+
+      if(e.key==='ArrowUp')
+      {
+        console.log("KEY UP PRESSED")
+      }
+      
+   }
+  
   blurHandler(e:any)
   {
     console.log("DIRETIVE BLUR",e)
