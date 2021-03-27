@@ -5,14 +5,22 @@
     {{fileObj.file.name}} - {{fileObj.extension}}
 </div>
 <!--  [(ngModel)]="modelvalue1" [editorConfig]="editorConfig1"  (sendSavedFiles)="filesSaved($event)" (comment)="comment($event)" -->
-{{editorConfig1 | json}}
+<!-- {{editorConfig1 | json}} -->
 <app-editor-container 
     [(ngModel)]="modelvalue1" 
     [editorConfig]="editorConfig1" 
     (sendSavedFiles)="filesSaved($event)" 
     (comment)="comment($event)"></app-editor-container> 
     
-<br><br> -->
+    
+<br><br> 
+
+<app-editor-container 
+    [(ngModel)]="modelvalue2" 
+    [editorConfig]="editorConfig2" 
+    (sendSavedFiles)="filesSaved($event)" 
+    (comment)="comment($event)"></app-editor-container> 
+    
  {{modelvalue1}}
 <br><br>
    
@@ -44,12 +52,6 @@
 <br><br>
 
 
-
-<app-editor-container 
-    [(ngModel)]="modelvalue2" 
-    [editorConfig]="editorConfig1" 
-    (sendSavedFiles)="filesSaved($event)" 
-    (comment)="comment($event)"></app-editor-container> 
 
 
 

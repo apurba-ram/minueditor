@@ -443,7 +443,7 @@ export class EditorContainerComponent
       range.deleteContents(); // deleting previous set contents
     }
 
-    if (this.lastChar === '@' || this.lastChar === '#') {
+    if (this.lastChar === '@' || this.lastChar === '#' || this.lastChar === '$'  || this.lastChar === '*'     ) {
       this.node = this.sel.anchorNode;
       this.format = true;
       this.flag = this.lastChar === '@' ? 0 : 1;

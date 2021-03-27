@@ -138,8 +138,17 @@ export class MentionDirectiveDirective {
               ul.appendChild(li)    
           }
           mention_div2.appendChild(ul)
-          document.getElementsByClassName('editable-block')[0].appendChild(mention_div2);
-          
+          // document.getElementsByClassName('editable-block')[0].appendChild(mention_div2);
+          let   sel = window.getSelection();
+          if (sel.getRangeAt && sel.rangeCount) {
+          let   range = sel.getRangeAt(0);
+          range.deleteContents();
+          range.collapse(true);
+           sel.removeAllRanges();
+          range.insertNode(mention_div2);
+           sel.addRange(range);
+          }
+
           this.activeItem=matches[0];
           if(document.getElementsByClassName('mention-item')[0]!==null)
           {
@@ -195,7 +204,16 @@ export class MentionDirectiveDirective {
               ul.appendChild(li)    
           }
           mention_div.appendChild(ul)
-          document.getElementsByClassName('editable-block')[0].appendChild(mention_div);
+          // document.getElementsByClassName('editable-block')[0].appendChild(mention_div);
+          let   sel = window.getSelection();
+          if (sel.getRangeAt && sel.rangeCount) {
+          let   range = sel.getRangeAt(0);
+          range.deleteContents();
+          range.collapse(true);
+           sel.removeAllRanges();
+          range.insertNode(mention_div);
+           sel.addRange(range);
+          }
 
 
           if(document.getElementsByClassName('mention-item')[0]!==null)

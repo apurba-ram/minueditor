@@ -92,7 +92,48 @@ export class AppComponent  {
     placeholder: 'Please Add Some Text',
     buttonName: 'Upload',
     mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],
-    mentionedDates: ['19-02-2020', '11-02-2020', '12-02-2020', '14-02-2020']
+    mentionedDates: ['19-02-2020', '11-02-2020', '12-02-2020', '14-02-2020'],
+    mentions:[
+      {
+        triggerChar:'$',
+        items:[
+          {id:1,name:'prerna11'},
+          {id:2,name:'prerna22'},
+          {id:3,name:'prerna33'},
+          {id:4,name:'megha2'},
+          {id:5,name:'chandi22'},
+          {id:6,name:'alec222'},
+          {id:7,name:'pravin222'},
+          {id:8,name:'satyendra222'},
+          {id:9,name:'gazia222'},
+          {id:33,name:'prerna6222'},
+          {id:33,name:'prerna633'},
+          {id:33,name:'prerna6333'},
+          {id:33,name:'prerna633'}
+        ]
+      },
+      {
+        triggerChar:'*',
+        items:[
+          {id:11,name:'prerna44'},
+          {id:22,name:'prerna54'},
+          {id:33,name:'prerna64'},
+          {id:33,name:'prerna62'},
+          {id:33,name:'prerna26'},
+          {id:33,name:'prerna61'},
+          {id:33,name:'prerna116'},
+          {id:33,name:'prerna2226'},
+          {id:33,name:'prerna6aaa'},
+          {id:33,name:'prerna6a'},
+          {id:33,name:'prerna6sss'},
+          {id:33,name:'prerna6ass'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'}
+        ]
+      }
+    ]
   };
 
 
