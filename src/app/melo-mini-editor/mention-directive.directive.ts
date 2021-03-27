@@ -90,7 +90,7 @@ export class MentionDirectiveDirective {
         }
       }
       else{
-        console.log("ELSSSEEEEEE")
+        // console.log("ELSSSEEEEEE")
        
          if(e.keyCode>=65 && e.keyCode<=90 || e.keyCode >= 97 && e.keyCode <= 122 )
         {
@@ -112,9 +112,12 @@ export class MentionDirectiveDirective {
           console.log("SEARCHING STRING",this.searchString);
           console.log("LIST",this.mentionedItems);
           const matches = this.mentionedItems.filter(s => s.name.includes(ss));
-          console.log("FILTERED ",matches);
+          // console.log("FILTERED ",matches);
           mention_div1.remove();
+          if(matches.length>0)
+          {
           const mention_div2=document.createElement('div');
+          mention_div2.style.boxShadow="10px 20px 30px gray"
           mention_div2.setAttribute('id','mention-list-div');
           mention_div2.style.height=100+'px';
           mention_div2.style.width=200+'px';
@@ -143,7 +146,7 @@ export class MentionDirectiveDirective {
             // this.activeItem=this.mentionedItems[0];
             // console.log("ACTIVE ITEM",this.activeItem);
           }
-
+        }
         }
         }
         else{
@@ -168,6 +171,7 @@ export class MentionDirectiveDirective {
           // console.log("NEW MENTION LIST ITEM",this.mentionedItems)
           const mention_div=document.createElement('div');
           mention_div.setAttribute('id','mention-list-div');
+          mention_div.style.boxShadow="10px 20px 30px gray"
           mention_div.style.height=100+'px';
           mention_div.style.width=200+'px';
           mention_div.style.overflow='auto';
@@ -210,16 +214,7 @@ export class MentionDirectiveDirective {
         {
             if(this.selcted<lis.length-1)
             {
-              // var elHeight = parseInt(document.getElementById('mention-list-div').style.height);
-              // var scrollTop =document.getElementById('mention-ul').scrollTop;
-              // var viewport = scrollTop + document.getElementById('mention-ul').style.height;
-              // console.log("HEIGHT",elHeight,"SCROLLTOP",scrollTop,"ViewPosrt",viewport)
-              // var elOffset = elHeight * this.selcted;
-              // console.log('select', this.selcted, ' viewport', viewport, ' elOffset', elOffset);
-              // if (elOffset < scrollTop )
-              // document.getElementById('mention-ul').scrollTop;
-                
-              // console.log("ALL LIS",lis)
+              
               this.nodes=lis;
               // console.log("TYPE",typeof(this.nodes),this.nodes);
               // console.log("SELECTED",this.selcted)

@@ -88,21 +88,14 @@ export class EditorContainerComponent
   myopen(e:any)
   {
     console.log("OPEN EMIT in editor",e)
-    // const btn=document.createElement('button');
-    // btn.innerHTML=e.name;
-    // btn.setAttribute('contentEditable','false')
-    // // document.getElementsByClassName('editable-block')[0].appendChild(btn);
-    // this.sel.removeAllRanges();
-    // const range: Range = this.oldRange.cloneRange();
-    // range.insertNode(btn);
-    // range.setStartAfter(btn);
-    // range.collapse();
-    // this.sel.addRange(range);
+    if(e.data?.name!==undefined && e.data?.id!==undefined)
+    {
+      console.log("IN IF CHECKING  PPPPPPPPPPPPPPPPP")
     const input = document.createElement('input');
-    input.setAttribute('value', e.char+e.data.name);
+    input.setAttribute('value', e.char+e.data?.name);
     input.setAttribute('type', 'button');
     input.setAttribute('disabled', 'true');
-    input.setAttribute('data-id', e.data.id);
+    input.setAttribute('data-id', e.data?.id);
     // input.setAttribute('mention-data', `${this.flag === 0 ? '@' : '#'}`);
     input.style.border = 'none';
     input.style.borderRadius = '2px';
@@ -119,6 +112,7 @@ export class EditorContainerComponent
     range.setStartAfter(input);
     this.sel.addRange(range);
     this.writeValue(document.getElementById(`${this.editorConfig.id}`).innerHTML, 'editor');
+    }
   }
 
   constructor() {
