@@ -15,8 +15,8 @@ export class AppComponent  {
   defValue = 'jdi';
   modelvalue1 = null;
   modelvalue2: string = '';
-  namesA = [{id: 12,  name: 'Step'},{id: 11,  name: 'Run'},{id: 13,  name: 'Touch'},{id: 14,  name: 'Feel'}]
-  namesB = [{id: 1,  name: 'Coming'},{id: 3,  name: 'Maniac'},{id: 43,  name: 'Gross'},{id: 6,  name: 'Delivery'}]
+  // namesA = [{id: 12,  name: 'Step'},{id: 11,  name: 'Run'},{id: 13,  name: 'Touch'},{id: 14,  name: 'Feel'}]
+  // namesB = [{id: 1,  name: 'Coming'},{id: 3,  name: 'Maniac'},{id: 43,  name: 'Gross'},{id: 6,  name: 'Delivery'}]
   editorConfig1: EditorConfig = {
     mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],
     toolbarPlacement: 'bottom',
@@ -91,8 +91,8 @@ export class AppComponent  {
     link: true,
     placeholder: 'Please Add Some Text',
     buttonName: 'Upload',
-    mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],
-    mentionedDates: ['19-02-2020', '11-02-2020', '12-02-2020', '14-02-2020'],
+    // mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],
+    // mentionedDates: ['19-02-2020', '11-02-2020', '12-02-2020', '14-02-2020'],
     mentions:[
       {
         triggerChar:'$',
@@ -147,10 +147,10 @@ export class AppComponent  {
     // }, 2000);
 
 
-    setTimeout(()=>{
-      this.editorConfig1.mentionedNames = this.namesA;
-      this.editorConfig1 = {...this.editorConfig1};
-    }, 7000);
+    // setTimeout(()=>{
+    //   this.editorConfig1.mentionedNames = this.namesA;
+    //   this.editorConfig1 = {...this.editorConfig1};
+    // }, 7000);
   }
   
   

@@ -151,7 +151,7 @@ export class MentionDirectiveDirective {
           let   sel = window.getSelection();
           if (sel.getRangeAt && sel.rangeCount) {
           let   range = sel.getRangeAt(0);
-          range.deleteContents();
+          // range.deleteContents();
           range.collapse(true);
            sel.removeAllRanges();
           range.insertNode(mention_div2);
