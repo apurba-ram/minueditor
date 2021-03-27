@@ -149,7 +149,8 @@ export class MentionDirectiveDirective {
             } 
           
           const mention_div2=document.createElement('div');
-          mention_div2.style.boxShadow="10px 20px 30px gray"
+          mention_div2.style.boxShadow="10px 20px 30px gray";
+          mention_div2.style.background='white';
           mention_div2.setAttribute('id','mention-list-div');
           mention_div2.style.height=100+'px';
           mention_div2.style.width=200+'px';
@@ -165,16 +166,9 @@ export class MentionDirectiveDirective {
           {
             const li=document.createElement('li');
               li.innerHTML= matches[i].name;
-              li.setAttribute('class',`mention-item`)
-              li.addEventListener('click',()=>
-              {
-
-                console.log("heysssssssssssssssa")
-                this.myopen.emit({
-                  char:this.character,
-                  data:this.activeItem
-                });
-              })
+              li.setAttribute('class',`mention-item`);
+              li.style.listStyle='none';
+              li.style.padding="10px 10px 10px ";
               ul.appendChild(li)    
           }
           mention_div2.appendChild(ul)
@@ -236,14 +230,16 @@ export class MentionDirectiveDirective {
           const mention_div=document.createElement('div');
           mention_div.setAttribute('id','mention-list-div');
           mention_div.style.boxShadow="10px 20px 30px gray";
+          mention_div.style.background='white';
           mention_div.style.position='absolute';
               setTimeout(() => {
                 mention_div.style.left=rect.left+'px';
                 mention_div.style.top=rect.top+'px';
               }, 10);
-          mention_div.style.height=100+'px';
+          mention_div.style.height=300+'px';
           mention_div.style.width=200+'px';
           mention_div.style.overflow='auto';
+          mention_div.style.zIndex = "999";
           // mention_div.style.boxShadow='20 px solid black';
           mention_div.contentEditable='false';
           // mention_div.style.background="#87CEFA"
@@ -255,6 +251,8 @@ export class MentionDirectiveDirective {
               li.innerHTML= this.mentionedItems[j].name;
               li.setAttribute('class',`mention-item`);
               li.setAttribute('tabIndex','-1');
+              li.style.listStyle='none';
+              li.style.padding="10px 10px 10px ";
               ul.appendChild(li)    
           }
           mention_div.appendChild(ul)
@@ -290,7 +288,7 @@ export class MentionDirectiveDirective {
               newactive.style.background='#87CEFA';
               // console.log("NEW ACTIVE",newactive);
               const oldactive=document.getElementsByClassName('mention-item')[this.selcted] as HTMLElement;
-              oldactive.style.background='transparent';
+              oldactive.style.background='white';
               // console.log("OLD ACTIVE",oldactive)
               this.activeItem=this.mentionedItems[this.selcted+1];
               this.selcted=this.selcted+1;
@@ -320,7 +318,7 @@ export class MentionDirectiveDirective {
             newactive.style.background='#87CEFA';
             // console.log("NEW ACTIVE",newactive);
             const oldactive=document.getElementsByClassName('mention-item')[this.selcted] as HTMLElement;
-            oldactive.style.background='transparent';
+            oldactive.style.background='white';
             // console.log("OLD ACTIVE",oldactive);
             this.activeItem=this.mentionedItems[this.selcted-1];
             this.selcted=this.selcted-1;
@@ -336,7 +334,7 @@ export class MentionDirectiveDirective {
     // console.log("DIRETIVE BLUR",e)
     if( document.getElementById('mention-list-div')!==null)
     {
-      // document.getElementById('mention-list-div').remove();
+      document.getElementById('mention-list-div').remove();
     }
   }
 }
