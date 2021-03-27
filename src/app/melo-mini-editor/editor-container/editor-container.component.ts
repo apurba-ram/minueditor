@@ -12,7 +12,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { EditorConfig, ToolbarConfig, MyMentionConfig } from '../editor-config-interface';
+import { EditorConfig, ToolbarConfig } from '../editor-config-interface';
 import { nanoid } from '../nanoid';
 @Component({
   selector: 'app-editor-container',
@@ -96,7 +96,7 @@ export class EditorContainerComponent
     input.setAttribute('type', 'button');
     input.setAttribute('disabled', 'true');
     input.setAttribute('data-id', e.data?.id);
-    // input.setAttribute('mention-data', `${this.flag === 0 ? '@' : '#'}`);
+    // input.setAttribute('mention-data', `${this.flag === 0 ? '$' : '*'}`);
     input.style.border = 'none';
     input.style.borderRadius = '2px';
     input.style.padding = '3px';
@@ -443,10 +443,11 @@ export class EditorContainerComponent
       range.deleteContents(); // deleting previous set contents
     }
 
-    if (this.lastChar === '@' || this.lastChar === '#' || this.lastChar === '$'  || this.lastChar === '*'     ) {
+    if (this.lastChar === '@' || this.lastChar === '#' || this.lastChar === '$'  || this.lastChar === '*') {
+      console.log("REPPLACMENT ")
       this.node = this.sel.anchorNode;
       this.format = true;
-      this.flag = this.lastChar === '@' ? 0 : 1;
+      this.flag = this.lastChar === '$' ? 0 : 1;
       this.startOffset = this.sel.getRangeAt(0).startOffset;
     }
 

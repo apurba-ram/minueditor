@@ -49,7 +49,7 @@ export class MentionDirectiveDirective {
   keyHandler(e:any)
   {
 
-    // console.log("KEYCODE",e.keyCode)
+    console.log("KEYCODE",e.keyCode)
    
     if( e.key==='ArrowDown' || e.key==='ArrowUp' || e.key==='Enter' || e.key==='Backspace')
       {
@@ -135,6 +135,15 @@ export class MentionDirectiveDirective {
             const li=document.createElement('li');
               li.innerHTML= matches[i].name;
               li.setAttribute('class',`mention-item`)
+              li.addEventListener('click',()=>
+              {
+
+                console.log("heysssssssssssssssa")
+                this.myopen.emit({
+                  char:this.character,
+                  data:this.activeItem
+                });
+              })
               ul.appendChild(li)    
           }
           mention_div2.appendChild(ul)
