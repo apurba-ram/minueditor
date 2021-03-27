@@ -179,7 +179,7 @@ export class MentionDirectiveDirective {
             const v=document.getElementsByClassName('mention-item')[0] as HTMLElement;
             if(v)
             {
-              v.style.background='#87CEFA';
+              v.style.background='#4682B4';
             }
            
             // this.activeItem=this.mentionedItems[0];
@@ -260,7 +260,7 @@ export class MentionDirectiveDirective {
           if(document.getElementsByClassName('mention-item')[0]!==null)
           {
             const v=document.getElementsByClassName('mention-item')[0] as HTMLElement;
-            v.style.background='#87CEFA';
+            v.style.background='#4682B4';
             this.activeItem=this.mentionedItems[0];
             // console.log("ACTIVE ITEM",this.activeItem);
           }
@@ -285,7 +285,7 @@ export class MentionDirectiveDirective {
               // console.log("SELECTED",this.selcted)
               const newactive=document.getElementsByClassName('mention-item')[this.selcted+1] as HTMLElement;
               document.getElementsByClassName('mention-item')[this.selcted+1].scrollIntoView(false)
-              newactive.style.background='#87CEFA';
+              newactive.style.background='#4682B4';
               // console.log("NEW ACTIVE",newactive);
               const oldactive=document.getElementsByClassName('mention-item')[this.selcted] as HTMLElement;
               oldactive.style.background='white';
@@ -315,7 +315,7 @@ export class MentionDirectiveDirective {
             console.log("move up ");
             const newactive=document.getElementsByClassName('mention-item')[this.selcted-1] as HTMLElement;
             document.getElementsByClassName('mention-item')[this.selcted-1].scrollIntoView(false);
-            newactive.style.background='#87CEFA';
+            newactive.style.background='#4682B4';
             // console.log("NEW ACTIVE",newactive);
             const oldactive=document.getElementsByClassName('mention-item')[this.selcted] as HTMLElement;
             oldactive.style.background='white';
