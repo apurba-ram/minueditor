@@ -35,6 +35,12 @@ export class MentionDirectiveDirective {
   activeItem:any;
   searchingString:string=' ';
   character:any;
+  sel:any;
+  r:any;
+  r2:any;
+  rect:any;
+  node:any;
+  offset:any;
   constructor(
     private _element: ElementRef,
     private _componentResolver: ComponentFactoryResolver,
@@ -122,11 +128,36 @@ export class MentionDirectiveDirective {
           mention_div1.remove();
           if(matches.length>0)
           {
+            const sel = document.getSelection()
+            const r = sel.getRangeAt(0)
+            let rect
+            let r2
+            // supposed to be textNode in most cases
+            // but div[contenteditable] when empty
+            const node = r.startContainer
+            const offset = r.startOffset
+            if (offset > 0) {
+              // new range, don't influence DOM state
+              r2 = document.createRange()
+              r2.setStart(node, (offset - 1))
+              r2.setEnd(node, offset)
+              // https://developer.mozilla.org/en-US/docs/Web/API/range.getBoundingClientRect
+              // IE9, Safari?(but look good in Safari 8)
+              rect = r2.getBoundingClientRect()
+              // return { left: rect.right, top: rect.top }
+              console.log("LEFT",rect.right,"TOPE",rect.top);
+            } 
+          
           const mention_div2=document.createElement('div');
           mention_div2.style.boxShadow="10px 20px 30px gray"
           mention_div2.setAttribute('id','mention-list-div');
           mention_div2.style.height=100+'px';
           mention_div2.style.width=200+'px';
+          mention_div2.style.position='absolute';
+          setTimeout(() => {
+            mention_div2.style.left=rect.left+'px';
+            mention_div2.style.top=rect.top+'px';
+          }, 10);
           mention_div2.style.overflow='auto';
           mention_div2.contentEditable='false';
           const ul=document.createElement('ul');
@@ -147,17 +178,7 @@ export class MentionDirectiveDirective {
               ul.appendChild(li)    
           }
           mention_div2.appendChild(ul)
-          // document.getElementsByClassName('editable-block')[0].appendChild(mention_div2);
-          let   sel = window.getSelection();
-          if (sel.getRangeAt && sel.rangeCount) {
-          let   range = sel.getRangeAt(0);
-          // range.deleteContents();
-          range.collapse(true);
-           sel.removeAllRanges();
-          range.insertNode(mention_div2);
-           sel.addRange(range);
-          }
-
+          document.body.appendChild(mention_div2);
           this.activeItem=matches[0];
           if(document.getElementsByClassName('mention-item')[0]!==null)
           {
@@ -193,9 +214,33 @@ export class MentionDirectiveDirective {
           // console.log("KEY FOUND",i,"ITEMS",this.config[i].items)
           this.mentionedItems=this.config[i].items;
           // console.log("NEW MENTION LIST ITEM",this.mentionedItems)
+           const sel = document.getSelection()
+            const r = sel.getRangeAt(0)
+            let rect
+            let r2
+            // supposed to be textNode in most cases
+            // but div[contenteditable] when empty
+            const node = r.startContainer
+            const offset = r.startOffset
+            if (offset > 0) {
+              // new range, don't influence DOM state
+              r2 = document.createRange()
+              r2.setStart(node, (offset - 1))
+              r2.setEnd(node, offset)
+              // https://developer.mozilla.org/en-US/docs/Web/API/range.getBoundingClientRect
+              // IE9, Safari?(but look good in Safari 8)
+              rect = r2.getBoundingClientRect()
+              // return { left: rect.right, top: rect.top }
+              console.log("LEFT",rect.right,"TOPE",rect.top);
+            } 
           const mention_div=document.createElement('div');
           mention_div.setAttribute('id','mention-list-div');
-          mention_div.style.boxShadow="10px 20px 30px gray"
+          mention_div.style.boxShadow="10px 20px 30px gray";
+          mention_div.style.position='absolute';
+              setTimeout(() => {
+                mention_div.style.left=rect.left+'px';
+                mention_div.style.top=rect.top+'px';
+              }, 10);
           mention_div.style.height=100+'px';
           mention_div.style.width=200+'px';
           mention_div.style.overflow='auto';
@@ -213,18 +258,7 @@ export class MentionDirectiveDirective {
               ul.appendChild(li)    
           }
           mention_div.appendChild(ul)
-          // document.getElementsByClassName('editable-block')[0].appendChild(mention_div);
-          let   sel = window.getSelection();
-          if (sel.getRangeAt && sel.rangeCount) {
-          let   range = sel.getRangeAt(0);
-          range.deleteContents();
-          range.collapse(true);
-           sel.removeAllRanges();
-          range.insertNode(mention_div);
-           sel.addRange(range);
-          }
-
-
+          document.body.appendChild(mention_div);
           if(document.getElementsByClassName('mention-item')[0]!==null)
           {
             const v=document.getElementsByClassName('mention-item')[0] as HTMLElement;
@@ -302,7 +336,7 @@ export class MentionDirectiveDirective {
     // console.log("DIRETIVE BLUR",e)
     if( document.getElementById('mention-list-div')!==null)
     {
-      document.getElementById('mention-list-div').remove();
+      // document.getElementById('mention-list-div').remove();
     }
   }
 }
