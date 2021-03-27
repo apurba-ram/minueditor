@@ -176,7 +176,8 @@ export class MentionDirectiveDirective {
           {
               const li=document.createElement('li');
               li.innerHTML= this.mentionedItems[j].name;
-              li.setAttribute('class',`mention-item`)
+              li.setAttribute('class',`mention-item`);
+              li.setAttribute('tabIndex','-1');
               ul.appendChild(li)    
           }
           mention_div.appendChild(ul)
@@ -196,6 +197,9 @@ export class MentionDirectiveDirective {
 
       if(e.key==='ArrowDown')
       {
+        
+        e.preventDefault();
+        
         console.log("ARROW DOWN PRESSED")
         const lis=document.getElementsByClassName('mention-item');
         if(lis.length>0)
@@ -210,12 +214,13 @@ export class MentionDirectiveDirective {
               // console.log('select', this.selcted, ' viewport', viewport, ' elOffset', elOffset);
               // if (elOffset < scrollTop )
               // document.getElementById('mention-ul').scrollTop;
-
+                
               console.log("ALL LIS",lis)
               this.nodes=lis;
               // console.log("TYPE",typeof(this.nodes),this.nodes);
               console.log("SELECTED",this.selcted)
               const newactive=document.getElementsByClassName('mention-item')[this.selcted+1] as HTMLElement;
+              document.getElementsByClassName('mention-item')[this.selcted+1].scrollIntoView()
               newactive.style.background='#87CEFA';
               console.log("NEW ACTIVE",newactive);
               const oldactive=document.getElementsByClassName('mention-item')[this.selcted] as HTMLElement;
@@ -223,6 +228,7 @@ export class MentionDirectiveDirective {
               console.log("OLD ACTIVE",oldactive)
               this.activeItem=this.mentionedItems[this.selcted+1];
               this.selcted=this.selcted+1;
+              
             }
         }
       }
@@ -230,6 +236,7 @@ export class MentionDirectiveDirective {
 
       if(e.key==='ArrowUp')
       {
+        e.preventDefault();
         if (this.selcted === -1) return;
         console.log("ARROW UP PRESSED")
         const lis=document.getElementsByClassName('mention-item');
@@ -243,6 +250,7 @@ export class MentionDirectiveDirective {
           {
             console.log("move up ");
             const newactive=document.getElementsByClassName('mention-item')[this.selcted-1] as HTMLElement;
+            document.getElementsByClassName('mention-item')[this.selcted-1].scrollIntoView();
             newactive.style.background='#87CEFA';
             console.log("NEW ACTIVE",newactive);
             const oldactive=document.getElementsByClassName('mention-item')[this.selcted] as HTMLElement;
