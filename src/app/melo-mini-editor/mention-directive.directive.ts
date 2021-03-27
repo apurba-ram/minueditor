@@ -1,5 +1,5 @@
 import { Directive ,Input,Output,EventEmitter,ComponentFactoryResolver, ElementRef, TemplateRef, ViewContainerRef} from '@angular/core';
-import {  EditorConfig,MyMentionConfig } from './editor-config-interface';
+import {  EditorConfig } from './editor-config-interface';
 
 
 
@@ -273,7 +273,9 @@ export class MentionDirectiveDirective {
   blurHandler(e:any)
   {
     // console.log("DIRETIVE BLUR",e)
-
-    document.getElementById('mention-list-div').remove();
+    if( document.getElementById('mention-list-div')!==null)
+    {
+      document.getElementById('mention-list-div').remove();
+    }
   }
 }
