@@ -64,6 +64,7 @@ export class EditorContainerComponent
   menuLeftWidth: number;
   menuRightWidth: number;
   font_size:string;
+  triggerChars:Array<string>
 
   // mymentionconfig:MyMentionConfig={
   //   mentions:[
@@ -315,6 +316,11 @@ export class EditorContainerComponent
 
       this.editorConfig.id = this.editorConfig.id || nanoid();
 
+      if(this.editorConfig.mentions)
+      {
+        this.triggerChars=this.editorConfig.mentions.map(item=>item.triggerChar);
+      }
+
       this.mentionConfig = {
         mentions: []
       };
@@ -443,7 +449,7 @@ export class EditorContainerComponent
       range.deleteContents(); // deleting previous set contents
     }
 
-    if (this.lastChar === '@' || this.lastChar === '#' || this.lastChar === '$'  || this.lastChar === '*') {
+    if (this.triggerChars.includes(this.lastChar)) {
       console.log("REPPLACMENT ")
       this.node = this.sel.anchorNode;
       this.format = true;
