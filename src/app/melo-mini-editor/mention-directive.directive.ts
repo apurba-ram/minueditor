@@ -220,7 +220,7 @@ export class MentionDirectiveDirective {
               // console.log("TYPE",typeof(this.nodes),this.nodes);
               console.log("SELECTED",this.selcted)
               const newactive=document.getElementsByClassName('mention-item')[this.selcted+1] as HTMLElement;
-              document.getElementsByClassName('mention-item')[this.selcted+1].scrollIntoView()
+              document.getElementsByClassName('mention-item')[this.selcted+1].scrollIntoView(false)
               newactive.style.background='#87CEFA';
               console.log("NEW ACTIVE",newactive);
               const oldactive=document.getElementsByClassName('mention-item')[this.selcted] as HTMLElement;
@@ -250,7 +250,7 @@ export class MentionDirectiveDirective {
           {
             console.log("move up ");
             const newactive=document.getElementsByClassName('mention-item')[this.selcted-1] as HTMLElement;
-            document.getElementsByClassName('mention-item')[this.selcted-1].scrollIntoView();
+            document.getElementsByClassName('mention-item')[this.selcted-1].scrollIntoView(false);
             newactive.style.background='#87CEFA';
             console.log("NEW ACTIVE",newactive);
             const oldactive=document.getElementsByClassName('mention-item')[this.selcted] as HTMLElement;
