@@ -49,7 +49,7 @@ export class MentionDirectiveDirective {
   keyHandler(e:any)
   {
 
-    console.log("KEYCODE",e.keyCode)
+    // console.log("KEYCODE",e.keyCode)
    
     if( e.key==='ArrowDown' || e.key==='ArrowUp' || e.key==='Enter' || e.key==='Backspace')
       {
@@ -91,9 +91,7 @@ export class MentionDirectiveDirective {
           }
           else{
             mention_div.remove()
-          }
-         
-         
+          }  
         }
         }
       }
@@ -275,5 +273,7 @@ export class MentionDirectiveDirective {
   blurHandler(e:any)
   {
     // console.log("DIRETIVE BLUR",e)
+
+    document.getElementById('mention-list-div').remove();
   }
 }
