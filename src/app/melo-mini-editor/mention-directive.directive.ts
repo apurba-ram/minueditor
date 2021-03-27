@@ -84,8 +84,16 @@ export class MentionDirectiveDirective {
             data:this.activeItem
           });
           console.log("ACTIVE ITEM",this.activeItem)
-          e.preventDefault();
-          mention_div.remove()
+          if(this.activeItem!==undefined)
+          {
+            e.preventDefault();
+            mention_div.remove()
+          }
+          else{
+            mention_div.remove()
+          }
+         
+         
         }
         }
       }
