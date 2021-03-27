@@ -57,7 +57,7 @@ export class MentionDirectiveDirective {
         if(e.keyCode===8)
         {
           // console.log("LNGHT",this.searchString.length);
-          if(this.searchString.length>0)
+          if(this.searchString?.length>0)
           {
             this.searchString=this.searchString.substr(0,this.searchString.length-1);
             console.log("SEARCHING backspace ",this.searchString)
@@ -135,7 +135,11 @@ export class MentionDirectiveDirective {
           if(document.getElementsByClassName('mention-item')[0]!==null)
           {
             const v=document.getElementsByClassName('mention-item')[0] as HTMLElement;
-            v.style.background='#87CEFA';
+            if(v)
+            {
+              v.style.background='#87CEFA';
+            }
+           
             // this.activeItem=this.mentionedItems[0];
             // console.log("ACTIVE ITEM",this.activeItem);
           }
@@ -151,8 +155,8 @@ export class MentionDirectiveDirective {
         }
       }
 
-      console.log(e.key)
-      console.log("HEY",this.config)
+      // console.log(e.key)
+      // console.log("HEY",this.config)
       for(let i=0;i<this.config.length;i++)
       {
         if(e.key===this.config[i].triggerChar)
@@ -189,7 +193,7 @@ export class MentionDirectiveDirective {
             const v=document.getElementsByClassName('mention-item')[0] as HTMLElement;
             v.style.background='#87CEFA';
             this.activeItem=this.mentionedItems[0];
-            console.log("ACTIVE ITEM",this.activeItem);
+            // console.log("ACTIVE ITEM",this.activeItem);
           }
           }
       }
@@ -200,7 +204,7 @@ export class MentionDirectiveDirective {
         
         e.preventDefault();
         
-        console.log("ARROW DOWN PRESSED")
+        // console.log("ARROW DOWN PRESSED")
         const lis=document.getElementsByClassName('mention-item');
         if(lis.length>0)
         {
@@ -215,17 +219,17 @@ export class MentionDirectiveDirective {
               // if (elOffset < scrollTop )
               // document.getElementById('mention-ul').scrollTop;
                 
-              console.log("ALL LIS",lis)
+              // console.log("ALL LIS",lis)
               this.nodes=lis;
               // console.log("TYPE",typeof(this.nodes),this.nodes);
-              console.log("SELECTED",this.selcted)
+              // console.log("SELECTED",this.selcted)
               const newactive=document.getElementsByClassName('mention-item')[this.selcted+1] as HTMLElement;
               document.getElementsByClassName('mention-item')[this.selcted+1].scrollIntoView(false)
               newactive.style.background='#87CEFA';
-              console.log("NEW ACTIVE",newactive);
+              // console.log("NEW ACTIVE",newactive);
               const oldactive=document.getElementsByClassName('mention-item')[this.selcted] as HTMLElement;
               oldactive.style.background='transparent';
-              console.log("OLD ACTIVE",oldactive)
+              // console.log("OLD ACTIVE",oldactive)
               this.activeItem=this.mentionedItems[this.selcted+1];
               this.selcted=this.selcted+1;
               
@@ -238,24 +242,24 @@ export class MentionDirectiveDirective {
       {
         e.preventDefault();
         if (this.selcted === -1) return;
-        console.log("ARROW UP PRESSED")
+        // console.log("ARROW UP PRESSED")
         const lis=document.getElementsByClassName('mention-item');
         if(lis.length>0)
         {
-          console.log("ALL LIS",lis)
+          // console.log("ALL LIS",lis)
           this.nodes=lis;
           // console.log("TYPE",typeof(this.nodes),this.nodes);
-          console.log("SELECTED",this.selcted)
+          // console.log("SELECTED",this.selcted)
           if(this.selcted!=0)
           {
             console.log("move up ");
             const newactive=document.getElementsByClassName('mention-item')[this.selcted-1] as HTMLElement;
             document.getElementsByClassName('mention-item')[this.selcted-1].scrollIntoView(false);
             newactive.style.background='#87CEFA';
-            console.log("NEW ACTIVE",newactive);
+            // console.log("NEW ACTIVE",newactive);
             const oldactive=document.getElementsByClassName('mention-item')[this.selcted] as HTMLElement;
             oldactive.style.background='transparent';
-            console.log("OLD ACTIVE",oldactive);
+            // console.log("OLD ACTIVE",oldactive);
             this.activeItem=this.mentionedItems[this.selcted-1];
             this.selcted=this.selcted-1;
           }
@@ -267,6 +271,6 @@ export class MentionDirectiveDirective {
   
   blurHandler(e:any)
   {
-    console.log("DIRETIVE BLUR",e)
+    // console.log("DIRETIVE BLUR",e)
   }
 }
