@@ -1,7 +1,7 @@
 import { Component,OnChanges,SimpleChanges } from '@angular/core';
 import { nanoid } from './melo-mini-editor/nanoid';
 // ChangeDetectionStrategy
-import { EditorConfig } from './melo-mini-editor/editor-config-interface';
+import { EditorConfig } from 'marx-editor';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,24 +14,31 @@ export class AppComponent  {
   title = 'minieditor';
   defValue = 'jdi';
   modelvalue1 = null;
-  modelvalue2: string = '';
+  modelvalue2: string = 'ascascascas';
   namesA = [{id: 12,  name: 'Step'},{id: 11,  name: 'Run'},{id: 13,  name: 'Touch'},{id: 14,  name: 'Feel'}]
   namesB = [{id: 1,  name: 'Coming'},{id: 3,  name: 'Maniac'},{id: 43,  name: 'Gross'},{id: 6,  name: 'Delivery'}]
   editorConfig1: EditorConfig = {
-    mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],
-    toolbarPlacement: 'bottom',
+    // mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],
+    // toolbarPlacement: 'bottom',
     buttonName: 'Submit',
     file: true,
     link: true,
     colorPalette: true,
     mode: 'prime',
+<<<<<<< HEAD
+    zIndex: 6666666,
+    maxHeight: '500px',
     id: 'PLAGIARISM',
+=======
+    // id: 'PLAGIARISM',
+>>>>>>> b9b9a217db5fdc7480a1382877a5947051a48bee
     configFontStyle: true,
-    urlInputPlaceHolder: 'PLESS',
-    urlText: 'adsasdsad',
-    urlTitle: 'adsfeqgegwegwge',
-    urlValue: 'PIVOA',
-    validUrlMessage: 'asadsadqwdw ad',
+    zIndex: 45555,
+    // urlInputPlaceHolder: 'PLESS',
+    // urlText: 'adsasdsad',
+    // urlTitle: 'adsfeqgegwegwge',
+    // urlValue: 'PIVOA',
+    // validUrlMessage: 'asadsadqwdw ad',
   };
   
 
@@ -42,6 +49,7 @@ export class AppComponent  {
     configFontStyle: true,
     mode: 'prime',
     id:'khwaab',
+    zIndex: 8999,
     link: true,
     placeholder: 'Please Add Some Text',
     buttonName: 'Upload',
@@ -56,7 +64,7 @@ export class AppComponent  {
     });
 
     // setInterval(()=>{
-    //   this.editorConfig1.id = nanoid();
+    //   this.editorConfig1.zIndex++;
     // }, 2000);
 
 
@@ -79,6 +87,14 @@ comment(event: string): void {
   console.log('COMMENT');
   console.log(event);
 }
+
+  modelChange1(event) {
+    console.log('EVENT1', event);
+  }
+
+  modelChange2(event) {
+    console.log('EVENT2', event);
+  }
 
 
   
