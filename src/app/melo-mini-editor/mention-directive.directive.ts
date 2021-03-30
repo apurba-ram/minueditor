@@ -142,7 +142,8 @@ export class MentionDirectiveDirective {
             const offset = r.startOffset
             if (offset > 0) {
               // new range, don't influence DOM state
-              r2 = document.createRange()
+              r2 = document.createRange();
+             
               r2.setStart(node, (offset - 1))
               r2.setEnd(node, offset)
               // https://developer.mozilla.org/en-US/docs/Web/API/range.getBoundingClientRect
@@ -231,10 +232,11 @@ export class MentionDirectiveDirective {
             }
             if (offset >0) {
               // console.log("OFFSET",offset)
-              r2 = document.createRange()
-              r2.setStart(node, (offset -1))
-              r2.setEnd(node, offset)
-              rect = r2.getBoundingClientRect()
+              r2 = document.createRange();
+              console.log("nodddeeeeeee",node);
+              r2.setStart(node, (offset -1));
+              r2.setEnd(node, offset);
+              rect = r2.getBoundingClientRect();
               // console.log("LEFT",rect.right,"TOP",rect.top);
             } 
             else{
@@ -249,8 +251,11 @@ export class MentionDirectiveDirective {
           if(rect!==undefined && r2!==undefined)
           {
             // console.log("MENTION DIVV LEFT TTTR",rect,r2)
+            const st=document.getElementsByClassName('editable-block')[0] as HTMLElement;
+            console.log("CONTENEDITABLE RIGHT",st.getBoundingClientRect().right);
             mention_div.style.left=rect.left+'px';
             mention_div.style.top=rect.top+25+'px';
+            console.log("MENTION DIV LEFT",rect.left,rect.right);
           }
           // else{
           //   mention_div.style.left=24+'px';
