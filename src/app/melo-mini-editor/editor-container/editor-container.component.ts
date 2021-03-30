@@ -443,14 +443,14 @@ export class EditorContainerComponent
     this.lastChar = this.getPrecedingCharacter(this.sel?.anchorNode); // gets the last input character
 
     if ( this.startOffset  && this.tribute) {
-      console.log("REPLCAEEEEEEE TYPED WITH BUTTON");
-      this.format = false;
-      this.endOffset = this.sel.getRangeAt(0).endOffset;
-      const range: Range = document.createRange();
-      console.log("NODEEE",this.node);
-      range.setStart(this.node, this.startOffset - 1);
-      range.setEnd(this.node, this.endOffset);
-      range.deleteContents(); // deleting previous set contents
+      // console.log("REPLCAEEEEEEE TYPED WITH BUTTON");
+      // this.format = false;
+      // this.endOffset = this.sel.getRangeAt(0).endOffset;
+      // const range: Range = document.createRange();
+      // console.log("NODEEE",this.node);
+      // range.setStart(this.node, this.startOffset - 3);
+      // range.setEnd(this.node, this.endOffset);
+      // range.deleteContents(); // deleting previous set contents
     }
 
     if (this.triggerChars.includes(this.lastChar)) {

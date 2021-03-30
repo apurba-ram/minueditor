@@ -161,7 +161,7 @@ export class MentionDirectiveDirective {
           mention_div2.style.position='absolute';
           setTimeout(() => {
             mention_div2.style.left=rect.left+'px';
-            mention_div2.style.top=rect.top+'px';
+            mention_div2.style.top=rect.top+25+'px';
           }, 10);
           mention_div2.style.overflow='auto';
           mention_div2.contentEditable='false';
@@ -250,7 +250,7 @@ export class MentionDirectiveDirective {
           {
             // console.log("MENTION DIVV LEFT TTTR",rect,r2)
             mention_div.style.left=rect.left+'px';
-            mention_div.style.top=rect.top+'px';
+            mention_div.style.top=rect.top+25+'px';
           }
           // else{
           //   mention_div.style.left=24+'px';
