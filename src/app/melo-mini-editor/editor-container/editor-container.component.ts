@@ -312,14 +312,15 @@ export class EditorContainerComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log("NG ON CHANGES");
     if (changes.editorConfig && this.editorConfig) {
 
       this.editorConfig.id = this.editorConfig.id || nanoid();
 
-      if(this.editorConfig.mentions)
-      {
-        this.triggerChars=this.editorConfig.mentions.map(item=>item.triggerChar);
-      }
+      // if(this.editorConfig.mentions)
+      // {
+      //   this.triggerChars=this.editorConfig.mentions.map(item=>item.triggerChar);
+      // }
 
       this.mentionConfig = {
         mentions: []
@@ -331,11 +332,14 @@ export class EditorContainerComponent
             }
         });
 
+
+        console.log("CHANGES")
+
         this.mentionConfig.mentions.push({
           items: this.editorConfig.mentionedNames,
-          triggerChar: '@',
+          triggerChar: '$',
           mentionSelect: (item) => {
-            this.tribute = `@${item.name}`;
+            this.tribute = `$${item.name}`;
             this.mentionid = item.id;
             return this.tribute;
           },
@@ -344,6 +348,10 @@ export class EditorContainerComponent
           disableSearch: false,
           dropUp: true,
         });
+
+
+
+        console.log("MENTIONS ARRAY",this.mentionConfig.mentions);
       }
       if (this.editorConfig?.mentionedDates && Array.isArray(this.editorConfig?.mentionedDates) && this.editorConfig?.mentionedDates.length > 0) {
         this.editorConfig.mentionedDates = [
@@ -428,40 +436,79 @@ export class EditorContainerComponent
   */
   setValue(innerText: string): void {
     this.innerText = innerText;
+
     if (this.innerText === '') {
-      console.log("REMOVE FORMALT");
       document.execCommand('removeFormat', false, ''); // remove previous format once the editor is clear
-      document.execCommand('styleWithCSS', false, '');
-      document.execCommand('hiliteColor', false, 'white');
-      document.execCommand('foreColor', false, 'black');
       this.toolbarConfig.fontColor = 'black';
       this.toolbarConfig.backgroundColor = 'white';
+      this.toolbarOperations('textColor', 'black');
+      this.toolbarOperations('fillColor', 'white');
     }
+    this.lastChar = this.getPrecedingCharacter(
+      window.getSelection().anchorNode
+    
+    ); // gets the last input character
 
-    this.lastChar = this.getPrecedingCharacter(this.sel?.anchorNode); // gets the last input character
-    console.log("STARTOFFSET",this.startOffset)
-    if ( this.startOffset ) {
+    if (this.startOffset) {
       this.format = false;
       this.endOffset = this.sel.getRangeAt(0).endOffset;
       console.log("END OFFSET",this.endOffset);
-      const range: Range = document.createRange();
-      console.log("NODE",this.node,"LENGHT",this.node.length);
-      this.node.normalize;
+      const range = document.createRange();
+      console.log("NODE",this.node);
       range.setStart(this.node, this.startOffset - 1);
       range.setEnd(this.node, this.endOffset);
       range.deleteContents(); // deleting previous set contents
     }
 
-    if (this.triggerChars.includes(this.lastChar)) {
-      console.log("REPPLACMENT ")
+    if (this.lastChar === '$' ) {
+      console.log("LASTCHAR",this.lastChar)
       this.node = this.sel.anchorNode;
       this.format = true;
       this.flag = this.lastChar === '$' ? 0 : 1;
       this.startOffset = this.sel.getRangeAt(0).startOffset;
-      console.log("START OFFSET",this.startOffset);
+      console.log("STARTOFFSET 1",this.startOffset);
     }
 
-    this.writeValue(document.getElementById(`${this.editorConfig.id}`).innerHTML, 'editor');
+    // this.writeValue(document.getElementById(`${this.id}`).innerHTML);
+
+
+
+
+    // this.innerText = innerText;
+    // if (this.innerText === '') {
+    //   console.log("REMOVE FORMALT");
+    //   document.execCommand('removeFormat', false, ''); // remove previous format once the editor is clear
+    //   document.execCommand('styleWithCSS', false, '');
+    //   document.execCommand('hiliteColor', false, 'white');
+    //   document.execCommand('foreColor', false, 'black');
+    //   this.toolbarConfig.fontColor = 'black';
+    //   this.toolbarConfig.backgroundColor = 'white';
+    // }
+
+    // this.lastChar = this.getPrecedingCharacter(this.sel?.anchorNode); // gets the last input character
+    // console.log("STARTOFFSET",this.startOffset)
+    // if ( this.startOffset ) {
+    //   this.format = false;
+    //   this.endOffset = this.sel.getRangeAt(0).endOffset;
+    //   console.log("END OFFSET",this.endOffset);
+    //   const range: Range = document.createRange();
+    //   console.log("NODE",this.node,"LENGHT",this.node.length);
+    //   this.node.normalize;
+    //   range.setStart(this.node, this.startOffset - 1);
+    //   range.setEnd(this.node, this.endOffset);
+    //   range.deleteContents(); // deleting previous set contents
+    // }
+
+    // if (this.triggerChars.includes(this.lastChar)) {
+    //   console.log("REPPLACMENT ")
+    //   this.node = this.sel.anchorNode;
+    //   this.format = true;
+    //   this.flag = this.lastChar === '$' ? 0 : 1;
+    //   this.startOffset = this.sel.getRangeAt(0).startOffset;
+    //   console.log("START OFFSET",this.startOffset);
+    // }
+
+    // this.writeValue(document.getElementById(`${this.editorConfig.id}`).innerHTML, 'editor');
   }
 
   /**
