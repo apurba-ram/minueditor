@@ -73,7 +73,7 @@ export class MentionDirectiveDirective {
           const mention_div =document.getElementById('mention-list-div');
           if(mention_div!==null)
           {
-            mention_div.remove()
+            mention_div.remove();
           }
           }
         }  
@@ -223,17 +223,27 @@ export class MentionDirectiveDirective {
             console.log("RRRR",r.startOffset)
             if(offset===0)
             {
-              
               offset=1;
+              const span=document.createElement('span');
+              span.normalize;
+              r.insertNode(span);
             }
             if (offset >0) {
-
+              console.log("OFFSET",offset)
               r2 = document.createRange()
               r2.setStart(node, (offset -1))
               r2.setEnd(node, offset)
               rect = r2.getBoundingClientRect()
-              console.log("LEFT",rect.right,"TOPE",rect.top);
+              console.log("LEFT",rect.right,"TOP",rect.top);
             } 
+            else{
+              // console.log("OFFSET 2",offset)
+              // r2 = document.createRange()
+              // r2.setStart(node, offset)
+              // r2.setEnd(node, offset)
+              // rect = r2.getBoundingClientRect()
+              // console.log("LEFT",rect.right,"TOP",rect.top);
+            }
           const mention_div=document.createElement('div');
           mention_div.setAttribute('id','mention-list-div');
           mention_div.style.boxShadow="10px 20px 30px gray";
