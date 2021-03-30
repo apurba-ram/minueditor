@@ -55,18 +55,18 @@ export class MentionDirectiveDirective {
   keyHandler(e:any)
   {
 
-    console.log("KEYCODE",e.keyCode)
+    // console.log("KEYCODE",e.keyCode)
    
     if( e.key==='ArrowDown' || e.key==='ArrowUp' || e.key==='Enter' || e.key==='Backspace')
       {
-        console.log("SEARCHING IF DIV EXISTS or scrolling by arrows")
+        // console.log("SEARCHING IF DIV EXISTS or scrolling by arrows")
         if(e.keyCode===8)
         {
           // console.log("LNGHT",this.searchString.length);
           if(this.searchString?.length>0)
           {
             this.searchString=this.searchString.substr(0,this.searchString.length-1);
-            console.log("SEARCHING backspace ",this.searchString)
+            // console.log("SEARCHING backspace ",this.searchString)
           }
           else
           {
@@ -80,33 +80,33 @@ export class MentionDirectiveDirective {
        else  if(e.key==='Enter')
         { 
           // console.log("ACTIVE ITEM",this.activeItem)
-          console.log("ENTEREEE")
+          // console.log("ENTEREEE")
           this.searchString=''
           const mention_div =document.getElementById('mention-list-div');
         if(mention_div!==null)
         {
-          console.log("MENTION DIV NOT NULL")
+          // console.log("MENTION DIV NOT NULL")
           this.selcted=0;
           this.myopen.emit({
             char:this.character,
             data:this.activeItem
           });
-          console.log("ACTIVE ITEM",this.activeItem)
+          // console.log("ACTIVE ITEM",this.activeItem)
           if(this.activeItem!==undefined)
           {
-            console.log("ACTIVE ITME")
+            // console.log("ACTIVE ITME")
             e.preventDefault();
             mention_div.remove()
           }
           else{
-            console.log("ELSE")
+            // console.log("ELSE")
             mention_div.remove()
           }  
         }
         }
       }
       else{
-        console.log("ELSSSEEEEEE AFTER ENTER")
+        // console.log("ELSSSEEEEEE AFTER ENTER")
        
          if(e.keyCode>=65 && e.keyCode<=90 || e.keyCode >= 97 && e.keyCode <= 122 )
         {
@@ -116,7 +116,7 @@ export class MentionDirectiveDirective {
         {
 
           this.searchString+=e.key;
-          console.log(this.searchString.slice(9))
+          // console.log(this.searchString.slice(9))
           let ss=' '
           if(this.searchString.includes('undefined'))
           {
@@ -125,8 +125,8 @@ export class MentionDirectiveDirective {
           else{
              ss=this.searchString;
           }
-          console.log("SEARCHING STRING",this.searchString);
-          console.log("LIST",this.mentionedItems);
+          // console.log("SEARCHING STRING",this.searchString);
+          // console.log("LIST",this.mentionedItems);
           const matches = this.mentionedItems.filter(s => s.name.includes(ss));
           // console.log("FILTERED ",matches);
           mention_div1.remove();
@@ -149,7 +149,7 @@ export class MentionDirectiveDirective {
               // IE9, Safari?(but look good in Safari 8)
               rect = r2.getBoundingClientRect()
               // return { left: rect.right, top: rect.top }
-              console.log("LEFT",rect.right,"TOPE",rect.top);
+              // console.log("LEFT",rect.right,"TOPE",rect.top);
             } 
           
           const mention_div2=document.createElement('div');
@@ -220,29 +220,26 @@ export class MentionDirectiveDirective {
             // but div[contenteditable] when empty
             const node = r.startContainer
             let offset = r.startOffset
-            console.log("RRRR",r.startOffset)
+            // console.log("RRRR",r.startOffset)
             if(offset===0)
             {
               offset=1;
+              // let markerTextChar = '\ufeff';
               const span=document.createElement('span');
               span.normalize;
               r.insertNode(span);
             }
             if (offset >0) {
-              console.log("OFFSET",offset)
+              // console.log("OFFSET",offset)
               r2 = document.createRange()
               r2.setStart(node, (offset -1))
               r2.setEnd(node, offset)
               rect = r2.getBoundingClientRect()
-              console.log("LEFT",rect.right,"TOP",rect.top);
+              // console.log("LEFT",rect.right,"TOP",rect.top);
             } 
             else{
-              // console.log("OFFSET 2",offset)
-              // r2 = document.createRange()
-              // r2.setStart(node, offset)
-              // r2.setEnd(node, offset)
-              // rect = r2.getBoundingClientRect()
-              // console.log("LEFT",rect.right,"TOP",rect.top);
+
+
             }
           const mention_div=document.createElement('div');
           mention_div.setAttribute('id','mention-list-div');
@@ -251,7 +248,7 @@ export class MentionDirectiveDirective {
           mention_div.style.position='absolute';
           if(rect!==undefined && r2!==undefined)
           {
-            console.log("MENTION DIVV LEFT TTTR",rect,r2)
+            // console.log("MENTION DIVV LEFT TTTR",rect,r2)
             mention_div.style.left=rect.left+'px';
             mention_div.style.top=rect.top+'px';
           }

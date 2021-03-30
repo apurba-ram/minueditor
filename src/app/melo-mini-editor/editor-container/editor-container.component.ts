@@ -88,10 +88,10 @@ export class EditorContainerComponent
 
   myopen(e:any)
   {
-    console.log("OPEN EMIT in editor",e)
+    // console.log("OPEN EMIT in editor",e)
     if(e.data?.name!==undefined && e.data?.id!==undefined)
     {
-      console.log("IN IF CHECKING  PPPPPPPPPPPPPPPPP")
+      // console.log("IN IF CHECKING  PPPPPPPPPPPPPPPPP")
     const input = document.createElement('input');
     input.setAttribute('value', e.char+e.data?.name);
     input.setAttribute('type', 'button');
@@ -429,21 +429,24 @@ export class EditorContainerComponent
   setValue(innerText: string): void {
     this.innerText = innerText;
     if (this.innerText === '') {
-      // document.execCommand('removeFormat', false, ''); // remove previous format once the editor is clear
-      // document.execCommand('styleWithCSS', false, '');
-      // document.execCommand('hiliteColor', false, 'white');
-      // document.execCommand('foreColor', false, 'black');
-      // this.toolbarConfig.fontColor = 'black';
-      // this.toolbarConfig.backgroundColor = 'white';
+      console.log("REMOVE FORMALT");
+      document.execCommand('removeFormat', false, ''); // remove previous format once the editor is clear
+      document.execCommand('styleWithCSS', false, '');
+      document.execCommand('hiliteColor', false, 'white');
+      document.execCommand('foreColor', false, 'black');
+      this.toolbarConfig.fontColor = 'black';
+      this.toolbarConfig.backgroundColor = 'white';
     }
 
     this.lastChar = this.getPrecedingCharacter(this.sel?.anchorNode); // gets the last input character
-
-    if (this.format && this.startOffset && this.tribute) {
+    console.log("STARTOFFSET",this.startOffset)
+    if ( this.startOffset ) {
       this.format = false;
       this.endOffset = this.sel.getRangeAt(0).endOffset;
-
+      console.log("END OFFSET",this.endOffset);
       const range: Range = document.createRange();
+      console.log("NODE",this.node,"LENGHT",this.node.length);
+      this.node.normalize;
       range.setStart(this.node, this.startOffset - 1);
       range.setEnd(this.node, this.endOffset);
       range.deleteContents(); // deleting previous set contents
@@ -455,6 +458,7 @@ export class EditorContainerComponent
       this.format = true;
       this.flag = this.lastChar === '$' ? 0 : 1;
       this.startOffset = this.sel.getRangeAt(0).startOffset;
+      console.log("START OFFSET",this.startOffset);
     }
 
     this.writeValue(document.getElementById(`${this.editorConfig.id}`).innerHTML, 'editor');
@@ -571,6 +575,7 @@ export class EditorContainerComponent
         if (this.oldRange) {
 
           if (this.oldRange.collapsed) {
+
             this.sel.removeAllRanges();
             const range: Range = this.oldRange.cloneRange();
             const t = document.createTextNode('');
