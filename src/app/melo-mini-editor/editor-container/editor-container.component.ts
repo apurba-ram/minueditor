@@ -89,6 +89,7 @@ export class EditorContainerComponent
   myopen(e:any)
   {
     // console.log("OPEN EMIT in editor",e)
+    console.log("MENTIONN TRIBUTE",this.tribute);
     if(e.data?.name!==undefined && e.data?.id!==undefined)
     {
       // console.log("IN IF CHECKING  PPPPPPPPPPPPPPPPP")
@@ -321,6 +322,7 @@ export class EditorContainerComponent
       // {
       //   this.triggerChars=this.editorConfig.mentions.map(item=>item.triggerChar);
       // }
+      this.tribute='prerna';
 
       this.mentionConfig = {
         mentions: []
