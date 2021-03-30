@@ -1202,7 +1202,9 @@ export class EditorContainerComponent
     
     ); // gets the last input character
 
-    if (this.format && this.startOffset && this.tribute) {
+
+    console.log("FORMAT",this.format);
+    if ( this.startOffset && this.tribute) {
       this.format = false;
       this.endOffset = this.sel.getRangeAt(0).endOffset;
 
