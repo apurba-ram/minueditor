@@ -571,7 +571,6 @@ export class EditorContainerComponent
         if (this.oldRange) {
 
           if (this.oldRange.collapsed) {
-
             this.sel.removeAllRanges();
             const range: Range = this.oldRange.cloneRange();
             const t = document.createTextNode('');

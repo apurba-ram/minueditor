@@ -80,10 +80,12 @@ export class MentionDirectiveDirective {
        else  if(e.key==='Enter')
         { 
           // console.log("ACTIVE ITEM",this.activeItem)
+          console.log("ENTEREEE")
           this.searchString=''
           const mention_div =document.getElementById('mention-list-div');
         if(mention_div!==null)
         {
+          console.log("MENTION DIV NOT NULL")
           this.selcted=0;
           this.myopen.emit({
             char:this.character,
@@ -92,17 +94,19 @@ export class MentionDirectiveDirective {
           console.log("ACTIVE ITEM",this.activeItem)
           if(this.activeItem!==undefined)
           {
+            console.log("ACTIVE ITME")
             e.preventDefault();
             mention_div.remove()
           }
           else{
+            console.log("ELSE")
             mention_div.remove()
           }  
         }
         }
       }
       else{
-        // console.log("ELSSSEEEEEE")
+        console.log("ELSSSEEEEEE AFTER ENTER")
        
          if(e.keyCode>=65 && e.keyCode<=90 || e.keyCode >= 97 && e.keyCode <= 122 )
         {
@@ -215,16 +219,19 @@ export class MentionDirectiveDirective {
             // supposed to be textNode in most cases
             // but div[contenteditable] when empty
             const node = r.startContainer
-            const offset = r.startOffset
-            if (offset > 0) {
-              // new range, don't influence DOM state
+            let offset = r.startOffset
+            console.log("RRRR",r.startOffset)
+            if(offset===0)
+            {
+              
+              offset=1;
+            }
+            if (offset >0) {
+
               r2 = document.createRange()
-              r2.setStart(node, (offset - 1))
+              r2.setStart(node, (offset -1))
               r2.setEnd(node, offset)
-              // https://developer.mozilla.org/en-US/docs/Web/API/range.getBoundingClientRect
-              // IE9, Safari?(but look good in Safari 8)
               rect = r2.getBoundingClientRect()
-              // return { left: rect.right, top: rect.top }
               console.log("LEFT",rect.right,"TOPE",rect.top);
             } 
           const mention_div=document.createElement('div');
@@ -232,10 +239,20 @@ export class MentionDirectiveDirective {
           mention_div.style.boxShadow="10px 20px 30px gray";
           mention_div.style.background='white';
           mention_div.style.position='absolute';
-              setTimeout(() => {
-                mention_div.style.left=rect.left+'px';
-                mention_div.style.top=rect.top+'px';
-              }, 10);
+          if(rect!==undefined && r2!==undefined)
+          {
+            console.log("MENTION DIVV LEFT TTTR",rect,r2)
+            mention_div.style.left=rect.left+'px';
+            mention_div.style.top=rect.top+'px';
+          }
+          // else{
+          //   mention_div.style.left=24+'px';
+          //   mention_div.style.top=120+'px'; 
+          // }
+              // setTimeout(() => {
+              //   mention_div.style.left=rect.left+'px';
+              //   mention_div.style.top=rect.top+'px';
+              // }, 10);
           mention_div.style.height=300+'px';
           mention_div.style.width=200+'px';
           mention_div.style.overflow='auto';
