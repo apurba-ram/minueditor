@@ -88,7 +88,7 @@ export class EditorContainerComponent
 
   myopen(e:any)
   {
-    console.log("OPEN EMIT in editor",e,"ARRAY", this.mentionConfig.mentions)
+    console.log("OPEN EMIT in editor",e,"ARRAY", this.tribute)
     if(e.data?.name!==undefined && e.data?.id!==undefined)
     {
       console.log("IN IF CHECKING  PPPPPPPPPPPPPPPPP")
@@ -112,7 +112,7 @@ export class EditorContainerComponent
     range.insertNode(sp);
     range.setStartAfter(input);
     this.sel.addRange(range);
-    this.tribute = undefined;
+    this.tribute = '';
     this.writeValue(document.getElementById(`${this.editorConfig.id}`).innerHTML, 'editor');
     }
   }
@@ -442,16 +442,19 @@ export class EditorContainerComponent
 
     this.lastChar = this.getPrecedingCharacter(this.sel?.anchorNode); // gets the last input character
 
-    if (this.format && this.startOffset  && this.tribute) {
+    if ( this.startOffset  && this.tribute) {
+      console.log("REPLCAEEEEEEE TYPED WITH BUTTON");
       this.format = false;
       this.endOffset = this.sel.getRangeAt(0).endOffset;
       const range: Range = document.createRange();
+      console.log("NODEEE",this.node);
       range.setStart(this.node, this.startOffset - 1);
       range.setEnd(this.node, this.endOffset);
       range.deleteContents(); // deleting previous set contents
     }
 
     if (this.triggerChars.includes(this.lastChar)) {
+      this.tribute='1';
       console.log("REPPLACMENT ")
       this.node = this.sel.anchorNode;
       this.format = true;
