@@ -15,7 +15,30 @@ export class AppComponent {
   modelvalue1 = '';
   modelvalue2 = '';
   editorConfig1: EditorConfig = {
-    mentionedNames: [{ id: 244 , name: 'Alec'}, { id: 560, name: 'Pappu'}, { id: 747, name: 'Joyce'}],
+    mentionedNames: [
+      { id: 244 , name: 'Alec'}, 
+      { id: 560, name: 'Pappu'}, 
+      { id: 747, name: 'Joyce'},
+      { id: 748, name: 'prern'},
+      { id: 749, name: 'chandi'},
+      { id: 750, name: 'satyendra'},
+      { id: 751, name: 'gazia'},
+      { id: 747, name: 'Joyce'},
+      { id: 747, name: 'Joyce'},
+      { id: 747, name: 'Joyce'},
+      { id: 747, name: 'Joyce'},
+      { id: 747, name: 'Joyce'},
+      { id: 747, name: 'Joyce'},
+      { id: 747, name: 'Joyce'},
+      { id: 747, name: 'Joyce'},
+      { id: 747, name: 'Joyce'},
+      { id: 747, name: 'Joyce'},
+      { id: 747, name: 'Joyce'},
+      { id: 747, name: 'Joyce'},
+      { id: 747, name: 'Joyce'},
+      { id: 747, name: 'Joyce'},
+      { id: 747, name: 'Joyce'},
+      { id: 747, name: 'Joyce'}],
     mentionedDates: ['19-02-2020', '11-02-2020', '12-02-2020', '14-02-2020'],
     toolbarPlacement: 'bottom',
     placeholder: 'Please Add Some Text'
