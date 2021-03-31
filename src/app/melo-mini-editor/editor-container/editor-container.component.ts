@@ -827,7 +827,8 @@ export class EditorContainerComponent
   commentAction(): void {
     const event = document.getElementById(`${this.editorConfig.id}`).innerHTML;
     this.comment.emit(event);
-    document.getElementById(`${this.editorConfig.id}`).innerHTML = '';
+   document.getElementById(`${this.editorConfig.id}`).innerHTML = '';
+  //  console.log("EVENT",event);
   }
 
   /**
