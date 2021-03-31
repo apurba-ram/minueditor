@@ -245,26 +245,14 @@ export class MentionDirectiveDirective {
           {
             // console.log("MENTION DIVV LEFT TTTR",rect,r2)
             const st=document.getElementsByClassName('editable-block')[0] as HTMLElement;
-            console.log("CONTENEDITABLE RIGHT",st.getBoundingClientRect().right);
             mention_div.style.left=rect.left-st.getBoundingClientRect().left+'px';
             mention_div.style.top=rect.top-st.getBoundingClientRect().top+110+'px';
-            console.log("MENTION DIV LEFT",rect.left,rect.top);
           }
-          // else{
-          //   mention_div.style.left=24+'px';
-          //   mention_div.style.top=120+'px'; 
-          // }
-              // setTimeout(() => {
-              //   mention_div.style.left=rect.left+'px';
-              //   mention_div.style.top=rect.top+'px';
-              // }, 10);
           mention_div.style.maxHeight=210+'px';
           mention_div.style.width=200+'px';
           mention_div.style.overflow='auto';
           mention_div.style.zIndex = "999";
-          // mention_div.style.boxShadow='20 px solid black';
           mention_div.contentEditable='false';
-          // mention_div.style.background="#87CEFA"
           const ul=document.createElement('ul');
           ul.style.padding='0';
           ul.style.margin='0';
