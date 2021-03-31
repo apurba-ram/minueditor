@@ -160,6 +160,7 @@ export class MentionDirectiveDirective {
           mention_div2.style.height=100+'px';
           mention_div2.style.width=200+'px';
           mention_div2.style.position='absolute';
+          
           setTimeout(() => {
             mention_div2.style.left=rect.left+'px';
             mention_div2.style.top=rect.top+25+'px';
@@ -210,15 +211,11 @@ export class MentionDirectiveDirective {
         {
           this.character=e.key;
           const c=e.key;
-          // console.log("KEY FOUND",i,"ITEMS",this.config[i].items)
           this.mentionedItems=this.config[i].items;
-          // console.log("NEW MENTION LIST ITEM",this.mentionedItems)
            const sel = document.getSelection()
             const r = sel.getRangeAt(0)
             let rect
             let r2
-            // supposed to be textNode in most cases
-            // but div[contenteditable] when empty
             const node = r.startContainer
             let offset = r.startOffset
             // console.log("RRRR",r.startOffset)
@@ -239,15 +236,14 @@ export class MentionDirectiveDirective {
               rect = r2.getBoundingClientRect();
               // console.log("LEFT",rect.right,"TOP",rect.top);
             } 
-            else{
 
-
-            }
+            console.log("RECTTTTT",rect.top);
           const mention_div=document.createElement('div');
           mention_div.setAttribute('id','mention-list-div');
           mention_div.style.boxShadow="10px 20px 30px gray";
           mention_div.style.background='white';
           mention_div.style.position='absolute';
+          mention_div.scrollIntoView(false);
           if(rect!==undefined && r2!==undefined)
           {
             // console.log("MENTION DIVV LEFT TTTR",rect,r2)
@@ -255,7 +251,7 @@ export class MentionDirectiveDirective {
             console.log("CONTENEDITABLE RIGHT",st.getBoundingClientRect().right);
             mention_div.style.left=rect.left+'px';
             mention_div.style.top=rect.top+25+'px';
-            console.log("MENTION DIV LEFT",rect.left,rect.right);
+            console.log("MENTION DIV LEFT",rect.left,rect.top);
           }
           // else{
           //   mention_div.style.left=24+'px';
