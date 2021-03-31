@@ -156,7 +156,8 @@ export class MentionDirectiveDirective {
           mention_div2.style.background='white';
           mention_div2.setAttribute('id','mention-list-div');
           mention_div2.style.maxHeight=(this.maxItems*40)+'px';
-          mention_div2.style.width=200+'px';
+          mention_div2.style.maxWidth=400+'px';
+          mention_div2.style.minWidth=200+'px';
           mention_div2.style.position='absolute';
           const m=document.getElementsByClassName('editable-block')[0] as HTMLElement;
           
@@ -256,7 +257,8 @@ export class MentionDirectiveDirective {
             this.maxItems=this.config[i].maxItems;
           }
           mention_div.style.maxHeight=(this.maxItems*40)+'px';
-          mention_div.style.width=200+'px';
+          mention_div.style.maxWidth=400+'px';
+          mention_div.style.minWidth=200+'px';
           mention_div.style.overflow='auto';
           mention_div.style.zIndex = "999";
           mention_div.contentEditable='false';
