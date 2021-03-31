@@ -143,21 +143,16 @@ export class MentionDirectiveDirective {
             if (offset > 0) {
               // new range, don't influence DOM state
               r2 = document.createRange();
-             
               r2.setStart(node, (offset - 1))
               r2.setEnd(node, offset)
-              // https://developer.mozilla.org/en-US/docs/Web/API/range.getBoundingClientRect
-              // IE9, Safari?(but look good in Safari 8)
               rect = r2.getBoundingClientRect()
-              // return { left: rect.right, top: rect.top }
-              // console.log("LEFT",rect.right,"TOPE",rect.top);
             } 
           
           const mention_div2=document.createElement('div');
           mention_div2.style.boxShadow="10px 20px 30px gray";
           mention_div2.style.background='white';
           mention_div2.setAttribute('id','mention-list-div');
-          mention_div2.style.height=210+'px';
+          mention_div2.style.maxHeight=210+'px';
           mention_div2.style.width=200+'px';
           mention_div2.style.position='absolute';
           const m=document.getElementsByClassName('editable-block')[0] as HTMLElement;
@@ -168,13 +163,15 @@ export class MentionDirectiveDirective {
           mention_div2.style.overflow='auto';
           mention_div2.contentEditable='false';
           const ul=document.createElement('ul');
+          ul.style.padding='0';
+          ul.style.margin='0';
           for(let i=0;i<matches.length;i++)
           {
             const li=document.createElement('li');
               li.innerHTML= matches[i].name;
               li.setAttribute('class',`mention-item`);
               li.style.listStyle='none';
-              li.style.padding="10px 10px 10px ";
+              li.style.padding="10px 10px 10px 10px ";
               ul.appendChild(li)    
           }
           mention_div2.appendChild(ul)
@@ -261,7 +258,7 @@ export class MentionDirectiveDirective {
               //   mention_div.style.left=rect.left+'px';
               //   mention_div.style.top=rect.top+'px';
               // }, 10);
-          mention_div.style.height=210+'px';
+          mention_div.style.maxHeight=210+'px';
           mention_div.style.width=200+'px';
           mention_div.style.overflow='auto';
           mention_div.style.zIndex = "999";
@@ -269,6 +266,8 @@ export class MentionDirectiveDirective {
           mention_div.contentEditable='false';
           // mention_div.style.background="#87CEFA"
           const ul=document.createElement('ul');
+          ul.style.padding='0';
+          ul.style.margin='0';
           ul.setAttribute('id','mention-ul')
           for(let j=0;j<this.config[i].items.length;j++)
           {
@@ -387,7 +386,7 @@ export class MentionDirectiveDirective {
     // console.log("DIRETIVE BLUR",e)
     if( document.getElementById('mention-list-div')!==null)
     {
-      document.getElementById('mention-list-div').remove();
+      // document.getElementById('mention-list-div').remove();
     }
   }
 }
