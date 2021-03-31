@@ -1,8 +1,6 @@
 import { Directive ,Input,Output,EventEmitter,ComponentFactoryResolver, ElementRef, TemplateRef, ViewContainerRef} from '@angular/core';
 import {  EditorConfig } from './editor-config-interface';
 
-
-
 const KEY_BACKSPACE = 8;
 const KEY_TAB = 9;
 const KEY_ENTER = 13;
@@ -46,10 +44,13 @@ export class MentionDirectiveDirective {
     private _element: ElementRef,
     private _componentResolver: ComponentFactoryResolver,
     private _viewContainerRef: ViewContainerRef
-  ) { }
+  ) {
+    console.log(_element.nativeElement) 
+  }
 
   
   @Input() config:any ;
+  // @Input() id:any ;
   @Output() myclose = new EventEmitter();
   @Output() myopen = new EventEmitter();
 
@@ -58,7 +59,7 @@ export class MentionDirectiveDirective {
 
     // console.log("KEYCODE",e.keyCode)
 
-    console.log("CONFIG",this.config);
+    // console.log("CONFIG",this.id);
    
     if( e.key==='ArrowDown' || e.key==='ArrowUp' || e.key==='Enter' || e.key==='Backspace')
       {
@@ -159,11 +160,11 @@ export class MentionDirectiveDirective {
           mention_div2.style.maxWidth=400+'px';
           mention_div2.style.minWidth=200+'px';
           mention_div2.style.position='absolute';
-          const m=document.getElementsByClassName('editable-block')[0] as HTMLElement;
-          
-            mention_div2.style.left=rect.left-m.getBoundingClientRect().left+'px';
-            mention_div2.style.top=rect.top-m.getBoundingClientRect().top+110+'px';
-          
+          const curr=this._element.nativeElement.id;
+          const m=document.getElementById(curr);
+          console.log("CURRENTasdfgdsa",curr);
+          mention_div2.style.left=rect.left-m.getBoundingClientRect().left+'px';
+          mention_div2.style.top=rect.top-m.getBoundingClientRect().top+110+'px';
           mention_div2.style.overflow='auto';
           mention_div2.contentEditable='false';
           const ul=document.createElement('ul');
@@ -248,7 +249,9 @@ export class MentionDirectiveDirective {
           if(rect!==undefined && r2!==undefined)
           {
             // console.log("MENTION DIVV LEFT TTTR",rect,r2)
-            const st=document.getElementsByClassName('editable-block')[0] as HTMLElement;
+            const curr=this._element.nativeElement.id;
+            const st=document.getElementById(curr) as HTMLElement;
+            console.log("CURRENT",st);
             mention_div.style.left=rect.left-st.getBoundingClientRect().left+'px';
             mention_div.style.top=rect.top-st.getBoundingClientRect().top+110+'px';
           }
@@ -361,13 +364,13 @@ export class MentionDirectiveDirective {
     
           if (isInViewport(document.getElementById('mention-list-div'))) {
            
-            console.log('In viewport!');
+            // console.log('In viewport!');
         } else {
           document.getElementById('mention-list-div').scrollIntoView(false);
-          console.log("TOPPPPPPPPPP",document.getElementById('mention-list-div').getBoundingClientRect().top);
+          // console.log("TOPPPPPPPPPP",document.getElementById('mention-list-div').getBoundingClientRect().top);
           // const prev=document.getElementById('mention-list-div').getBoundingClientRect().top;
           // document.getElementById('mention-list-div').style.top=document.getElementById('mention-list-div').getBoundingClientRect().top+100+'px';
-        console.log('Nope...');
+        // console.log('Nope...');
         }
 
 
@@ -377,13 +380,15 @@ export class MentionDirectiveDirective {
 
    
    }
+
+  
   
   blurHandler(e:any)
   {
     // console.log("DIRETIVE BLUR",e)
     if( document.getElementById('mention-list-div')!==null)
     {
-      // document.getElementById('mention-list-div').remove();
+      document.getElementById('mention-list-div').remove();
     }
   }
 }
