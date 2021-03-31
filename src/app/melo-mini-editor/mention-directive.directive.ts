@@ -160,10 +160,10 @@ export class MentionDirectiveDirective {
           mention_div2.style.height=100+'px';
           mention_div2.style.width=200+'px';
           mention_div2.style.position='absolute';
-          
+          const m=document.getElementsByClassName('editable-block')[0] as HTMLElement;
           setTimeout(() => {
-            mention_div2.style.left=rect.left+'px';
-            mention_div2.style.top=rect.top+25+'px';
+            mention_div2.style.left=rect.left-m.getBoundingClientRect().left+'px';
+            mention_div2.style.top=rect.top+25-m.getBoundingClientRect().top+'px';
           }, 10);
           mention_div2.style.overflow='auto';
           mention_div2.contentEditable='false';
@@ -244,13 +244,14 @@ export class MentionDirectiveDirective {
           mention_div.style.background='white';
           mention_div.style.position='absolute';
           mention_div.scrollIntoView(false);
+          
           if(rect!==undefined && r2!==undefined)
           {
             // console.log("MENTION DIVV LEFT TTTR",rect,r2)
             const st=document.getElementsByClassName('editable-block')[0] as HTMLElement;
             console.log("CONTENEDITABLE RIGHT",st.getBoundingClientRect().right);
-            mention_div.style.left=rect.left+'px';
-            mention_div.style.top=rect.top+25+'px';
+            mention_div.style.left=rect.left-st.getBoundingClientRect().left+'px';
+            mention_div.style.top=rect.top+25-st.getBoundingClientRect().top+'px';
             console.log("MENTION DIV LEFT",rect.left,rect.top);
           }
           // else{
