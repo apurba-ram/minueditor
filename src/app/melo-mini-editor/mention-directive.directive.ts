@@ -157,7 +157,7 @@ export class MentionDirectiveDirective {
           mention_div2.style.boxShadow="10px 20px 30px gray";
           mention_div2.style.background='white';
           mention_div2.setAttribute('id','mention-list-div');
-          mention_div2.style.height=100+'px';
+          mention_div2.style.height=210+'px';
           mention_div2.style.width=200+'px';
           mention_div2.style.position='absolute';
           const m=document.getElementsByClassName('editable-block')[0] as HTMLElement;
@@ -261,7 +261,7 @@ export class MentionDirectiveDirective {
               //   mention_div.style.left=rect.left+'px';
               //   mention_div.style.top=rect.top+'px';
               // }, 10);
-          mention_div.style.height=300+'px';
+          mention_div.style.height=210+'px';
           mention_div.style.width=200+'px';
           mention_div.style.overflow='auto';
           mention_div.style.zIndex = "999";
