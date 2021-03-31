@@ -160,9 +160,7 @@ export class MentionDirectiveDirective {
           mention_div2.style.maxWidth=400+'px';
           mention_div2.style.minWidth=200+'px';
           mention_div2.style.position='absolute';
-          const curr=this._element.nativeElement.id;
-          const m=document.getElementById(curr);
-          console.log("CURRENTasdfgdsa",curr);
+          const m=this._element.nativeElement;
           mention_div2.style.left=rect.left-m.getBoundingClientRect().left+'px';
           mention_div2.style.top=rect.top-m.getBoundingClientRect().top+110+'px';
           mention_div2.style.overflow='auto';
@@ -249,8 +247,7 @@ export class MentionDirectiveDirective {
           if(rect!==undefined && r2!==undefined)
           {
             // console.log("MENTION DIVV LEFT TTTR",rect,r2)
-            const curr=this._element.nativeElement.id;
-            const st=document.getElementById(curr) as HTMLElement;
+            const st=this._element.nativeElement;
             console.log("CURRENT",st);
             mention_div.style.left=rect.left-st.getBoundingClientRect().left+'px';
             mention_div.style.top=rect.top-st.getBoundingClientRect().top+110+'px';
