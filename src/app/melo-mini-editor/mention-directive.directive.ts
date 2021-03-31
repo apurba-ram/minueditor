@@ -156,10 +156,10 @@ export class MentionDirectiveDirective {
           mention_div2.style.width=200+'px';
           mention_div2.style.position='absolute';
           const m=document.getElementsByClassName('editable-block')[0] as HTMLElement;
-          setTimeout(() => {
+          
             mention_div2.style.left=rect.left-m.getBoundingClientRect().left+'px';
             mention_div2.style.top=rect.top-m.getBoundingClientRect().top+110+'px';
-          }, 10);
+          
           mention_div2.style.overflow='auto';
           mention_div2.contentEditable='false';
           const ul=document.createElement('ul');
