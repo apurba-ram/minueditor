@@ -25,7 +25,8 @@ const KEY_BUFFERED = 229;
   }
 })
 export class MentionDirectiveDirective {
-  mentionedItems:any=[]
+  mentionedItems:any=[];
+  maxItems:number=5;
   private searchString: string;
   // private searchList: MentionListComponent;
   private searching: boolean;
@@ -56,6 +57,8 @@ export class MentionDirectiveDirective {
   {
 
     // console.log("KEYCODE",e.keyCode)
+
+    console.log("CONFIG",this.config);
    
     if( e.key==='ArrowDown' || e.key==='ArrowUp' || e.key==='Enter' || e.key==='Backspace')
       {
@@ -149,10 +152,10 @@ export class MentionDirectiveDirective {
             } 
           
           const mention_div2=document.createElement('div');
-          mention_div2.style.boxShadow="10px 20px 30px gray";
+          // mention_div2.style.boxShadow="10px 20px 30px gray";
           mention_div2.style.background='white';
           mention_div2.setAttribute('id','mention-list-div');
-          mention_div2.style.maxHeight=210+'px';
+          mention_div2.style.maxHeight=(this.maxItems*40)+'px';
           mention_div2.style.width=200+'px';
           mention_div2.style.position='absolute';
           const m=document.getElementsByClassName('editable-block')[0] as HTMLElement;
@@ -237,7 +240,7 @@ export class MentionDirectiveDirective {
             console.log("RECTTTTT",rect.top);
           const mention_div=document.createElement('div');
           mention_div.setAttribute('id','mention-list-div');
-          mention_div.style.boxShadow="10px 20px 30px gray";
+          // mention_div.style.boxShadow="10px 20px 30px gray";
           mention_div.style.background='white';
           mention_div.style.position='absolute';
           // mention_div.scrollIntoView(false);
@@ -248,7 +251,11 @@ export class MentionDirectiveDirective {
             mention_div.style.left=rect.left-st.getBoundingClientRect().left+'px';
             mention_div.style.top=rect.top-st.getBoundingClientRect().top+110+'px';
           }
-          mention_div.style.maxHeight=210+'px';
+          if(this.config[i].maxItems)
+          {
+            this.maxItems=this.config[i].maxItems;
+          }
+          mention_div.style.maxHeight=(this.maxItems*40)+'px';
           mention_div.style.width=200+'px';
           mention_div.style.overflow='auto';
           mention_div.style.zIndex = "999";

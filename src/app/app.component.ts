@@ -35,6 +35,7 @@ export class AppComponent  {
     mentions:[
       {
         triggerChar:'$',
+        maxItems:7,
         items:[
           {id:1,name:'prerna1'},
           {id:2,name:'prerna2'},
@@ -45,6 +46,19 @@ export class AppComponent  {
           {id:7,name:'pravin'},
           {id:8,name:'satyendra'},
           {id:9,name:'gazia'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
+          {id:33,name:'prerna6'},
           {id:33,name:'prerna6'},
           {id:33,name:'prerna6'},
           {id:33,name:'prerna6'},
